@@ -1,0 +1,3175 @@
+[
+ {
+  "title": "Ants From Up There",
+  "artist": "Black Country, New Road",
+  "year": "2022",
+  "genre": "Pop",
+  "subgenres": [
+   "Jangle Pop",
+   "Art Rock",
+   "Indie Rock"
+  ],
+  "type": "Studio",
+  "id": "local:black-country-new-road-ants-from-up-there",
+  "cover": null,
+  "coverLarge": null
+ },
+ {
+  "title": "Twin Fantasy",
+  "artist": "Car Seat Headrest",
+  "year": "2018",
+  "genre": "Rock",
+  "subgenres": [
+   "Indie Rock"
+  ],
+  "type": "Studio",
+  "id": "local:car-seat-headrest-twin-fantasy",
+  "cover": null,
+  "coverLarge": null
+ },
+ {
+  "title": "Heaven or Las Vegas",
+  "artist": "Cocteau Twins",
+  "year": "1990",
+  "genre": "Pop",
+  "subgenres": [
+   "Dream Pop"
+  ],
+  "type": "Studio",
+  "id": "local:cocteau-twins-heaven-or-las-vegas",
+  "cover": null,
+  "coverLarge": null
+ },
+ {
+  "title": "The Rise and Fall of Ziggy Stardust and the Spiders From Mars",
+  "artist": "David Bowie",
+  "year": "1972",
+  "genre": "Rock",
+  "subgenres": [
+   "Glam Rock",
+   "Pop Rock"
+  ],
+  "type": "Studio",
+  "id": "local:david-bowie-the-rise-and-fall-of-ziggy-stardust-and-the-spiders-from-mars",
+  "cover": null,
+  "coverLarge": null
+ },
+ {
+  "title": "98.12.28 男達の別れ (Otokotachi no Wakare)",
+  "artist": "Fishmans",
+  "year": "1999",
+  "genre": "Pop",
+  "subgenres": [
+   "Dream Pop",
+   "Neo-Psychedelia"
+  ],
+  "type": "Live",
+  "id": "local:fishmans-98-12-28-otokotachi-no-wakare",
+  "cover": null,
+  "coverLarge": null
+ },
+ {
+  "title": "Hounds of Love",
+  "artist": "Kate Bush",
+  "year": "1985",
+  "genre": "Pop",
+  "subgenres": [
+   "Art Pop",
+   "Baroque Pop"
+  ],
+  "type": "Studio",
+  "id": "local:kate-bush-hounds-of-love",
+  "cover": null,
+  "coverLarge": null
+ },
+ {
+  "title": "Imaginal Disk",
+  "artist": "Magdalena Bay",
+  "year": "2024",
+  "genre": "Pop",
+  "subgenres": [
+   "Synthpop"
+  ],
+  "type": "Studio",
+  "id": "local:magdalena-bay-imaginal-disk",
+  "cover": null,
+  "coverLarge": null
+ },
+ {
+  "title": "Pink Moon",
+  "artist": "Nick Drake",
+  "year": "1972",
+  "genre": "Folk",
+  "subgenres": [
+   "Contemporary Folk",
+   "Singer-Songwriter"
+  ],
+  "type": "Studio",
+  "id": "local:nick-drake-pink-moon",
+  "cover": null,
+  "coverLarge": null
+ },
+ {
+  "title": "In Rainbows",
+  "artist": "Radiohead",
+  "year": "2007",
+  "genre": "Rock",
+  "subgenres": [
+   "Art Rock",
+   "Alternative Rock"
+  ],
+  "type": "Studio",
+  "id": "local:radiohead-in-rainbows",
+  "cover": null,
+  "coverLarge": null
+ },
+ {
+  "title": "Vespertine",
+  "artist": "Björk",
+  "year": "2001",
+  "genre": "Pop",
+  "subgenres": [
+   "Art Pop"
+  ],
+  "type": "Studio",
+  "id": "local:bjork-vespertine",
+  "cover": null,
+  "coverLarge": null
+ },
+ {
+  "title": "Heavy Metal",
+  "artist": "Cameron Winter",
+  "year": "2024",
+  "genre": "Folk",
+  "subgenres": [
+   "Singer-Songwriter",
+   "Chamber Folk"
+  ],
+  "type": "Studio",
+  "id": "local:cameron-winter-heavy-metal",
+  "cover": null,
+  "coverLarge": null
+ },
+ {
+  "title": "Station to Station",
+  "artist": "David Bowie",
+  "year": "1976",
+  "genre": "Rock",
+  "subgenres": [
+   "Art Rock",
+   "Funk Rock"
+  ],
+  "type": "Studio",
+  "id": "local:david-bowie-station-to-station",
+  "cover": null,
+  "coverLarge": null
+ },
+ {
+  "title": "White Pony",
+  "artist": "Deftones",
+  "year": "2000",
+  "genre": "Metal",
+  "subgenres": [
+   "Alternative Metal"
+  ],
+  "type": "Studio",
+  "id": "local:deftones-white-pony",
+  "cover": null,
+  "coverLarge": null
+ },
+ {
+  "title": "Long Season",
+  "artist": "Fishmans",
+  "year": "1996",
+  "genre": "Psychedelia",
+  "subgenres": [
+   "Neo-Psychedelia",
+   "Dream Pop"
+  ],
+  "type": "Studio",
+  "id": "local:fishmans-long-season",
+  "cover": null,
+  "coverLarge": null
+ },
+ {
+  "title": "Bocanada",
+  "artist": "Gustavo Cerati",
+  "year": "1999",
+  "genre": "Electronic",
+  "subgenres": [
+   "Downtempo",
+   "Art Pop",
+   "Neo-Psychedelia",
+   "Art Rock"
+  ],
+  "type": "Studio",
+  "id": "local:gustavo-cerati-bocanada",
+  "cover": null,
+  "coverLarge": null
+ },
+ {
+  "title": "Grace",
+  "artist": "Jeff Buckley",
+  "year": "1994",
+  "genre": "Rock",
+  "subgenres": [
+   "Alternative Rock",
+   "Singer-Songwriter"
+  ],
+  "type": "Studio",
+  "id": "local:jeff-buckley-grace",
+  "cover": null,
+  "coverLarge": null
+ },
+ {
+  "title": "The College Dropout",
+  "artist": "Kanye West",
+  "year": "2004",
+  "genre": "Hip-hop",
+  "subgenres": [
+   "Chipmunk Soul",
+   "Pop Rap"
+  ],
+  "type": "Studio",
+  "id": "local:kanye-west-the-college-dropout",
+  "cover": null,
+  "coverLarge": null
+ },
+ {
+  "title": "Late Registration",
+  "artist": "Kanye West",
+  "year": "2005",
+  "genre": "Hip-hop",
+  "subgenres": [
+   "Pop Rap"
+  ],
+  "type": "Studio",
+  "id": "local:kanye-west-late-registration",
+  "cover": null,
+  "coverLarge": null
+ },
+ {
+  "title": "To Pimp a Butterfly",
+  "artist": "Kendrick Lamar",
+  "year": "2015",
+  "genre": "Hip-hop",
+  "subgenres": [
+   "Conscious Hip Hop",
+   "Jazz Rap"
+  ],
+  "type": "Studio",
+  "id": "local:kendrick-lamar-to-pimp-a-butterfly",
+  "cover": null,
+  "coverLarge": null
+ },
+ {
+  "title": "The Lonesome Crowded West",
+  "artist": "Modest Mouse",
+  "year": "1997",
+  "genre": "Rock",
+  "subgenres": [
+   "Indie Rock",
+   "Slacker Rock"
+  ],
+  "type": "Studio",
+  "id": "local:modest-mouse-the-lonesome-crowded-west",
+  "cover": null,
+  "coverLarge": null
+ },
+ {
+  "title": "Doolittle",
+  "artist": "Pixies",
+  "year": "1989",
+  "genre": "Rock",
+  "subgenres": [
+   "Indie Rock"
+  ],
+  "type": "Studio",
+  "id": "local:pixies-doolittle",
+  "cover": null,
+  "coverLarge": null
+ },
+ {
+  "title": "Kid A",
+  "artist": "Radiohead",
+  "year": "2000",
+  "genre": "Rock",
+  "subgenres": [
+   "Art Rock"
+  ],
+  "type": "Studio",
+  "id": "local:radiohead-kid-a",
+  "cover": null,
+  "coverLarge": null
+ },
+ {
+  "title": "OK Computer",
+  "artist": "Radiohead",
+  "year": "1997",
+  "genre": "Rock",
+  "subgenres": [
+   "Alternative Rock",
+   "Art Rock"
+  ],
+  "type": "Studio",
+  "id": "local:radiohead-ok-computer",
+  "cover": null,
+  "coverLarge": null
+ },
+ {
+  "title": "Spiderland",
+  "artist": "Slint",
+  "year": "1991",
+  "genre": "Rock",
+  "subgenres": [
+   "Post-Rock",
+   "Math Rock"
+  ],
+  "type": "Studio",
+  "id": "local:slint-spiderland",
+  "cover": null,
+  "coverLarge": null
+ },
+ {
+  "title": "Aja",
+  "artist": "Steely Dan",
+  "year": "1977",
+  "genre": "Rock",
+  "subgenres": [
+   "Jazz-Rock",
+   "Yacht Rock"
+  ],
+  "type": "Studio",
+  "id": "local:steely-dan-aja",
+  "cover": null,
+  "coverLarge": null
+ },
+ {
+  "title": "Marquee Moon",
+  "artist": "Television",
+  "year": "1977",
+  "genre": "Punk",
+  "subgenres": [
+   "Art Punk",
+   "Art Rock",
+   "Post-Punk"
+  ],
+  "type": "Studio",
+  "id": "local:television-marquee-moon",
+  "cover": null,
+  "coverLarge": null
+ },
+ {
+  "title": "The Queen Is Dead",
+  "artist": "The Smiths",
+  "year": "1986",
+  "genre": "Pop",
+  "subgenres": [
+   "Jangle Pop",
+   "Indie Pop"
+  ],
+  "type": "Studio",
+  "id": "local:the-smiths-the-queen-is-dead",
+  "cover": null,
+  "coverLarge": null
+ },
+ {
+  "title": "Is This It",
+  "artist": "The Strokes",
+  "year": "2001",
+  "genre": "Rock",
+  "subgenres": [
+   "Garage Rock Revival",
+   "Indie Rock"
+  ],
+  "type": "Studio",
+  "id": "local:the-strokes-is-this-it",
+  "cover": null,
+  "coverLarge": null
+ },
+ {
+  "title": "Homogenic",
+  "artist": "Björk",
+  "year": "1997",
+  "genre": "Electronic",
+  "subgenres": [
+   "Art Pop"
+  ],
+  "type": "Studio",
+  "id": "local:bjork-homogenic",
+  "cover": null,
+  "coverLarge": null
+ },
+ {
+  "title": "Paranoid",
+  "artist": "Black Sabbath",
+  "year": "1970",
+  "genre": "Metal",
+  "subgenres": [
+   "Heavy Metal",
+   "Hard Rock"
+  ],
+  "type": "Studio",
+  "id": "local:black-sabbath-paranoid",
+  "cover": null,
+  "coverLarge": null
+ },
+ {
+  "title": "The Black Saint and the Sinner Lady",
+  "artist": "Charles Mingus",
+  "year": "1963",
+  "genre": "Jazz",
+  "subgenres": [
+   "Avant-Garde Jazz",
+   "Third Stream"
+  ],
+  "type": "Studio",
+  "id": "local:charles-mingus-the-black-saint-and-the-sinner-lady",
+  "cover": null,
+  "coverLarge": null
+ },
+ {
+  "title": "Discovery",
+  "artist": "Daft Punk",
+  "year": "2001",
+  "genre": "Electronic",
+  "subgenres": [
+   "French House"
+  ],
+  "type": "Studio",
+  "id": "local:daft-punk-discovery",
+  "cover": null,
+  "coverLarge": null
+ },
+ {
+  "title": "Blackstar",
+  "artist": "David Bowie",
+  "year": "2016",
+  "genre": "Rock",
+  "subgenres": [
+   "Art Rock"
+  ],
+  "type": "Studio",
+  "id": "local:david-bowie-blackstar",
+  "cover": null,
+  "coverLarge": null
+ },
+ {
+  "title": "Low",
+  "artist": "David Bowie",
+  "year": "1977",
+  "genre": "Rock",
+  "subgenres": [
+   "Art Rock",
+   "Ambient"
+  ],
+  "type": "Studio",
+  "id": "local:david-bowie-low",
+  "cover": null,
+  "coverLarge": null
+ },
+ {
+  "title": "宇宙 日本 世田谷 (Uchu Nippon Setagaya)",
+  "artist": "Fishmans",
+  "year": "1997",
+  "genre": "Pop",
+  "subgenres": [
+   "Downtempo",
+   "Dream Pop",
+   "Neo-Psychedelia"
+  ],
+  "type": "Studio",
+  "id": "local:fishmans-uchu-nippon-setagaya",
+  "cover": null,
+  "coverLarge": null
+ },
+ {
+  "title": "Rumours",
+  "artist": "Fleetwood Mac",
+  "year": "1977",
+  "genre": "Rock",
+  "subgenres": [
+   "Pop Rock",
+   "Soft Rock"
+  ],
+  "type": "Studio",
+  "id": "local:fleetwood-mac-rumours",
+  "cover": null,
+  "coverLarge": null
+ },
+ {
+  "title": "Getting Killed",
+  "artist": "Geese",
+  "year": "2025",
+  "genre": "Rock",
+  "subgenres": [
+   "Indie Rock",
+   "Art Rock"
+  ],
+  "type": "Studio",
+  "id": "local:geese-getting-killed",
+  "cover": null,
+  "coverLarge": null
+ },
+ {
+  "title": "The New Sound",
+  "artist": "Geordie Greep",
+  "year": "2024",
+  "genre": "Rock",
+  "subgenres": [
+   "Jazz-Rock",
+   "Progressive Rock",
+   "Art Rock"
+  ],
+  "type": "Studio",
+  "id": "local:geordie-greep-the-new-sound",
+  "cover": null,
+  "coverLarge": null
+ },
+ {
+  "title": "Unknown Pleasures",
+  "artist": "Joy Division",
+  "year": "1979",
+  "genre": "Rock",
+  "subgenres": [
+   "Post-Punk"
+  ],
+  "type": "Studio",
+  "id": "local:joy-division-unknown-pleasures",
+  "cover": null,
+  "coverLarge": null
+ },
+ {
+  "title": "Good Kid, M.A.A.D City",
+  "artist": "Kendrick Lamar",
+  "year": "2012",
+  "genre": "Hip-hop",
+  "subgenres": [
+   "Conscious Hip Hop"
+  ],
+  "type": "Studio",
+  "id": "local:kendrick-lamar-good-kid-m-a-a-d-city",
+  "cover": null,
+  "coverLarge": null
+ },
+ {
+  "title": "Red",
+  "artist": "King Crimson",
+  "year": "1974",
+  "genre": "Rock",
+  "subgenres": [
+   "Progressive Rock",
+   "Art Rock"
+  ],
+  "type": "Studio",
+  "id": "local:king-crimson-red",
+  "cover": null,
+  "coverLarge": null
+ },
+ {
+  "title": "Sound of Silver",
+  "artist": "LCD Soundsystem",
+  "year": "2007",
+  "genre": "Electronic",
+  "subgenres": [
+   "Indietronica",
+   "Dance-Punk Revival",
+   "Alternative Dance"
+  ],
+  "type": "Studio",
+  "id": "local:lcd-soundsystem-sound-of-silver",
+  "cover": null,
+  "coverLarge": null
+ },
+ {
+  "title": "This Is Happening",
+  "artist": "LCD Soundsystem",
+  "year": "2010",
+  "genre": "Electronic",
+  "subgenres": [
+   "Indietronica",
+   "Dance-Punk Revival",
+   "Dance-Punk",
+   "Alternative Dance"
+  ],
+  "type": "Studio",
+  "id": "local:lcd-soundsystem-this-is-happening",
+  "cover": null,
+  "coverLarge": null
+ },
+ {
+  "title": "Madvillainy",
+  "artist": "Madvillain",
+  "year": "2004",
+  "genre": "Hip-hop",
+  "subgenres": [
+   "Abstract Hip Hop",
+   "Experimental Hip Hop"
+  ],
+  "type": "Studio",
+  "id": "local:madvillain-madvillainy",
+  "cover": null,
+  "coverLarge": null
+ },
+ {
+  "title": "Mm..Food",
+  "artist": "MF DOOM",
+  "year": "2004",
+  "genre": "Hip-hop",
+  "subgenres": [
+   "Abstract Hip Hop"
+  ],
+  "type": "Studio",
+  "id": "local:mf-doom-mm-food",
+  "cover": null,
+  "coverLarge": null
+ },
+ {
+  "title": "Operation: Doomsday",
+  "artist": "MF DOOM",
+  "year": "1999",
+  "genre": "Hip-hop",
+  "subgenres": [
+   "Abstract Hip Hop"
+  ],
+  "type": "Studio",
+  "id": "local:mf-doom-operation-doomsday",
+  "cover": null,
+  "coverLarge": null
+ },
+ {
+  "title": "Illmatic",
+  "artist": "Nas",
+  "year": "1994",
+  "genre": "Hip-hop",
+  "subgenres": [
+   "Boom Bap",
+   "Hardcore Hip Hop"
+  ],
+  "type": "Studio",
+  "id": "local:nas-illmatic",
+  "cover": null,
+  "coverLarge": null
+ },
+ {
+  "title": "In the Aeroplane Over the Sea",
+  "artist": "Neutral Milk Hotel",
+  "year": "1998",
+  "genre": "Folk",
+  "subgenres": [
+   "Indie Folk",
+   "Indie Rock"
+  ],
+  "type": "Studio",
+  "id": "local:neutral-milk-hotel-in-the-aeroplane-over-the-sea",
+  "cover": null,
+  "coverLarge": null
+ },
+ {
+  "title": "Five Leaves Left",
+  "artist": "Nick Drake",
+  "year": "1969",
+  "genre": "Folk",
+  "subgenres": [
+   "Singer-Songwriter",
+   "Chamber Folk",
+   "Contemporary Folk"
+  ],
+  "type": "Studio",
+  "id": "local:nick-drake-five-leaves-left",
+  "cover": null,
+  "coverLarge": null
+ },
+ {
+  "title": "Animals",
+  "artist": "Pink Floyd",
+  "year": "1977",
+  "genre": "Rock",
+  "subgenres": [
+   "Progressive Rock",
+   "Art Rock"
+  ],
+  "type": "Studio",
+  "id": "local:pink-floyd-animals",
+  "cover": null,
+  "coverLarge": null
+ },
+ {
+  "title": "Wish You Were Here",
+  "artist": "Pink Floyd",
+  "year": "1975",
+  "genre": "Rock",
+  "subgenres": [
+   "Progressive Rock",
+   "Art Rock"
+  ],
+  "type": "Studio",
+  "id": "local:pink-floyd-wish-you-were-here",
+  "cover": null,
+  "coverLarge": null
+ },
+ {
+  "title": "Dummy",
+  "artist": "Portishead",
+  "year": "1994",
+  "genre": "Electronic",
+  "subgenres": [
+   "Trip Hop"
+  ],
+  "type": "Studio",
+  "id": "local:portishead-dummy",
+  "cover": null,
+  "coverLarge": null
+ },
+ {
+  "title": "The Bends",
+  "artist": "Radiohead",
+  "year": "1995",
+  "genre": "Rock",
+  "subgenres": [
+   "Alternative Rock",
+   "Post-Britpop"
+  ],
+  "type": "Studio",
+  "id": "local:radiohead-the-bends",
+  "cover": null,
+  "coverLarge": null
+ },
+ {
+  "title": "Love Deluxe",
+  "artist": "Sade",
+  "year": "1992",
+  "genre": "R&B & Soul",
+  "subgenres": [
+   "Smooth Soul",
+   "Sophisti-Pop",
+   "Downtempo"
+  ],
+  "type": "Studio",
+  "id": "local:sade-love-deluxe",
+  "cover": null,
+  "coverLarge": null
+ },
+ {
+  "title": "Ágætis byrjun",
+  "artist": "Sigur Rós",
+  "year": "1999",
+  "genre": "Rock",
+  "subgenres": [
+   "Post-Rock"
+  ],
+  "type": "Studio",
+  "id": "local:sigur-ros-agtis-byrjun",
+  "cover": null,
+  "coverLarge": null
+ },
+ {
+  "title": "The Royal Scam",
+  "artist": "Steely Dan",
+  "year": "1976",
+  "genre": "Rock",
+  "subgenres": [
+   "Pop Rock",
+   "Jazz-Rock"
+  ],
+  "type": "Studio",
+  "id": "local:steely-dan-the-royal-scam",
+  "cover": null,
+  "coverLarge": null
+ },
+ {
+  "title": "Songs From the Big Chair",
+  "artist": "Tears for Fears",
+  "year": "1985",
+  "genre": "Pop",
+  "subgenres": [
+   "Synthpop",
+   "New Wave",
+   "Pop Rock"
+  ],
+  "type": "Studio",
+  "id": "local:tears-for-fears-songs-from-the-big-chair",
+  "cover": null,
+  "coverLarge": null
+ },
+ {
+  "title": "Abbey Road",
+  "artist": "The Beatles",
+  "year": "1969",
+  "genre": "Rock",
+  "subgenres": [
+   "Pop Rock"
+  ],
+  "type": "Studio",
+  "id": "local:the-beatles-abbey-road",
+  "cover": null,
+  "coverLarge": null
+ },
+ {
+  "title": "Revolver",
+  "artist": "The Beatles",
+  "year": "1966",
+  "genre": "Rock",
+  "subgenres": [
+   "Pop Rock",
+   "Psychedelic Pop"
+  ],
+  "type": "Studio",
+  "id": "local:the-beatles-revolver",
+  "cover": null,
+  "coverLarge": null
+ },
+ {
+  "title": "The Doors",
+  "artist": "The Doors",
+  "year": "1967",
+  "genre": "Psychedelia",
+  "subgenres": [
+   "Psychedelic Rock"
+  ],
+  "type": "Studio",
+  "id": "local:the-doors-the-doors",
+  "cover": null,
+  "coverLarge": null
+ },
+ {
+  "title": "The Smiths",
+  "artist": "The Smiths",
+  "year": "1984",
+  "genre": "Pop",
+  "subgenres": [
+   "Jangle Pop",
+   "Indie Pop"
+  ],
+  "type": "Studio",
+  "id": "local:the-smiths-the-smiths",
+  "cover": null,
+  "coverLarge": null
+ },
+ {
+  "title": "The New Abnormal",
+  "artist": "The Strokes",
+  "year": "2020",
+  "genre": "Rock",
+  "subgenres": [
+   "Indie Rock"
+  ],
+  "type": "Studio",
+  "id": "local:the-strokes-the-new-abnormal",
+  "cover": null,
+  "coverLarge": null
+ },
+ {
+  "title": "The Velvet Underground & Nico",
+  "artist": "The Velvet Underground & Nico",
+  "year": "1967",
+  "genre": "Rock",
+  "subgenres": [
+   "Art Rock",
+   "Experimental Rock"
+  ],
+  "type": "Studio",
+  "id": "local:the-velvet-underground-and-nico-the-velvet-underground-and-nico",
+  "cover": null,
+  "coverLarge": null
+ },
+ {
+  "title": "Ænima",
+  "artist": "Tool",
+  "year": "1996",
+  "genre": "Metal",
+  "subgenres": [
+   "Alternative Metal",
+   "Progressive Metal"
+  ],
+  "type": "Studio",
+  "id": "local:tool-nima",
+  "cover": null,
+  "coverLarge": null
+ },
+ {
+  "title": "Igor",
+  "artist": "Tyler, The Creator",
+  "year": "2019",
+  "genre": "R&B & Soul",
+  "subgenres": [
+   "Neo-Soul"
+  ],
+  "type": "Studio",
+  "id": "local:tyler-the-creator-igor",
+  "cover": null,
+  "coverLarge": null
+ },
+ {
+  "title": "Weezer [Blue Album]",
+  "artist": "Weezer",
+  "year": "1994",
+  "genre": "Rock",
+  "subgenres": [
+   "Power Pop",
+   "Alternative Rock"
+  ],
+  "type": "Studio",
+  "id": "local:weezer-weezer-blue-album",
+  "cover": null,
+  "coverLarge": null
+ },
+ {
+  "title": "Midnight Marauders",
+  "artist": "A Tribe Called Quest",
+  "year": "1993",
+  "genre": "Hip-hop",
+  "subgenres": [
+   "Jazz Rap",
+   "Boom Bap"
+  ],
+  "type": "Studio",
+  "id": "local:a-tribe-called-quest-midnight-marauders",
+  "cover": null,
+  "coverLarge": null
+ },
+ {
+  "title": "The Low End Theory",
+  "artist": "A Tribe Called Quest",
+  "year": "1991",
+  "genre": "Hip-hop",
+  "subgenres": [
+   "Jazz Rap",
+   "Conscious Hip Hop",
+   "Boom Bap"
+  ],
+  "type": "Studio",
+  "id": "local:a-tribe-called-quest-the-low-end-theory",
+  "cover": null,
+  "coverLarge": null
+ },
+ {
+  "title": "American Football",
+  "artist": "American Football",
+  "year": "1999",
+  "genre": "Rock",
+  "subgenres": [
+   "Midwest Emo",
+   "Post-Rock"
+  ],
+  "type": "Studio",
+  "id": "local:american-football-american-football",
+  "cover": null,
+  "coverLarge": null
+ },
+ {
+  "title": "If You're Feeling Sinister",
+  "artist": "Belle and Sebastian",
+  "year": "1996",
+  "genre": "Pop",
+  "subgenres": [
+   "Chamber Pop",
+   "Twee Pop"
+  ],
+  "type": "Studio",
+  "id": "local:belle-and-sebastian-if-you-re-feeling-sinister",
+  "cover": null,
+  "coverLarge": null
+ },
+ {
+  "title": "For the First Time",
+  "artist": "Black Country, New Road",
+  "year": "2021",
+  "genre": "Rock",
+  "subgenres": [
+   "Post-Rock",
+   "Experimental Rock",
+   "Post-Punk"
+  ],
+  "type": "Studio",
+  "id": "local:black-country-new-road-for-the-first-time",
+  "cover": null,
+  "coverLarge": null
+ },
+ {
+  "title": "Another Green World",
+  "artist": "Brian Eno",
+  "year": "1975",
+  "genre": "Rock",
+  "subgenres": [
+   "Art Rock",
+   "Ambient"
+  ],
+  "type": "Studio",
+  "id": "local:brian-eno-another-green-world",
+  "cover": null,
+  "coverLarge": null
+ },
+ {
+  "title": "Be",
+  "artist": "Common",
+  "year": "2005",
+  "genre": "Hip-hop",
+  "subgenres": [
+   "Conscious Hip Hop"
+  ],
+  "type": "Studio",
+  "id": "local:common-be",
+  "cover": null,
+  "coverLarge": null
+ },
+ {
+  "title": "\"Heroes\"",
+  "artist": "David Bowie",
+  "year": "1977",
+  "genre": "Rock",
+  "subgenres": [
+   "Art Rock"
+  ],
+  "type": "Studio",
+  "id": "local:david-bowie-heroes",
+  "cover": null,
+  "coverLarge": null
+ },
+ {
+  "title": "Hunky Dory",
+  "artist": "David Bowie",
+  "year": "1971",
+  "genre": "Rock",
+  "subgenres": [
+   "Pop Rock",
+   "Glam Rock",
+   "Art Rock"
+  ],
+  "type": "Studio",
+  "id": "local:david-bowie-hunky-dory",
+  "cover": null,
+  "coverLarge": null
+ },
+ {
+  "title": "3D Country",
+  "artist": "Geese",
+  "year": "2023",
+  "genre": "Rock",
+  "subgenres": [
+   "Indie Rock"
+  ],
+  "type": "Studio",
+  "id": "local:geese-3d-country",
+  "cover": null,
+  "coverLarge": null
+ },
+ {
+  "title": "Hot Buttered Soul",
+  "artist": "Isaac Hayes",
+  "year": "1969",
+  "genre": "R&B & Soul",
+  "subgenres": [
+   "Progressive Soul"
+  ],
+  "type": "Studio",
+  "id": "local:isaac-hayes-hot-buttered-soul",
+  "cover": null,
+  "coverLarge": null
+ },
+ {
+  "title": "Plastic Ono Band",
+  "artist": "John Lennon",
+  "year": "1970",
+  "genre": "Rock",
+  "subgenres": [
+   "Singer-Songwriter",
+   "Pop Rock"
+  ],
+  "type": "Studio",
+  "id": "local:john-lennon-plastic-ono-band",
+  "cover": null,
+  "coverLarge": null
+ },
+ {
+  "title": "The Life of Pablo",
+  "artist": "Kanye West",
+  "year": "2016",
+  "genre": "Hip-hop",
+  "subgenres": [
+   "Pop Rap",
+   "Experimental Hip Hop"
+  ],
+  "type": "Studio",
+  "id": "local:kanye-west-the-life-of-pablo",
+  "cover": null,
+  "coverLarge": null
+ },
+ {
+  "title": "The Dreaming",
+  "artist": "Kate Bush",
+  "year": "1982",
+  "genre": "Pop",
+  "subgenres": [
+   "Art Pop",
+   "Progressive Pop"
+  ],
+  "type": "Studio",
+  "id": "local:kate-bush-the-dreaming",
+  "cover": null,
+  "coverLarge": null
+ },
+ {
+  "title": "Led Zeppelin",
+  "artist": "Led Zeppelin",
+  "year": "1969",
+  "genre": "Rock",
+  "subgenres": [
+   "Hard Rock",
+   "Blues Rock"
+  ],
+  "type": "Studio",
+  "id": "local:led-zeppelin-led-zeppelin",
+  "cover": null,
+  "coverLarge": null
+ },
+ {
+  "title": "Led Zeppelin II",
+  "artist": "Led Zeppelin",
+  "year": "1969",
+  "genre": "Rock",
+  "subgenres": [
+   "Hard Rock",
+   "Blues Rock"
+  ],
+  "type": "Studio",
+  "id": "local:led-zeppelin-led-zeppelin-ii",
+  "cover": null,
+  "coverLarge": null
+ },
+ {
+  "title": "Led Zeppelin IV",
+  "artist": "Led Zeppelin",
+  "year": "1971",
+  "genre": "Rock",
+  "subgenres": [
+   "Hard Rock"
+  ],
+  "type": "Studio",
+  "id": "local:led-zeppelin-led-zeppelin-iv",
+  "cover": null,
+  "coverLarge": null
+ },
+ {
+  "title": "Thriller",
+  "artist": "Michael Jackson",
+  "year": "1982",
+  "genre": "Pop",
+  "subgenres": [
+   "Contemporary R&B",
+   "Dance-Pop"
+  ],
+  "type": "Studio",
+  "id": "local:michael-jackson-thriller",
+  "cover": null,
+  "coverLarge": null
+ },
+ {
+  "title": "Black on Both Sides",
+  "artist": "Mos Def",
+  "year": "1999",
+  "genre": "Hip-hop",
+  "subgenres": [
+   "Conscious Hip Hop"
+  ],
+  "type": "Studio",
+  "id": "local:mos-def-black-on-both-sides",
+  "cover": null,
+  "coverLarge": null
+ },
+ {
+  "title": "Bryter Layter",
+  "artist": "Nick Drake",
+  "year": "1971",
+  "genre": "Folk",
+  "subgenres": [
+   "Singer-Songwriter",
+   "Chamber Folk"
+  ],
+  "type": "Studio",
+  "id": "local:nick-drake-bryter-layter",
+  "cover": null,
+  "coverLarge": null
+ },
+ {
+  "title": "In Utero",
+  "artist": "Nirvana",
+  "year": "1993",
+  "genre": "Rock",
+  "subgenres": [
+   "Grunge",
+   "Noise Rock"
+  ],
+  "type": "Studio",
+  "id": "local:nirvana-in-utero",
+  "cover": null,
+  "coverLarge": null
+ },
+ {
+  "title": "Nevermind",
+  "artist": "Nirvana",
+  "year": "1991",
+  "genre": "Rock",
+  "subgenres": [
+   "Grunge",
+   "Alternative Rock"
+  ],
+  "type": "Studio",
+  "id": "local:nirvana-nevermind",
+  "cover": null,
+  "coverLarge": null
+ },
+ {
+  "title": "Aquemini",
+  "artist": "OutKast",
+  "year": "1998",
+  "genre": "Hip-hop",
+  "subgenres": [
+   "Conscious Hip Hop"
+  ],
+  "type": "Studio",
+  "id": "local:outkast-aquemini",
+  "cover": null,
+  "coverLarge": null
+ },
+ {
+  "title": "Crooked Rain, Crooked Rain",
+  "artist": "Pavement",
+  "year": "1994",
+  "genre": "Rock",
+  "subgenres": [
+   "Indie Rock",
+   "Slacker Rock"
+  ],
+  "type": "Studio",
+  "id": "local:pavement-crooked-rain-crooked-rain",
+  "cover": null,
+  "coverLarge": null
+ },
+ {
+  "title": "Surfer Rosa",
+  "artist": "Pixies",
+  "year": "1988",
+  "genre": "Rock",
+  "subgenres": [
+   "Indie Rock",
+   "Alternative Rock"
+  ],
+  "type": "Studio",
+  "id": "local:pixies-surfer-rosa",
+  "cover": null,
+  "coverLarge": null
+ },
+ {
+  "title": "A Moon Shaped Pool",
+  "artist": "Radiohead",
+  "year": "2016",
+  "genre": "Pop",
+  "subgenres": [
+   "Art Pop",
+   "Art Rock",
+   "Chamber Pop"
+  ],
+  "type": "Studio",
+  "id": "local:radiohead-a-moon-shaped-pool",
+  "cover": null,
+  "coverLarge": null
+ },
+ {
+  "title": "Moving Pictures",
+  "artist": "Rush",
+  "year": "1981",
+  "genre": "Rock",
+  "subgenres": [
+   "Progressive Rock",
+   "Hard Rock"
+  ],
+  "type": "Studio",
+  "id": "local:rush-moving-pictures",
+  "cover": null,
+  "coverLarge": null
+ },
+ {
+  "title": "Electric Warrior",
+  "artist": "T. Rex",
+  "year": "1971",
+  "genre": "Rock",
+  "subgenres": [
+   "Glam Rock"
+  ],
+  "type": "Studio",
+  "id": "local:t-rex-electric-warrior",
+  "cover": null,
+  "coverLarge": null
+ },
+ {
+  "title": "Magical Mystery Tour",
+  "artist": "The Beatles",
+  "year": "1967",
+  "genre": "Psychedelia",
+  "subgenres": [
+   "Psychedelic Pop",
+   "Pop Rock"
+  ],
+  "type": "Studio",
+  "id": "local:the-beatles-magical-mystery-tour",
+  "cover": null,
+  "coverLarge": null
+ },
+ {
+  "title": "The Beatles [White Album]",
+  "artist": "The Beatles",
+  "year": "1968",
+  "genre": "Rock",
+  "subgenres": [
+   "Pop Rock"
+  ],
+  "type": "Studio",
+  "id": "local:the-beatles-the-beatles-white-album",
+  "cover": null,
+  "coverLarge": null
+ },
+ {
+  "title": "Yoshimi Battles the Pink Robots",
+  "artist": "The Flaming Lips",
+  "year": "2002",
+  "genre": "Psychedelia",
+  "subgenres": [
+   "Neo-Psychedelia",
+   "Psychedelic Pop"
+  ],
+  "type": "Studio",
+  "id": "local:the-flaming-lips-yoshimi-battles-the-pink-robots",
+  "cover": null,
+  "coverLarge": null
+ },
+ {
+  "title": "Are You Experienced",
+  "artist": "The Jimi Hendrix Experience",
+  "year": "1967",
+  "genre": "Psychedelia",
+  "subgenres": [
+   "Blues Rock",
+   "Psychedelic Rock"
+  ],
+  "type": "Studio",
+  "id": "local:the-jimi-hendrix-experience-are-you-experienced",
+  "cover": null,
+  "coverLarge": null
+ },
+ {
+  "title": "Electric Ladyland",
+  "artist": "The Jimi Hendrix Experience",
+  "year": "1968",
+  "genre": "Psychedelia",
+  "subgenres": [
+   "Blues Rock",
+   "Psychedelic Rock"
+  ],
+  "type": "Studio",
+  "id": "local:the-jimi-hendrix-experience-electric-ladyland",
+  "cover": null,
+  "coverLarge": null
+ },
+ {
+  "title": "Siamese Dream",
+  "artist": "The Smashing Pumpkins",
+  "year": "1993",
+  "genre": "Rock",
+  "subgenres": [
+   "Alternative Rock"
+  ],
+  "type": "Studio",
+  "id": "local:the-smashing-pumpkins-siamese-dream",
+  "cover": null,
+  "coverLarge": null
+ },
+ {
+  "title": "Vaudeville Villain",
+  "artist": "Viktor Vaughn",
+  "year": "2003",
+  "genre": "Hip-hop",
+  "subgenres": [
+   "Abstract Hip Hop"
+  ],
+  "type": "Studio",
+  "id": "local:viktor-vaughn-vaudeville-villain",
+  "cover": null,
+  "coverLarge": null
+ },
+ {
+  "title": "Back to Black",
+  "artist": "Amy Winehouse",
+  "year": "2006",
+  "genre": "R&B & Soul",
+  "subgenres": [
+   "Pop Soul",
+   "Rhythm & Blues"
+  ],
+  "type": "Studio",
+  "id": "local:amy-winehouse-back-to-black",
+  "cover": null,
+  "coverLarge": null
+ },
+ {
+  "title": "Selected Ambient Works 85-92",
+  "artist": "Aphex Twin",
+  "year": "1992",
+  "genre": "Electronic",
+  "subgenres": [
+   "Ambient Techno",
+   "IDM"
+  ],
+  "type": "Studio",
+  "id": "local:aphex-twin-selected-ambient-works-85-92",
+  "cover": null,
+  "coverLarge": null
+ },
+ {
+  "title": "Whatever People Say I Am, That's What I'm Not",
+  "artist": "Arctic Monkeys",
+  "year": "2006",
+  "genre": "Rock",
+  "subgenres": [
+   "Garage Rock Revival",
+   "Indie Rock"
+  ],
+  "type": "Studio",
+  "id": "local:arctic-monkeys-whatever-people-say-i-am-that-s-what-i-m-not",
+  "cover": null,
+  "coverLarge": null
+ },
+ {
+  "title": "The Stranger",
+  "artist": "Billy Joel",
+  "year": "1977",
+  "genre": "Rock",
+  "subgenres": [
+   "Piano Rock",
+   "Singer-Songwriter",
+   "Pop Rock"
+  ],
+  "type": "Studio",
+  "id": "local:billy-joel-the-stranger",
+  "cover": null,
+  "coverLarge": null
+ },
+ {
+  "title": "Scary Monsters",
+  "artist": "David Bowie",
+  "year": "1980",
+  "genre": "Rock",
+  "subgenres": [
+   "Art Rock",
+   "New Wave"
+  ],
+  "type": "Studio",
+  "id": "local:david-bowie-scary-monsters",
+  "cover": null,
+  "coverLarge": null
+ },
+ {
+  "title": "2001",
+  "artist": "Dr. Dre",
+  "year": "1999",
+  "genre": "Hip-hop",
+  "subgenres": [
+   "Gangsta Rap"
+  ],
+  "type": "Studio",
+  "id": "local:dr-dre-2001",
+  "cover": null,
+  "coverLarge": null
+ },
+ {
+  "title": "空中キャンプ (Kuchu Camp)",
+  "artist": "Fishmans",
+  "year": "1996",
+  "genre": "Pop",
+  "subgenres": [
+   "Dream Pop",
+   "Neo-Psychedelia",
+   "Shibuya-kei"
+  ],
+  "type": "Studio",
+  "id": "local:fishmans-kuchu-camp",
+  "cover": null,
+  "coverLarge": null
+ },
+ {
+  "title": "若いながらも歴史あり 96.3.2 @新宿LIQUID ROOm (Wakai Nagara mo Rekishi Ari)",
+  "artist": "Fishmans",
+  "year": "2021",
+  "genre": "Psychedelia",
+  "subgenres": [
+   "Neo-Psychedelia"
+  ],
+  "type": "Live",
+  "id": "local:fishmans-96-3-2-liquid-room-wakai-nagara-mo-rekishi-ari",
+  "cover": null,
+  "coverLarge": null
+ },
+ {
+  "title": "Windswept Adan",
+  "artist": "Ichiko Aoba",
+  "year": "2020",
+  "genre": "Folk",
+  "subgenres": [
+   "Chamber Folk",
+   "Singer-Songwriter"
+  ],
+  "type": "Studio",
+  "id": "local:ichiko-aoba-windswept-adan",
+  "cover": null,
+  "coverLarge": null
+ },
+ {
+  "title": "You Don't Mess Around with Jim",
+  "artist": "Jim Croce",
+  "year": "1972",
+  "genre": "Folk",
+  "subgenres": [
+   "Singer-Songwriter",
+   "Folk Pop"
+  ],
+  "type": "Studio",
+  "id": "local:jim-croce-you-don-t-mess-around-with-jim",
+  "cover": null,
+  "coverLarge": null
+ },
+ {
+  "title": "A Love Supreme",
+  "artist": "John Coltrane",
+  "year": "1965",
+  "genre": "Jazz",
+  "subgenres": [
+   "Spiritual Jazz",
+   "Avant-Garde Jazz"
+  ],
+  "type": "Studio",
+  "id": "local:john-coltrane-a-love-supreme",
+  "cover": null,
+  "coverLarge": null
+ },
+ {
+  "title": "Imagine",
+  "artist": "John Lennon",
+  "year": "1971",
+  "genre": "Rock",
+  "subgenres": [
+   "Pop Rock",
+   "Singer-Songwriter"
+  ],
+  "type": "Studio",
+  "id": "local:john-lennon-imagine",
+  "cover": null,
+  "coverLarge": null
+ },
+ {
+  "title": "Graduation",
+  "artist": "Kanye West",
+  "year": "2007",
+  "genre": "Hip-hop",
+  "subgenres": [
+   "Pop Rap"
+  ],
+  "type": "Studio",
+  "id": "local:kanye-west-graduation",
+  "cover": null,
+  "coverLarge": null
+ },
+ {
+  "title": "Yeezus",
+  "artist": "Kanye West",
+  "year": "2013",
+  "genre": "Hip-hop",
+  "subgenres": [
+   "Experimental Hip Hop",
+   "Industrial Hip Hop"
+  ],
+  "type": "Studio",
+  "id": "local:kanye-west-yeezus",
+  "cover": null,
+  "coverLarge": null
+ },
+ {
+  "title": "My Beautiful Dark Twisted Fantasy",
+  "artist": "Kanye West",
+  "year": "2010",
+  "genre": "Hip-hop",
+  "subgenres": [
+   "Pop Rap"
+  ],
+  "type": "Studio",
+  "id": "local:kanye-west-my-beautiful-dark-twisted-fantasy",
+  "cover": null,
+  "coverLarge": null
+ },
+ {
+  "title": "Never for Ever",
+  "artist": "Kate Bush",
+  "year": "1980",
+  "genre": "Pop",
+  "subgenres": [
+   "Art Pop",
+   "Progressive Pop",
+   "Baroque Pop"
+  ],
+  "type": "Studio",
+  "id": "local:kate-bush-never-for-ever",
+  "cover": null,
+  "coverLarge": null
+ },
+ {
+  "title": "Off the Wall",
+  "artist": "Michael Jackson",
+  "year": "1979",
+  "genre": "Pop",
+  "subgenres": [],
+  "type": "Studio",
+  "id": "local:michael-jackson-off-the-wall",
+  "cover": null,
+  "coverLarge": null
+ },
+ {
+  "title": "(What's the Story) Morning Glory?",
+  "artist": "Oasis",
+  "year": "1995",
+  "genre": "Rock",
+  "subgenres": [
+   "Britpop"
+  ],
+  "type": "Studio",
+  "id": "local:oasis-what-s-the-story-morning-glory",
+  "cover": null,
+  "coverLarge": null
+ },
+ {
+  "title": "Definitely Maybe",
+  "artist": "Oasis",
+  "year": "1994",
+  "genre": "Rock",
+  "subgenres": [],
+  "type": "Studio",
+  "id": "local:oasis-definitely-maybe",
+  "cover": null,
+  "coverLarge": null
+ },
+ {
+  "title": "ATLiens",
+  "artist": "OutKast",
+  "year": "1996",
+  "genre": "Hip-hop",
+  "subgenres": [],
+  "type": "Studio",
+  "id": "local:outkast-atliens",
+  "cover": null,
+  "coverLarge": null
+ },
+ {
+  "title": "The Dark Side of the Moon",
+  "artist": "Pink Floyd",
+  "year": "1973",
+  "genre": "Rock",
+  "subgenres": [
+   "Art Rock",
+   "Progressive Rock"
+  ],
+  "type": "Studio",
+  "id": "local:pink-floyd-the-dark-side-of-the-moon",
+  "cover": null,
+  "coverLarge": null
+ },
+ {
+  "title": "Amnesiac",
+  "artist": "Radiohead",
+  "year": "2001",
+  "genre": "Rock",
+  "subgenres": [
+   "Art Rock",
+   "Experimental Rock"
+  ],
+  "type": "Studio",
+  "id": "local:radiohead-amnesiac",
+  "cover": null,
+  "coverLarge": null
+ },
+ {
+  "title": "Hail to the Thief",
+  "artist": "Radiohead",
+  "year": "2003",
+  "genre": "Rock",
+  "subgenres": [
+   "Art Rock",
+   "Alternative Rock"
+  ],
+  "type": "Studio",
+  "id": "local:radiohead-hail-to-the-thief",
+  "cover": null,
+  "coverLarge": null
+ },
+ {
+  "title": "Permanent Waves",
+  "artist": "Rush",
+  "year": "1980",
+  "genre": "Rock",
+  "subgenres": [],
+  "type": "Studio",
+  "id": "local:rush-permanent-waves",
+  "cover": null,
+  "coverLarge": null
+ },
+ {
+  "title": "Daydream Nation",
+  "artist": "Sonic Youth",
+  "year": "1988",
+  "genre": "Rock",
+  "subgenres": [],
+  "type": "Studio",
+  "id": "local:sonic-youth-daydream-nation",
+  "cover": null,
+  "coverLarge": null
+ },
+ {
+  "title": "Laughing Stock",
+  "artist": "Talk Talk",
+  "year": "1991",
+  "genre": "Rock",
+  "subgenres": [
+   "Post-Rock",
+   "Art Rock"
+  ],
+  "type": "Studio",
+  "id": "local:talk-talk-laughing-stock",
+  "cover": null,
+  "coverLarge": null
+ },
+ {
+  "title": "Remain in Light",
+  "artist": "Talking Heads",
+  "year": "1980",
+  "genre": "Rock",
+  "subgenres": [
+   "New Wave",
+   "Post-Punk",
+   "Funk Rock"
+  ],
+  "type": "Studio",
+  "id": "local:talking-heads-remain-in-light",
+  "cover": null,
+  "coverLarge": null
+ },
+ {
+  "title": "Currents",
+  "artist": "Tame Impala",
+  "year": "2015",
+  "genre": "Psychedelia",
+  "subgenres": [
+   "Synthpop",
+   "Psychedelic Pop",
+   "Neo-Psychedelia"
+  ],
+  "type": "Studio",
+  "id": "local:tame-impala-currents",
+  "cover": null,
+  "coverLarge": null
+ },
+ {
+  "title": "Pet Sounds",
+  "artist": "The Beach Boys",
+  "year": "1966",
+  "genre": "Pop",
+  "subgenres": [
+   "Baroque Pop"
+  ],
+  "type": "Studio",
+  "id": "local:the-beach-boys-pet-sounds",
+  "cover": null,
+  "coverLarge": null
+ },
+ {
+  "title": "Let It Be",
+  "artist": "The Beatles",
+  "year": "1970",
+  "genre": "Rock",
+  "subgenres": [
+   "Pop Rock",
+   "Blues Rock"
+  ],
+  "type": "Studio",
+  "id": "local:the-beatles-let-it-be",
+  "cover": null,
+  "coverLarge": null
+ },
+ {
+  "title": "Rubber Soul",
+  "artist": "The Beatles",
+  "year": "1965",
+  "genre": "Rock",
+  "subgenres": [
+   "Pop Rock"
+  ],
+  "type": "Studio",
+  "id": "local:the-beatles-rubber-soul",
+  "cover": null,
+  "coverLarge": null
+ },
+ {
+  "title": "Sgt. Pepper's Lonely Hearts Club Band",
+  "artist": "The Beatles",
+  "year": "1967",
+  "genre": "Psychedelia",
+  "subgenres": [
+   "Psychedelic Pop",
+   "Pop Rock"
+  ],
+  "type": "Studio",
+  "id": "local:the-beatles-sgt-pepper-s-lonely-hearts-club-band",
+  "cover": null,
+  "coverLarge": null
+ },
+ {
+  "title": "Ready to Die",
+  "artist": "The Notorious B.I.G.",
+  "year": "1994",
+  "genre": "Hip-hop",
+  "subgenres": [],
+  "type": "Studio",
+  "id": "local:the-notorious-b-i-g-ready-to-die",
+  "cover": null,
+  "coverLarge": null
+ },
+ {
+  "title": "Meat Is Murder",
+  "artist": "The Smiths",
+  "year": "1985",
+  "genre": "Pop",
+  "subgenres": [],
+  "type": "Studio",
+  "id": "local:the-smiths-meat-is-murder",
+  "cover": null,
+  "coverLarge": null
+ },
+ {
+  "title": "10,000 Days",
+  "artist": "Tool",
+  "year": "2006",
+  "genre": "Metal",
+  "subgenres": [
+   "Alternative Metal",
+   "Progressive Metal"
+  ],
+  "type": "Studio",
+  "id": "local:tool-10-000-days",
+  "cover": null,
+  "coverLarge": null
+ },
+ {
+  "title": "Trench",
+  "artist": "Twenty One Pilots",
+  "year": "2018",
+  "genre": "Pop",
+  "subgenres": [],
+  "type": "Studio",
+  "id": "local:twenty-one-pilots-trench",
+  "cover": null,
+  "coverLarge": null
+ },
+ {
+  "title": "Flower Boy",
+  "artist": "Tyler, The Creator",
+  "year": "2017",
+  "genre": "Hip-hop",
+  "subgenres": [],
+  "type": "Studio",
+  "id": "local:tyler-the-creator-flower-boy",
+  "cover": null,
+  "coverLarge": null
+ },
+ {
+  "title": "Pinkerton",
+  "artist": "Weezer",
+  "year": "1996",
+  "genre": "Rock",
+  "subgenres": [],
+  "type": "Studio",
+  "id": "local:weezer-pinkerton",
+  "cover": null,
+  "coverLarge": null
+ },
+ {
+  "title": "Voulez-Vous",
+  "artist": "ABBA",
+  "year": "1979",
+  "genre": "Pop",
+  "subgenres": [
+   "Europop",
+   "Euro-Disco"
+  ],
+  "type": "Studio",
+  "id": "local:abba-voulez-vous",
+  "cover": null,
+  "coverLarge": null
+ },
+ {
+  "title": "Debut",
+  "artist": "Björk",
+  "year": "1993",
+  "genre": "Pop",
+  "subgenres": [
+   "Art Pop",
+   "House"
+  ],
+  "type": "Studio",
+  "id": "local:bjork-debut",
+  "cover": null,
+  "coverLarge": null
+ },
+ {
+  "title": "The Mouse & the Mask",
+  "artist": "DANGERDOOM",
+  "year": "2005",
+  "genre": "Hip-hop",
+  "subgenres": [
+   "Abstract Hip Hop"
+  ],
+  "type": "Studio",
+  "id": "local:dangerdoom-the-mouse-and-the-mask",
+  "cover": null,
+  "coverLarge": null
+ },
+ {
+  "title": "Halcyon Digest",
+  "artist": "Deerhunter",
+  "year": "2010",
+  "genre": "Psychedelia",
+  "subgenres": [
+   "Neo-Psychedelia",
+   "Indie Rock"
+  ],
+  "type": "Studio",
+  "id": "local:deerhunter-halcyon-digest",
+  "cover": null,
+  "coverLarge": null
+ },
+ {
+  "title": "The Chronic",
+  "artist": "Dr. Dre",
+  "year": "1992",
+  "genre": "Hip-hop",
+  "subgenres": [
+   "G-Funk",
+   "Gangsta Rap"
+  ],
+  "type": "Studio",
+  "id": "local:dr-dre-the-chronic",
+  "cover": null,
+  "coverLarge": null
+ },
+ {
+  "title": "Out of the Blue",
+  "artist": "Electric Light Orchestra",
+  "year": "1977",
+  "genre": "Rock",
+  "subgenres": [
+   "Pop Rock",
+   "Symphonic Rock",
+   "Progressive Pop"
+  ],
+  "type": "Studio",
+  "id": "local:electric-light-orchestra-out-of-the-blue",
+  "cover": null,
+  "coverLarge": null
+ },
+ {
+  "title": "The Slim Shady LP",
+  "artist": "Eminem",
+  "year": "1999",
+  "genre": "Hip-hop",
+  "subgenres": [
+   "Hardcore Hip Hop"
+  ],
+  "type": "Studio",
+  "id": "local:eminem-the-slim-shady-lp",
+  "cover": null,
+  "coverLarge": null
+ },
+ {
+  "title": "Orange",
+  "artist": "Fishmans",
+  "year": "1994",
+  "genre": "Pop",
+  "subgenres": [
+   "Neo-Psychedelia",
+   "Shibuya-kei",
+   "Funk Rock"
+  ],
+  "type": "Studio",
+  "id": "local:fishmans-orange",
+  "cover": null,
+  "coverLarge": null
+ },
+ {
+  "title": "Tango in the Night",
+  "artist": "Fleetwood Mac",
+  "year": "1987",
+  "genre": "Rock",
+  "subgenres": [
+   "Pop Rock",
+   "Soft Rock"
+  ],
+  "type": "Studio",
+  "id": "local:fleetwood-mac-tango-in-the-night",
+  "cover": null,
+  "coverLarge": null
+ },
+ {
+  "title": "Count Bateman",
+  "artist": "Frog",
+  "year": "2019",
+  "genre": "Folk",
+  "subgenres": [
+   "Indie Folk",
+   "Singer-Songwriter"
+  ],
+  "type": "Studio",
+  "id": "local:frog-count-bateman",
+  "cover": null,
+  "coverLarge": null
+ },
+ {
+  "title": "Liquid Swords",
+  "artist": "GZA",
+  "year": "1995",
+  "genre": "Hip-hop",
+  "subgenres": [
+   "Hardcore Hip Hop",
+   "Boom Bap"
+  ],
+  "type": "Studio",
+  "id": "local:gza-liquid-swords",
+  "cover": null,
+  "coverLarge": null
+ },
+ {
+  "title": "Donuts",
+  "artist": "J Dilla",
+  "year": "2006",
+  "genre": "Hip-hop",
+  "subgenres": [
+   "Instrumental Hip Hop",
+   "Plunderphonics"
+  ],
+  "type": "Studio",
+  "id": "local:j-dilla-donuts",
+  "cover": null,
+  "coverLarge": null
+ },
+ {
+  "title": "2014 Forest Hills Drive",
+  "artist": "J. Cole",
+  "year": "2014",
+  "genre": "Hip-hop",
+  "subgenres": [
+   "Conscious Hip Hop"
+  ],
+  "type": "Studio",
+  "id": "local:j-cole-2014-forest-hills-drive",
+  "cover": null,
+  "coverLarge": null
+ },
+ {
+  "title": "The Kick Inside",
+  "artist": "Kate Bush",
+  "year": "1978",
+  "genre": "Pop",
+  "subgenres": [
+   "Art Pop",
+   "Pop Rock"
+  ],
+  "type": "Studio",
+  "id": "local:kate-bush-the-kick-inside",
+  "cover": null,
+  "coverLarge": null
+ },
+ {
+  "title": "GNX",
+  "artist": "Kendrick Lamar",
+  "year": "2024",
+  "genre": "Hip-hop",
+  "subgenres": [
+   "Conscious Hip Hop"
+  ],
+  "type": "Studio",
+  "id": "local:kendrick-lamar-gnx",
+  "cover": null,
+  "coverLarge": null
+ },
+ {
+  "title": "Mr. Morale & the Big Steppers",
+  "artist": "Kendrick Lamar",
+  "year": "2022",
+  "genre": "Hip-hop",
+  "subgenres": [
+   "Conscious Hip Hop"
+  ],
+  "type": "Studio",
+  "id": "local:kendrick-lamar-mr-morale-and-the-big-steppers",
+  "cover": null,
+  "coverLarge": null
+ },
+ {
+  "title": "Untitled Unmastered.",
+  "artist": "Kendrick Lamar",
+  "year": "2016",
+  "genre": "Hip-hop",
+  "subgenres": [
+   "Jazz Rap",
+   "Conscious Hip Hop"
+  ],
+  "type": "Studio",
+  "id": "local:kendrick-lamar-untitled-unmastered",
+  "cover": null,
+  "coverLarge": null
+ },
+ {
+  "title": "Crying Laughing Loving Lying",
+  "artist": "Labi Siffre",
+  "year": "1972",
+  "genre": "Folk",
+  "subgenres": [
+   "Singer-Songwriter",
+   "Folk Pop"
+  ],
+  "type": "Studio",
+  "id": "local:labi-siffre-crying-laughing-loving-lying",
+  "cover": null,
+  "coverLarge": null
+ },
+ {
+  "title": "Pastel Blues",
+  "artist": "Nina Simone",
+  "year": "1965",
+  "genre": "Jazz",
+  "subgenres": [
+   "Vocal Jazz",
+   "Rhythm & Blues"
+  ],
+  "type": "Studio",
+  "id": "local:nina-simone-pastel-blues",
+  "cover": null,
+  "coverLarge": null
+ },
+ {
+  "title": "Bleach",
+  "artist": "Nirvana",
+  "year": "1989",
+  "genre": "Rock",
+  "subgenres": [],
+  "type": "Studio",
+  "id": "local:nirvana-bleach",
+  "cover": null,
+  "coverLarge": null
+ },
+ {
+  "title": "MTV Unplugged in New York",
+  "artist": "Nirvana",
+  "year": "1994",
+  "genre": "Rock",
+  "subgenres": [],
+  "type": "Live",
+  "id": "local:nirvana-mtv-unplugged-in-new-york",
+  "cover": null,
+  "coverLarge": null
+ },
+ {
+  "title": "Bossanova",
+  "artist": "Pixies",
+  "year": "1990",
+  "genre": "Rock",
+  "subgenres": [],
+  "type": "Studio",
+  "id": "local:pixies-bossanova",
+  "cover": null,
+  "coverLarge": null
+ },
+ {
+  "title": "Goo",
+  "artist": "Sonic Youth",
+  "year": "1990",
+  "genre": "Rock",
+  "subgenres": [
+   "Noise Rock",
+   "Alternative Rock",
+   "Post-Punk"
+  ],
+  "type": "Studio",
+  "id": "local:sonic-youth-goo",
+  "cover": null,
+  "coverLarge": null
+ },
+ {
+  "title": "Green",
+  "artist": "Steve Hillage",
+  "year": "1978",
+  "genre": "Psychedelia",
+  "subgenres": [],
+  "type": "Studio",
+  "id": "local:steve-hillage-green",
+  "cover": null,
+  "coverLarge": null
+ },
+ {
+  "title": "Axis: Bold as Love",
+  "artist": "The Jimi Hendrix Experience",
+  "year": "1967",
+  "genre": "Psychedelia",
+  "subgenres": [],
+  "type": "Studio",
+  "id": "local:the-jimi-hendrix-experience-axis-bold-as-love",
+  "cover": null,
+  "coverLarge": null
+ },
+ {
+  "title": "Room on Fire",
+  "artist": "The Strokes",
+  "year": "2003",
+  "genre": "Rock",
+  "subgenres": [],
+  "type": "Studio",
+  "id": "local:the-strokes-room-on-fire",
+  "cover": null,
+  "coverLarge": null
+ },
+ {
+  "title": "Maladroit",
+  "artist": "Weezer",
+  "year": "2002",
+  "genre": "Rock",
+  "subgenres": [],
+  "type": "Studio",
+  "id": "local:weezer-maladroit",
+  "cover": null,
+  "coverLarge": null
+ },
+ {
+  "title": "Enter the Wu-Tang (36 Chambers)",
+  "artist": "Wu-Tang Clan",
+  "year": "1993",
+  "genre": "Hip-hop",
+  "subgenres": [],
+  "type": "Studio",
+  "id": "local:wu-tang-clan-enter-the-wu-tang-36-chambers",
+  "cover": null,
+  "coverLarge": null
+ },
+ {
+  "title": "Rebel Yell",
+  "artist": "Billy Idol",
+  "year": "1983",
+  "genre": "Rock",
+  "subgenres": [
+   "New Wave",
+   "Pop Rock"
+  ],
+  "type": "Studio",
+  "id": "local:billy-idol-rebel-yell",
+  "cover": null,
+  "coverLarge": null
+ },
+ {
+  "title": "Music Has the Right to Children",
+  "artist": "Boards of Canada",
+  "year": "1998",
+  "genre": "Electronic",
+  "subgenres": [],
+  "type": "Studio",
+  "id": "local:boards-of-canada-music-has-the-right-to-children",
+  "cover": null,
+  "coverLarge": null
+ },
+ {
+  "title": "Super What?",
+  "artist": "Czarface & MF DOOM",
+  "year": "2021",
+  "genre": "Hip-hop",
+  "subgenres": [
+   "Boom Bap"
+  ],
+  "type": "Studio",
+  "id": "local:czarface-and-mf-doom-super-what",
+  "cover": null,
+  "coverLarge": null
+ },
+ {
+  "title": "Diamond Dogs",
+  "artist": "David Bowie",
+  "year": "1974",
+  "genre": "Rock",
+  "subgenres": [
+   "Glam Rock",
+   "Art Rock"
+  ],
+  "type": "Studio",
+  "id": "local:david-bowie-diamond-dogs",
+  "cover": null,
+  "coverLarge": null
+ },
+ {
+  "title": "Come Around and Love Me",
+  "artist": "Jalen Ngonda",
+  "year": "2023",
+  "genre": "R&B & Soul",
+  "subgenres": [
+   "Progressive Soul",
+   "Philly Soul"
+  ],
+  "type": "Studio",
+  "id": "local:jalen-ngonda-come-around-and-love-me",
+  "cover": null,
+  "coverLarge": null
+ },
+ {
+  "title": "No Hands",
+  "artist": "Joey Valence & Brae",
+  "year": "2024",
+  "genre": "Hip-hop",
+  "subgenres": [
+   "Hardcore Hip Hop"
+  ],
+  "type": "Studio",
+  "id": "local:joey-valence-and-brae-no-hands",
+  "cover": null,
+  "coverLarge": null
+ },
+ {
+  "title": "Mind Games",
+  "artist": "John Lennon",
+  "year": "1973",
+  "genre": "Rock",
+  "subgenres": [
+   "Pop Rock"
+  ],
+  "type": "Studio",
+  "id": "local:john-lennon-mind-games",
+  "cover": null,
+  "coverLarge": null
+ },
+ {
+  "title": "Walls and Bridges",
+  "artist": "John Lennon",
+  "year": "1974",
+  "genre": "Rock",
+  "subgenres": [
+   "Pop Rock"
+  ],
+  "type": "Studio",
+  "id": "local:john-lennon-walls-and-bridges",
+  "cover": null,
+  "coverLarge": null
+ },
+ {
+  "title": "Double Fantasy",
+  "artist": "John Lennon & Yoko Ono",
+  "year": "1980",
+  "genre": "Rock",
+  "subgenres": [
+   "Pop Rock"
+  ],
+  "type": "Studio",
+  "id": "local:john-lennon-and-yoko-ono-double-fantasy",
+  "cover": null,
+  "coverLarge": null
+ },
+ {
+  "title": "I Lay Down My Life for You",
+  "artist": "JPEGMAFIA",
+  "year": "2024",
+  "genre": "Hip-hop",
+  "subgenres": [],
+  "type": "Studio",
+  "id": "local:jpegmafia-i-lay-down-my-life-for-you",
+  "cover": null,
+  "coverLarge": null
+ },
+ {
+  "title": "Damn.",
+  "artist": "Kendrick Lamar",
+  "year": "2017",
+  "genre": "Hip-hop",
+  "subgenres": [
+   "Conscious Hip Hop"
+  ],
+  "type": "Studio",
+  "id": "local:kendrick-lamar-damn",
+  "cover": null,
+  "coverLarge": null
+ },
+ {
+  "title": "Led Zeppelin III",
+  "artist": "Led Zeppelin",
+  "year": "1970",
+  "genre": "Rock",
+  "subgenres": [
+   "Folk Rock",
+   "Hard Rock"
+  ],
+  "type": "Studio",
+  "id": "local:led-zeppelin-led-zeppelin-iii",
+  "cover": null,
+  "coverLarge": null
+ },
+ {
+  "title": "2",
+  "artist": "Mac DeMarco",
+  "year": "2012",
+  "genre": "Pop",
+  "subgenres": [
+   "Jangle Pop",
+   "Bedroom Pop"
+  ],
+  "type": "Studio",
+  "id": "local:mac-demarco-2",
+  "cover": null,
+  "coverLarge": null
+ },
+ {
+  "title": "Born Like This",
+  "artist": "MF DOOM",
+  "year": "2009",
+  "genre": "Hip-hop",
+  "subgenres": [],
+  "type": "Studio",
+  "id": "local:mf-doom-born-like-this",
+  "cover": null,
+  "coverLarge": null
+ },
+ {
+  "title": "The Prof Meets the Super Villain",
+  "artist": "MF DOOM",
+  "year": "2002",
+  "genre": "Hip-hop",
+  "subgenres": [],
+  "type": "EP",
+  "id": "local:mf-doom-the-prof-meets-the-super-villain",
+  "cover": null,
+  "coverLarge": null
+ },
+ {
+  "title": "Come On Pilgrim",
+  "artist": "Pixies",
+  "year": "1987",
+  "genre": "Rock",
+  "subgenres": [
+   "Indie Rock",
+   "Alternative Rock"
+  ],
+  "type": "EP",
+  "id": "local:pixies-come-on-pilgrim",
+  "cover": null,
+  "coverLarge": null
+ },
+ {
+  "title": "Thunder, Lightning, Strike",
+  "artist": "The Go! Team",
+  "year": "2004",
+  "genre": "Electronic",
+  "subgenres": [
+   "Indietronica",
+   "Alternative Dance",
+   "Indie Rock",
+   "Neo-Psychedelia"
+  ],
+  "type": "Studio",
+  "id": "local:the-go-team-thunder-lightning-strike",
+  "cover": null,
+  "coverLarge": null
+ },
+ {
+  "title": "Rank",
+  "artist": "The Smiths",
+  "year": "1988",
+  "genre": "Pop",
+  "subgenres": [],
+  "type": "Live",
+  "id": "local:the-smiths-rank",
+  "cover": null,
+  "coverLarge": null
+ },
+ {
+  "title": "Loaded",
+  "artist": "The Velvet Underground",
+  "year": "1970",
+  "genre": "Rock",
+  "subgenres": [
+   "Pop Rock"
+  ],
+  "type": "Studio",
+  "id": "local:the-velvet-underground-loaded",
+  "cover": null,
+  "coverLarge": null
+ },
+ {
+  "title": "Lateralus",
+  "artist": "Tool",
+  "year": "2001",
+  "genre": "Metal",
+  "subgenres": [],
+  "type": "Studio",
+  "id": "local:tool-lateralus",
+  "cover": null,
+  "coverLarge": null
+ },
+ {
+  "title": "Who Really Cares",
+  "artist": "TV Girl",
+  "year": "2016",
+  "genre": "Pop",
+  "subgenres": [],
+  "type": "Studio",
+  "id": "local:tv-girl-who-really-cares",
+  "cover": null,
+  "coverLarge": null
+ },
+ {
+  "title": "The Sensual World",
+  "artist": "Kate Bush",
+  "year": "1989",
+  "genre": "Pop",
+  "subgenres": [
+   "Art Pop"
+  ],
+  "type": "Studio",
+  "id": "local:kate-bush-the-sensual-world",
+  "cover": null,
+  "coverLarge": null
+ },
+ {
+  "title": "Trompe le Monde",
+  "artist": "Pixies",
+  "year": "1991",
+  "genre": "Rock",
+  "subgenres": [],
+  "type": "Studio",
+  "id": "local:pixies-trompe-le-monde",
+  "cover": null,
+  "coverLarge": null
+ },
+ {
+  "title": "ABBA",
+  "artist": "ABBA",
+  "year": "1975",
+  "genre": "Pop",
+  "subgenres": [
+   "Europop"
+  ],
+  "type": "Studio",
+  "id": "local:abba-abba",
+  "cover": null,
+  "coverLarge": null
+ },
+ {
+  "title": "Arrival",
+  "artist": "ABBA",
+  "year": "1976",
+  "genre": "Pop",
+  "subgenres": [
+   "Europop"
+  ],
+  "type": "Studio",
+  "id": "local:abba-arrival",
+  "cover": null,
+  "coverLarge": null
+ },
+ {
+  "title": "Projector",
+  "artist": "Geese",
+  "year": "2021",
+  "genre": "Rock",
+  "subgenres": [
+   "Indie Rock",
+   "Art Punk",
+   "Post-Punk Revival"
+  ],
+  "type": "Studio",
+  "id": "local:geese-projector",
+  "cover": null,
+  "coverLarge": null
+ },
+ {
+  "title": "Ye",
+  "artist": "Kanye West",
+  "year": "2018",
+  "genre": "Hip-hop",
+  "subgenres": [
+   "Pop Rap"
+  ],
+  "type": "Studio",
+  "id": "local:kanye-west-ye",
+  "cover": null,
+  "coverLarge": null
+ },
+ {
+  "title": "Born to Die",
+  "artist": "Lana Del Rey",
+  "year": "2012",
+  "genre": "Pop",
+  "subgenres": [],
+  "type": "Studio",
+  "id": "local:lana-del-rey-born-to-die",
+  "cover": null,
+  "coverLarge": null
+ },
+ {
+  "title": "Salad Days",
+  "artist": "Mac DeMarco",
+  "year": "2014",
+  "genre": "Pop",
+  "subgenres": [],
+  "type": "Studio",
+  "id": "local:mac-demarco-salad-days",
+  "cover": null,
+  "coverLarge": null
+ },
+ {
+  "title": "Pablo Honey",
+  "artist": "Radiohead",
+  "year": "1993",
+  "genre": "Rock",
+  "subgenres": [
+   "Alternative Rock"
+  ],
+  "type": "Studio",
+  "id": "local:radiohead-pablo-honey",
+  "cover": null,
+  "coverLarge": null
+ },
+ {
+  "title": "The King of Limbs",
+  "artist": "Radiohead",
+  "year": "2011",
+  "genre": "Rock",
+  "subgenres": [
+   "Experimental Rock"
+  ],
+  "type": "Studio",
+  "id": "local:radiohead-the-king-of-limbs",
+  "cover": null,
+  "coverLarge": null
+ },
+ {
+  "title": "Californication",
+  "artist": "Red Hot Chili Peppers",
+  "year": "1999",
+  "genre": "Rock",
+  "subgenres": [
+   "Alternative Rock"
+  ],
+  "type": "Studio",
+  "id": "local:red-hot-chili-peppers-californication",
+  "cover": null,
+  "coverLarge": null
+ },
+ {
+  "title": "Help!",
+  "artist": "The Beatles",
+  "year": "1965",
+  "genre": "Rock",
+  "subgenres": [
+   "Pop Rock"
+  ],
+  "type": "Studio",
+  "id": "local:the-beatles-help",
+  "cover": null,
+  "coverLarge": null
+ },
+ {
+  "title": "Please Please Me",
+  "artist": "The Beatles",
+  "year": "1963",
+  "genre": "Rock",
+  "subgenres": [
+   "Merseybeat",
+   "Pop Rock"
+  ],
+  "type": "Studio",
+  "id": "local:the-beatles-please-please-me",
+  "cover": null,
+  "coverLarge": null
+ },
+ {
+  "title": "Angles",
+  "artist": "The Strokes",
+  "year": "2011",
+  "genre": "Rock",
+  "subgenres": [],
+  "type": "Studio",
+  "id": "local:the-strokes-angles",
+  "cover": null,
+  "coverLarge": null
+ },
+ {
+  "title": "Comedown Machine",
+  "artist": "The Strokes",
+  "year": "2013",
+  "genre": "Rock",
+  "subgenres": [],
+  "type": "Studio",
+  "id": "local:the-strokes-comedown-machine",
+  "cover": null,
+  "coverLarge": null
+ },
+ {
+  "title": "First Impressions of Earth",
+  "artist": "The Strokes",
+  "year": "2006",
+  "genre": "Rock",
+  "subgenres": [],
+  "type": "Studio",
+  "id": "local:the-strokes-first-impressions-of-earth",
+  "cover": null,
+  "coverLarge": null
+ },
+ {
+  "title": "Clancy",
+  "artist": "Twenty One Pilots",
+  "year": "2024",
+  "genre": "Pop",
+  "subgenres": [],
+  "type": "Studio",
+  "id": "local:twenty-one-pilots-clancy",
+  "cover": null,
+  "coverLarge": null
+ },
+ {
+  "title": "Weezer [Green Album]",
+  "artist": "Weezer",
+  "year": "2001",
+  "genre": "Rock",
+  "subgenres": [],
+  "type": "Studio",
+  "id": "local:weezer-weezer-green-album",
+  "cover": null,
+  "coverLarge": null
+ },
+ {
+  "title": "Heathen Chemistry",
+  "artist": "Oasis",
+  "year": "2002",
+  "genre": "Rock",
+  "subgenres": [],
+  "type": "Studio",
+  "id": "local:oasis-heathen-chemistry",
+  "cover": null,
+  "coverLarge": null
+ },
+ {
+  "title": "Seventeen Going Under",
+  "artist": "Sam Fender",
+  "year": "2021",
+  "genre": "Rock",
+  "subgenres": [],
+  "type": "Studio",
+  "id": "local:sam-fender-seventeen-going-under",
+  "cover": null,
+  "coverLarge": null
+ },
+ {
+  "title": "Blurryface",
+  "artist": "Twenty One Pilots",
+  "year": "2015",
+  "genre": "Pop",
+  "subgenres": [],
+  "type": "Studio",
+  "id": "local:twenty-one-pilots-blurryface",
+  "cover": null,
+  "coverLarge": null
+ },
+ {
+  "title": "Vessel",
+  "artist": "Twenty One Pilots",
+  "year": "2013",
+  "genre": "Pop",
+  "subgenres": [],
+  "type": "Studio",
+  "id": "local:twenty-one-pilots-vessel",
+  "cover": null,
+  "coverLarge": null
+ },
+ {
+  "title": "My New Band Believe",
+  "artist": "My New Band Believe",
+  "year": "2026",
+  "genre": "Folk",
+  "subgenres": [
+   "Progressive Folk",
+   "Chamber Folk"
+  ],
+  "type": "Studio",
+  "id": "local:my-new-band-believe-my-new-band-believe",
+  "cover": null,
+  "coverLarge": null
+ },
+ {
+  "title": "Head Carrier",
+  "artist": "Pixies",
+  "year": "2016",
+  "genre": "Rock",
+  "subgenres": [],
+  "type": "Studio",
+  "id": "local:pixies-head-carrier",
+  "cover": null,
+  "coverLarge": null
+ },
+ {
+  "title": "Hypersonic Missiles",
+  "artist": "Sam Fender",
+  "year": "2019",
+  "genre": "Rock",
+  "subgenres": [],
+  "type": "Studio",
+  "id": "local:sam-fender-hypersonic-missiles",
+  "cover": null,
+  "coverLarge": null
+ },
+ {
+  "title": "With the Beatles",
+  "artist": "The Beatles",
+  "year": "1963",
+  "genre": "Rock",
+  "subgenres": [
+   "Merseybeat",
+   "Pop Rock"
+  ],
+  "type": "Studio",
+  "id": "local:the-beatles-with-the-beatles",
+  "cover": null,
+  "coverLarge": null
+ },
+ {
+  "title": "Rock 'n' Roll",
+  "artist": "John Lennon",
+  "year": "1975",
+  "genre": "Rock",
+  "subgenres": [
+   "Rock & Roll"
+  ],
+  "type": "Studio",
+  "id": "local:john-lennon-rock-n-roll",
+  "cover": null,
+  "coverLarge": null
+ },
+ {
+  "title": "Jesus Is King",
+  "artist": "Kanye West",
+  "year": "2019",
+  "genre": "Hip-hop",
+  "subgenres": [],
+  "type": "Studio",
+  "id": "local:kanye-west-jesus-is-king",
+  "cover": null,
+  "coverLarge": null
+ },
+ {
+  "title": "Reality Awaits",
+  "artist": "The Strokes",
+  "year": "2026",
+  "genre": "Rock",
+  "subgenres": [
+   "Indie Rock"
+  ],
+  "type": "Studio",
+  "id": "local:the-strokes-reality-awaits",
+  "cover": null,
+  "coverLarge": null
+ },
+ {
+  "title": "Sometime in New York City",
+  "artist": "John Lennon",
+  "year": "1972",
+  "genre": "Rock",
+  "subgenres": [
+   "Pop Rock"
+  ],
+  "type": "Studio",
+  "id": "local:john-lennon-sometime-in-new-york-city",
+  "cover": null,
+  "coverLarge": null
+ },
+ {
+  "title": "Watch the Throne",
+  "artist": "JAY-Z & Kanye West",
+  "year": "2011",
+  "genre": "Hip-hop",
+  "subgenres": [
+   "Pop Rap"
+  ],
+  "type": "Studio",
+  "id": "local:jay-z-and-kanye-west-watch-the-throne",
+  "cover": null,
+  "coverLarge": null
+ },
+ {
+  "title": "Get Up with It",
+  "artist": "Miles Davis",
+  "year": "1974",
+  "genre": "Jazz",
+  "subgenres": [],
+  "type": "Studio",
+  "id": "local:miles-davis-get-up-with-it",
+  "cover": null,
+  "coverLarge": null
+ },
+ {
+  "title": "Kind of Blue",
+  "artist": "Miles Davis",
+  "year": "1959",
+  "genre": "Jazz",
+  "subgenres": [
+   "Modal Jazz",
+   "Cool Jazz"
+  ],
+  "type": "Studio",
+  "id": "local:miles-davis-kind-of-blue",
+  "cover": null,
+  "coverLarge": null
+ },
+ {
+  "title": "Loveless",
+  "artist": "My Bloody Valentine",
+  "year": "1991",
+  "genre": "Rock",
+  "subgenres": [
+   "Shoegaze",
+   "Noise Pop"
+  ],
+  "type": "Studio",
+  "id": "local:my-bloody-valentine-loveless",
+  "cover": null,
+  "coverLarge": null
+ },
+ {
+  "title": "Graceland",
+  "artist": "Paul Simon",
+  "year": "1986",
+  "genre": "Rock",
+  "subgenres": [],
+  "type": "Studio",
+  "id": "local:paul-simon-graceland",
+  "cover": null,
+  "coverLarge": null
+ },
+ {
+  "title": "Can't Buy a Thrill",
+  "artist": "Steely Dan",
+  "year": "1972",
+  "genre": "Rock",
+  "subgenres": [
+   "Pop Rock"
+  ],
+  "type": "Studio",
+  "id": "local:steely-dan-can-t-buy-a-thrill",
+  "cover": null,
+  "coverLarge": null
+ },
+ {
+  "title": "Songs in the Key of Life",
+  "artist": "Stevie Wonder",
+  "year": "1976",
+  "genre": "R&B & Soul",
+  "subgenres": [],
+  "type": "Studio",
+  "id": "local:stevie-wonder-songs-in-the-key-of-life",
+  "cover": null,
+  "coverLarge": null
+ },
+ {
+  "title": "Adventure",
+  "artist": "Television",
+  "year": "1978",
+  "genre": "Rock",
+  "subgenres": [],
+  "type": "Studio",
+  "id": "local:television-adventure",
+  "cover": null,
+  "coverLarge": null
+ },
+ {
+  "title": "Life After Death",
+  "artist": "The Notorious B.I.G.",
+  "year": "1997",
+  "genre": "Hip-hop",
+  "subgenres": [],
+  "type": "Studio",
+  "id": "local:the-notorious-b-i-g-life-after-death",
+  "cover": null,
+  "coverLarge": null
+ },
+ {
+  "title": "Exile on Main St.",
+  "artist": "The Rolling Stones",
+  "year": "1972",
+  "genre": "Rock",
+  "subgenres": [],
+  "type": "Studio",
+  "id": "local:the-rolling-stones-exile-on-main-st",
+  "cover": null,
+  "coverLarge": null
+ },
+ {
+  "title": "Let It Bleed",
+  "artist": "The Rolling Stones",
+  "year": "1969",
+  "genre": "Rock",
+  "subgenres": [],
+  "type": "Studio",
+  "id": "local:the-rolling-stones-let-it-bleed",
+  "cover": null,
+  "coverLarge": null
+ },
+ {
+  "title": "Mellon Collie and the Infinite Sadness",
+  "artist": "The Smashing Pumpkins",
+  "year": "1995",
+  "genre": "Rock",
+  "subgenres": [],
+  "type": "Studio",
+  "id": "local:the-smashing-pumpkins-mellon-collie-and-the-infinite-sadness",
+  "cover": null,
+  "coverLarge": null
+ },
+ {
+  "title": "Koi No Yokan",
+  "artist": "Deftones",
+  "year": "2012",
+  "genre": "Metal",
+  "subgenres": [
+   "Alternative Metal"
+  ],
+  "type": "Studio",
+  "id": "local:deftones-koi-no-yokan",
+  "cover": null,
+  "coverLarge": null
+ },
+ {
+  "title": "Ambient 1: Music for Airports",
+  "artist": "Brian Eno",
+  "year": "1978",
+  "genre": "Electronic",
+  "subgenres": [
+   "Ambient"
+  ],
+  "type": "Studio",
+  "id": "local:brian-eno-ambient-1-music-for-airports",
+  "cover": null,
+  "coverLarge": null
+ },
+ {
+  "title": "Chill Out",
+  "artist": "The KLF",
+  "year": "1990",
+  "genre": "Electronic",
+  "subgenres": [
+   "Ambient House"
+  ],
+  "type": "Studio",
+  "id": "local:the-klf-chill-out",
+  "cover": null,
+  "coverLarge": null
+ },
+ {
+  "title": "The Tired Sounds of Stars of the Lid",
+  "artist": "Stars of the Lid",
+  "year": "2001",
+  "genre": "Electronic",
+  "subgenres": [
+   "Ambient",
+   "Drone"
+  ],
+  "type": "Studio",
+  "id": "local:stars-of-the-lid-the-tired-sounds-of-stars-of-the-lid",
+  "cover": null,
+  "coverLarge": null
+ },
+ {
+  "title": "The Disintegration Loops",
+  "artist": "William Basinski",
+  "year": "2002",
+  "genre": "Electronic",
+  "subgenres": [
+   "Ambient",
+   "Tape Music"
+  ],
+  "type": "Studio",
+  "id": "local:william-basinski-the-disintegration-loops",
+  "cover": null,
+  "coverLarge": null
+ },
+ {
+  "title": "Raising Hell",
+  "artist": "Run-DMC",
+  "year": "1986",
+  "genre": "Hip-hop",
+  "subgenres": [
+   "East Coast Hip Hop"
+  ],
+  "type": "Studio",
+  "id": "local:run-dmc-raising-hell",
+  "cover": null,
+  "coverLarge": null
+ },
+ {
+  "title": "It Takes a Nation of Millions to Hold Us Back",
+  "artist": "Public Enemy",
+  "year": "1988",
+  "genre": "Hip-hop",
+  "subgenres": [
+   "Political Hip Hop",
+   "Hardcore Hip Hop"
+  ],
+  "type": "Studio",
+  "id": "local:public-enemy-it-takes-a-nation-of-millions-to-hold-us-back",
+  "cover": null,
+  "coverLarge": null
+ },
+ {
+  "title": "The Shape of Jazz to Come",
+  "artist": "Ornette Coleman",
+  "year": "1959",
+  "genre": "Jazz",
+  "subgenres": [
+   "Free Jazz"
+  ],
+  "type": "Studio",
+  "id": "local:ornette-coleman-the-shape-of-jazz-to-come",
+  "cover": null,
+  "coverLarge": null
+ },
+ {
+  "title": "Out to Lunch!",
+  "artist": "Eric Dolphy",
+  "year": "1964",
+  "genre": "Jazz",
+  "subgenres": [
+   "Avant-Garde Jazz",
+   "Post-Bop"
+  ],
+  "type": "Studio",
+  "id": "local:eric-dolphy-out-to-lunch",
+  "cover": null,
+  "coverLarge": null
+ },
+ {
+  "title": "Spiritual Unity",
+  "artist": "Albert Ayler Trio",
+  "year": "1965",
+  "genre": "Jazz",
+  "subgenres": [
+   "Free Jazz"
+  ],
+  "type": "Studio",
+  "id": "local:albert-ayler-trio-spiritual-unity",
+  "cover": null,
+  "coverLarge": null
+ }
+]

@@ -1,13 +1,13 @@
 import 'package:flutter/material.dart';
 
-import 'expeditions.dart';
+import 'catalogue.dart';
 import 'screens.dart';
 import 'store.dart';
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
   final store = await Store.load();
-  StopResolver.resolveAll(store); // find built-in expedition albums in the background
+  await Catalogue.load();
   runApp(MusicApp(store: store));
 }
 

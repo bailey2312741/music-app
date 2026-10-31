@@ -1,5 +1,16 @@
 # Changelog
 
+## v0.4
+- Ratings save as soon as you let go of the slider. The Save and Remove buttons are gone.
+- Album page shows an average rating next to yours. For now it only counts ratings on this device.
+- Fixed: choosing an album while making an expedition now adds it, instead of opening it to rate.
+- Search uses a fixed test list of about 240 proper albums (from Bailey's rankings plus the expedition albums), so results are instant and The Beatles come up first. Singles and compilations are left out.
+- Covers come from a fast image service, so they load much more quickly. The "Search failed" error is gone, because search no longer goes online.
+- Search shows results as you type, with genre tags to filter by and matching artists on top.
+- Artist pages list an artist's albums, oldest first. Tap an artist in search or on an album page.
+- Albums show their genre and subgenre tags on the album page.
+- The Search tab is no longer blank before you type: it shows every album to browse.
+
 ## v0.3
 - Expeditions can be marked "In order": each album unlocks once you rate the one before. Locked albums stay visible but greyed out. Jazz Breaks Free now works this way, starting with Kind of Blue.
 - Removing a rating doesn't lock later albums again.

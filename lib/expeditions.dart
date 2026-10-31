@@ -1,13 +1,11 @@
-import 'package:flutter/foundation.dart';
-
+import 'catalogue.dart';
 import 'difficulty.dart';
 import 'models.dart';
-import 'musicbrainz.dart';
 import 'store.dart';
 
-/// One stop on an expedition. Built-in stops name an album by title and artist
-/// and are looked up on MusicBrainz once; stops in user-made expeditions
-/// already carry the album picked from search.
+/// One stop on an expedition. Built-in stops name an album by title and artist,
+/// found in the bundled catalogue; stops in user-made expeditions already
+/// carry the album picked from search.
 class ExpeditionStop {
   final String title;
   final String artist;
@@ -118,7 +116,8 @@ const builtInExpeditions = [
 List<Expedition> allExpeditions(Store store) => [...builtInExpeditions, ...store.customExpeditions];
 
 /// The album behind a stop, once known.
-Album? albumFor(Store store, ExpeditionStop s) => s.album ?? store.resolvedStop(s.key);
+Album? albumFor(Store store, ExpeditionStop s) =>
+    s.album ?? Catalogue.find(s.title, s.artist) ?? store.resolvedStop(s.key);
 
 bool isRated(Store store, ExpeditionStop s) {
   final a = albumFor(store, s);
@@ -156,32 +155,4 @@ int? nextStop(Store store, Expedition e) {
     if (!isRated(store, e.stops[i])) return i;
   }
   return null;
-}
-
-/// Looks up built-in stops on MusicBrainz in the background, once.
-class StopResolver {
-  static final failed = ValueNotifier<Set<String>>({});
-  static final running = ValueNotifier<bool>(false);
-
-  static Future<void> resolveAll(Store store) async {
-    if (running.value) return;
-    running.value = true;
-    failed.value = {};
-    for (final e in builtInExpeditions) {
-      for (final s in e.stops) {
-        if (store.resolvedStop(s.key) != null) continue;
-        try {
-          final album = await MusicBrainz.find(s.title, s.artist);
-          if (album == null) {
-            failed.value = {...failed.value, s.key};
-          } else {
-            await store.saveResolvedStop(s.key, album);
-          }
-        } catch (_) {
-          failed.value = {...failed.value, s.key};
-        }
-      }
-    }
-    running.value = false;
-  }
 }

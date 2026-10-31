@@ -11,7 +11,8 @@ class Cover extends StatelessWidget {
   final Album album;
   final double? size; // null = fill the available width
   final double radius;
-  const Cover({super.key, required this.album, this.size, this.radius = 8});
+  final bool large;
+  const Cover({super.key, required this.album, this.size, this.radius = 8, this.large = false});
 
   @override
   Widget build(BuildContext context) {
@@ -31,15 +32,17 @@ class Cover extends StatelessWidget {
         aspectRatio: 1,
         child: ClipRRect(
           borderRadius: BorderRadius.circular(radius),
-          child: Image.network(
-            album.coverUrl,
-            fit: BoxFit.cover,
-            // On the web, fall back to a plain <img> if the cover host blocks
-            // cross-origin requests, so covers still show.
-            webHtmlElementStrategy: WebHtmlElementStrategy.fallback,
-            errorBuilder: (_, _, _) => placeholder,
-            loadingBuilder: (_, child, progress) => progress == null ? child : placeholder,
-          ),
+          child: album.coverUrl(large: large).isEmpty
+              ? placeholder
+              : Image.network(
+                  album.coverUrl(large: large),
+                  fit: BoxFit.cover,
+                  // On the web, fall back to a plain <img> if the cover host blocks
+                  // cross-origin requests, so covers still show.
+                  webHtmlElementStrategy: WebHtmlElementStrategy.fallback,
+                  errorBuilder: (_, _, _) => placeholder,
+                  loadingBuilder: (_, child, progress) => progress == null ? child : placeholder,
+                ),
         ),
       ),
     );
@@ -184,16 +187,19 @@ class AlbumGrid extends StatelessWidget {
     padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 8),
     shrinkWrap: shrinkWrap,
     physics: shrinkWrap ? const NeverScrollableScrollPhysics() : null,
-    gridDelegate: const SliverGridDelegateWithMaxCrossAxisExtent(
-      maxCrossAxisExtent: 140,
-      childAspectRatio: 0.56,
-      crossAxisSpacing: 4,
-      mainAxisSpacing: 4,
-    ),
+    gridDelegate: albumGridDelegate,
     itemCount: itemCount,
     itemBuilder: itemBuilder,
   );
 }
+
+/// Shared layout for album grids: about three cards across on a phone.
+const albumGridDelegate = SliverGridDelegateWithMaxCrossAxisExtent(
+  maxCrossAxisExtent: 140,
+  childAspectRatio: 0.56,
+  crossAxisSpacing: 4,
+  mainAxisSpacing: 4,
+);
 
 /// An expedition's picture: its first albums' covers stacked, first on top.
 class ExpeditionCover extends StatelessWidget {

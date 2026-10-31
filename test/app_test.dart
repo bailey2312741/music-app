@@ -1,4 +1,6 @@
+import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
+import 'package:music_app/catalogue.dart';
 import 'package:music_app/difficulty.dart';
 import 'package:music_app/expeditions.dart';
 import 'package:music_app/models.dart';
@@ -7,7 +9,29 @@ import 'package:music_app/store.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 void main() {
-  setUp(() => SharedPreferences.setMockInitialValues({}));
+  setUp(() {
+    SharedPreferences.setMockInitialValues({});
+    Catalogue.use(const [
+      Album(
+        id: 'b1',
+        title: 'Abbey Road',
+        artist: 'The Beatles',
+        year: '1969',
+        genre: 'Rock',
+        subgenres: ['Pop Rock'],
+      ),
+      Album(id: 'b2', title: 'Revolver', artist: 'The Beatles', year: '1966', genre: 'Rock'),
+      Album(
+        id: 'k1',
+        title: 'Kind of Blue',
+        artist: 'Miles Davis',
+        year: '1959',
+        genre: 'Jazz',
+        subgenres: ['Modal Jazz'],
+      ),
+      Album(id: 'x1', title: 'Beatles Tribute', artist: 'Someone Else', year: '2000', genre: 'Pop'),
+    ]);
+  });
 
   test('ratings snap to half steps and persist', () async {
     final store = await Store.load();
@@ -79,6 +103,52 @@ void main() {
     expect(e.stops.first.album!.year, '1999');
     await reloaded.deleteExpedition('id1');
     expect(reloaded.customExpeditions, isEmpty);
+  });
+
+  test('search puts the artist people typed first and finds artists', () {
+    final r = Catalogue.search('the beatles');
+    expect(r.take(2).map((a) => a.artist), everyElement('The Beatles'));
+    expect(Catalogue.searchArtists('beat'), ['The Beatles']);
+    expect(Catalogue.byArtist('The Beatles').first.title, 'Revolver'); // oldest first
+  });
+
+  test('genre filter and genre words both work', () {
+    expect(Catalogue.search('', genre: 'Jazz').single.title, 'Kind of Blue');
+    expect(Catalogue.search('modal').single.title, 'Kind of Blue');
+    expect(Catalogue.search('', genre: 'Pop Rock').single.title, 'Abbey Road');
+  });
+
+  test('built-in stops find their album in the catalogue', () async {
+    final store = await Store.load();
+    final jazz = builtInExpeditions.firstWhere((e) => e.id == 'jazz');
+    expect(albumFor(store, jazz.stops.first)?.id, 'k1');
+  });
+
+  testWidgets('picking an album for an expedition returns it instead of opening it', (t) async {
+    final store = await Store.load();
+    Album? picked;
+    await t.pumpWidget(
+      MaterialApp(
+        home: Builder(
+          builder: (context) => Scaffold(
+            body: TextButton(
+              onPressed: () async => picked = await Navigator.of(context).push<Album>(
+                MaterialPageRoute(builder: (_) => SearchScreen(store: store, pickMode: true)),
+              ),
+              child: const Text('go'),
+            ),
+          ),
+        ),
+      ),
+    );
+    await t.tap(find.text('go'));
+    await t.pumpAndSettle();
+    await t.enterText(find.byType(TextField), 'kind of blue');
+    await t.pumpAndSettle();
+    await t.tap(find.text('Kind of Blue').last);
+    await t.pumpAndSettle();
+    expect(picked?.id, 'k1');
+    expect(find.text('Slide to rate'), findsNothing);
   });
 
   test('ratings display without trailing .0', () {

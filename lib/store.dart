@@ -3,6 +3,7 @@ import 'dart:convert';
 import 'package:flutter/foundation.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
+import 'catalogue.dart';
 import 'expeditions.dart';
 import 'models.dart';
 
@@ -72,9 +73,9 @@ class Store extends ChangeNotifier {
     final byId = {for (final a in _resolved.values) a.id: a, ..._ratedInfo};
     final list = <RatedAlbum>[
       for (final e in _ratings.entries)
-        if (byId[e.key] != null)
+        if (Catalogue.byId(e.key) != null || byId[e.key] != null)
           RatedAlbum(
-            byId[e.key]!,
+            Catalogue.byId(e.key) ?? byId[e.key]!,
             e.value,
             DateTime.fromMillisecondsSinceEpoch(_ratedAt[e.key] ?? 0),
           ),
