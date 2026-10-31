@@ -20,6 +20,7 @@ OUT = "assets/catalogue.json"
 
 
 def norm(s):
+    s = re.sub("[\u2010-\u2015]", "-", s)  # MusicBrainz uses typographic hyphens
     s = unicodedata.normalize("NFKD", s).encode("ascii", "ignore").decode().lower()
     s = s.replace("&", "and")
     return re.sub(r"[^a-z0-9]+", " ", s).strip()
@@ -74,6 +75,10 @@ def musicbrainz(album):
         for g in data.get("release-groups", []):
             credit = "".join(c.get("name", "") + c.get("joinphrase", "") for c in g.get("artist-credit", []))
             if artist_matches(artist, credit) and g.get("score", 0) >= 90:
+                return g["id"]
+        # Artists listed in another script (e.g. Japanese): accept an exact title match.
+        for g in data.get("release-groups", []):
+            if g.get("score", 0) == 100 and g.get("title", "") == title:
                 return g["id"]
     return None
 
