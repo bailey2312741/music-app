@@ -21,11 +21,17 @@ void main() {
 
   test('difficulty only shows for expedition albums', () async {
     final store = await Store.load();
-    final stop = ambientExpedition.stops.last;
+    final stop = expeditions.first.stops.last;
     await store.saveResolvedStop(
         stop.key, const Album(id: 'x', title: 't', artist: 'a'));
     expect(difficultyOf(store, 'x'), Difficulty.summit);
     expect(difficultyOf(store, 'other'), isNull);
+  });
+
+  test('stops are unique across expeditions', () {
+    final keys = [for (final e in expeditions) ...e.stops.map((s) => s.key)];
+    expect(keys.toSet().length, keys.length);
+    expect(expeditions.length, 3);
   });
 
   test('ratings display without trailing .0', () {

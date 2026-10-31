@@ -22,14 +22,14 @@ class _HomeShellState extends State<HomeShell> {
   Widget build(BuildContext context) {
     return Scaffold(
       body: IndexedStack(index: _tab, children: [
-        ExpeditionScreen(store: widget.store, expedition: ambientExpedition),
+        ExpeditionListScreen(store: widget.store),
         SearchScreen(store: widget.store),
       ]),
       bottomNavigationBar: NavigationBar(
         selectedIndex: _tab,
         onDestinationSelected: (i) => setState(() => _tab = i),
         destinations: const [
-          NavigationDestination(icon: Icon(Icons.hiking), label: 'Expedition'),
+          NavigationDestination(icon: Icon(Icons.hiking), label: 'Expeditions'),
           NavigationDestination(icon: Icon(Icons.search), label: 'Search'),
         ],
       ),
@@ -195,7 +195,43 @@ class _AlbumScreenState extends State<AlbumScreen> {
   }
 }
 
-// ---------------------------------------------------------------- Expedition
+// ---------------------------------------------------------------- Expeditions
+
+class ExpeditionListScreen extends StatelessWidget {
+  final Store store;
+  const ExpeditionListScreen({super.key, required this.store});
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(title: const Text('Expeditions')),
+      body: ListenableBuilder(
+        listenable: store,
+        builder: (context, _) => ListView(padding: const EdgeInsets.all(12), children: [
+          for (final e in expeditions)
+            Card(
+              child: ListTile(
+                contentPadding: const EdgeInsets.all(12),
+                title: Text(e.name, style: Theme.of(context).textTheme.titleMedium),
+                subtitle: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
+                  const SizedBox(height: 4),
+                  Text(e.blurb),
+                  const SizedBox(height: 8),
+                  Text('${ratedCount(store, e)} of ${e.stops.length} rated'),
+                  const SizedBox(height: 4),
+                  LinearProgressIndicator(value: ratedCount(store, e) / e.stops.length),
+                ]),
+                trailing: const Icon(Icons.chevron_right),
+                onTap: () => Navigator.of(context).push(MaterialPageRoute(
+                  builder: (_) => ExpeditionScreen(store: store, expedition: e),
+                )),
+              ),
+            ),
+        ]),
+      ),
+    );
+  }
+}
 
 class ExpeditionScreen extends StatefulWidget {
   final Store store;
@@ -244,18 +280,16 @@ class _ExpeditionScreenState extends State<ExpeditionScreen> {
   Widget build(BuildContext context) {
     final e = widget.expedition;
     return Scaffold(
-      appBar: AppBar(title: const Text('Expedition')),
+      appBar: AppBar(title: Text(widget.expedition.name)),
       body: ListenableBuilder(
         listenable: widget.store,
         builder: (context, _) {
           final albums = e.stops.map((s) => widget.store.resolvedStop(s.key)).toList();
           bool isDone(int i) => albums[i] != null && widget.store.ratingOf(albums[i]!.id) != null;
-          final done = List.generate(e.stops.length, isDone).where((d) => d).length;
+          final done = ratedCount(widget.store, e);
           final next = List.generate(e.stops.length, (i) => i).where((i) => !isDone(i)).firstOrNull;
 
           return ListView(padding: const EdgeInsets.all(16), children: [
-            Text(e.name, style: Theme.of(context).textTheme.headlineSmall),
-            const SizedBox(height: 4),
             Text(e.blurb),
             const SizedBox(height: 16),
             Text(done == e.stops.length ? 'Expedition complete!' : '$done of ${e.stops.length} rated'),
