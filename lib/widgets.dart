@@ -55,6 +55,7 @@ class AlbumCard extends StatelessWidget {
   final bool highlight;
   final int? number; // position in an expedition
   final Difficulty? difficulty;
+  final bool locked; // greyed out with a lock until the stop before is rated
   final VoidCallback? onTap;
 
   const AlbumCard({
@@ -65,6 +66,7 @@ class AlbumCard extends StatelessWidget {
     this.highlight = false,
     this.number,
     this.difficulty,
+    this.locked = false,
     this.onTap,
   });
 
@@ -80,58 +82,64 @@ class AlbumCard extends StatelessWidget {
         onTap: onTap,
         child: Padding(
           padding: const EdgeInsets.all(6),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Stack(
-                children: [
-                  Cover(album: album),
-                  if (number != null)
-                    Positioned(
-                      left: 6,
-                      top: 6,
-                      child: _Badge('$number', scheme.surface, scheme.onSurface),
-                    ),
-                  if (rating != null)
-                    Positioned(
-                      right: 6,
-                      bottom: 6,
-                      child: _Badge(fmt(rating!), scheme.primary, scheme.onPrimary),
-                    ),
-                ],
-              ),
-              const SizedBox(height: 6),
-              Text(
-                album.title,
-                maxLines: 2,
-                overflow: TextOverflow.ellipsis,
-                style: theme.textTheme.bodyMedium?.copyWith(
-                  fontWeight: FontWeight.w600,
-                  height: 1.2,
+          // Locked albums stay visible but greyed out, with a lock on the cover.
+          child: Opacity(
+            opacity: locked ? 0.4 : 1,
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Stack(
+                  children: [
+                    Cover(album: album),
+                    if (locked)
+                      const Positioned.fill(child: Center(child: Icon(Icons.lock, size: 30))),
+                    if (number != null)
+                      Positioned(
+                        left: 6,
+                        top: 6,
+                        child: _Badge('$number', scheme.surface, scheme.onSurface),
+                      ),
+                    if (rating != null)
+                      Positioned(
+                        right: 6,
+                        bottom: 6,
+                        child: _Badge(fmt(rating!), scheme.primary, scheme.onPrimary),
+                      ),
+                  ],
                 ),
-              ),
-              const SizedBox(height: 2),
-              Text(
-                album.artist,
-                maxLines: 1,
-                overflow: TextOverflow.ellipsis,
-                style: theme.textTheme.bodySmall?.copyWith(color: scheme.onSurfaceVariant),
-              ),
-              if (difficulty != null) ...[
-                const SizedBox(height: 4),
-                DifficultyTag(difficulty, small: true),
-              ],
-              if (caption != null) ...[
-                const SizedBox(height: 2),
+                const SizedBox(height: 6),
                 Text(
-                  caption!,
-                  style: theme.textTheme.labelSmall?.copyWith(
-                    color: scheme.primary,
-                    fontWeight: FontWeight.bold,
+                  album.title,
+                  maxLines: 2,
+                  overflow: TextOverflow.ellipsis,
+                  style: theme.textTheme.bodyMedium?.copyWith(
+                    fontWeight: FontWeight.w600,
+                    height: 1.2,
                   ),
                 ),
+                const SizedBox(height: 2),
+                Text(
+                  album.artist,
+                  maxLines: 1,
+                  overflow: TextOverflow.ellipsis,
+                  style: theme.textTheme.bodySmall?.copyWith(color: scheme.onSurfaceVariant),
+                ),
+                if (difficulty != null) ...[
+                  const SizedBox(height: 4),
+                  DifficultyTag(difficulty, small: true),
+                ],
+                if (caption != null) ...[
+                  const SizedBox(height: 2),
+                  Text(
+                    caption!,
+                    style: theme.textTheme.labelSmall?.copyWith(
+                      color: scheme.primary,
+                      fontWeight: FontWeight.bold,
+                    ),
+                  ),
+                ],
               ],
-            ],
+            ),
           ),
         ),
       ),
@@ -185,4 +193,39 @@ class AlbumGrid extends StatelessWidget {
     itemCount: itemCount,
     itemBuilder: itemBuilder,
   );
+}
+
+/// An expedition's picture: its first albums' covers stacked, first on top.
+class ExpeditionCover extends StatelessWidget {
+  final List<Album?> albums; // in expedition order
+  final double size;
+  const ExpeditionCover({super.key, required this.albums, this.size = 76});
+
+  @override
+  Widget build(BuildContext context) {
+    const step = 7.0;
+    final shown = albums.take(3).toList();
+    final blank = const Album(id: '', title: '', artist: '');
+    return SizedBox(
+      width: size + step * 2,
+      height: size + step * 2,
+      child: Stack(
+        children: [
+          // Draw back to front so the first album ends up on top.
+          for (var i = shown.length - 1; i >= 0; i--)
+            Positioned(
+              left: step * i,
+              top: step * (2 - i),
+              child: DecoratedBox(
+                decoration: BoxDecoration(
+                  borderRadius: BorderRadius.circular(6),
+                  border: Border.all(color: Theme.of(context).colorScheme.surface, width: 1.5),
+                ),
+                child: Cover(album: shown[i] ?? blank, size: size, radius: 6),
+              ),
+            ),
+        ],
+      ),
+    );
+  }
 }

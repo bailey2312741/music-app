@@ -9,6 +9,8 @@ import 'widgets.dart';
 
 export 'widgets.dart' show fmt;
 
+const appVersion = '0.3';
+
 /// Three tabs: Ratings, Search (opens first) and Expeditions.
 class HomeShell extends StatefulWidget {
   final Store store;
@@ -112,7 +114,15 @@ class InfoScreen extends StatelessWidget {
           heading('Expeditions'),
           para(
             'A short journey through a handful of albums in a suggested order. '
-            'The highlighted card is your next stop, but you can go in any order.',
+            'The highlighted card is your next stop.',
+          ),
+          para(
+            'Expeditions marked "In order" unlock one album at a time: rate an album to open '
+            'the next. Others can be taken in any order.',
+          ),
+          para(
+            'Make your own with "New expedition" on the Expeditions tab. They are saved on '
+            'this device only for now.',
           ),
           para('An album counts as done once you rate it, wherever you rate it from.'),
           heading('Where the data comes from'),
@@ -120,6 +130,8 @@ class InfoScreen extends StatelessWidget {
             'Album details come from MusicBrainz and covers from the Cover Art Archive, '
             'both free and community-run. Search leaves out singles, compilations and live albums.',
           ),
+          const SizedBox(height: 16),
+          Text('Version $appVersion', style: theme.textTheme.bodySmall),
         ],
       ),
     );
@@ -153,6 +165,7 @@ class RatingsScreen extends StatelessWidget {
             itemBuilder: (context, i) => AlbumCard(
               album: rated[i].album,
               rating: rated[i].rating,
+              difficulty: difficultyOf(store, rated[i].album.id),
               onTap: () => openAlbum(context, store, rated[i].album),
             ),
           );
@@ -166,7 +179,10 @@ class RatingsScreen extends StatelessWidget {
 
 class SearchScreen extends StatefulWidget {
   final Store store;
-  const SearchScreen({super.key, required this.store});
+
+  /// When true, tapping an album returns it instead of opening it.
+  final bool pickMode;
+  const SearchScreen({super.key, required this.store, this.pickMode = false});
 
   @override
   State<SearchScreen> createState() => _SearchScreenState();
@@ -195,7 +211,9 @@ class _SearchScreenState extends State<SearchScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: const Text('Search'), actions: const [InfoButton()]),
+      appBar: widget.pickMode
+          ? AppBar(title: const Text('Add an album'))
+          : AppBar(title: const Text('Search'), actions: const [InfoButton()]),
       body: Column(
         children: [
           Padding(
@@ -346,120 +364,154 @@ class ExpeditionListScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final theme = Theme.of(context);
     return Scaffold(
       appBar: AppBar(title: const Text('Expeditions'), actions: const [InfoButton()]),
+      floatingActionButton: FloatingActionButton.extended(
+        icon: const Icon(Icons.add),
+        label: const Text('New expedition'),
+        onPressed: () =>
+            Navigator.of(context)
+                .push(MaterialPageRoute(builder: (_) => CreateExpeditionScreen(store: store))),
+      ),
       body: ListenableBuilder(
         listenable: store,
-        builder: (context, _) => ListView(
+        builder: (context, _) {
+          final custom = store.customExpeditions;
+          return ListView(
+            padding: const EdgeInsets.fromLTRB(12, 0, 12, 96),
+            children: [
+              for (final e in builtInExpeditions) _ExpeditionTile(store: store, expedition: e),
+              if (custom.isNotEmpty)
+                Padding(
+                  padding: const EdgeInsets.fromLTRB(4, 20, 4, 8),
+                  child: Text('Your expeditions', style: Theme.of(context).textTheme.titleMedium),
+                ),
+              for (final e in custom) _ExpeditionTile(store: store, expedition: e),
+            ],
+          );
+        },
+      ),
+    );
+  }
+}
+
+class _ExpeditionTile extends StatelessWidget {
+  final Store store;
+  final Expedition expedition;
+  const _ExpeditionTile({required this.store, required this.expedition});
+
+  @override
+  Widget build(BuildContext context) {
+    final e = expedition;
+    final theme = Theme.of(context);
+    final done = ratedCount(store, e);
+    return Card(
+      clipBehavior: Clip.antiAlias,
+      child: InkWell(
+        onTap: () => Navigator.of(context).push(
+          MaterialPageRoute(
+            builder: (_) => ExpeditionScreen(store: store, expedition: e),
+          ),
+        ),
+        child: Padding(
           padding: const EdgeInsets.all(12),
-          children: [
-            for (final e in expeditions)
-              Card(
-                clipBehavior: Clip.antiAlias,
-                child: InkWell(
-                  onTap: () => Navigator.of(context).push(
-                    MaterialPageRoute(
-                      builder: (_) => ExpeditionScreen(store: store, expedition: e),
-                    ),
-                  ),
-                  child: Padding(
-                    padding: const EdgeInsets.all(14),
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
+          child: Row(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              ExpeditionCover(albums: [for (final s in e.stops) albumFor(store, s)]),
+              const SizedBox(width: 12),
+              Expanded(
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text(e.name, style: theme.textTheme.titleMedium),
+                    if (e.blurb.isNotEmpty) ...[
+                      const SizedBox(height: 2),
+                      Text(
+                        e.blurb,
+                        maxLines: 2,
+                        overflow: TextOverflow.ellipsis,
+                        style: theme.textTheme.bodySmall,
+                      ),
+                    ],
+                    const SizedBox(height: 8),
+                    Row(
                       children: [
-                        Row(
-                          children: [
-                            Expanded(child: Text(e.name, style: theme.textTheme.titleLarge)),
-                            const Icon(Icons.chevron_right),
-                          ],
+                        if (e.inOrder) ...[
+                          Icon(
+                            Icons.lock_outline,
+                            size: 14,
+                            color: theme.colorScheme.onSurfaceVariant,
+                          ),
+                          const SizedBox(width: 4),
+                          Text('In order', style: theme.textTheme.labelSmall),
+                          const SizedBox(width: 10),
+                        ],
+                        Expanded(
+                          child: LinearProgressIndicator(
+                            value: done / e.stops.length,
+                            borderRadius: BorderRadius.circular(4),
+                          ),
                         ),
-                        const SizedBox(height: 4),
-                        Text(e.blurb),
-                        const SizedBox(height: 10),
-                        Row(
-                          children: [
-                            Expanded(
-                              child: LinearProgressIndicator(
-                                value: ratedCount(store, e) / e.stops.length,
-                                borderRadius: BorderRadius.circular(4),
-                              ),
-                            ),
-                            const SizedBox(width: 10),
-                            Text('${ratedCount(store, e)} of ${e.stops.length}'),
-                          ],
-                        ),
+                        const SizedBox(width: 8),
+                        Text('$done of ${e.stops.length}', style: theme.textTheme.labelSmall),
                       ],
                     ),
-                  ),
+                  ],
                 ),
               ),
-          ],
+            ],
+          ),
         ),
       ),
     );
   }
 }
 
-class ExpeditionScreen extends StatefulWidget {
+class ExpeditionScreen extends StatelessWidget {
   final Store store;
   final Expedition expedition;
   const ExpeditionScreen({super.key, required this.store, required this.expedition});
 
-  @override
-  State<ExpeditionScreen> createState() => _ExpeditionScreenState();
-}
-
-class _ExpeditionScreenState extends State<ExpeditionScreen> {
-  final Set<String> _failed = {};
-  bool _resolving = false;
-
-  @override
-  void initState() {
-    super.initState();
-    _resolveStops();
-  }
-
-  /// Looks up each stop on MusicBrainz once, then remembers it.
-  Future<void> _resolveStops() async {
-    if (_resolving) return;
-    setState(() {
-      _resolving = true;
-      _failed.clear();
-    });
-    for (final s in widget.expedition.stops) {
-      if (widget.store.resolvedStop(s.key) != null) continue;
-      try {
-        final album = await MusicBrainz.find(s.title, s.artist);
-        if (album == null) {
-          _failed.add(s.key);
-        } else {
-          await widget.store.saveResolvedStop(s.key, album);
-        }
-      } catch (_) {
-        _failed.add(s.key);
-      }
-      if (mounted) setState(() {});
+  Future<void> _delete(BuildContext context) async {
+    final ok = await showDialog<bool>(
+      context: context,
+      builder: (c) => AlertDialog(
+        title: const Text('Delete this expedition?'),
+        content: const Text('Your album ratings are kept.'),
+        actions: [
+          TextButton(onPressed: () => Navigator.pop(c, false), child: const Text('Cancel')),
+          TextButton(onPressed: () => Navigator.pop(c, true), child: const Text('Delete')),
+        ],
+      ),
+    );
+    if (ok == true) {
+      await store.deleteExpedition(expedition.id);
+      if (context.mounted) Navigator.of(context).pop();
     }
-    if (mounted) setState(() => _resolving = false);
   }
 
   @override
   Widget build(BuildContext context) {
-    final e = widget.expedition;
+    final e = expedition;
     return Scaffold(
-      appBar: AppBar(title: Text(e.name)),
+      appBar: AppBar(
+        title: Text(e.name),
+        actions: [
+          if (e.custom)
+            IconButton(
+              icon: const Icon(Icons.delete_outline),
+              tooltip: 'Delete expedition',
+              onPressed: () => _delete(context),
+            ),
+        ],
+      ),
       body: ListenableBuilder(
-        listenable: widget.store,
+        listenable: Listenable.merge([store, StopResolver.failed, StopResolver.running]),
         builder: (context, _) {
-          final albums = e.stops.map((s) => widget.store.resolvedStop(s.key)).toList();
-          double? ratingAt(int i) =>
-              albums[i] == null ? null : widget.store.ratingOf(albums[i]!.id);
-          final done = ratedCount(widget.store, e);
-          final next = List.generate(
-            e.stops.length,
-            (i) => i,
-          ).where((i) => ratingAt(i) == null).firstOrNull;
+          final done = ratedCount(store, e);
+          final open = unlockedCount(store, e);
+          final next = nextStop(store, e);
 
           return ListView(
             children: [
@@ -468,7 +520,7 @@ class _ExpeditionScreenState extends State<ExpeditionScreen> {
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    Text(e.blurb),
+                    if (e.blurb.isNotEmpty) Text(e.blurb),
                     const SizedBox(height: 12),
                     Row(
                       children: [
@@ -492,27 +544,192 @@ class _ExpeditionScreenState extends State<ExpeditionScreen> {
                 itemCount: e.stops.length,
                 itemBuilder: (context, i) {
                   final stop = e.stops[i];
-                  final album = albums[i];
-                  final failed = _failed.contains(stop.key);
+                  final album = albumFor(store, stop);
+                  final locked = i >= open;
+                  final failed = StopResolver.failed.value.contains(stop.key);
                   return AlbumCard(
                     // Until the stop is found, show its title and artist with a blank cover.
                     album: album ?? Album(id: '', title: stop.title, artist: stop.artist),
                     number: i + 1,
                     difficulty: stop.difficulty,
-                    rating: ratingAt(i),
+                    rating: album == null ? null : store.ratingOf(album.id),
+                    locked: locked,
                     highlight: i == next,
-                    caption: album == null
+                    caption: locked
+                        ? null
+                        : album == null
                         ? (failed ? 'Tap to retry' : 'Loading…')
                         : (i == next ? 'Next stop' : null),
-                    onTap: album == null
-                        ? (_resolving ? null : _resolveStops)
-                        : () => openAlbum(context, widget.store, album),
+                    onTap: locked
+                        ? () => ScaffoldMessenger.of(context).showSnackBar(
+                            SnackBar(
+                              content: Text('Rate album $open first to unlock this one.'),
+                              duration: const Duration(seconds: 2),
+                            ),
+                          )
+                        : album == null
+                        ? (StopResolver.running.value ? null : () => StopResolver.resolveAll(store))
+                        : () => openAlbum(context, store, album),
                   );
                 },
               ),
             ],
           );
         },
+      ),
+    );
+  }
+}
+
+// ---------------------------------------------------------------- Create expedition
+
+class CreateExpeditionScreen extends StatefulWidget {
+  final Store store;
+  const CreateExpeditionScreen({super.key, required this.store});
+
+  @override
+  State<CreateExpeditionScreen> createState() => _CreateExpeditionScreenState();
+}
+
+class _CreateExpeditionScreenState extends State<CreateExpeditionScreen> {
+  final _name = TextEditingController();
+  final _blurb = TextEditingController();
+  final List<Album> _albums = [];
+  bool _inOrder = false;
+
+  bool get _canSave => _name.text.trim().isNotEmpty && _albums.length >= 2;
+
+  Future<void> _addAlbum() async {
+    final album = await Navigator.of(context).push<Album>(
+      MaterialPageRoute(builder: (_) => SearchScreen(store: widget.store, pickMode: true)),
+    );
+    if (album == null || !mounted) return;
+    if (_albums.any((a) => a.id == album.id)) {
+      ScaffoldMessenger.of(context)
+          .showSnackBar(const SnackBar(content: Text('That album is already in this expedition.')));
+      return;
+    }
+    setState(() => _albums.add(album));
+  }
+
+  void _sortByYear() =>
+      setState(() => _albums.sort((a, b) => (a.year ?? '9999').compareTo(b.year ?? '9999')));
+
+  Future<void> _save() async {
+    await widget.store.saveExpedition(
+      Expedition(
+        DateTime.now().millisecondsSinceEpoch.toString(),
+        _name.text.trim(),
+        _blurb.text.trim(),
+        [for (final a in _albums) ExpeditionStop.ofAlbum(a)],
+        inOrder: _inOrder,
+        custom: true,
+      ),
+    );
+    if (mounted) Navigator.of(context).pop();
+  }
+
+  @override
+  void dispose() {
+    _name.dispose();
+    _blurb.dispose();
+    super.dispose();
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    final theme = Theme.of(context);
+    return Scaffold(
+      appBar: AppBar(
+        title: const Text('New expedition'),
+        actions: [TextButton(onPressed: _canSave ? _save : null, child: const Text('Save'))],
+      ),
+      body: ListView(
+        padding: const EdgeInsets.all(16),
+        children: [
+          TextField(
+            controller: _name,
+            decoration: const InputDecoration(labelText: 'Name', border: OutlineInputBorder()),
+            onChanged: (_) => setState(() {}),
+          ),
+          const SizedBox(height: 12),
+          TextField(
+            controller: _blurb,
+            maxLines: 2,
+            decoration: const InputDecoration(
+              labelText: 'Description (optional)',
+              border: OutlineInputBorder(),
+            ),
+          ),
+          const SizedBox(height: 4),
+          SwitchListTile(
+            contentPadding: EdgeInsets.zero,
+            title: const Text('Listen in order'),
+            subtitle: const Text('Each album unlocks after you rate the one before it.'),
+            value: _inOrder,
+            onChanged: (v) => setState(() => _inOrder = v),
+          ),
+          const Divider(),
+          Row(
+            children: [
+              Expanded(
+                child: Text('Albums (${_albums.length})', style: theme.textTheme.titleMedium),
+              ),
+              if (_albums.length > 1)
+                TextButton.icon(
+                  onPressed: _sortByYear,
+                  icon: const Icon(Icons.sort, size: 18),
+                  label: const Text('Sort by year'),
+                ),
+            ],
+          ),
+          if (_albums.isEmpty)
+            const Padding(
+              padding: EdgeInsets.symmetric(vertical: 8),
+              child: Text('Add at least two albums. Drag to reorder.'),
+            ),
+          ReorderableListView(
+            shrinkWrap: true,
+            physics: const NeverScrollableScrollPhysics(),
+            buildDefaultDragHandles: false,
+            onReorderItem: (from, to) => setState(() => _albums.insert(to, _albums.removeAt(from))),
+            children: [
+              for (var i = 0; i < _albums.length; i++)
+                ListTile(
+                  key: ValueKey(_albums[i].id),
+                  contentPadding: EdgeInsets.zero,
+                  leading: Cover(album: _albums[i], size: 44, radius: 4),
+                  title: Text(
+                    '${i + 1}. ${_albums[i].title}',
+                    maxLines: 1,
+                    overflow: TextOverflow.ellipsis,
+                  ),
+                  subtitle: Text(
+                    [_albums[i].artist, _albums[i].year].whereType<String>().join(' · '),
+                    maxLines: 1,
+                    overflow: TextOverflow.ellipsis,
+                  ),
+                  trailing: Row(
+                    mainAxisSize: MainAxisSize.min,
+                    children: [
+                      IconButton(
+                        icon: const Icon(Icons.close),
+                        tooltip: 'Remove',
+                        onPressed: () => setState(() => _albums.removeAt(i)),
+                      ),
+                      ReorderableDragStartListener(index: i, child: const Icon(Icons.drag_handle)),
+                    ],
+                  ),
+                ),
+            ],
+          ),
+          const SizedBox(height: 8),
+          OutlinedButton.icon(
+            onPressed: _addAlbum,
+            icon: const Icon(Icons.add),
+            label: const Text('Add album'),
+          ),
+        ],
       ),
     );
   }

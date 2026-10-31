@@ -3,6 +3,7 @@ import 'dart:convert';
 import 'package:flutter/foundation.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
+import 'expeditions.dart';
 import 'models.dart';
 
 /// One saved rating, with enough album info to show it in the Ratings tab.
@@ -20,8 +21,9 @@ class Store extends ChangeNotifier {
   final Map<String, Album> _ratedInfo; // album id -> album details
   final Map<String, int> _ratedAt; // album id -> time rated (ms)
   final Map<String, Album> _resolved; // expedition stop key -> MusicBrainz album
+  final List<Expedition> _custom; // expeditions the user made
 
-  Store._(this._prefs, this._ratings, this._ratedInfo, this._ratedAt, this._resolved);
+  Store._(this._prefs, this._ratings, this._ratedInfo, this._ratedAt, this._resolved, this._custom);
 
   static Future<Store> load() async {
     final prefs = await SharedPreferences.getInstance();
@@ -35,6 +37,10 @@ class Store extends ChangeNotifier {
       read('rated_info').map((k, v) => MapEntry(k, album(v))),
       read('rated_at').map((k, v) => MapEntry(k, v as int)),
       read('resolved').map((k, v) => MapEntry(k, album(v))),
+      [
+        for (final e in jsonDecode(prefs.getString('custom_expeditions') ?? '[]') as List)
+          Expedition.fromJson(Map<String, dynamic>.from(e as Map)),
+      ],
     );
   }
 
@@ -85,6 +91,24 @@ class Store extends ChangeNotifier {
       'resolved',
       jsonEncode(_resolved.map((k, v) => MapEntry(k, v.toJson()))),
     );
+    notifyListeners();
+  }
+
+  List<Expedition> get customExpeditions => List.unmodifiable(_custom);
+
+  Future<void> saveExpedition(Expedition e) async {
+    _custom.removeWhere((x) => x.id == e.id);
+    _custom.add(e);
+    await _saveCustom();
+  }
+
+  Future<void> deleteExpedition(String id) async {
+    _custom.removeWhere((x) => x.id == id);
+    await _saveCustom();
+  }
+
+  Future<void> _saveCustom() async {
+    await _prefs.setString('custom_expeditions', jsonEncode([for (final e in _custom) e.toJson()]));
     notifyListeners();
   }
 }
