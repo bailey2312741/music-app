@@ -1,0 +1,38 @@
+name: Publish web version
+
+# Builds the app for the browser and publishes it with GitHub Pages,
+# so it can be tried on a PC with nothing installed.
+# Manual for now: runs on every push once GitHub Pages is switched on.
+on:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+concurrency:
+  group: pages
+  cancel-in-progress: true
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - uses: actions/checkout@v5
+      - uses: subosito/flutter-action@v2
+        with:
+          channel: stable
+          flutter-version: 3.47.9
+          cache: true
+      - run: flutter pub get
+      - run: flutter build web --release --base-href /music-app/
+      - uses: actions/configure-pages@v5
+      - uses: actions/upload-pages-artifact@v4
+        with:
+          path: build/web
+      - id: deployment
+        uses: actions/deploy-pages@v4

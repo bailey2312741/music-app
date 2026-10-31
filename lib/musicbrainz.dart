@@ -1,5 +1,6 @@
 import 'dart:convert';
 
+import 'package:flutter/foundation.dart' show kIsWeb;
 import 'package:http/http.dart' as http;
 
 import 'models.dart';
@@ -41,7 +42,8 @@ class MusicBrainz {
     await _throttle();
     final uri = Uri.parse('$_base/release-group')
         .replace(queryParameters: {'query': query, 'fmt': 'json', 'limit': '$limit'});
-    final res = await http.get(uri, headers: _headers);
+    // Browsers don't allow setting User-Agent, so the web version sends no headers.
+    final res = await http.get(uri, headers: kIsWeb ? null : _headers);
     if (res.statusCode != 200) {
       throw Exception('MusicBrainz error ${res.statusCode}');
     }
