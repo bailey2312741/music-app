@@ -10,9 +10,9 @@
    "Indie Rock"
   ],
   "type": "Studio",
-  "id": "local:black-country-new-road-ants-from-up-there",
-  "cover": null,
-  "coverLarge": null
+  "id": "d622ed70-ccc3-4658-8a0a-b7a2d577c28d",
+  "cover": "https://cdn-images.dzcdn.net/images/cover/c2febbe882c2944b0701dd1ff077ab3d/250x250-000000-80-0-0.jpg",
+  "coverLarge": "https://cdn-images.dzcdn.net/images/cover/c2febbe882c2944b0701dd1ff077ab3d/500x500-000000-80-0-0.jpg"
  },
  {
   "title": "Twin Fantasy",
@@ -23,9 +23,9 @@
    "Indie Rock"
   ],
   "type": "Studio",
-  "id": "local:car-seat-headrest-twin-fantasy",
-  "cover": null,
-  "coverLarge": null
+  "id": "354c8fd7-c076-494b-9979-dcc17bc5af80",
+  "cover": "https://cdn-images.dzcdn.net/images/cover/0cb3d4d249f2699baae9a66b9730060f/250x250-000000-80-0-0.jpg",
+  "coverLarge": "https://cdn-images.dzcdn.net/images/cover/0cb3d4d249f2699baae9a66b9730060f/500x500-000000-80-0-0.jpg"
  },
  {
   "title": "Heaven or Las Vegas",
@@ -36,9 +36,9 @@
    "Dream Pop"
   ],
   "type": "Studio",
-  "id": "local:cocteau-twins-heaven-or-las-vegas",
-  "cover": null,
-  "coverLarge": null
+  "id": "1771d480-d25c-32d4-a489-36488d1f4b03",
+  "cover": "https://cdn-images.dzcdn.net/images/cover/be62b1479e0baf17d8f9beca911ee8cd/250x250-000000-80-0-0.jpg",
+  "coverLarge": "https://cdn-images.dzcdn.net/images/cover/be62b1479e0baf17d8f9beca911ee8cd/500x500-000000-80-0-0.jpg"
  },
  {
   "title": "The Rise and Fall of Ziggy Stardust and the Spiders From Mars",
@@ -50,9 +50,9 @@
    "Pop Rock"
   ],
   "type": "Studio",
-  "id": "local:david-bowie-the-rise-and-fall-of-ziggy-stardust-and-the-spiders-from-mars",
-  "cover": null,
-  "coverLarge": null
+  "id": "6c9ae3dd-32ad-472c-96be-69d0a3536261",
+  "cover": "https://cdn-images.dzcdn.net/images/cover/23bdeda0503dec55e7ba6a9f56d0c3c2/250x250-000000-80-0-0.jpg",
+  "coverLarge": "https://cdn-images.dzcdn.net/images/cover/23bdeda0503dec55e7ba6a9f56d0c3c2/500x500-000000-80-0-0.jpg"
  },
  {
   "title": "98.12.28 男達の別れ (Otokotachi no Wakare)",
@@ -78,9 +78,9 @@
    "Baroque Pop"
   ],
   "type": "Studio",
-  "id": "local:kate-bush-hounds-of-love",
-  "cover": null,
-  "coverLarge": null
+  "id": "ecc129fd-419f-49ef-ac02-391cd8ef5c39",
+  "cover": "https://cdn-images.dzcdn.net/images/cover/22fedaf5d2b0ac8977b93bc1db7a4a2a/250x250-000000-80-0-0.jpg",
+  "coverLarge": "https://cdn-images.dzcdn.net/images/cover/22fedaf5d2b0ac8977b93bc1db7a4a2a/500x500-000000-80-0-0.jpg"
  },
  {
   "title": "Imaginal Disk",
@@ -91,9 +91,9 @@
    "Synthpop"
   ],
   "type": "Studio",
-  "id": "local:magdalena-bay-imaginal-disk",
-  "cover": null,
-  "coverLarge": null
+  "id": "9c710cb4-6b20-47d7-a31a-5adb064c6c6b",
+  "cover": "https://cdn-images.dzcdn.net/images/cover/c73ab49a506127eace6cd7dddd39fbda/250x250-000000-80-0-0.jpg",
+  "coverLarge": "https://cdn-images.dzcdn.net/images/cover/c73ab49a506127eace6cd7dddd39fbda/500x500-000000-80-0-0.jpg"
  },
  {
   "title": "Pink Moon",
@@ -105,9 +105,9 @@
    "Singer-Songwriter"
   ],
   "type": "Studio",
-  "id": "local:nick-drake-pink-moon",
-  "cover": null,
-  "coverLarge": null
+  "id": "740ec10a-e887-38a6-a04d-fe2069c9e2a7",
+  "cover": "https://cdn-images.dzcdn.net/images/cover/6829c0844fd6a12923e991503be7db41/250x250-000000-80-0-0.jpg",
+  "coverLarge": "https://cdn-images.dzcdn.net/images/cover/6829c0844fd6a12923e991503be7db41/500x500-000000-80-0-0.jpg"
  },
  {
   "title": "In Rainbows",
@@ -119,9 +119,9 @@
    "Alternative Rock"
   ],
   "type": "Studio",
-  "id": "local:radiohead-in-rainbows",
-  "cover": null,
-  "coverLarge": null
+  "id": "6e335887-60ba-38f0-95af-fae7774336bf",
+  "cover": "https://cdn-images.dzcdn.net/images/cover/353aed6e5bf61cd59943eecedc16b2f2/250x250-000000-80-0-0.jpg",
+  "coverLarge": "https://cdn-images.dzcdn.net/images/cover/353aed6e5bf61cd59943eecedc16b2f2/500x500-000000-80-0-0.jpg"
  },
  {
   "title": "Vespertine",
@@ -132,9 +132,9 @@
    "Art Pop"
   ],
   "type": "Studio",
-  "id": "local:bjork-vespertine",
-  "cover": null,
-  "coverLarge": null
+  "id": "271faeb3-fdd1-3ebb-80aa-97b3116e9341",
+  "cover": "https://cdn-images.dzcdn.net/images/cover/ec4d078f0296f374daa70ba870fd7282/250x250-000000-80-0-0.jpg",
+  "coverLarge": "https://cdn-images.dzcdn.net/images/cover/ec4d078f0296f374daa70ba870fd7282/500x500-000000-80-0-0.jpg"
  },
  {
   "title": "Heavy Metal",
@@ -146,9 +146,9 @@
    "Chamber Folk"
   ],
   "type": "Studio",
-  "id": "local:cameron-winter-heavy-metal",
-  "cover": null,
-  "coverLarge": null
+  "id": "a9b6e76b-190b-4802-b120-ddef0fd852b7",
+  "cover": "https://cdn-images.dzcdn.net/images/cover/ec097a4b542b06f3669fd6836e12a1f6/250x250-000000-80-0-0.jpg",
+  "coverLarge": "https://cdn-images.dzcdn.net/images/cover/ec097a4b542b06f3669fd6836e12a1f6/500x500-000000-80-0-0.jpg"
  },
  {
   "title": "Station to Station",
@@ -160,9 +160,9 @@
    "Funk Rock"
   ],
   "type": "Studio",
-  "id": "local:david-bowie-station-to-station",
-  "cover": null,
-  "coverLarge": null
+  "id": "686cdbd1-b400-32d8-8cb8-9317a2e41a58",
+  "cover": "https://cdn-images.dzcdn.net/images/cover/947479657e2de8328cd72eb4199784af/250x250-000000-80-0-0.jpg",
+  "coverLarge": "https://cdn-images.dzcdn.net/images/cover/947479657e2de8328cd72eb4199784af/500x500-000000-80-0-0.jpg"
  },
  {
   "title": "White Pony",
@@ -173,9 +173,9 @@
    "Alternative Metal"
   ],
   "type": "Studio",
-  "id": "local:deftones-white-pony",
-  "cover": null,
-  "coverLarge": null
+  "id": "a7d33e96-8e09-3aff-8629-44812a1b8489",
+  "cover": "https://cdn-images.dzcdn.net/images/cover/c2942294fe29f749ca9ed2d1b25bb247/250x250-000000-80-0-0.jpg",
+  "coverLarge": "https://cdn-images.dzcdn.net/images/cover/c2942294fe29f749ca9ed2d1b25bb247/500x500-000000-80-0-0.jpg"
  },
  {
   "title": "Long Season",
@@ -187,9 +187,9 @@
    "Dream Pop"
   ],
   "type": "Studio",
-  "id": "local:fishmans-long-season",
-  "cover": null,
-  "coverLarge": null
+  "id": "fc38cdba-ea52-328c-aa3d-41edf8811a0c",
+  "cover": "https://cdn-images.dzcdn.net/images/cover/cf0785a0814a1b81b5cc3be4c66f5bbd/250x250-000000-80-0-0.jpg",
+  "coverLarge": "https://cdn-images.dzcdn.net/images/cover/cf0785a0814a1b81b5cc3be4c66f5bbd/500x500-000000-80-0-0.jpg"
  },
  {
   "title": "Bocanada",
@@ -203,9 +203,9 @@
    "Art Rock"
   ],
   "type": "Studio",
-  "id": "local:gustavo-cerati-bocanada",
-  "cover": null,
-  "coverLarge": null
+  "id": "22d84dc0-84cb-3934-8aa6-4af8fa6671f8",
+  "cover": "https://cdn-images.dzcdn.net/images/cover/d0532f8fbe9cb0eabd385508e52b597f/250x250-000000-80-0-0.jpg",
+  "coverLarge": "https://cdn-images.dzcdn.net/images/cover/d0532f8fbe9cb0eabd385508e52b597f/500x500-000000-80-0-0.jpg"
  },
  {
   "title": "Grace",
@@ -217,9 +217,9 @@
    "Singer-Songwriter"
   ],
   "type": "Studio",
-  "id": "local:jeff-buckley-grace",
-  "cover": null,
-  "coverLarge": null
+  "id": "da8cbc6b-4c16-4869-92c8-e2890c0adb10",
+  "cover": "https://cdn-images.dzcdn.net/images/cover/ce93d7074206c429ecb4eac1d3e34d90/250x250-000000-80-0-0.jpg",
+  "coverLarge": "https://cdn-images.dzcdn.net/images/cover/ce93d7074206c429ecb4eac1d3e34d90/500x500-000000-80-0-0.jpg"
  },
  {
   "title": "The College Dropout",
@@ -231,9 +231,9 @@
    "Pop Rap"
   ],
   "type": "Studio",
-  "id": "local:kanye-west-the-college-dropout",
-  "cover": null,
-  "coverLarge": null
+  "id": "8a01217e-6947-3927-a39b-6691104694f1",
+  "cover": "https://cdn-images.dzcdn.net/images/cover/069a5dba671436da9301aad36fc9a983/250x250-000000-80-0-0.jpg",
+  "coverLarge": "https://cdn-images.dzcdn.net/images/cover/069a5dba671436da9301aad36fc9a983/500x500-000000-80-0-0.jpg"
  },
  {
   "title": "Late Registration",
@@ -244,9 +244,9 @@
    "Pop Rap"
   ],
   "type": "Studio",
-  "id": "local:kanye-west-late-registration",
-  "cover": null,
-  "coverLarge": null
+  "id": "c563d738-3841-31ce-b29d-ec6b40fd1e7b",
+  "cover": "https://cdn-images.dzcdn.net/images/cover/7cbfc94084895e59b5a313a98ab1bd9a/250x250-000000-80-0-0.jpg",
+  "coverLarge": "https://cdn-images.dzcdn.net/images/cover/7cbfc94084895e59b5a313a98ab1bd9a/500x500-000000-80-0-0.jpg"
  },
  {
   "title": "To Pimp a Butterfly",
@@ -258,9 +258,9 @@
    "Jazz Rap"
   ],
   "type": "Studio",
-  "id": "local:kendrick-lamar-to-pimp-a-butterfly",
-  "cover": null,
-  "coverLarge": null
+  "id": "d9103c72-3807-4378-9ce7-b6f3e8fdd547",
+  "cover": "https://cdn-images.dzcdn.net/images/cover/3cb4c99dc0f8b954b8b7470e72df8152/250x250-000000-80-0-0.jpg",
+  "coverLarge": "https://cdn-images.dzcdn.net/images/cover/3cb4c99dc0f8b954b8b7470e72df8152/500x500-000000-80-0-0.jpg"
  },
  {
   "title": "The Lonesome Crowded West",
@@ -272,9 +272,9 @@
    "Slacker Rock"
   ],
   "type": "Studio",
-  "id": "local:modest-mouse-the-lonesome-crowded-west",
-  "cover": null,
-  "coverLarge": null
+  "id": "041884b1-1ac5-3c8b-93cc-ac928c78c4a0",
+  "cover": "https://cdn-images.dzcdn.net/images/cover/2d2693e7624b9dc4689a0bd7970532bd/250x250-000000-80-0-0.jpg",
+  "coverLarge": "https://cdn-images.dzcdn.net/images/cover/2d2693e7624b9dc4689a0bd7970532bd/500x500-000000-80-0-0.jpg"
  },
  {
   "title": "Doolittle",
@@ -285,9 +285,9 @@
    "Indie Rock"
   ],
   "type": "Studio",
-  "id": "local:pixies-doolittle",
-  "cover": null,
-  "coverLarge": null
+  "id": "1aa41b19-5a72-341b-bd91-4cf61d1dab6b",
+  "cover": "https://cdn-images.dzcdn.net/images/cover/4ca682e61a245cb93065a0e4ec61e404/250x250-000000-80-0-0.jpg",
+  "coverLarge": "https://cdn-images.dzcdn.net/images/cover/4ca682e61a245cb93065a0e4ec61e404/500x500-000000-80-0-0.jpg"
  },
  {
   "title": "Kid A",
@@ -298,9 +298,9 @@
    "Art Rock"
   ],
   "type": "Studio",
-  "id": "local:radiohead-kid-a",
-  "cover": null,
-  "coverLarge": null
+  "id": "e75c0549-ad55-39e3-8025-c72c5d4a3c5d",
+  "cover": "https://cdn-images.dzcdn.net/images/cover/e5925065cdb1cefbc3bd75af4a1f1801/250x250-000000-80-0-0.jpg",
+  "coverLarge": "https://cdn-images.dzcdn.net/images/cover/e5925065cdb1cefbc3bd75af4a1f1801/500x500-000000-80-0-0.jpg"
  },
  {
   "title": "OK Computer",
@@ -312,9 +312,9 @@
    "Art Rock"
   ],
   "type": "Studio",
-  "id": "local:radiohead-ok-computer",
-  "cover": null,
-  "coverLarge": null
+  "id": "b1392450-e666-3926-a536-22c65f834433",
+  "cover": "https://cdn-images.dzcdn.net/images/cover/05a186e0a859a36f9cd51cdae2158fe1/250x250-000000-80-0-0.jpg",
+  "coverLarge": "https://cdn-images.dzcdn.net/images/cover/05a186e0a859a36f9cd51cdae2158fe1/500x500-000000-80-0-0.jpg"
  },
  {
   "title": "Spiderland",
@@ -326,9 +326,9 @@
    "Math Rock"
   ],
   "type": "Studio",
-  "id": "local:slint-spiderland",
-  "cover": null,
-  "coverLarge": null
+  "id": "e9f4b96a-94df-36be-9659-c9a811caead6",
+  "cover": "https://cdn-images.dzcdn.net/images/cover/eda1db8a1e9ddd35691c9fa22f7c6a2e/250x250-000000-80-0-0.jpg",
+  "coverLarge": "https://cdn-images.dzcdn.net/images/cover/eda1db8a1e9ddd35691c9fa22f7c6a2e/500x500-000000-80-0-0.jpg"
  },
  {
   "title": "Aja",
@@ -340,9 +340,9 @@
    "Yacht Rock"
   ],
   "type": "Studio",
-  "id": "local:steely-dan-aja",
-  "cover": null,
-  "coverLarge": null
+  "id": "8588c5a5-b491-37a4-8d51-2227346a072e",
+  "cover": "https://cdn-images.dzcdn.net/images/cover/69cc1f771bc7a8cf79affdcf14bae380/250x250-000000-80-0-0.jpg",
+  "coverLarge": "https://cdn-images.dzcdn.net/images/cover/69cc1f771bc7a8cf79affdcf14bae380/500x500-000000-80-0-0.jpg"
  },
  {
   "title": "Marquee Moon",
@@ -355,9 +355,9 @@
    "Post-Punk"
   ],
   "type": "Studio",
-  "id": "local:television-marquee-moon",
-  "cover": null,
-  "coverLarge": null
+  "id": "2b9f99d8-becf-3fc3-86a6-2bdd4cef93fe",
+  "cover": "https://cdn-images.dzcdn.net/images/cover/9bc923133441cb10cc549b5fa44cdcdc/250x250-000000-80-0-0.jpg",
+  "coverLarge": "https://cdn-images.dzcdn.net/images/cover/9bc923133441cb10cc549b5fa44cdcdc/500x500-000000-80-0-0.jpg"
  },
  {
   "title": "The Queen Is Dead",
@@ -369,9 +369,9 @@
    "Indie Pop"
   ],
   "type": "Studio",
-  "id": "local:the-smiths-the-queen-is-dead",
-  "cover": null,
-  "coverLarge": null
+  "id": "d8dde278-482c-3cc8-a530-fea70476f3a5",
+  "cover": "https://cdn-images.dzcdn.net/images/cover/7ca9c4c9988765720bf3b722e101d2c3/250x250-000000-80-0-0.jpg",
+  "coverLarge": "https://cdn-images.dzcdn.net/images/cover/7ca9c4c9988765720bf3b722e101d2c3/500x500-000000-80-0-0.jpg"
  },
  {
   "title": "Is This It",
@@ -383,9 +383,9 @@
    "Indie Rock"
   ],
   "type": "Studio",
-  "id": "local:the-strokes-is-this-it",
-  "cover": null,
-  "coverLarge": null
+  "id": "6d44b57a-2b9d-372a-b7c2-c670dca997d3",
+  "cover": "https://cdn-images.dzcdn.net/images/cover/99bfc862c81431e2b794f45b8d627ab0/250x250-000000-80-0-0.jpg",
+  "coverLarge": "https://cdn-images.dzcdn.net/images/cover/99bfc862c81431e2b794f45b8d627ab0/500x500-000000-80-0-0.jpg"
  },
  {
   "title": "Homogenic",
@@ -396,9 +396,9 @@
    "Art Pop"
   ],
   "type": "Studio",
-  "id": "local:bjork-homogenic",
-  "cover": null,
-  "coverLarge": null
+  "id": "810272e0-aef1-3d85-b2d3-e512e87fc38c",
+  "cover": "https://cdn-images.dzcdn.net/images/cover/d69633743530f65bae8dca2a3db93de2/250x250-000000-80-0-0.jpg",
+  "coverLarge": "https://cdn-images.dzcdn.net/images/cover/d69633743530f65bae8dca2a3db93de2/500x500-000000-80-0-0.jpg"
  },
  {
   "title": "Paranoid",
@@ -410,9 +410,9 @@
    "Hard Rock"
   ],
   "type": "Studio",
-  "id": "local:black-sabbath-paranoid",
-  "cover": null,
-  "coverLarge": null
+  "id": "cc053745-c447-3566-8f27-bed5438c9133",
+  "cover": "https://cdn-images.dzcdn.net/images/cover/3700ff6a5dd928c3fe496cda85284e46/250x250-000000-80-0-0.jpg",
+  "coverLarge": "https://cdn-images.dzcdn.net/images/cover/3700ff6a5dd928c3fe496cda85284e46/500x500-000000-80-0-0.jpg"
  },
  {
   "title": "The Black Saint and the Sinner Lady",
@@ -424,9 +424,9 @@
    "Third Stream"
   ],
   "type": "Studio",
-  "id": "local:charles-mingus-the-black-saint-and-the-sinner-lady",
-  "cover": null,
-  "coverLarge": null
+  "id": "48070ee2-1865-3b11-ba36-360b1453a37a",
+  "cover": "https://cdn-images.dzcdn.net/images/cover/e949fad1ad63e16289d15be27f05278e/250x250-000000-80-0-0.jpg",
+  "coverLarge": "https://cdn-images.dzcdn.net/images/cover/e949fad1ad63e16289d15be27f05278e/500x500-000000-80-0-0.jpg"
  },
  {
   "title": "Discovery",
@@ -437,9 +437,9 @@
    "French House"
   ],
   "type": "Studio",
-  "id": "local:daft-punk-discovery",
-  "cover": null,
-  "coverLarge": null
+  "id": "48117b90-a16e-34ca-a514-19c702df1158",
+  "cover": "https://cdn-images.dzcdn.net/images/cover/5718f7c81c27e0b2417e2a4c45224f8a/250x250-000000-80-0-0.jpg",
+  "coverLarge": "https://cdn-images.dzcdn.net/images/cover/5718f7c81c27e0b2417e2a4c45224f8a/500x500-000000-80-0-0.jpg"
  },
  {
   "title": "Blackstar",
@@ -450,9 +450,9 @@
    "Art Rock"
   ],
   "type": "Studio",
-  "id": "local:david-bowie-blackstar",
-  "cover": null,
-  "coverLarge": null
+  "id": "662d0491-3ebd-488e-ac2c-36cf13db7d60",
+  "cover": "https://cdn-images.dzcdn.net/images/cover/e7f5c20601c7c30cd34968ab44e6f55c/250x250-000000-80-0-0.jpg",
+  "coverLarge": "https://cdn-images.dzcdn.net/images/cover/e7f5c20601c7c30cd34968ab44e6f55c/500x500-000000-80-0-0.jpg"
  },
  {
   "title": "Low",
@@ -464,9 +464,9 @@
    "Ambient"
   ],
   "type": "Studio",
-  "id": "local:david-bowie-low",
-  "cover": null,
-  "coverLarge": null
+  "id": "f6a51281-56c4-3538-b915-65a9d4eb29b5",
+  "cover": "https://cdn-images.dzcdn.net/images/cover/63323e774c45f896c9e75ca393fc2e4c/250x250-000000-80-0-0.jpg",
+  "coverLarge": "https://cdn-images.dzcdn.net/images/cover/63323e774c45f896c9e75ca393fc2e4c/500x500-000000-80-0-0.jpg"
  },
  {
   "title": "宇宙 日本 世田谷 (Uchu Nippon Setagaya)",
@@ -479,7 +479,7 @@
    "Neo-Psychedelia"
   ],
   "type": "Studio",
-  "id": "local:fishmans-uchu-nippon-setagaya",
+  "id": "a695e424-ab39-33e6-9fb9-8a5ef8282cb1",
   "cover": null,
   "coverLarge": null
  },
@@ -493,9 +493,9 @@
    "Soft Rock"
   ],
   "type": "Studio",
-  "id": "local:fleetwood-mac-rumours",
-  "cover": null,
-  "coverLarge": null
+  "id": "416bb5e5-c7d1-3977-8fd7-7c9daf6c2be6",
+  "cover": "https://cdn-images.dzcdn.net/images/cover/d59a606dcfd9152d2b006800bfd4e633/250x250-000000-80-0-0.jpg",
+  "coverLarge": "https://cdn-images.dzcdn.net/images/cover/d59a606dcfd9152d2b006800bfd4e633/500x500-000000-80-0-0.jpg"
  },
  {
   "title": "Getting Killed",
@@ -507,9 +507,9 @@
    "Art Rock"
   ],
   "type": "Studio",
-  "id": "local:geese-getting-killed",
-  "cover": null,
-  "coverLarge": null
+  "id": "3c18308c-9072-4810-b26e-0c573e46fb07",
+  "cover": "https://cdn-images.dzcdn.net/images/cover/1a3a5db10b99646e925aa979d01c4c80/250x250-000000-80-0-0.jpg",
+  "coverLarge": "https://cdn-images.dzcdn.net/images/cover/1a3a5db10b99646e925aa979d01c4c80/500x500-000000-80-0-0.jpg"
  },
  {
   "title": "The New Sound",
@@ -522,9 +522,9 @@
    "Art Rock"
   ],
   "type": "Studio",
-  "id": "local:geordie-greep-the-new-sound",
-  "cover": null,
-  "coverLarge": null
+  "id": "171db008-7f7b-48d3-a3b5-640d6ea41aa7",
+  "cover": "https://cdn-images.dzcdn.net/images/cover/c78ff85419019d90115137e5f437a248/250x250-000000-80-0-0.jpg",
+  "coverLarge": "https://cdn-images.dzcdn.net/images/cover/c78ff85419019d90115137e5f437a248/500x500-000000-80-0-0.jpg"
  },
  {
   "title": "Unknown Pleasures",
@@ -535,9 +535,9 @@
    "Post-Punk"
   ],
   "type": "Studio",
-  "id": "local:joy-division-unknown-pleasures",
-  "cover": null,
-  "coverLarge": null
+  "id": "42352def-1aab-3000-b548-895ebd869cb6",
+  "cover": "https://cdn-images.dzcdn.net/images/cover/013c601da70bf83a0fea61bd9c526449/250x250-000000-80-0-0.jpg",
+  "coverLarge": "https://cdn-images.dzcdn.net/images/cover/013c601da70bf83a0fea61bd9c526449/500x500-000000-80-0-0.jpg"
  },
  {
   "title": "Good Kid, M.A.A.D City",
@@ -548,9 +548,9 @@
    "Conscious Hip Hop"
   ],
   "type": "Studio",
-  "id": "local:kendrick-lamar-good-kid-m-a-a-d-city",
-  "cover": null,
-  "coverLarge": null
+  "id": "499c19c8-0dab-4824-884b-6191d145e95b",
+  "cover": "https://cdn-images.dzcdn.net/images/cover/ec9187e7d91dd98fa218bbf9c6fe7179/250x250-000000-80-0-0.jpg",
+  "coverLarge": "https://cdn-images.dzcdn.net/images/cover/ec9187e7d91dd98fa218bbf9c6fe7179/500x500-000000-80-0-0.jpg"
  },
  {
   "title": "Red",
@@ -562,9 +562,9 @@
    "Art Rock"
   ],
   "type": "Studio",
-  "id": "local:king-crimson-red",
-  "cover": null,
-  "coverLarge": null
+  "id": "89bc97c8-921a-3758-8481-3b39c564e297",
+  "cover": "https://cdn-images.dzcdn.net/images/cover/69fa7c4581e2d123989f6623505d0561/250x250-000000-80-0-0.jpg",
+  "coverLarge": "https://cdn-images.dzcdn.net/images/cover/69fa7c4581e2d123989f6623505d0561/500x500-000000-80-0-0.jpg"
  },
  {
   "title": "Sound of Silver",
@@ -577,9 +577,9 @@
    "Alternative Dance"
   ],
   "type": "Studio",
-  "id": "local:lcd-soundsystem-sound-of-silver",
-  "cover": null,
-  "coverLarge": null
+  "id": "5cbcdd9f-4b7d-3b3c-b9f2-6b0e75971157",
+  "cover": "https://cdn-images.dzcdn.net/images/cover/d5aec97cfc1581df6b32a267fe067827/250x250-000000-80-0-0.jpg",
+  "coverLarge": "https://cdn-images.dzcdn.net/images/cover/d5aec97cfc1581df6b32a267fe067827/500x500-000000-80-0-0.jpg"
  },
  {
   "title": "This Is Happening",
@@ -593,9 +593,9 @@
    "Alternative Dance"
   ],
   "type": "Studio",
-  "id": "local:lcd-soundsystem-this-is-happening",
-  "cover": null,
-  "coverLarge": null
+  "id": "8898e5eb-48aa-4eea-8569-d3a2e9adaf02",
+  "cover": "https://cdn-images.dzcdn.net/images/cover/6d1c8c822d58041dfc7fd0bb5612cdf5/250x250-000000-80-0-0.jpg",
+  "coverLarge": "https://cdn-images.dzcdn.net/images/cover/6d1c8c822d58041dfc7fd0bb5612cdf5/500x500-000000-80-0-0.jpg"
  },
  {
   "title": "Madvillainy",
@@ -607,9 +607,9 @@
    "Experimental Hip Hop"
   ],
   "type": "Studio",
-  "id": "local:madvillain-madvillainy",
-  "cover": null,
-  "coverLarge": null
+  "id": "ab570ccb-b06b-3746-8147-4903163ba895",
+  "cover": "https://cdn-images.dzcdn.net/images/cover/a96d33c946da938b43c58d3750ac11d7/250x250-000000-80-0-0.jpg",
+  "coverLarge": "https://cdn-images.dzcdn.net/images/cover/a96d33c946da938b43c58d3750ac11d7/500x500-000000-80-0-0.jpg"
  },
  {
   "title": "Mm..Food",
@@ -620,9 +620,9 @@
    "Abstract Hip Hop"
   ],
   "type": "Studio",
-  "id": "local:mf-doom-mm-food",
-  "cover": null,
-  "coverLarge": null
+  "id": "ec84ab32-eb41-3d91-a099-7a01c72f21d2",
+  "cover": "https://cdn-images.dzcdn.net/images/cover/eb41db75ea6b22ad495876e7fa944bb4/250x250-000000-80-0-0.jpg",
+  "coverLarge": "https://cdn-images.dzcdn.net/images/cover/eb41db75ea6b22ad495876e7fa944bb4/500x500-000000-80-0-0.jpg"
  },
  {
   "title": "Operation: Doomsday",
@@ -633,9 +633,9 @@
    "Abstract Hip Hop"
   ],
   "type": "Studio",
-  "id": "local:mf-doom-operation-doomsday",
-  "cover": null,
-  "coverLarge": null
+  "id": "66f1ac02-2eb6-31dc-ab33-6eaa603f41cd",
+  "cover": "https://cdn-images.dzcdn.net/images/cover/29ceae43498c58159d5afe95fde8b395/250x250-000000-80-0-0.jpg",
+  "coverLarge": "https://cdn-images.dzcdn.net/images/cover/29ceae43498c58159d5afe95fde8b395/500x500-000000-80-0-0.jpg"
  },
  {
   "title": "Illmatic",
@@ -647,9 +647,9 @@
    "Hardcore Hip Hop"
   ],
   "type": "Studio",
-  "id": "local:nas-illmatic",
-  "cover": null,
-  "coverLarge": null
+  "id": "28298e2c-4d70-3eed-a0f5-a3280c662b3d",
+  "cover": "https://cdn-images.dzcdn.net/images/cover/21d0f7732b72253241a2de864988dd7b/250x250-000000-80-0-0.jpg",
+  "coverLarge": "https://cdn-images.dzcdn.net/images/cover/21d0f7732b72253241a2de864988dd7b/500x500-000000-80-0-0.jpg"
  },
  {
   "title": "In the Aeroplane Over the Sea",
@@ -661,9 +661,9 @@
    "Indie Rock"
   ],
   "type": "Studio",
-  "id": "local:neutral-milk-hotel-in-the-aeroplane-over-the-sea",
-  "cover": null,
-  "coverLarge": null
+  "id": "8f310800-045b-3e12-8268-50b3d33a2267",
+  "cover": "https://cdn-images.dzcdn.net/images/cover/b78c9320fa450b2d417b8facfe9e28c2/250x250-000000-80-0-0.jpg",
+  "coverLarge": "https://cdn-images.dzcdn.net/images/cover/b78c9320fa450b2d417b8facfe9e28c2/500x500-000000-80-0-0.jpg"
  },
  {
   "title": "Five Leaves Left",
@@ -676,9 +676,9 @@
    "Contemporary Folk"
   ],
   "type": "Studio",
-  "id": "local:nick-drake-five-leaves-left",
-  "cover": null,
-  "coverLarge": null
+  "id": "b9c4fc17-0dc5-3aa5-b1b9-08e1446e5bea",
+  "cover": "https://cdn-images.dzcdn.net/images/cover/8e1330155275bbb3df49a7a623d2ed54/250x250-000000-80-0-0.jpg",
+  "coverLarge": "https://cdn-images.dzcdn.net/images/cover/8e1330155275bbb3df49a7a623d2ed54/500x500-000000-80-0-0.jpg"
  },
  {
   "title": "Animals",
@@ -690,9 +690,9 @@
    "Art Rock"
   ],
   "type": "Studio",
-  "id": "local:pink-floyd-animals",
-  "cover": null,
-  "coverLarge": null
+  "id": "20c77fb4-1c9f-33c8-9d7e-c4977f11e847",
+  "cover": "https://cdn-images.dzcdn.net/images/cover/ede2e11516199af680b415cd42d42c28/250x250-000000-80-0-0.jpg",
+  "coverLarge": "https://cdn-images.dzcdn.net/images/cover/ede2e11516199af680b415cd42d42c28/500x500-000000-80-0-0.jpg"
  },
  {
   "title": "Wish You Were Here",
@@ -704,9 +704,9 @@
    "Art Rock"
   ],
   "type": "Studio",
-  "id": "local:pink-floyd-wish-you-were-here",
-  "cover": null,
-  "coverLarge": null
+  "id": "aec8c2eb-0639-436f-99db-9974781f241c",
+  "cover": "https://cdn-images.dzcdn.net/images/cover/cb029c785b8d0cd624ddee9d4127ceff/250x250-000000-80-0-0.jpg",
+  "coverLarge": "https://cdn-images.dzcdn.net/images/cover/cb029c785b8d0cd624ddee9d4127ceff/500x500-000000-80-0-0.jpg"
  },
  {
   "title": "Dummy",
@@ -717,9 +717,9 @@
    "Trip Hop"
   ],
   "type": "Studio",
-  "id": "local:portishead-dummy",
-  "cover": null,
-  "coverLarge": null
+  "id": "48140466-cff6-3222-bd55-63c27e43190d",
+  "cover": "https://cdn-images.dzcdn.net/images/cover/5942b88996f33c82790023d5d99395d3/250x250-000000-80-0-0.jpg",
+  "coverLarge": "https://cdn-images.dzcdn.net/images/cover/5942b88996f33c82790023d5d99395d3/500x500-000000-80-0-0.jpg"
  },
  {
   "title": "The Bends",
@@ -731,9 +731,9 @@
    "Post-Britpop"
   ],
   "type": "Studio",
-  "id": "local:radiohead-the-bends",
-  "cover": null,
-  "coverLarge": null
+  "id": "8ea92211-a70b-3993-9301-bb80e0d1a24a",
+  "cover": "https://cdn-images.dzcdn.net/images/cover/0d2ccaf5f7b35af57f3d9c8f4504a6e6/250x250-000000-80-0-0.jpg",
+  "coverLarge": "https://cdn-images.dzcdn.net/images/cover/0d2ccaf5f7b35af57f3d9c8f4504a6e6/500x500-000000-80-0-0.jpg"
  },
  {
   "title": "Love Deluxe",
@@ -746,9 +746,9 @@
    "Downtempo"
   ],
   "type": "Studio",
-  "id": "local:sade-love-deluxe",
-  "cover": null,
-  "coverLarge": null
+  "id": "e4a67add-6aab-390c-bb82-53939fb9cd0a",
+  "cover": "https://cdn-images.dzcdn.net/images/cover/975b8e921822b6e01de1663ef02cee08/250x250-000000-80-0-0.jpg",
+  "coverLarge": "https://cdn-images.dzcdn.net/images/cover/975b8e921822b6e01de1663ef02cee08/500x500-000000-80-0-0.jpg"
  },
  {
   "title": "Ágætis byrjun",
@@ -759,9 +759,9 @@
    "Post-Rock"
   ],
   "type": "Studio",
-  "id": "local:sigur-ros-agtis-byrjun",
-  "cover": null,
-  "coverLarge": null
+  "id": "62b427b8-1c52-34e7-b250-da2aa3e44860",
+  "cover": "https://cdn-images.dzcdn.net/images/cover/6f536b9aa9f7fa705801ff29a7d298bf/250x250-000000-80-0-0.jpg",
+  "coverLarge": "https://cdn-images.dzcdn.net/images/cover/6f536b9aa9f7fa705801ff29a7d298bf/500x500-000000-80-0-0.jpg"
  },
  {
   "title": "The Royal Scam",
@@ -773,9 +773,9 @@
    "Jazz-Rock"
   ],
   "type": "Studio",
-  "id": "local:steely-dan-the-royal-scam",
-  "cover": null,
-  "coverLarge": null
+  "id": "586013b7-6cb0-39d4-b3cc-702b665fd830",
+  "cover": "https://cdn-images.dzcdn.net/images/cover/cd4a1a153188a9c7210f554e6ed9ea29/250x250-000000-80-0-0.jpg",
+  "coverLarge": "https://cdn-images.dzcdn.net/images/cover/cd4a1a153188a9c7210f554e6ed9ea29/500x500-000000-80-0-0.jpg"
  },
  {
   "title": "Songs From the Big Chair",
@@ -788,9 +788,9 @@
    "Pop Rock"
   ],
   "type": "Studio",
-  "id": "local:tears-for-fears-songs-from-the-big-chair",
-  "cover": null,
-  "coverLarge": null
+  "id": "475946e9-4b00-3f7c-9bd7-c11f55740262",
+  "cover": "https://cdn-images.dzcdn.net/images/cover/36cd402f484c8d02494128691ca62d6f/250x250-000000-80-0-0.jpg",
+  "coverLarge": "https://cdn-images.dzcdn.net/images/cover/36cd402f484c8d02494128691ca62d6f/500x500-000000-80-0-0.jpg"
  },
  {
   "title": "Abbey Road",
@@ -801,9 +801,9 @@
    "Pop Rock"
   ],
   "type": "Studio",
-  "id": "local:the-beatles-abbey-road",
-  "cover": null,
-  "coverLarge": null
+  "id": "9162580e-5df4-32de-80cc-f45a8d8a9b1d",
+  "cover": "https://cdn-images.dzcdn.net/images/cover/176deb0ea14f5ec0679b8652e8194964/250x250-000000-80-0-0.jpg",
+  "coverLarge": "https://cdn-images.dzcdn.net/images/cover/176deb0ea14f5ec0679b8652e8194964/500x500-000000-80-0-0.jpg"
  },
  {
   "title": "Revolver",
@@ -815,9 +815,9 @@
    "Psychedelic Pop"
   ],
   "type": "Studio",
-  "id": "local:the-beatles-revolver",
-  "cover": null,
-  "coverLarge": null
+  "id": "72d15666-99a7-321e-b1f3-a3f8c09dff9f",
+  "cover": "https://cdn-images.dzcdn.net/images/cover/6e1e24a3e4311371abd2c888b1f0e13e/250x250-000000-80-0-0.jpg",
+  "coverLarge": "https://cdn-images.dzcdn.net/images/cover/6e1e24a3e4311371abd2c888b1f0e13e/500x500-000000-80-0-0.jpg"
  },
  {
   "title": "The Doors",
@@ -828,9 +828,9 @@
    "Psychedelic Rock"
   ],
   "type": "Studio",
-  "id": "local:the-doors-the-doors",
-  "cover": null,
-  "coverLarge": null
+  "id": "00a9c3d9-13c7-355b-b216-108c81ad3f78",
+  "cover": "https://cdn-images.dzcdn.net/images/cover/1fb7c495c9a08baf67602cabe3f0a43d/250x250-000000-80-0-0.jpg",
+  "coverLarge": "https://cdn-images.dzcdn.net/images/cover/1fb7c495c9a08baf67602cabe3f0a43d/500x500-000000-80-0-0.jpg"
  },
  {
   "title": "The Smiths",
@@ -842,9 +842,9 @@
    "Indie Pop"
   ],
   "type": "Studio",
-  "id": "local:the-smiths-the-smiths",
-  "cover": null,
-  "coverLarge": null
+  "id": "91811b68-aa6e-35b3-a5e1-6a2733eb6ae9",
+  "cover": "https://cdn-images.dzcdn.net/images/cover/7c5e7a27c8c48b4f252ed86ad40de4c7/250x250-000000-80-0-0.jpg",
+  "coverLarge": "https://cdn-images.dzcdn.net/images/cover/7c5e7a27c8c48b4f252ed86ad40de4c7/500x500-000000-80-0-0.jpg"
  },
  {
   "title": "The New Abnormal",
@@ -855,9 +855,9 @@
    "Indie Rock"
   ],
   "type": "Studio",
-  "id": "local:the-strokes-the-new-abnormal",
-  "cover": null,
-  "coverLarge": null
+  "id": "43ca5aa6-92de-47e9-8f0b-9112e4881426",
+  "cover": "https://cdn-images.dzcdn.net/images/cover/523ac3e61759f365b9306fc44dd53eea/250x250-000000-80-0-0.jpg",
+  "coverLarge": "https://cdn-images.dzcdn.net/images/cover/523ac3e61759f365b9306fc44dd53eea/500x500-000000-80-0-0.jpg"
  },
  {
   "title": "The Velvet Underground & Nico",
@@ -869,9 +869,9 @@
    "Experimental Rock"
   ],
   "type": "Studio",
-  "id": "local:the-velvet-underground-and-nico-the-velvet-underground-and-nico",
-  "cover": null,
-  "coverLarge": null
+  "id": "5cbd9d7b-597a-3c5e-bfd1-c2b364215560",
+  "cover": "https://cdn-images.dzcdn.net/images/cover/5722e04a2ba2539c02ac2afb655a4f93/250x250-000000-80-0-0.jpg",
+  "coverLarge": "https://cdn-images.dzcdn.net/images/cover/5722e04a2ba2539c02ac2afb655a4f93/500x500-000000-80-0-0.jpg"
  },
  {
   "title": "Ænima",
@@ -883,9 +883,9 @@
    "Progressive Metal"
   ],
   "type": "Studio",
-  "id": "local:tool-nima",
-  "cover": null,
-  "coverLarge": null
+  "id": "ef1e8130-dd5f-336a-85fa-4936a47342bd",
+  "cover": "https://cdn-images.dzcdn.net/images/cover/9b817fcf4d085f7fe0a3910da0061bfd/250x250-000000-80-0-0.jpg",
+  "coverLarge": "https://cdn-images.dzcdn.net/images/cover/9b817fcf4d085f7fe0a3910da0061bfd/500x500-000000-80-0-0.jpg"
  },
  {
   "title": "Igor",
@@ -896,9 +896,9 @@
    "Neo-Soul"
   ],
   "type": "Studio",
-  "id": "local:tyler-the-creator-igor",
-  "cover": null,
-  "coverLarge": null
+  "id": "0f1b9e07-b38b-4bba-9794-55e0924d7177",
+  "cover": "https://cdn-images.dzcdn.net/images/cover/041ab5ceb6fb6ebf9512966835be9e1b/250x250-000000-80-0-0.jpg",
+  "coverLarge": "https://cdn-images.dzcdn.net/images/cover/041ab5ceb6fb6ebf9512966835be9e1b/500x500-000000-80-0-0.jpg"
  },
  {
   "title": "Weezer [Blue Album]",
@@ -910,9 +910,9 @@
    "Alternative Rock"
   ],
   "type": "Studio",
-  "id": "local:weezer-weezer-blue-album",
-  "cover": null,
-  "coverLarge": null
+  "id": "923d5ba6-7eee-3bce-bcb2-c913b2bd69d4",
+  "cover": "https://cdn-images.dzcdn.net/images/cover/39381d55274f8fd48d6c07158c76ef25/250x250-000000-80-0-0.jpg",
+  "coverLarge": "https://cdn-images.dzcdn.net/images/cover/39381d55274f8fd48d6c07158c76ef25/500x500-000000-80-0-0.jpg"
  },
  {
   "title": "Midnight Marauders",
@@ -924,9 +924,9 @@
    "Boom Bap"
   ],
   "type": "Studio",
-  "id": "local:a-tribe-called-quest-midnight-marauders",
-  "cover": null,
-  "coverLarge": null
+  "id": "c2afedfb-034a-3683-ad47-e4404cd7c485",
+  "cover": "https://cdn-images.dzcdn.net/images/cover/7edbc81197483e75798028a31078391f/250x250-000000-80-0-0.jpg",
+  "coverLarge": "https://cdn-images.dzcdn.net/images/cover/7edbc81197483e75798028a31078391f/500x500-000000-80-0-0.jpg"
  },
  {
   "title": "The Low End Theory",
@@ -939,9 +939,9 @@
    "Boom Bap"
   ],
   "type": "Studio",
-  "id": "local:a-tribe-called-quest-the-low-end-theory",
-  "cover": null,
-  "coverLarge": null
+  "id": "c3733436-fcba-3c08-b082-d548df5c5139",
+  "cover": "https://cdn-images.dzcdn.net/images/cover/08793909075a6d5f812fdfab902f03b0/250x250-000000-80-0-0.jpg",
+  "coverLarge": "https://cdn-images.dzcdn.net/images/cover/08793909075a6d5f812fdfab902f03b0/500x500-000000-80-0-0.jpg"
  },
  {
   "title": "American Football",
@@ -953,9 +953,9 @@
    "Post-Rock"
   ],
   "type": "Studio",
-  "id": "local:american-football-american-football",
-  "cover": null,
-  "coverLarge": null
+  "id": "f98334d4-5eb5-48b2-820b-faa8db645c10",
+  "cover": "https://cdn-images.dzcdn.net/images/cover/1f54d600d0ce5c88a6b2fd75659ec796/250x250-000000-80-0-0.jpg",
+  "coverLarge": "https://cdn-images.dzcdn.net/images/cover/1f54d600d0ce5c88a6b2fd75659ec796/500x500-000000-80-0-0.jpg"
  },
  {
   "title": "If You're Feeling Sinister",
@@ -967,9 +967,9 @@
    "Twee Pop"
   ],
   "type": "Studio",
-  "id": "local:belle-and-sebastian-if-you-re-feeling-sinister",
-  "cover": null,
-  "coverLarge": null
+  "id": "66be5deb-75d5-3737-9037-1c745891d3ec",
+  "cover": "https://cdn-images.dzcdn.net/images/cover/93f2d604963d722e45c74628c653844d/250x250-000000-80-0-0.jpg",
+  "coverLarge": "https://cdn-images.dzcdn.net/images/cover/93f2d604963d722e45c74628c653844d/500x500-000000-80-0-0.jpg"
  },
  {
   "title": "For the First Time",
@@ -982,9 +982,9 @@
    "Post-Punk"
   ],
   "type": "Studio",
-  "id": "local:black-country-new-road-for-the-first-time",
-  "cover": null,
-  "coverLarge": null
+  "id": "968b13bb-026b-410e-831e-a7bb7418ea60",
+  "cover": "https://cdn-images.dzcdn.net/images/cover/a3b3023f899d2836828f0dd269dcf0b4/250x250-000000-80-0-0.jpg",
+  "coverLarge": "https://cdn-images.dzcdn.net/images/cover/a3b3023f899d2836828f0dd269dcf0b4/500x500-000000-80-0-0.jpg"
  },
  {
   "title": "Another Green World",
@@ -996,9 +996,9 @@
    "Ambient"
   ],
   "type": "Studio",
-  "id": "local:brian-eno-another-green-world",
-  "cover": null,
-  "coverLarge": null
+  "id": "7d5a684e-73a3-325c-a59c-34c9a941d8d6",
+  "cover": "https://cdn-images.dzcdn.net/images/cover/436793d7e05fed07b84673e188889949/250x250-000000-80-0-0.jpg",
+  "coverLarge": "https://cdn-images.dzcdn.net/images/cover/436793d7e05fed07b84673e188889949/500x500-000000-80-0-0.jpg"
  },
  {
   "title": "Be",
@@ -1009,9 +1009,9 @@
    "Conscious Hip Hop"
   ],
   "type": "Studio",
-  "id": "local:common-be",
-  "cover": null,
-  "coverLarge": null
+  "id": "93b891c9-4fc4-3085-960e-5da4c7fe8113",
+  "cover": "https://cdn-images.dzcdn.net/images/cover/6ed24b2e889e4bcd3fa260c02a453318/250x250-000000-80-0-0.jpg",
+  "coverLarge": "https://cdn-images.dzcdn.net/images/cover/6ed24b2e889e4bcd3fa260c02a453318/500x500-000000-80-0-0.jpg"
  },
  {
   "title": "\"Heroes\"",
@@ -1022,9 +1022,9 @@
    "Art Rock"
   ],
   "type": "Studio",
-  "id": "local:david-bowie-heroes",
-  "cover": null,
-  "coverLarge": null
+  "id": "9eccd731-ccf8-3614-a4b8-82ec6d2d3ab5",
+  "cover": "https://cdn-images.dzcdn.net/images/cover/62fea39de5ac1f80e5a592d58178a6b7/250x250-000000-80-0-0.jpg",
+  "coverLarge": "https://cdn-images.dzcdn.net/images/cover/62fea39de5ac1f80e5a592d58178a6b7/500x500-000000-80-0-0.jpg"
  },
  {
   "title": "Hunky Dory",
@@ -1037,9 +1037,9 @@
    "Art Rock"
   ],
   "type": "Studio",
-  "id": "local:david-bowie-hunky-dory",
-  "cover": null,
-  "coverLarge": null
+  "id": "743b0b2e-a23a-3182-950e-232f8cb0dfb7",
+  "cover": "https://cdn-images.dzcdn.net/images/cover/d10ad234d6a298ef06cb0ed338700918/250x250-000000-80-0-0.jpg",
+  "coverLarge": "https://cdn-images.dzcdn.net/images/cover/d10ad234d6a298ef06cb0ed338700918/500x500-000000-80-0-0.jpg"
  },
  {
   "title": "3D Country",
@@ -1050,9 +1050,9 @@
    "Indie Rock"
   ],
   "type": "Studio",
-  "id": "local:geese-3d-country",
-  "cover": null,
-  "coverLarge": null
+  "id": "c0a0a417-6aac-4a75-b34a-62f7c150fef4",
+  "cover": "https://cdn-images.dzcdn.net/images/cover/2f8ec72dc2e6a35f9da2b780144e07c3/250x250-000000-80-0-0.jpg",
+  "coverLarge": "https://cdn-images.dzcdn.net/images/cover/2f8ec72dc2e6a35f9da2b780144e07c3/500x500-000000-80-0-0.jpg"
  },
  {
   "title": "Hot Buttered Soul",
@@ -1063,9 +1063,9 @@
    "Progressive Soul"
   ],
   "type": "Studio",
-  "id": "local:isaac-hayes-hot-buttered-soul",
-  "cover": null,
-  "coverLarge": null
+  "id": "e76d4f75-f09b-3f5b-aca9-44ac4489e58d",
+  "cover": "https://cdn-images.dzcdn.net/images/cover/b99fa9a5c1805b5c379836c5504a2a71/250x250-000000-80-0-0.jpg",
+  "coverLarge": "https://cdn-images.dzcdn.net/images/cover/b99fa9a5c1805b5c379836c5504a2a71/500x500-000000-80-0-0.jpg"
  },
  {
   "title": "Plastic Ono Band",
@@ -1077,9 +1077,9 @@
    "Pop Rock"
   ],
   "type": "Studio",
-  "id": "local:john-lennon-plastic-ono-band",
-  "cover": null,
-  "coverLarge": null
+  "id": "25fbf359-9e68-44e5-801d-383db90e0835",
+  "cover": "https://cdn-images.dzcdn.net/images/cover/3e6d3a69053cdbc295b041857521b1f1/250x250-000000-80-0-0.jpg",
+  "coverLarge": "https://cdn-images.dzcdn.net/images/cover/3e6d3a69053cdbc295b041857521b1f1/500x500-000000-80-0-0.jpg"
  },
  {
   "title": "The Life of Pablo",
@@ -1091,9 +1091,9 @@
    "Experimental Hip Hop"
   ],
   "type": "Studio",
-  "id": "local:kanye-west-the-life-of-pablo",
-  "cover": null,
-  "coverLarge": null
+  "id": "8c18657a-6338-490d-a952-897663596b96",
+  "cover": "https://cdn-images.dzcdn.net/images/cover/bb07ba5f19e94a91b67104dc232966a4/250x250-000000-80-0-0.jpg",
+  "coverLarge": "https://cdn-images.dzcdn.net/images/cover/bb07ba5f19e94a91b67104dc232966a4/500x500-000000-80-0-0.jpg"
  },
  {
   "title": "The Dreaming",
@@ -1105,9 +1105,9 @@
    "Progressive Pop"
   ],
   "type": "Studio",
-  "id": "local:kate-bush-the-dreaming",
-  "cover": null,
-  "coverLarge": null
+  "id": "2a97dc86-e972-37f0-a277-49388bb64e51",
+  "cover": "https://cdn-images.dzcdn.net/images/cover/0b8d90db1bc8cc2d5e343100faaabc50/250x250-000000-80-0-0.jpg",
+  "coverLarge": "https://cdn-images.dzcdn.net/images/cover/0b8d90db1bc8cc2d5e343100faaabc50/500x500-000000-80-0-0.jpg"
  },
  {
   "title": "Led Zeppelin",
@@ -1119,9 +1119,9 @@
    "Blues Rock"
   ],
   "type": "Studio",
-  "id": "local:led-zeppelin-led-zeppelin",
-  "cover": null,
-  "coverLarge": null
+  "id": "f0f76bfa-96e2-4041-9e30-5bdb2c619711",
+  "cover": "https://cdn-images.dzcdn.net/images/cover/a035427bb18a7a99bb7f0e531e8598d8/250x250-000000-80-0-0.jpg",
+  "coverLarge": "https://cdn-images.dzcdn.net/images/cover/a035427bb18a7a99bb7f0e531e8598d8/500x500-000000-80-0-0.jpg"
  },
  {
   "title": "Led Zeppelin II",
@@ -1133,9 +1133,9 @@
    "Blues Rock"
   ],
   "type": "Studio",
-  "id": "local:led-zeppelin-led-zeppelin-ii",
-  "cover": null,
-  "coverLarge": null
+  "id": "33b4653d-006e-3cc1-8afb-386b15a6cd6e",
+  "cover": "https://cdn-images.dzcdn.net/images/cover/a035427bb18a7a99bb7f0e531e8598d8/250x250-000000-80-0-0.jpg",
+  "coverLarge": "https://cdn-images.dzcdn.net/images/cover/a035427bb18a7a99bb7f0e531e8598d8/500x500-000000-80-0-0.jpg"
  },
  {
   "title": "Led Zeppelin IV",
@@ -1146,9 +1146,9 @@
    "Hard Rock"
   ],
   "type": "Studio",
-  "id": "local:led-zeppelin-led-zeppelin-iv",
-  "cover": null,
-  "coverLarge": null
+  "id": "2e61da88-39e9-3473-81d2-c964cb394952",
+  "cover": "https://cdn-images.dzcdn.net/images/cover/2047754dc07232def42ec26a9a854544/250x250-000000-80-0-0.jpg",
+  "coverLarge": "https://cdn-images.dzcdn.net/images/cover/2047754dc07232def42ec26a9a854544/500x500-000000-80-0-0.jpg"
  },
  {
   "title": "Thriller",
@@ -1160,9 +1160,9 @@
    "Dance-Pop"
   ],
   "type": "Studio",
-  "id": "local:michael-jackson-thriller",
-  "cover": null,
-  "coverLarge": null
+  "id": "3a7817b5-22cb-32c3-a31b-2c8309fbf92e",
+  "cover": "https://cdn-images.dzcdn.net/images/cover/f01e09ceb8ad1e96707c1b4aadb5911b/250x250-000000-80-0-0.jpg",
+  "coverLarge": "https://cdn-images.dzcdn.net/images/cover/f01e09ceb8ad1e96707c1b4aadb5911b/500x500-000000-80-0-0.jpg"
  },
  {
   "title": "Black on Both Sides",
@@ -1173,9 +1173,9 @@
    "Conscious Hip Hop"
   ],
   "type": "Studio",
-  "id": "local:mos-def-black-on-both-sides",
-  "cover": null,
-  "coverLarge": null
+  "id": "d6658b47-463a-390e-9417-99c818aea004",
+  "cover": "https://cdn-images.dzcdn.net/images/cover/89e28a0a93eff9dc574476710b5c09e2/250x250-000000-80-0-0.jpg",
+  "coverLarge": "https://cdn-images.dzcdn.net/images/cover/89e28a0a93eff9dc574476710b5c09e2/500x500-000000-80-0-0.jpg"
  },
  {
   "title": "Bryter Layter",
@@ -1187,9 +1187,9 @@
    "Chamber Folk"
   ],
   "type": "Studio",
-  "id": "local:nick-drake-bryter-layter",
-  "cover": null,
-  "coverLarge": null
+  "id": "d742fded-00e7-3746-a63d-aa2def3fdbcc",
+  "cover": "https://cdn-images.dzcdn.net/images/cover/8d2d8affb063f38d8e3e4914a225061e/250x250-000000-80-0-0.jpg",
+  "coverLarge": "https://cdn-images.dzcdn.net/images/cover/8d2d8affb063f38d8e3e4914a225061e/500x500-000000-80-0-0.jpg"
  },
  {
   "title": "In Utero",
@@ -1201,9 +1201,9 @@
    "Noise Rock"
   ],
   "type": "Studio",
-  "id": "local:nirvana-in-utero",
-  "cover": null,
-  "coverLarge": null
+  "id": "2a0981fb-9593-3019-864b-ce934d97a16e",
+  "cover": "https://cdn-images.dzcdn.net/images/cover/7b4b3ccd52e58bec9dc0c8ea1973b177/250x250-000000-80-0-0.jpg",
+  "coverLarge": "https://cdn-images.dzcdn.net/images/cover/7b4b3ccd52e58bec9dc0c8ea1973b177/500x500-000000-80-0-0.jpg"
  },
  {
   "title": "Nevermind",
@@ -1215,9 +1215,9 @@
    "Alternative Rock"
   ],
   "type": "Studio",
-  "id": "local:nirvana-nevermind",
-  "cover": null,
-  "coverLarge": null
+  "id": "1b022e01-4da6-387b-8658-8678046e4cef",
+  "cover": "https://cdn-images.dzcdn.net/images/cover/b8cb3222d8668ed4ed2d3172fb341a3a/250x250-000000-80-0-0.jpg",
+  "coverLarge": "https://cdn-images.dzcdn.net/images/cover/b8cb3222d8668ed4ed2d3172fb341a3a/500x500-000000-80-0-0.jpg"
  },
  {
   "title": "Aquemini",
@@ -1228,9 +1228,9 @@
    "Conscious Hip Hop"
   ],
   "type": "Studio",
-  "id": "local:outkast-aquemini",
-  "cover": null,
-  "coverLarge": null
+  "id": "eb655897-6cc5-3fc1-b9ed-5008eb80c682",
+  "cover": "https://cdn-images.dzcdn.net/images/cover/9aed5495a46ad76c9202589463133991/250x250-000000-80-0-0.jpg",
+  "coverLarge": "https://cdn-images.dzcdn.net/images/cover/9aed5495a46ad76c9202589463133991/500x500-000000-80-0-0.jpg"
  },
  {
   "title": "Crooked Rain, Crooked Rain",
@@ -1242,9 +1242,9 @@
    "Slacker Rock"
   ],
   "type": "Studio",
-  "id": "local:pavement-crooked-rain-crooked-rain",
-  "cover": null,
-  "coverLarge": null
+  "id": "4f348977-6f44-39f9-b243-071927ecc6a4",
+  "cover": "https://cdn-images.dzcdn.net/images/cover/4f7553a1987ef17d30c6e7c3c78674ed/250x250-000000-80-0-0.jpg",
+  "coverLarge": "https://cdn-images.dzcdn.net/images/cover/4f7553a1987ef17d30c6e7c3c78674ed/500x500-000000-80-0-0.jpg"
  },
  {
   "title": "Surfer Rosa",
@@ -1256,9 +1256,9 @@
    "Alternative Rock"
   ],
   "type": "Studio",
-  "id": "local:pixies-surfer-rosa",
-  "cover": null,
-  "coverLarge": null
+  "id": "74e36cbc-a747-3ebf-a60e-51e656c87741",
+  "cover": "https://cdn-images.dzcdn.net/images/cover/562e91cb88484ac64fbdd41ffcfe0324/250x250-000000-80-0-0.jpg",
+  "coverLarge": "https://cdn-images.dzcdn.net/images/cover/562e91cb88484ac64fbdd41ffcfe0324/500x500-000000-80-0-0.jpg"
  },
  {
   "title": "A Moon Shaped Pool",
@@ -1271,9 +1271,9 @@
    "Chamber Pop"
   ],
   "type": "Studio",
-  "id": "local:radiohead-a-moon-shaped-pool",
-  "cover": null,
-  "coverLarge": null
+  "id": "bbce0087-d386-4246-a51d-dbcdfdbe8fb2",
+  "cover": "https://cdn-images.dzcdn.net/images/cover/e9232e4391ed1206cc0bd6ab17822177/250x250-000000-80-0-0.jpg",
+  "coverLarge": "https://cdn-images.dzcdn.net/images/cover/e9232e4391ed1206cc0bd6ab17822177/500x500-000000-80-0-0.jpg"
  },
  {
   "title": "Moving Pictures",
@@ -1285,9 +1285,9 @@
    "Hard Rock"
   ],
   "type": "Studio",
-  "id": "local:rush-moving-pictures",
-  "cover": null,
-  "coverLarge": null
+  "id": "40e30dc1-55ac-33e1-85d3-1f1508140bfc",
+  "cover": "https://cdn-images.dzcdn.net/images/cover/35dcc332e64fcb44bc30bcda1b951c91/250x250-000000-80-0-0.jpg",
+  "coverLarge": "https://cdn-images.dzcdn.net/images/cover/35dcc332e64fcb44bc30bcda1b951c91/500x500-000000-80-0-0.jpg"
  },
  {
   "title": "Electric Warrior",
@@ -1298,9 +1298,9 @@
    "Glam Rock"
   ],
   "type": "Studio",
-  "id": "local:t-rex-electric-warrior",
-  "cover": null,
-  "coverLarge": null
+  "id": "e53310bf-8ccc-3d7f-a0b7-5ca4dbababcb",
+  "cover": "https://cdn-images.dzcdn.net/images/cover/8d66d1047b34b635b27b6714e8ef8f52/250x250-000000-80-0-0.jpg",
+  "coverLarge": "https://cdn-images.dzcdn.net/images/cover/8d66d1047b34b635b27b6714e8ef8f52/500x500-000000-80-0-0.jpg"
  },
  {
   "title": "Magical Mystery Tour",
@@ -1312,9 +1312,9 @@
    "Pop Rock"
   ],
   "type": "Studio",
-  "id": "local:the-beatles-magical-mystery-tour",
-  "cover": null,
-  "coverLarge": null
+  "id": "6e514645-fbee-34ac-97e0-c2120a4a5644",
+  "cover": "https://cdn-images.dzcdn.net/images/cover/4eb13af46f92a16e907745448ff91c70/250x250-000000-80-0-0.jpg",
+  "coverLarge": "https://cdn-images.dzcdn.net/images/cover/4eb13af46f92a16e907745448ff91c70/500x500-000000-80-0-0.jpg"
  },
  {
   "title": "The Beatles [White Album]",
@@ -1325,9 +1325,9 @@
    "Pop Rock"
   ],
   "type": "Studio",
-  "id": "local:the-beatles-the-beatles-white-album",
-  "cover": null,
-  "coverLarge": null
+  "id": "8b7c6e7f-88ba-3db6-80ba-d9a088222ba3",
+  "cover": "https://cdn-images.dzcdn.net/images/cover/d7cce0e0d2a70ced4350497b7f015ff1/250x250-000000-80-0-0.jpg",
+  "coverLarge": "https://cdn-images.dzcdn.net/images/cover/d7cce0e0d2a70ced4350497b7f015ff1/500x500-000000-80-0-0.jpg"
  },
  {
   "title": "Yoshimi Battles the Pink Robots",
@@ -1339,9 +1339,9 @@
    "Psychedelic Pop"
   ],
   "type": "Studio",
-  "id": "local:the-flaming-lips-yoshimi-battles-the-pink-robots",
-  "cover": null,
-  "coverLarge": null
+  "id": "54b1ad4e-7e86-308d-b053-a0843f6abbdb",
+  "cover": "https://cdn-images.dzcdn.net/images/cover/985f7e71bd80ec255087f8c2282d467e/250x250-000000-80-0-0.jpg",
+  "coverLarge": "https://cdn-images.dzcdn.net/images/cover/985f7e71bd80ec255087f8c2282d467e/500x500-000000-80-0-0.jpg"
  },
  {
   "title": "Are You Experienced",
@@ -1353,9 +1353,9 @@
    "Psychedelic Rock"
   ],
   "type": "Studio",
-  "id": "local:the-jimi-hendrix-experience-are-you-experienced",
-  "cover": null,
-  "coverLarge": null
+  "id": "791fdbb8-b19c-4d33-9ba4-d2d2f35abec6",
+  "cover": "https://cdn-images.dzcdn.net/images/cover/b83888148da4c3978b9c3870d8cb3166/250x250-000000-80-0-0.jpg",
+  "coverLarge": "https://cdn-images.dzcdn.net/images/cover/b83888148da4c3978b9c3870d8cb3166/500x500-000000-80-0-0.jpg"
  },
  {
   "title": "Electric Ladyland",
@@ -1367,9 +1367,9 @@
    "Psychedelic Rock"
   ],
   "type": "Studio",
-  "id": "local:the-jimi-hendrix-experience-electric-ladyland",
-  "cover": null,
-  "coverLarge": null
+  "id": "47ba2d59-5544-34a4-b108-dc08c0956298",
+  "cover": "https://cdn-images.dzcdn.net/images/cover/0b39a81631baab00f970d8f5a7e19304/250x250-000000-80-0-0.jpg",
+  "coverLarge": "https://cdn-images.dzcdn.net/images/cover/0b39a81631baab00f970d8f5a7e19304/500x500-000000-80-0-0.jpg"
  },
  {
   "title": "Siamese Dream",
@@ -1380,9 +1380,9 @@
    "Alternative Rock"
   ],
   "type": "Studio",
-  "id": "local:the-smashing-pumpkins-siamese-dream",
-  "cover": null,
-  "coverLarge": null
+  "id": "cb94282e-44f3-48ec-b46d-cde8f9c15b6d",
+  "cover": "https://cdn-images.dzcdn.net/images/cover/9821c23566db6e54775087a85d57efce/250x250-000000-80-0-0.jpg",
+  "coverLarge": "https://cdn-images.dzcdn.net/images/cover/9821c23566db6e54775087a85d57efce/500x500-000000-80-0-0.jpg"
  },
  {
   "title": "Vaudeville Villain",
@@ -1393,9 +1393,9 @@
    "Abstract Hip Hop"
   ],
   "type": "Studio",
-  "id": "local:viktor-vaughn-vaudeville-villain",
-  "cover": null,
-  "coverLarge": null
+  "id": "c9c53dc7-fe1a-35ba-84e3-bb66e8318ee9",
+  "cover": "https://cdn-images.dzcdn.net/images/cover/ce0c12241b84495ba27014975c924f77/250x250-000000-80-0-0.jpg",
+  "coverLarge": "https://cdn-images.dzcdn.net/images/cover/ce0c12241b84495ba27014975c924f77/500x500-000000-80-0-0.jpg"
  },
  {
   "title": "Back to Black",
@@ -1407,9 +1407,9 @@
    "Rhythm & Blues"
   ],
   "type": "Studio",
-  "id": "local:amy-winehouse-back-to-black",
-  "cover": null,
-  "coverLarge": null
+  "id": "395c3c5d-a677-3c1f-ac1f-1beff237f62d",
+  "cover": "https://cdn-images.dzcdn.net/images/cover/b64c00728b4047dca38254ff2cc12f6d/250x250-000000-80-0-0.jpg",
+  "coverLarge": "https://cdn-images.dzcdn.net/images/cover/b64c00728b4047dca38254ff2cc12f6d/500x500-000000-80-0-0.jpg"
  },
  {
   "title": "Selected Ambient Works 85-92",
@@ -1421,9 +1421,9 @@
    "IDM"
   ],
   "type": "Studio",
-  "id": "local:aphex-twin-selected-ambient-works-85-92",
-  "cover": null,
-  "coverLarge": null
+  "id": "6842c81d-ea77-3dfd-abf7-4323add3f4d4",
+  "cover": "https://cdn-images.dzcdn.net/images/cover/61597432632bf90678b7132db0451f45/250x250-000000-80-0-0.jpg",
+  "coverLarge": "https://cdn-images.dzcdn.net/images/cover/61597432632bf90678b7132db0451f45/500x500-000000-80-0-0.jpg"
  },
  {
   "title": "Whatever People Say I Am, That's What I'm Not",
@@ -1435,9 +1435,9 @@
    "Indie Rock"
   ],
   "type": "Studio",
-  "id": "local:arctic-monkeys-whatever-people-say-i-am-that-s-what-i-m-not",
-  "cover": null,
-  "coverLarge": null
+  "id": "6c9c4985-3628-3070-b956-b538f30c9bea",
+  "cover": "https://cdn-images.dzcdn.net/images/cover/f7a0a1ca91431861989efe5a22aad557/250x250-000000-80-0-0.jpg",
+  "coverLarge": "https://cdn-images.dzcdn.net/images/cover/f7a0a1ca91431861989efe5a22aad557/500x500-000000-80-0-0.jpg"
  },
  {
   "title": "The Stranger",
@@ -1450,9 +1450,9 @@
    "Pop Rock"
   ],
   "type": "Studio",
-  "id": "local:billy-joel-the-stranger",
-  "cover": null,
-  "coverLarge": null
+  "id": "735bcee6-6be6-3957-af15-d21ba2bd355b",
+  "cover": "https://cdn-images.dzcdn.net/images/cover/5c68316092e84b703d2118e7f1c7baed/250x250-000000-80-0-0.jpg",
+  "coverLarge": "https://cdn-images.dzcdn.net/images/cover/5c68316092e84b703d2118e7f1c7baed/500x500-000000-80-0-0.jpg"
  },
  {
   "title": "Scary Monsters",
@@ -1464,9 +1464,9 @@
    "New Wave"
   ],
   "type": "Studio",
-  "id": "local:david-bowie-scary-monsters",
-  "cover": null,
-  "coverLarge": null
+  "id": "8a632aed-c5d4-3fc1-bb31-350bd1a54f3d",
+  "cover": "https://cdn-images.dzcdn.net/images/cover/a297878ef4a45fe21cdef103057df45d/250x250-000000-80-0-0.jpg",
+  "coverLarge": "https://cdn-images.dzcdn.net/images/cover/a297878ef4a45fe21cdef103057df45d/500x500-000000-80-0-0.jpg"
  },
  {
   "title": "2001",
@@ -1477,9 +1477,9 @@
    "Gangsta Rap"
   ],
   "type": "Studio",
-  "id": "local:dr-dre-2001",
-  "cover": null,
-  "coverLarge": null
+  "id": "f28e065d-fd56-3929-b0a4-6aa1b4c78bdb",
+  "cover": "https://cdn-images.dzcdn.net/images/cover/0d9a24d054cbc5ab11843beed9f1422b/250x250-000000-80-0-0.jpg",
+  "coverLarge": "https://cdn-images.dzcdn.net/images/cover/0d9a24d054cbc5ab11843beed9f1422b/500x500-000000-80-0-0.jpg"
  },
  {
   "title": "空中キャンプ (Kuchu Camp)",
@@ -1520,8 +1520,8 @@
   ],
   "type": "Studio",
   "id": "local:ichiko-aoba-windswept-adan",
-  "cover": null,
-  "coverLarge": null
+  "cover": "https://cdn-images.dzcdn.net/images/cover/d888de60084644369238dba86790eb07/250x250-000000-80-0-0.jpg",
+  "coverLarge": "https://cdn-images.dzcdn.net/images/cover/d888de60084644369238dba86790eb07/500x500-000000-80-0-0.jpg"
  },
  {
   "title": "You Don't Mess Around with Jim",
@@ -1533,9 +1533,9 @@
    "Folk Pop"
   ],
   "type": "Studio",
-  "id": "local:jim-croce-you-don-t-mess-around-with-jim",
-  "cover": null,
-  "coverLarge": null
+  "id": "68dfa5cd-f9eb-3deb-83c7-95f72704f4fb",
+  "cover": "https://cdn-images.dzcdn.net/images/cover/169ca63f04c2d3e039a34f1f290afa71/250x250-000000-80-0-0.jpg",
+  "coverLarge": "https://cdn-images.dzcdn.net/images/cover/169ca63f04c2d3e039a34f1f290afa71/500x500-000000-80-0-0.jpg"
  },
  {
   "title": "A Love Supreme",
@@ -1547,9 +1547,9 @@
    "Avant-Garde Jazz"
   ],
   "type": "Studio",
-  "id": "local:john-coltrane-a-love-supreme",
-  "cover": null,
-  "coverLarge": null
+  "id": "77cf47ba-58cd-3f3d-a5f9-79bf89860421",
+  "cover": "https://cdn-images.dzcdn.net/images/cover/bed1c4862363091561ae57979fad4c08/250x250-000000-80-0-0.jpg",
+  "coverLarge": "https://cdn-images.dzcdn.net/images/cover/bed1c4862363091561ae57979fad4c08/500x500-000000-80-0-0.jpg"
  },
  {
   "title": "Imagine",
@@ -1561,9 +1561,9 @@
    "Singer-Songwriter"
   ],
   "type": "Studio",
-  "id": "local:john-lennon-imagine",
-  "cover": null,
-  "coverLarge": null
+  "id": "12a3c103-41e5-4da0-aea3-e5a4150abdcd",
+  "cover": "https://cdn-images.dzcdn.net/images/cover/2675a9277dfabb74c32b7a3b2c9b0170/250x250-000000-80-0-0.jpg",
+  "coverLarge": "https://cdn-images.dzcdn.net/images/cover/2675a9277dfabb74c32b7a3b2c9b0170/500x500-000000-80-0-0.jpg"
  },
  {
   "title": "Graduation",
@@ -1574,9 +1574,9 @@
    "Pop Rap"
   ],
   "type": "Studio",
-  "id": "local:kanye-west-graduation",
-  "cover": null,
-  "coverLarge": null
+  "id": "d44c50ad-61fd-3fce-95fc-27024d7f1d30",
+  "cover": "https://cdn-images.dzcdn.net/images/cover/c3bf0695a63938bcfd486b606dfcddb7/250x250-000000-80-0-0.jpg",
+  "coverLarge": "https://cdn-images.dzcdn.net/images/cover/c3bf0695a63938bcfd486b606dfcddb7/500x500-000000-80-0-0.jpg"
  },
  {
   "title": "Yeezus",
@@ -1588,9 +1588,9 @@
    "Industrial Hip Hop"
   ],
   "type": "Studio",
-  "id": "local:kanye-west-yeezus",
-  "cover": null,
-  "coverLarge": null
+  "id": "5d4d0f2d-9be7-4922-bc9a-cbd2880b12c2",
+  "cover": "https://cdn-images.dzcdn.net/images/cover/5a56530f7906bd9786fa47bd0be421b3/250x250-000000-80-0-0.jpg",
+  "coverLarge": "https://cdn-images.dzcdn.net/images/cover/5a56530f7906bd9786fa47bd0be421b3/500x500-000000-80-0-0.jpg"
  },
  {
   "title": "My Beautiful Dark Twisted Fantasy",
@@ -1601,9 +1601,9 @@
    "Pop Rap"
   ],
   "type": "Studio",
-  "id": "local:kanye-west-my-beautiful-dark-twisted-fantasy",
-  "cover": null,
-  "coverLarge": null
+  "id": "5d6e21e1-deb5-428e-bb42-c2a567f3619b",
+  "cover": "https://cdn-images.dzcdn.net/images/cover/58f2b66205a31c42cd1d340b99735d7c/250x250-000000-80-0-0.jpg",
+  "coverLarge": "https://cdn-images.dzcdn.net/images/cover/58f2b66205a31c42cd1d340b99735d7c/500x500-000000-80-0-0.jpg"
  },
  {
   "title": "Never for Ever",
@@ -1616,7 +1616,7 @@
    "Baroque Pop"
   ],
   "type": "Studio",
-  "id": "local:kate-bush-never-for-ever",
+  "id": "b3c5541a-e1d0-354f-b6c8-565c37dde332",
   "cover": null,
   "coverLarge": null
  },
@@ -1627,9 +1627,9 @@
   "genre": "Pop",
   "subgenres": [],
   "type": "Studio",
-  "id": "local:michael-jackson-off-the-wall",
-  "cover": null,
-  "coverLarge": null
+  "id": "c78006f8-20b0-4f6d-bfa3-b0a368dfe198",
+  "cover": "https://cdn-images.dzcdn.net/images/cover/9a1084ee1062fd9cd8dbeb1a8978351d/250x250-000000-80-0-0.jpg",
+  "coverLarge": "https://cdn-images.dzcdn.net/images/cover/9a1084ee1062fd9cd8dbeb1a8978351d/500x500-000000-80-0-0.jpg"
  },
  {
   "title": "(What's the Story) Morning Glory?",
@@ -1640,9 +1640,9 @@
    "Britpop"
   ],
   "type": "Studio",
-  "id": "local:oasis-what-s-the-story-morning-glory",
-  "cover": null,
-  "coverLarge": null
+  "id": "a051a601-6e66-4b70-8a84-636604f3be81",
+  "cover": "https://cdn-images.dzcdn.net/images/cover/ff11476a823112623d3d8088ba4913a3/250x250-000000-80-0-0.jpg",
+  "coverLarge": "https://cdn-images.dzcdn.net/images/cover/ff11476a823112623d3d8088ba4913a3/500x500-000000-80-0-0.jpg"
  },
  {
   "title": "Definitely Maybe",
@@ -1651,9 +1651,9 @@
   "genre": "Rock",
   "subgenres": [],
   "type": "Studio",
-  "id": "local:oasis-definitely-maybe",
-  "cover": null,
-  "coverLarge": null
+  "id": "451dca98-c118-32e1-9244-c47ca9c3c0f9",
+  "cover": "https://cdn-images.dzcdn.net/images/cover/62f871c0944ba89eb9308507de7b5cc1/250x250-000000-80-0-0.jpg",
+  "coverLarge": "https://cdn-images.dzcdn.net/images/cover/62f871c0944ba89eb9308507de7b5cc1/500x500-000000-80-0-0.jpg"
  },
  {
   "title": "ATLiens",
@@ -1662,9 +1662,9 @@
   "genre": "Hip-hop",
   "subgenres": [],
   "type": "Studio",
-  "id": "local:outkast-atliens",
-  "cover": null,
-  "coverLarge": null
+  "id": "672fa6be-ae6a-38a2-a0d3-6a393a3929bf",
+  "cover": "https://cdn-images.dzcdn.net/images/cover/c52afaf9cbc4671a1b1ee18009db19b5/250x250-000000-80-0-0.jpg",
+  "coverLarge": "https://cdn-images.dzcdn.net/images/cover/c52afaf9cbc4671a1b1ee18009db19b5/500x500-000000-80-0-0.jpg"
  },
  {
   "title": "The Dark Side of the Moon",
@@ -1676,9 +1676,9 @@
    "Progressive Rock"
   ],
   "type": "Studio",
-  "id": "local:pink-floyd-the-dark-side-of-the-moon",
-  "cover": null,
-  "coverLarge": null
+  "id": "f5093c06-23e3-404f-aeaa-40f72885ee3a",
+  "cover": "https://cdn-images.dzcdn.net/images/cover/e635a8510c1a74bc089b3566ebbb9cb8/250x250-000000-80-0-0.jpg",
+  "coverLarge": "https://cdn-images.dzcdn.net/images/cover/e635a8510c1a74bc089b3566ebbb9cb8/500x500-000000-80-0-0.jpg"
  },
  {
   "title": "Amnesiac",
@@ -1690,9 +1690,9 @@
    "Experimental Rock"
   ],
   "type": "Studio",
-  "id": "local:radiohead-amnesiac",
-  "cover": null,
-  "coverLarge": null
+  "id": "408b32ef-6387-334f-a44d-b8c3ea6cdb10",
+  "cover": "https://cdn-images.dzcdn.net/images/cover/d611b9ef9d7ce87a74c697d74be5ae15/250x250-000000-80-0-0.jpg",
+  "coverLarge": "https://cdn-images.dzcdn.net/images/cover/d611b9ef9d7ce87a74c697d74be5ae15/500x500-000000-80-0-0.jpg"
  },
  {
   "title": "Hail to the Thief",
@@ -1704,9 +1704,9 @@
    "Alternative Rock"
   ],
   "type": "Studio",
-  "id": "local:radiohead-hail-to-the-thief",
-  "cover": null,
-  "coverLarge": null
+  "id": "5c14fd50-a2f1-3672-9537-b0dad91bea2f",
+  "cover": "https://cdn-images.dzcdn.net/images/cover/d3d9e1f53d60c5d2c764b20870aab69e/250x250-000000-80-0-0.jpg",
+  "coverLarge": "https://cdn-images.dzcdn.net/images/cover/d3d9e1f53d60c5d2c764b20870aab69e/500x500-000000-80-0-0.jpg"
  },
  {
   "title": "Permanent Waves",
@@ -1715,9 +1715,9 @@
   "genre": "Rock",
   "subgenres": [],
   "type": "Studio",
-  "id": "local:rush-permanent-waves",
-  "cover": null,
-  "coverLarge": null
+  "id": "664ffb4c-8178-3f99-b0d3-0bab3a51f793",
+  "cover": "https://cdn-images.dzcdn.net/images/cover/5bc2ef7928d0e357f050422ef1110c3a/250x250-000000-80-0-0.jpg",
+  "coverLarge": "https://cdn-images.dzcdn.net/images/cover/5bc2ef7928d0e357f050422ef1110c3a/500x500-000000-80-0-0.jpg"
  },
  {
   "title": "Daydream Nation",
@@ -1726,9 +1726,9 @@
   "genre": "Rock",
   "subgenres": [],
   "type": "Studio",
-  "id": "local:sonic-youth-daydream-nation",
-  "cover": null,
-  "coverLarge": null
+  "id": "24769a99-8189-3d8c-947e-dbc8574dad5c",
+  "cover": "https://cdn-images.dzcdn.net/images/cover/72f81ca7d2e4d281468de1e417e3e671/250x250-000000-80-0-0.jpg",
+  "coverLarge": "https://cdn-images.dzcdn.net/images/cover/72f81ca7d2e4d281468de1e417e3e671/500x500-000000-80-0-0.jpg"
  },
  {
   "title": "Laughing Stock",
@@ -1740,7 +1740,7 @@
    "Art Rock"
   ],
   "type": "Studio",
-  "id": "local:talk-talk-laughing-stock",
+  "id": "3e0de863-6232-3f43-b2a2-7cfbf71b99e9",
   "cover": null,
   "coverLarge": null
  },
@@ -1755,9 +1755,9 @@
    "Funk Rock"
   ],
   "type": "Studio",
-  "id": "local:talking-heads-remain-in-light",
-  "cover": null,
-  "coverLarge": null
+  "id": "f6b1b900-6108-32f0-abbd-2855af9151eb",
+  "cover": "https://cdn-images.dzcdn.net/images/cover/875f5b50833ff9d7950934bf1792a43a/250x250-000000-80-0-0.jpg",
+  "coverLarge": "https://cdn-images.dzcdn.net/images/cover/875f5b50833ff9d7950934bf1792a43a/500x500-000000-80-0-0.jpg"
  },
  {
   "title": "Currents",
@@ -1770,9 +1770,9 @@
    "Neo-Psychedelia"
   ],
   "type": "Studio",
-  "id": "local:tame-impala-currents",
-  "cover": null,
-  "coverLarge": null
+  "id": "08aa7a6c-3e43-4459-87b2-e47faf3a088a",
+  "cover": "https://cdn-images.dzcdn.net/images/cover/de5b9b704cd4ec36f8bf49beb3e17ba2/250x250-000000-80-0-0.jpg",
+  "coverLarge": "https://cdn-images.dzcdn.net/images/cover/de5b9b704cd4ec36f8bf49beb3e17ba2/500x500-000000-80-0-0.jpg"
  },
  {
   "title": "Pet Sounds",
@@ -1783,9 +1783,9 @@
    "Baroque Pop"
   ],
   "type": "Studio",
-  "id": "local:the-beach-boys-pet-sounds",
-  "cover": null,
-  "coverLarge": null
+  "id": "fdd96703-7b21-365e-bdea-38029fbeb84e",
+  "cover": "https://cdn-images.dzcdn.net/images/cover/4a5004943ff1c8bf41473fbcdf5e3326/250x250-000000-80-0-0.jpg",
+  "coverLarge": "https://cdn-images.dzcdn.net/images/cover/4a5004943ff1c8bf41473fbcdf5e3326/500x500-000000-80-0-0.jpg"
  },
  {
   "title": "Let It Be",
@@ -1797,9 +1797,9 @@
    "Blues Rock"
   ],
   "type": "Studio",
-  "id": "local:the-beatles-let-it-be",
-  "cover": null,
-  "coverLarge": null
+  "id": "221ff5cc-d3fa-361f-8fa9-667b31a7ef56",
+  "cover": "https://cdn-images.dzcdn.net/images/cover/b60b1023bf9977fd413204b19afda3d0/250x250-000000-80-0-0.jpg",
+  "coverLarge": "https://cdn-images.dzcdn.net/images/cover/b60b1023bf9977fd413204b19afda3d0/500x500-000000-80-0-0.jpg"
  },
  {
   "title": "Rubber Soul",
@@ -1810,9 +1810,9 @@
    "Pop Rock"
   ],
   "type": "Studio",
-  "id": "local:the-beatles-rubber-soul",
-  "cover": null,
-  "coverLarge": null
+  "id": "dca03435-8adb-30a5-ba82-5a162267ff38",
+  "cover": "https://cdn-images.dzcdn.net/images/cover/e6b1f1fe4b354609ba357015a52c9921/250x250-000000-80-0-0.jpg",
+  "coverLarge": "https://cdn-images.dzcdn.net/images/cover/e6b1f1fe4b354609ba357015a52c9921/500x500-000000-80-0-0.jpg"
  },
  {
   "title": "Sgt. Pepper's Lonely Hearts Club Band",
@@ -1824,9 +1824,9 @@
    "Pop Rock"
   ],
   "type": "Studio",
-  "id": "local:the-beatles-sgt-pepper-s-lonely-hearts-club-band",
-  "cover": null,
-  "coverLarge": null
+  "id": "9f7a4c28-8fa2-3113-929c-c47a9f7982c3",
+  "cover": "https://cdn-images.dzcdn.net/images/cover/4fcb73352b17d47429a273c5112632b0/250x250-000000-80-0-0.jpg",
+  "coverLarge": "https://cdn-images.dzcdn.net/images/cover/4fcb73352b17d47429a273c5112632b0/500x500-000000-80-0-0.jpg"
  },
  {
   "title": "Ready to Die",
@@ -1835,9 +1835,9 @@
   "genre": "Hip-hop",
   "subgenres": [],
   "type": "Studio",
-  "id": "local:the-notorious-b-i-g-ready-to-die",
-  "cover": null,
-  "coverLarge": null
+  "id": "5afcfeac-118a-35e6-af0d-35ec9003354d",
+  "cover": "https://cdn-images.dzcdn.net/images/cover/7143c2cd04a78c9c969d230c69465a03/250x250-000000-80-0-0.jpg",
+  "coverLarge": "https://cdn-images.dzcdn.net/images/cover/7143c2cd04a78c9c969d230c69465a03/500x500-000000-80-0-0.jpg"
  },
  {
   "title": "Meat Is Murder",
@@ -1846,9 +1846,9 @@
   "genre": "Pop",
   "subgenres": [],
   "type": "Studio",
-  "id": "local:the-smiths-meat-is-murder",
-  "cover": null,
-  "coverLarge": null
+  "id": "0d56a04c-045a-37db-bcc3-6c7099e94f16",
+  "cover": "https://cdn-images.dzcdn.net/images/cover/468e647424f6ae2619e5f3e49074359e/250x250-000000-80-0-0.jpg",
+  "coverLarge": "https://cdn-images.dzcdn.net/images/cover/468e647424f6ae2619e5f3e49074359e/500x500-000000-80-0-0.jpg"
  },
  {
   "title": "10,000 Days",
@@ -1860,9 +1860,9 @@
    "Progressive Metal"
   ],
   "type": "Studio",
-  "id": "local:tool-10-000-days",
-  "cover": null,
-  "coverLarge": null
+  "id": "ecfd0a01-57c8-3949-990a-1a950942e0e0",
+  "cover": "https://cdn-images.dzcdn.net/images/cover/c7a6f1259a8f9df284168a28988b8ad7/250x250-000000-80-0-0.jpg",
+  "coverLarge": "https://cdn-images.dzcdn.net/images/cover/c7a6f1259a8f9df284168a28988b8ad7/500x500-000000-80-0-0.jpg"
  },
  {
   "title": "Trench",
@@ -1871,9 +1871,9 @@
   "genre": "Pop",
   "subgenres": [],
   "type": "Studio",
-  "id": "local:twenty-one-pilots-trench",
-  "cover": null,
-  "coverLarge": null
+  "id": "b2460e22-8948-441a-b894-f031b57d4231",
+  "cover": "https://cdn-images.dzcdn.net/images/cover/765dc8aba0e893fc6d55af08572fc902/250x250-000000-80-0-0.jpg",
+  "coverLarge": "https://cdn-images.dzcdn.net/images/cover/765dc8aba0e893fc6d55af08572fc902/500x500-000000-80-0-0.jpg"
  },
  {
   "title": "Flower Boy",
@@ -1882,9 +1882,9 @@
   "genre": "Hip-hop",
   "subgenres": [],
   "type": "Studio",
-  "id": "local:tyler-the-creator-flower-boy",
-  "cover": null,
-  "coverLarge": null
+  "id": "e248e931-c26c-4c94-aba2-2f89ce583901",
+  "cover": "https://cdn-images.dzcdn.net/images/cover/a7a16b8f63b1ec0e9fbd327619966737/250x250-000000-80-0-0.jpg",
+  "coverLarge": "https://cdn-images.dzcdn.net/images/cover/a7a16b8f63b1ec0e9fbd327619966737/500x500-000000-80-0-0.jpg"
  },
  {
   "title": "Pinkerton",
@@ -1893,9 +1893,9 @@
   "genre": "Rock",
   "subgenres": [],
   "type": "Studio",
-  "id": "local:weezer-pinkerton",
-  "cover": null,
-  "coverLarge": null
+  "id": "385f30e2-0483-355d-aded-23e66aa20f87",
+  "cover": "https://cdn-images.dzcdn.net/images/cover/7afcacc90a6157f3cc4e4f8c6b95f3a6/250x250-000000-80-0-0.jpg",
+  "coverLarge": "https://cdn-images.dzcdn.net/images/cover/7afcacc90a6157f3cc4e4f8c6b95f3a6/500x500-000000-80-0-0.jpg"
  },
  {
   "title": "Voulez-Vous",
@@ -1907,9 +1907,9 @@
    "Euro-Disco"
   ],
   "type": "Studio",
-  "id": "local:abba-voulez-vous",
-  "cover": null,
-  "coverLarge": null
+  "id": "e0da0775-8abe-30ae-bcf9-707a6a8a41e5",
+  "cover": "https://cdn-images.dzcdn.net/images/cover/f313d9969203ea1735144a35ef26fa49/250x250-000000-80-0-0.jpg",
+  "coverLarge": "https://cdn-images.dzcdn.net/images/cover/f313d9969203ea1735144a35ef26fa49/500x500-000000-80-0-0.jpg"
  },
  {
   "title": "Debut",
@@ -1921,9 +1921,9 @@
    "House"
   ],
   "type": "Studio",
-  "id": "local:bjork-debut",
-  "cover": null,
-  "coverLarge": null
+  "id": "6891a28c-5865-36e2-9e5f-c9fac1d3595f",
+  "cover": "https://cdn-images.dzcdn.net/images/cover/f4da6faee1f547e5005e080be09f2303/250x250-000000-80-0-0.jpg",
+  "coverLarge": "https://cdn-images.dzcdn.net/images/cover/f4da6faee1f547e5005e080be09f2303/500x500-000000-80-0-0.jpg"
  },
  {
   "title": "The Mouse & the Mask",
@@ -1934,9 +1934,9 @@
    "Abstract Hip Hop"
   ],
   "type": "Studio",
-  "id": "local:dangerdoom-the-mouse-and-the-mask",
-  "cover": null,
-  "coverLarge": null
+  "id": "6fa4f80a-a866-3898-8ea0-fc1f968bbcdb",
+  "cover": "https://cdn-images.dzcdn.net/images/cover/46c96d3e6397f06ff4c0c58d43c23c6f/250x250-000000-80-0-0.jpg",
+  "coverLarge": "https://cdn-images.dzcdn.net/images/cover/46c96d3e6397f06ff4c0c58d43c23c6f/500x500-000000-80-0-0.jpg"
  },
  {
   "title": "Halcyon Digest",
@@ -1948,9 +1948,9 @@
    "Indie Rock"
   ],
   "type": "Studio",
-  "id": "local:deerhunter-halcyon-digest",
-  "cover": null,
-  "coverLarge": null
+  "id": "d03a3ae3-4a33-4c50-8501-00710070549c",
+  "cover": "https://cdn-images.dzcdn.net/images/cover/5355411f6f1c47bcf2b443459f13e133/250x250-000000-80-0-0.jpg",
+  "coverLarge": "https://cdn-images.dzcdn.net/images/cover/5355411f6f1c47bcf2b443459f13e133/500x500-000000-80-0-0.jpg"
  },
  {
   "title": "The Chronic",
@@ -1962,9 +1962,9 @@
    "Gangsta Rap"
   ],
   "type": "Studio",
-  "id": "local:dr-dre-the-chronic",
-  "cover": null,
-  "coverLarge": null
+  "id": "ad444843-7160-33d7-b0c9-fc99f2c14a99",
+  "cover": "https://cdn-images.dzcdn.net/images/cover/36cffacf94fdcc49921affe8a865f6f1/250x250-000000-80-0-0.jpg",
+  "coverLarge": "https://cdn-images.dzcdn.net/images/cover/36cffacf94fdcc49921affe8a865f6f1/500x500-000000-80-0-0.jpg"
  },
  {
   "title": "Out of the Blue",
@@ -1977,9 +1977,9 @@
    "Progressive Pop"
   ],
   "type": "Studio",
-  "id": "local:electric-light-orchestra-out-of-the-blue",
-  "cover": null,
-  "coverLarge": null
+  "id": "a720436f-9c8e-439a-a147-18e83441edab",
+  "cover": "https://cdn-images.dzcdn.net/images/cover/d15748b1fc7a32baae595e4c9748a393/250x250-000000-80-0-0.jpg",
+  "coverLarge": "https://cdn-images.dzcdn.net/images/cover/d15748b1fc7a32baae595e4c9748a393/500x500-000000-80-0-0.jpg"
  },
  {
   "title": "The Slim Shady LP",
@@ -1990,9 +1990,9 @@
    "Hardcore Hip Hop"
   ],
   "type": "Studio",
-  "id": "local:eminem-the-slim-shady-lp",
-  "cover": null,
-  "coverLarge": null
+  "id": "be725de4-4633-3c8a-9a03-f2c4392b6e0d",
+  "cover": "https://cdn-images.dzcdn.net/images/cover/83c5dc5ab4d1781ed3bb01c43956d71e/250x250-000000-80-0-0.jpg",
+  "coverLarge": "https://cdn-images.dzcdn.net/images/cover/83c5dc5ab4d1781ed3bb01c43956d71e/500x500-000000-80-0-0.jpg"
  },
  {
   "title": "Orange",
@@ -2005,9 +2005,9 @@
    "Funk Rock"
   ],
   "type": "Studio",
-  "id": "local:fishmans-orange",
-  "cover": null,
-  "coverLarge": null
+  "id": "33e5adf0-c20e-3c14-af80-b8be75d57ac0",
+  "cover": "https://cdn-images.dzcdn.net/images/cover/e3027a572c186eceff953ad7ee463d4c/250x250-000000-80-0-0.jpg",
+  "coverLarge": "https://cdn-images.dzcdn.net/images/cover/e3027a572c186eceff953ad7ee463d4c/500x500-000000-80-0-0.jpg"
  },
  {
   "title": "Tango in the Night",
@@ -2019,9 +2019,9 @@
    "Soft Rock"
   ],
   "type": "Studio",
-  "id": "local:fleetwood-mac-tango-in-the-night",
-  "cover": null,
-  "coverLarge": null
+  "id": "680b3cd8-426b-3112-bcf3-42cd66f75fa9",
+  "cover": "https://cdn-images.dzcdn.net/images/cover/9786e219f4c7e17f703d55119b7261a9/250x250-000000-80-0-0.jpg",
+  "coverLarge": "https://cdn-images.dzcdn.net/images/cover/9786e219f4c7e17f703d55119b7261a9/500x500-000000-80-0-0.jpg"
  },
  {
   "title": "Count Bateman",
@@ -2033,9 +2033,9 @@
    "Singer-Songwriter"
   ],
   "type": "Studio",
-  "id": "local:frog-count-bateman",
-  "cover": null,
-  "coverLarge": null
+  "id": "870f89c8-4ab3-4283-b486-7e041c0b99f3",
+  "cover": "https://cdn-images.dzcdn.net/images/cover/5cc142d13ddb36924faa00f2c60b9aa6/250x250-000000-80-0-0.jpg",
+  "coverLarge": "https://cdn-images.dzcdn.net/images/cover/5cc142d13ddb36924faa00f2c60b9aa6/500x500-000000-80-0-0.jpg"
  },
  {
   "title": "Liquid Swords",
@@ -2047,9 +2047,9 @@
    "Boom Bap"
   ],
   "type": "Studio",
-  "id": "local:gza-liquid-swords",
-  "cover": null,
-  "coverLarge": null
+  "id": "3e56d123-8b66-47f1-912a-e2e4cda69c5e",
+  "cover": "https://cdn-images.dzcdn.net/images/cover/9c467dd368c77978dcd600291ba27491/250x250-000000-80-0-0.jpg",
+  "coverLarge": "https://cdn-images.dzcdn.net/images/cover/9c467dd368c77978dcd600291ba27491/500x500-000000-80-0-0.jpg"
  },
  {
   "title": "Donuts",
@@ -2061,9 +2061,9 @@
    "Plunderphonics"
   ],
   "type": "Studio",
-  "id": "local:j-dilla-donuts",
-  "cover": null,
-  "coverLarge": null
+  "id": "6b78c33a-64c4-3472-99e9-be45a392acb4",
+  "cover": "https://cdn-images.dzcdn.net/images/cover/20dca341e5524df8e34036fa076bf42f/250x250-000000-80-0-0.jpg",
+  "coverLarge": "https://cdn-images.dzcdn.net/images/cover/20dca341e5524df8e34036fa076bf42f/500x500-000000-80-0-0.jpg"
  },
  {
   "title": "2014 Forest Hills Drive",
@@ -2074,9 +2074,9 @@
    "Conscious Hip Hop"
   ],
   "type": "Studio",
-  "id": "local:j-cole-2014-forest-hills-drive",
-  "cover": null,
-  "coverLarge": null
+  "id": "5995738d-4b6f-4db6-847b-310a9dc67085",
+  "cover": "https://cdn-images.dzcdn.net/images/cover/f45c8916970597d390313833a9db0c61/250x250-000000-80-0-0.jpg",
+  "coverLarge": "https://cdn-images.dzcdn.net/images/cover/f45c8916970597d390313833a9db0c61/500x500-000000-80-0-0.jpg"
  },
  {
   "title": "The Kick Inside",
@@ -2088,7 +2088,7 @@
    "Pop Rock"
   ],
   "type": "Studio",
-  "id": "local:kate-bush-the-kick-inside",
+  "id": "e8f3a858-20f8-3798-80ac-65264afa4672",
   "cover": null,
   "coverLarge": null
  },
@@ -2101,9 +2101,9 @@
    "Conscious Hip Hop"
   ],
   "type": "Studio",
-  "id": "local:kendrick-lamar-gnx",
-  "cover": null,
-  "coverLarge": null
+  "id": "32cb822c-a14e-49ce-a169-f209c5f31e0f",
+  "cover": "https://cdn-images.dzcdn.net/images/cover/da5256ff8cacfe9ad90521f6e3792259/250x250-000000-80-0-0.jpg",
+  "coverLarge": "https://cdn-images.dzcdn.net/images/cover/da5256ff8cacfe9ad90521f6e3792259/500x500-000000-80-0-0.jpg"
  },
  {
   "title": "Mr. Morale & the Big Steppers",
@@ -2114,9 +2114,9 @@
    "Conscious Hip Hop"
   ],
   "type": "Studio",
-  "id": "local:kendrick-lamar-mr-morale-and-the-big-steppers",
-  "cover": null,
-  "coverLarge": null
+  "id": "6bd70eee-bd46-4738-851a-f50c19d8d6db",
+  "cover": "https://cdn-images.dzcdn.net/images/cover/412361ce41f0bd2595978dbf0e035ad3/250x250-000000-80-0-0.jpg",
+  "coverLarge": "https://cdn-images.dzcdn.net/images/cover/412361ce41f0bd2595978dbf0e035ad3/500x500-000000-80-0-0.jpg"
  },
  {
   "title": "Untitled Unmastered.",
@@ -2128,9 +2128,9 @@
    "Conscious Hip Hop"
   ],
   "type": "Studio",
-  "id": "local:kendrick-lamar-untitled-unmastered",
-  "cover": null,
-  "coverLarge": null
+  "id": "4e44335c-3f2b-4874-a6c3-71b5e65f75d5",
+  "cover": "https://cdn-images.dzcdn.net/images/cover/78ec9720a63da136f5d7b96229b1d441/250x250-000000-80-0-0.jpg",
+  "coverLarge": "https://cdn-images.dzcdn.net/images/cover/78ec9720a63da136f5d7b96229b1d441/500x500-000000-80-0-0.jpg"
  },
  {
   "title": "Crying Laughing Loving Lying",
@@ -2142,9 +2142,9 @@
    "Folk Pop"
   ],
   "type": "Studio",
-  "id": "local:labi-siffre-crying-laughing-loving-lying",
-  "cover": null,
-  "coverLarge": null
+  "id": "87e9784f-1503-4224-a829-373c398aadbe",
+  "cover": "https://cdn-images.dzcdn.net/images/cover/38f80e0fb0eaba10713e5ff8e5fb3310/250x250-000000-80-0-0.jpg",
+  "coverLarge": "https://cdn-images.dzcdn.net/images/cover/38f80e0fb0eaba10713e5ff8e5fb3310/500x500-000000-80-0-0.jpg"
  },
  {
   "title": "Pastel Blues",
@@ -2156,9 +2156,9 @@
    "Rhythm & Blues"
   ],
   "type": "Studio",
-  "id": "local:nina-simone-pastel-blues",
-  "cover": null,
-  "coverLarge": null
+  "id": "1b3233e2-15ed-344e-bc8e-6630455db87f",
+  "cover": "https://cdn-images.dzcdn.net/images/cover/61090513a8b756be9d25bd2d1bbab432/250x250-000000-80-0-0.jpg",
+  "coverLarge": "https://cdn-images.dzcdn.net/images/cover/61090513a8b756be9d25bd2d1bbab432/500x500-000000-80-0-0.jpg"
  },
  {
   "title": "Bleach",
@@ -2167,9 +2167,9 @@
   "genre": "Rock",
   "subgenres": [],
   "type": "Studio",
-  "id": "local:nirvana-bleach",
-  "cover": null,
-  "coverLarge": null
+  "id": "f1afec0b-26dd-3db5-9aa1-c91229a74a24",
+  "cover": "https://cdn-images.dzcdn.net/images/cover/5c4474eb462a904d3b3e0ac13213e836/250x250-000000-80-0-0.jpg",
+  "coverLarge": "https://cdn-images.dzcdn.net/images/cover/5c4474eb462a904d3b3e0ac13213e836/500x500-000000-80-0-0.jpg"
  },
  {
   "title": "MTV Unplugged in New York",
@@ -2178,9 +2178,9 @@
   "genre": "Rock",
   "subgenres": [],
   "type": "Live",
-  "id": "local:nirvana-mtv-unplugged-in-new-york",
-  "cover": null,
-  "coverLarge": null
+  "id": "fb3770f6-83fb-32b7-85c4-1f522a92287e",
+  "cover": "https://cdn-images.dzcdn.net/images/cover/fe1082c5ef54876802146897e76b592e/250x250-000000-80-0-0.jpg",
+  "coverLarge": "https://cdn-images.dzcdn.net/images/cover/fe1082c5ef54876802146897e76b592e/500x500-000000-80-0-0.jpg"
  },
  {
   "title": "Bossanova",
@@ -2189,9 +2189,9 @@
   "genre": "Rock",
   "subgenres": [],
   "type": "Studio",
-  "id": "local:pixies-bossanova",
-  "cover": null,
-  "coverLarge": null
+  "id": "e062f23a-ed81-3baf-8f24-8979fef060cc",
+  "cover": "https://cdn-images.dzcdn.net/images/cover/f58d73968bec15ddaaf86501f2757d75/250x250-000000-80-0-0.jpg",
+  "coverLarge": "https://cdn-images.dzcdn.net/images/cover/f58d73968bec15ddaaf86501f2757d75/500x500-000000-80-0-0.jpg"
  },
  {
   "title": "Goo",
@@ -2204,9 +2204,9 @@
    "Post-Punk"
   ],
   "type": "Studio",
-  "id": "local:sonic-youth-goo",
-  "cover": null,
-  "coverLarge": null
+  "id": "8114542a-d659-3b5f-a11f-cf86ed7fa84d",
+  "cover": "https://cdn-images.dzcdn.net/images/cover/aeafd29fb876ea56b2743ae5e2380187/250x250-000000-80-0-0.jpg",
+  "coverLarge": "https://cdn-images.dzcdn.net/images/cover/aeafd29fb876ea56b2743ae5e2380187/500x500-000000-80-0-0.jpg"
  },
  {
   "title": "Green",
@@ -2215,9 +2215,9 @@
   "genre": "Psychedelia",
   "subgenres": [],
   "type": "Studio",
-  "id": "local:steve-hillage-green",
-  "cover": null,
-  "coverLarge": null
+  "id": "33092e63-6bb0-3f3c-a7da-8886d0b0fe85",
+  "cover": "https://cdn-images.dzcdn.net/images/cover/4099c594d0368060c896be7910c831b1/250x250-000000-80-0-0.jpg",
+  "coverLarge": "https://cdn-images.dzcdn.net/images/cover/4099c594d0368060c896be7910c831b1/500x500-000000-80-0-0.jpg"
  },
  {
   "title": "Axis: Bold as Love",
@@ -2226,7 +2226,7 @@
   "genre": "Psychedelia",
   "subgenres": [],
   "type": "Studio",
-  "id": "local:the-jimi-hendrix-experience-axis-bold-as-love",
+  "id": "d0b1e21e-cef6-4575-8d92-1afea1894ca3",
   "cover": null,
   "coverLarge": null
  },
@@ -2237,9 +2237,9 @@
   "genre": "Rock",
   "subgenres": [],
   "type": "Studio",
-  "id": "local:the-strokes-room-on-fire",
-  "cover": null,
-  "coverLarge": null
+  "id": "1e9db573-5671-301f-87fc-846a605fe35b",
+  "cover": "https://cdn-images.dzcdn.net/images/cover/3d1246b483aefa9bd0bcd07dfc926be8/250x250-000000-80-0-0.jpg",
+  "coverLarge": "https://cdn-images.dzcdn.net/images/cover/3d1246b483aefa9bd0bcd07dfc926be8/500x500-000000-80-0-0.jpg"
  },
  {
   "title": "Maladroit",
@@ -2248,9 +2248,9 @@
   "genre": "Rock",
   "subgenres": [],
   "type": "Studio",
-  "id": "local:weezer-maladroit",
-  "cover": null,
-  "coverLarge": null
+  "id": "5585d787-0b8e-34ac-ba82-efba1aaae8ea",
+  "cover": "https://cdn-images.dzcdn.net/images/cover/2eaaf7aa0597c22ff0cd760d9662f055/250x250-000000-80-0-0.jpg",
+  "coverLarge": "https://cdn-images.dzcdn.net/images/cover/2eaaf7aa0597c22ff0cd760d9662f055/500x500-000000-80-0-0.jpg"
  },
  {
   "title": "Enter the Wu-Tang (36 Chambers)",
@@ -2260,8 +2260,8 @@
   "subgenres": [],
   "type": "Studio",
   "id": "local:wu-tang-clan-enter-the-wu-tang-36-chambers",
-  "cover": null,
-  "coverLarge": null
+  "cover": "https://cdn-images.dzcdn.net/images/cover/0e67999d3167516146a3ff182c0692f8/250x250-000000-80-0-0.jpg",
+  "coverLarge": "https://cdn-images.dzcdn.net/images/cover/0e67999d3167516146a3ff182c0692f8/500x500-000000-80-0-0.jpg"
  },
  {
   "title": "Rebel Yell",
@@ -2273,9 +2273,9 @@
    "Pop Rock"
   ],
   "type": "Studio",
-  "id": "local:billy-idol-rebel-yell",
-  "cover": null,
-  "coverLarge": null
+  "id": "69af78c0-59c1-4cae-8575-b9adce9a5531",
+  "cover": "https://cdn-images.dzcdn.net/images/cover/eb0d342c982a77d5e1c106112dcd01c1/250x250-000000-80-0-0.jpg",
+  "coverLarge": "https://cdn-images.dzcdn.net/images/cover/eb0d342c982a77d5e1c106112dcd01c1/500x500-000000-80-0-0.jpg"
  },
  {
   "title": "Music Has the Right to Children",
@@ -2284,9 +2284,9 @@
   "genre": "Electronic",
   "subgenres": [],
   "type": "Studio",
-  "id": "local:boards-of-canada-music-has-the-right-to-children",
-  "cover": null,
-  "coverLarge": null
+  "id": "17d74d52-c92b-3b8d-9f87-218ab2d1c4a0",
+  "cover": "https://cdn-images.dzcdn.net/images/cover/c3c2e2a739ed501d01791b16a3fd9ad3/250x250-000000-80-0-0.jpg",
+  "coverLarge": "https://cdn-images.dzcdn.net/images/cover/c3c2e2a739ed501d01791b16a3fd9ad3/500x500-000000-80-0-0.jpg"
  },
  {
   "title": "Super What?",
@@ -2297,9 +2297,9 @@
    "Boom Bap"
   ],
   "type": "Studio",
-  "id": "local:czarface-and-mf-doom-super-what",
-  "cover": null,
-  "coverLarge": null
+  "id": "c90bcb3c-fae4-4c57-aec4-2ed12f5a74f4",
+  "cover": "https://cdn-images.dzcdn.net/images/cover/19ecdda2f36f0a0acb8fb088a36070ee/250x250-000000-80-0-0.jpg",
+  "coverLarge": "https://cdn-images.dzcdn.net/images/cover/19ecdda2f36f0a0acb8fb088a36070ee/500x500-000000-80-0-0.jpg"
  },
  {
   "title": "Diamond Dogs",
@@ -2311,9 +2311,9 @@
    "Art Rock"
   ],
   "type": "Studio",
-  "id": "local:david-bowie-diamond-dogs",
-  "cover": null,
-  "coverLarge": null
+  "id": "e0e06e53-8797-493b-97e6-6341d93a7fec",
+  "cover": "https://cdn-images.dzcdn.net/images/cover/779c05cc649af895fd1687c099a02d28/250x250-000000-80-0-0.jpg",
+  "coverLarge": "https://cdn-images.dzcdn.net/images/cover/779c05cc649af895fd1687c099a02d28/500x500-000000-80-0-0.jpg"
  },
  {
   "title": "Come Around and Love Me",
@@ -2325,9 +2325,9 @@
    "Philly Soul"
   ],
   "type": "Studio",
-  "id": "local:jalen-ngonda-come-around-and-love-me",
-  "cover": null,
-  "coverLarge": null
+  "id": "4ff7d54e-1bac-4257-bbf4-2dffeff87b33",
+  "cover": "https://cdn-images.dzcdn.net/images/cover/1aae4a203025ea23f0b5b10092060cbe/250x250-000000-80-0-0.jpg",
+  "coverLarge": "https://cdn-images.dzcdn.net/images/cover/1aae4a203025ea23f0b5b10092060cbe/500x500-000000-80-0-0.jpg"
  },
  {
   "title": "No Hands",
@@ -2338,9 +2338,9 @@
    "Hardcore Hip Hop"
   ],
   "type": "Studio",
-  "id": "local:joey-valence-and-brae-no-hands",
-  "cover": null,
-  "coverLarge": null
+  "id": "3b871c8b-8d73-46ea-8266-15c272860cdc",
+  "cover": "https://cdn-images.dzcdn.net/images/cover/c0b5be2b0597317d97c8452229c841fa/250x250-000000-80-0-0.jpg",
+  "coverLarge": "https://cdn-images.dzcdn.net/images/cover/c0b5be2b0597317d97c8452229c841fa/500x500-000000-80-0-0.jpg"
  },
  {
   "title": "Mind Games",
@@ -2351,9 +2351,9 @@
    "Pop Rock"
   ],
   "type": "Studio",
-  "id": "local:john-lennon-mind-games",
-  "cover": null,
-  "coverLarge": null
+  "id": "5dc36497-ae8f-4d82-aab9-4a772c9a8885",
+  "cover": "https://cdn-images.dzcdn.net/images/cover/3eb1d165e1544586639668ff30ebe795/250x250-000000-80-0-0.jpg",
+  "coverLarge": "https://cdn-images.dzcdn.net/images/cover/3eb1d165e1544586639668ff30ebe795/500x500-000000-80-0-0.jpg"
  },
  {
   "title": "Walls and Bridges",
@@ -2364,9 +2364,9 @@
    "Pop Rock"
   ],
   "type": "Studio",
-  "id": "local:john-lennon-walls-and-bridges",
-  "cover": null,
-  "coverLarge": null
+  "id": "cf90044e-b161-3cda-99c7-2390802023b9",
+  "cover": "https://cdn-images.dzcdn.net/images/cover/4216e39627b0bae7a86c7df3d0958a5c/250x250-000000-80-0-0.jpg",
+  "coverLarge": "https://cdn-images.dzcdn.net/images/cover/4216e39627b0bae7a86c7df3d0958a5c/500x500-000000-80-0-0.jpg"
  },
  {
   "title": "Double Fantasy",
@@ -2377,9 +2377,9 @@
    "Pop Rock"
   ],
   "type": "Studio",
-  "id": "local:john-lennon-and-yoko-ono-double-fantasy",
-  "cover": null,
-  "coverLarge": null
+  "id": "790ec782-7344-366c-af67-4a427bcaf991",
+  "cover": "https://cdn-images.dzcdn.net/images/cover/c6d75d013bcf43ea92c8116f13c30df9/250x250-000000-80-0-0.jpg",
+  "coverLarge": "https://cdn-images.dzcdn.net/images/cover/c6d75d013bcf43ea92c8116f13c30df9/500x500-000000-80-0-0.jpg"
  },
  {
   "title": "I Lay Down My Life for You",
@@ -2388,9 +2388,9 @@
   "genre": "Hip-hop",
   "subgenres": [],
   "type": "Studio",
-  "id": "local:jpegmafia-i-lay-down-my-life-for-you",
-  "cover": null,
-  "coverLarge": null
+  "id": "1e9e8f2b-febc-4c81-b067-77e595b5d5ba",
+  "cover": "https://cdn-images.dzcdn.net/images/cover/c8418b116aab96c6fb4714452ceb40d8/250x250-000000-80-0-0.jpg",
+  "coverLarge": "https://cdn-images.dzcdn.net/images/cover/c8418b116aab96c6fb4714452ceb40d8/500x500-000000-80-0-0.jpg"
  },
  {
   "title": "Damn.",
@@ -2401,9 +2401,9 @@
    "Conscious Hip Hop"
   ],
   "type": "Studio",
-  "id": "local:kendrick-lamar-damn",
-  "cover": null,
-  "coverLarge": null
+  "id": "b88655ba-7469-48b8-a296-b9011ab73ef3",
+  "cover": "https://cdn-images.dzcdn.net/images/cover/7ce6b8452fae425557067db6e6a1cad5/250x250-000000-80-0-0.jpg",
+  "coverLarge": "https://cdn-images.dzcdn.net/images/cover/7ce6b8452fae425557067db6e6a1cad5/500x500-000000-80-0-0.jpg"
  },
  {
   "title": "Led Zeppelin III",
@@ -2415,9 +2415,9 @@
    "Hard Rock"
   ],
   "type": "Studio",
-  "id": "local:led-zeppelin-led-zeppelin-iii",
-  "cover": null,
-  "coverLarge": null
+  "id": "53f80f76-f8af-3558-bfd5-e7221e055c75",
+  "cover": "https://cdn-images.dzcdn.net/images/cover/4b5aa3cfebd03138926557336e7891f9/250x250-000000-80-0-0.jpg",
+  "coverLarge": "https://cdn-images.dzcdn.net/images/cover/4b5aa3cfebd03138926557336e7891f9/500x500-000000-80-0-0.jpg"
  },
  {
   "title": "2",
@@ -2429,9 +2429,9 @@
    "Bedroom Pop"
   ],
   "type": "Studio",
-  "id": "local:mac-demarco-2",
-  "cover": null,
-  "coverLarge": null
+  "id": "3ba00670-7a00-46d9-b9f4-80625438c058",
+  "cover": "https://cdn-images.dzcdn.net/images/cover/152fb48211f19848419d9b4ebc27339d/250x250-000000-80-0-0.jpg",
+  "coverLarge": "https://cdn-images.dzcdn.net/images/cover/152fb48211f19848419d9b4ebc27339d/500x500-000000-80-0-0.jpg"
  },
  {
   "title": "Born Like This",
@@ -2440,9 +2440,9 @@
   "genre": "Hip-hop",
   "subgenres": [],
   "type": "Studio",
-  "id": "local:mf-doom-born-like-this",
-  "cover": null,
-  "coverLarge": null
+  "id": "c748987e-7cb5-3880-b246-d20af2b136f3",
+  "cover": "https://cdn-images.dzcdn.net/images/cover/36091097a69baf81d9a598e789ac556d/250x250-000000-80-0-0.jpg",
+  "coverLarge": "https://cdn-images.dzcdn.net/images/cover/36091097a69baf81d9a598e789ac556d/500x500-000000-80-0-0.jpg"
  },
  {
   "title": "The Prof Meets the Super Villain",
@@ -2451,9 +2451,9 @@
   "genre": "Hip-hop",
   "subgenres": [],
   "type": "EP",
-  "id": "local:mf-doom-the-prof-meets-the-super-villain",
-  "cover": null,
-  "coverLarge": null
+  "id": "54029270-2ac8-40f1-bbd1-5f4e39380e47",
+  "cover": "https://cdn-images.dzcdn.net/images/cover/448fccf72ccfbf5722cbc95e5240daa8/250x250-000000-80-0-0.jpg",
+  "coverLarge": "https://cdn-images.dzcdn.net/images/cover/448fccf72ccfbf5722cbc95e5240daa8/500x500-000000-80-0-0.jpg"
  },
  {
   "title": "Come On Pilgrim",
@@ -2465,9 +2465,9 @@
    "Alternative Rock"
   ],
   "type": "EP",
-  "id": "local:pixies-come-on-pilgrim",
-  "cover": null,
-  "coverLarge": null
+  "id": "2a251d31-9958-35f1-b2b1-a64d5541715d",
+  "cover": "https://cdn-images.dzcdn.net/images/cover/b6abc51c5d8a13a88a98e8bd320da072/250x250-000000-80-0-0.jpg",
+  "coverLarge": "https://cdn-images.dzcdn.net/images/cover/b6abc51c5d8a13a88a98e8bd320da072/500x500-000000-80-0-0.jpg"
  },
  {
   "title": "Thunder, Lightning, Strike",
@@ -2481,9 +2481,9 @@
    "Neo-Psychedelia"
   ],
   "type": "Studio",
-  "id": "local:the-go-team-thunder-lightning-strike",
-  "cover": null,
-  "coverLarge": null
+  "id": "370f0e88-abf3-3a22-a7cd-9cb0c3ebdc61",
+  "cover": "https://cdn-images.dzcdn.net/images/cover/28364340324af252fdb16ff02861d127/250x250-000000-80-0-0.jpg",
+  "coverLarge": "https://cdn-images.dzcdn.net/images/cover/28364340324af252fdb16ff02861d127/500x500-000000-80-0-0.jpg"
  },
  {
   "title": "Rank",
@@ -2492,9 +2492,9 @@
   "genre": "Pop",
   "subgenres": [],
   "type": "Live",
-  "id": "local:the-smiths-rank",
-  "cover": null,
-  "coverLarge": null
+  "id": "24a181e4-7860-3d7c-80d8-2d8d83016bc6",
+  "cover": "https://cdn-images.dzcdn.net/images/cover/0641cf0ba1a9f0c2e712183c3d4a87f2/250x250-000000-80-0-0.jpg",
+  "coverLarge": "https://cdn-images.dzcdn.net/images/cover/0641cf0ba1a9f0c2e712183c3d4a87f2/500x500-000000-80-0-0.jpg"
  },
  {
   "title": "Loaded",
@@ -2505,9 +2505,9 @@
    "Pop Rock"
   ],
   "type": "Studio",
-  "id": "local:the-velvet-underground-loaded",
-  "cover": null,
-  "coverLarge": null
+  "id": "4be9d91f-6ed7-34b8-aa5e-45be79819273",
+  "cover": "https://cdn-images.dzcdn.net/images/cover/07e7819621f8b4001855f568d2350cf0/250x250-000000-80-0-0.jpg",
+  "coverLarge": "https://cdn-images.dzcdn.net/images/cover/07e7819621f8b4001855f568d2350cf0/500x500-000000-80-0-0.jpg"
  },
  {
   "title": "Lateralus",
@@ -2516,9 +2516,9 @@
   "genre": "Metal",
   "subgenres": [],
   "type": "Studio",
-  "id": "local:tool-lateralus",
-  "cover": null,
-  "coverLarge": null
+  "id": "44abaa3a-4c87-4034-9e03-bd5a3cd3136b",
+  "cover": "https://cdn-images.dzcdn.net/images/cover/1645f3b192206dc412353b06491290d4/250x250-000000-80-0-0.jpg",
+  "coverLarge": "https://cdn-images.dzcdn.net/images/cover/1645f3b192206dc412353b06491290d4/500x500-000000-80-0-0.jpg"
  },
  {
   "title": "Who Really Cares",
@@ -2527,9 +2527,9 @@
   "genre": "Pop",
   "subgenres": [],
   "type": "Studio",
-  "id": "local:tv-girl-who-really-cares",
-  "cover": null,
-  "coverLarge": null
+  "id": "e9030f66-9494-418d-8bc9-02b7e9014834",
+  "cover": "https://cdn-images.dzcdn.net/images/cover/11ee1ce5671240536bad29460fad463c/250x250-000000-80-0-0.jpg",
+  "coverLarge": "https://cdn-images.dzcdn.net/images/cover/11ee1ce5671240536bad29460fad463c/500x500-000000-80-0-0.jpg"
  },
  {
   "title": "The Sensual World",
@@ -2540,9 +2540,9 @@
    "Art Pop"
   ],
   "type": "Studio",
-  "id": "local:kate-bush-the-sensual-world",
-  "cover": null,
-  "coverLarge": null
+  "id": "7b9c745a-acce-35fa-b9c2-1349d6cc5c84",
+  "cover": "https://cdn-images.dzcdn.net/images/cover/7c94ff66be8e81501965bb0213b1173e/250x250-000000-80-0-0.jpg",
+  "coverLarge": "https://cdn-images.dzcdn.net/images/cover/7c94ff66be8e81501965bb0213b1173e/500x500-000000-80-0-0.jpg"
  },
  {
   "title": "Trompe le Monde",
@@ -2551,9 +2551,9 @@
   "genre": "Rock",
   "subgenres": [],
   "type": "Studio",
-  "id": "local:pixies-trompe-le-monde",
-  "cover": null,
-  "coverLarge": null
+  "id": "ac9b0a0c-0da6-387f-8c09-65783187346a",
+  "cover": "https://cdn-images.dzcdn.net/images/cover/e8aea0c9d5abbb105f6e2a24d14aafb3/250x250-000000-80-0-0.jpg",
+  "coverLarge": "https://cdn-images.dzcdn.net/images/cover/e8aea0c9d5abbb105f6e2a24d14aafb3/500x500-000000-80-0-0.jpg"
  },
  {
   "title": "ABBA",
@@ -2564,9 +2564,9 @@
    "Europop"
   ],
   "type": "Studio",
-  "id": "local:abba-abba",
-  "cover": null,
-  "coverLarge": null
+  "id": "93430f8a-13e8-4ba8-b4b6-a09aa86b87c0",
+  "cover": "https://cdn-images.dzcdn.net/images/cover/524411c0e0a3ab89b7567f05e33ca9b1/250x250-000000-80-0-0.jpg",
+  "coverLarge": "https://cdn-images.dzcdn.net/images/cover/524411c0e0a3ab89b7567f05e33ca9b1/500x500-000000-80-0-0.jpg"
  },
  {
   "title": "Arrival",
@@ -2577,9 +2577,9 @@
    "Europop"
   ],
   "type": "Studio",
-  "id": "local:abba-arrival",
-  "cover": null,
-  "coverLarge": null
+  "id": "e464e167-83ab-3b59-88bd-262cf552056e",
+  "cover": "https://cdn-images.dzcdn.net/images/cover/6d99196c168eaf687e0d3c88a7a87604/250x250-000000-80-0-0.jpg",
+  "coverLarge": "https://cdn-images.dzcdn.net/images/cover/6d99196c168eaf687e0d3c88a7a87604/500x500-000000-80-0-0.jpg"
  },
  {
   "title": "Projector",
@@ -2592,9 +2592,9 @@
    "Post-Punk Revival"
   ],
   "type": "Studio",
-  "id": "local:geese-projector",
-  "cover": null,
-  "coverLarge": null
+  "id": "7d64fdee-af76-4061-be55-da22c5c8bf2a",
+  "cover": "https://cdn-images.dzcdn.net/images/cover/17a71c08a34946aa0d156b609bf9e894/250x250-000000-80-0-0.jpg",
+  "coverLarge": "https://cdn-images.dzcdn.net/images/cover/17a71c08a34946aa0d156b609bf9e894/500x500-000000-80-0-0.jpg"
  },
  {
   "title": "Ye",
@@ -2605,9 +2605,9 @@
    "Pop Rap"
   ],
   "type": "Studio",
-  "id": "local:kanye-west-ye",
-  "cover": null,
-  "coverLarge": null
+  "id": "6448381d-9d98-4f84-b99d-733b6acde906",
+  "cover": "https://cdn-images.dzcdn.net/images/cover/6ffdb81ccc87c75741a537366d14ea8e/250x250-000000-80-0-0.jpg",
+  "coverLarge": "https://cdn-images.dzcdn.net/images/cover/6ffdb81ccc87c75741a537366d14ea8e/500x500-000000-80-0-0.jpg"
  },
  {
   "title": "Born to Die",
@@ -2616,9 +2616,9 @@
   "genre": "Pop",
   "subgenres": [],
   "type": "Studio",
-  "id": "local:lana-del-rey-born-to-die",
-  "cover": null,
-  "coverLarge": null
+  "id": "4b16a1bc-8644-48ae-9b3e-8ae36aa30cfc",
+  "cover": "https://cdn-images.dzcdn.net/images/cover/967ac8605268db88a1e597394115365d/250x250-000000-80-0-0.jpg",
+  "coverLarge": "https://cdn-images.dzcdn.net/images/cover/967ac8605268db88a1e597394115365d/500x500-000000-80-0-0.jpg"
  },
  {
   "title": "Salad Days",
@@ -2627,9 +2627,9 @@
   "genre": "Pop",
   "subgenres": [],
   "type": "Studio",
-  "id": "local:mac-demarco-salad-days",
-  "cover": null,
-  "coverLarge": null
+  "id": "99c195d6-0247-48d0-83ab-640ecca7a74f",
+  "cover": "https://cdn-images.dzcdn.net/images/cover/d7d3c4ba0ee271e352a86a0bb00a1e46/250x250-000000-80-0-0.jpg",
+  "coverLarge": "https://cdn-images.dzcdn.net/images/cover/d7d3c4ba0ee271e352a86a0bb00a1e46/500x500-000000-80-0-0.jpg"
  },
  {
   "title": "Pablo Honey",
@@ -2640,9 +2640,9 @@
    "Alternative Rock"
   ],
   "type": "Studio",
-  "id": "local:radiohead-pablo-honey",
-  "cover": null,
-  "coverLarge": null
+  "id": "cd76f76b-ff15-3784-a71d-4da3078a6851",
+  "cover": "https://cdn-images.dzcdn.net/images/cover/1dd56fd8824492e1a5106c99a00a85ec/250x250-000000-80-0-0.jpg",
+  "coverLarge": "https://cdn-images.dzcdn.net/images/cover/1dd56fd8824492e1a5106c99a00a85ec/500x500-000000-80-0-0.jpg"
  },
  {
   "title": "The King of Limbs",
@@ -2653,9 +2653,9 @@
    "Experimental Rock"
   ],
   "type": "Studio",
-  "id": "local:radiohead-the-king-of-limbs",
-  "cover": null,
-  "coverLarge": null
+  "id": "899b6d09-807e-4c18-a6d4-3642e00d6a3d",
+  "cover": "https://cdn-images.dzcdn.net/images/cover/a8ce38894d6a4a08e8559bb3b8c22fc3/250x250-000000-80-0-0.jpg",
+  "coverLarge": "https://cdn-images.dzcdn.net/images/cover/a8ce38894d6a4a08e8559bb3b8c22fc3/500x500-000000-80-0-0.jpg"
  },
  {
   "title": "Californication",
@@ -2666,9 +2666,9 @@
    "Alternative Rock"
   ],
   "type": "Studio",
-  "id": "local:red-hot-chili-peppers-californication",
-  "cover": null,
-  "coverLarge": null
+  "id": "394c1bd4-e3e1-306f-ade9-e9cd0f49016c",
+  "cover": "https://cdn-images.dzcdn.net/images/cover/5e61e8290a4d1d64ca58920656c9602d/250x250-000000-80-0-0.jpg",
+  "coverLarge": "https://cdn-images.dzcdn.net/images/cover/5e61e8290a4d1d64ca58920656c9602d/500x500-000000-80-0-0.jpg"
  },
  {
   "title": "Help!",
@@ -2679,9 +2679,9 @@
    "Pop Rock"
   ],
   "type": "Studio",
-  "id": "local:the-beatles-help",
-  "cover": null,
-  "coverLarge": null
+  "id": "0d44e1cb-c6e0-3453-8b68-4d2082f05421",
+  "cover": "https://cdn-images.dzcdn.net/images/cover/44f87ff491af981fd129b6d159f47b96/250x250-000000-80-0-0.jpg",
+  "coverLarge": "https://cdn-images.dzcdn.net/images/cover/44f87ff491af981fd129b6d159f47b96/500x500-000000-80-0-0.jpg"
  },
  {
   "title": "Please Please Me",
@@ -2693,9 +2693,9 @@
    "Pop Rock"
   ],
   "type": "Studio",
-  "id": "local:the-beatles-please-please-me",
-  "cover": null,
-  "coverLarge": null
+  "id": "de208292-8db5-3aed-a14a-b37a84d8c521",
+  "cover": "https://cdn-images.dzcdn.net/images/cover/03a4debd84fd2769cf1beb7c2e7c40a4/250x250-000000-80-0-0.jpg",
+  "coverLarge": "https://cdn-images.dzcdn.net/images/cover/03a4debd84fd2769cf1beb7c2e7c40a4/500x500-000000-80-0-0.jpg"
  },
  {
   "title": "Angles",
@@ -2704,9 +2704,9 @@
   "genre": "Rock",
   "subgenres": [],
   "type": "Studio",
-  "id": "local:the-strokes-angles",
-  "cover": null,
-  "coverLarge": null
+  "id": "82534223-127b-489c-9e52-45091d425208",
+  "cover": "https://cdn-images.dzcdn.net/images/cover/c4cfdc177036a8f9ab8abdc287d185f4/250x250-000000-80-0-0.jpg",
+  "coverLarge": "https://cdn-images.dzcdn.net/images/cover/c4cfdc177036a8f9ab8abdc287d185f4/500x500-000000-80-0-0.jpg"
  },
  {
   "title": "Comedown Machine",
@@ -2715,9 +2715,9 @@
   "genre": "Rock",
   "subgenres": [],
   "type": "Studio",
-  "id": "local:the-strokes-comedown-machine",
-  "cover": null,
-  "coverLarge": null
+  "id": "461e255f-b56e-4788-b989-8ff610242b94",
+  "cover": "https://cdn-images.dzcdn.net/images/cover/7f392e337f26190c66eb03f9135c7592/250x250-000000-80-0-0.jpg",
+  "coverLarge": "https://cdn-images.dzcdn.net/images/cover/7f392e337f26190c66eb03f9135c7592/500x500-000000-80-0-0.jpg"
  },
  {
   "title": "First Impressions of Earth",
@@ -2726,7 +2726,7 @@
   "genre": "Rock",
   "subgenres": [],
   "type": "Studio",
-  "id": "local:the-strokes-first-impressions-of-earth",
+  "id": "5ef51a9b-55eb-3400-99a8-47b892e11df7",
   "cover": null,
   "coverLarge": null
  },
@@ -2737,9 +2737,9 @@
   "genre": "Pop",
   "subgenres": [],
   "type": "Studio",
-  "id": "local:twenty-one-pilots-clancy",
-  "cover": null,
-  "coverLarge": null
+  "id": "dbecf03e-18ab-4d35-8371-a30c1dc356ba",
+  "cover": "https://cdn-images.dzcdn.net/images/cover/4f2819429ed92d35a649d609e39b29b5/250x250-000000-80-0-0.jpg",
+  "coverLarge": "https://cdn-images.dzcdn.net/images/cover/4f2819429ed92d35a649d609e39b29b5/500x500-000000-80-0-0.jpg"
  },
  {
   "title": "Weezer [Green Album]",
@@ -2748,9 +2748,9 @@
   "genre": "Rock",
   "subgenres": [],
   "type": "Studio",
-  "id": "local:weezer-weezer-green-album",
-  "cover": null,
-  "coverLarge": null
+  "id": "923d5ba6-7eee-3bce-bcb2-c913b2bd69d4",
+  "cover": "https://cdn-images.dzcdn.net/images/cover/39381d55274f8fd48d6c07158c76ef25/250x250-000000-80-0-0.jpg",
+  "coverLarge": "https://cdn-images.dzcdn.net/images/cover/39381d55274f8fd48d6c07158c76ef25/500x500-000000-80-0-0.jpg"
  },
  {
   "title": "Heathen Chemistry",
@@ -2759,9 +2759,9 @@
   "genre": "Rock",
   "subgenres": [],
   "type": "Studio",
-  "id": "local:oasis-heathen-chemistry",
-  "cover": null,
-  "coverLarge": null
+  "id": "0846b9e1-76ed-3554-9c26-0e67c84bedc6",
+  "cover": "https://cdn-images.dzcdn.net/images/cover/8c478eb33fd2f48255d1e5a8aea38387/250x250-000000-80-0-0.jpg",
+  "coverLarge": "https://cdn-images.dzcdn.net/images/cover/8c478eb33fd2f48255d1e5a8aea38387/500x500-000000-80-0-0.jpg"
  },
  {
   "title": "Seventeen Going Under",
@@ -2770,9 +2770,9 @@
   "genre": "Rock",
   "subgenres": [],
   "type": "Studio",
-  "id": "local:sam-fender-seventeen-going-under",
-  "cover": null,
-  "coverLarge": null
+  "id": "34206002-ea1c-4f57-ab42-9e8ea1731c25",
+  "cover": "https://cdn-images.dzcdn.net/images/cover/3da5df4df5ed58e6b7ff5306f3d21229/250x250-000000-80-0-0.jpg",
+  "coverLarge": "https://cdn-images.dzcdn.net/images/cover/3da5df4df5ed58e6b7ff5306f3d21229/500x500-000000-80-0-0.jpg"
  },
  {
   "title": "Blurryface",
@@ -2781,9 +2781,9 @@
   "genre": "Pop",
   "subgenres": [],
   "type": "Studio",
-  "id": "local:twenty-one-pilots-blurryface",
-  "cover": null,
-  "coverLarge": null
+  "id": "cf556b32-6f0c-4d32-9cbb-cc219a20566f",
+  "cover": "https://cdn-images.dzcdn.net/images/cover/dbbde1014cda9b101412a8e27add0ad2/250x250-000000-80-0-0.jpg",
+  "coverLarge": "https://cdn-images.dzcdn.net/images/cover/dbbde1014cda9b101412a8e27add0ad2/500x500-000000-80-0-0.jpg"
  },
  {
   "title": "Vessel",
@@ -2792,9 +2792,9 @@
   "genre": "Pop",
   "subgenres": [],
   "type": "Studio",
-  "id": "local:twenty-one-pilots-vessel",
-  "cover": null,
-  "coverLarge": null
+  "id": "71304780-1d90-4c34-bf5b-84935d8348bc",
+  "cover": "https://cdn-images.dzcdn.net/images/cover/b44fcb9ab89663fa6a965958cc48b177/250x250-000000-80-0-0.jpg",
+  "coverLarge": "https://cdn-images.dzcdn.net/images/cover/b44fcb9ab89663fa6a965958cc48b177/500x500-000000-80-0-0.jpg"
  },
  {
   "title": "My New Band Believe",
@@ -2806,9 +2806,9 @@
    "Chamber Folk"
   ],
   "type": "Studio",
-  "id": "local:my-new-band-believe-my-new-band-believe",
-  "cover": null,
-  "coverLarge": null
+  "id": "580b7c85-e72c-4e2e-accb-286c18c60de2",
+  "cover": "https://cdn-images.dzcdn.net/images/cover/2587e81799585fd705573bf08fad7a13/250x250-000000-80-0-0.jpg",
+  "coverLarge": "https://cdn-images.dzcdn.net/images/cover/2587e81799585fd705573bf08fad7a13/500x500-000000-80-0-0.jpg"
  },
  {
   "title": "Head Carrier",
@@ -2817,9 +2817,9 @@
   "genre": "Rock",
   "subgenres": [],
   "type": "Studio",
-  "id": "local:pixies-head-carrier",
-  "cover": null,
-  "coverLarge": null
+  "id": "48ddd89c-a4cf-4de4-a71a-a74dd59241ca",
+  "cover": "https://cdn-images.dzcdn.net/images/cover/fe2f4a9afdffb61b70700e7fec71550b/250x250-000000-80-0-0.jpg",
+  "coverLarge": "https://cdn-images.dzcdn.net/images/cover/fe2f4a9afdffb61b70700e7fec71550b/500x500-000000-80-0-0.jpg"
  },
  {
   "title": "Hypersonic Missiles",
@@ -2828,9 +2828,9 @@
   "genre": "Rock",
   "subgenres": [],
   "type": "Studio",
-  "id": "local:sam-fender-hypersonic-missiles",
-  "cover": null,
-  "coverLarge": null
+  "id": "a6f6a987-6f47-4061-b946-8e7fd8add5d6",
+  "cover": "https://cdn-images.dzcdn.net/images/cover/3ee1fc2d9c4fb9cfebfd4568e55acd7c/250x250-000000-80-0-0.jpg",
+  "coverLarge": "https://cdn-images.dzcdn.net/images/cover/3ee1fc2d9c4fb9cfebfd4568e55acd7c/500x500-000000-80-0-0.jpg"
  },
  {
   "title": "With the Beatles",
@@ -2842,9 +2842,9 @@
    "Pop Rock"
   ],
   "type": "Studio",
-  "id": "local:the-beatles-with-the-beatles",
-  "cover": null,
-  "coverLarge": null
+  "id": "a63dc65f-09f2-359b-a10e-648f00ecd96c",
+  "cover": "https://cdn-images.dzcdn.net/images/cover/d7cce0e0d2a70ced4350497b7f015ff1/250x250-000000-80-0-0.jpg",
+  "coverLarge": "https://cdn-images.dzcdn.net/images/cover/d7cce0e0d2a70ced4350497b7f015ff1/500x500-000000-80-0-0.jpg"
  },
  {
   "title": "Rock 'n' Roll",
@@ -2855,9 +2855,9 @@
    "Rock & Roll"
   ],
   "type": "Studio",
-  "id": "local:john-lennon-rock-n-roll",
-  "cover": null,
-  "coverLarge": null
+  "id": "316bd588-952e-34b0-aeff-b8fd43ef9cf8",
+  "cover": "https://cdn-images.dzcdn.net/images/cover/5e1295a0c05ee26f6d07231d08cbcb15/250x250-000000-80-0-0.jpg",
+  "coverLarge": "https://cdn-images.dzcdn.net/images/cover/5e1295a0c05ee26f6d07231d08cbcb15/500x500-000000-80-0-0.jpg"
  },
  {
   "title": "Jesus Is King",
@@ -2866,9 +2866,9 @@
   "genre": "Hip-hop",
   "subgenres": [],
   "type": "Studio",
-  "id": "local:kanye-west-jesus-is-king",
-  "cover": null,
-  "coverLarge": null
+  "id": "ee26718c-2633-4278-8718-f3a45a95f20e",
+  "cover": "https://cdn-images.dzcdn.net/images/cover/57e636dd1b26e8edce941a8450c10477/250x250-000000-80-0-0.jpg",
+  "coverLarge": "https://cdn-images.dzcdn.net/images/cover/57e636dd1b26e8edce941a8450c10477/500x500-000000-80-0-0.jpg"
  },
  {
   "title": "Reality Awaits",
@@ -2879,9 +2879,9 @@
    "Indie Rock"
   ],
   "type": "Studio",
-  "id": "local:the-strokes-reality-awaits",
-  "cover": null,
-  "coverLarge": null
+  "id": "b9df3445-4699-4221-9994-734c1c912468",
+  "cover": "https://cdn-images.dzcdn.net/images/cover/47378e1fa6deeac44c86a815f5b07b3d/250x250-000000-80-0-0.jpg",
+  "coverLarge": "https://cdn-images.dzcdn.net/images/cover/47378e1fa6deeac44c86a815f5b07b3d/500x500-000000-80-0-0.jpg"
  },
  {
   "title": "Sometime in New York City",
@@ -2892,9 +2892,9 @@
    "Pop Rock"
   ],
   "type": "Studio",
-  "id": "local:john-lennon-sometime-in-new-york-city",
-  "cover": null,
-  "coverLarge": null
+  "id": "15325d2d-5788-336e-a924-a7f82634f799",
+  "cover": "https://cdn-images.dzcdn.net/images/cover/3a53a2ac20be23f0c8bcaed7a0f5a0bc/250x250-000000-80-0-0.jpg",
+  "coverLarge": "https://cdn-images.dzcdn.net/images/cover/3a53a2ac20be23f0c8bcaed7a0f5a0bc/500x500-000000-80-0-0.jpg"
  },
  {
   "title": "Watch the Throne",
@@ -2906,8 +2906,8 @@
   ],
   "type": "Studio",
   "id": "local:jay-z-and-kanye-west-watch-the-throne",
-  "cover": null,
-  "coverLarge": null
+  "cover": "https://cdn-images.dzcdn.net/images/cover/5ff776f44edc5f7fbef5fa2169006f29/250x250-000000-80-0-0.jpg",
+  "coverLarge": "https://cdn-images.dzcdn.net/images/cover/5ff776f44edc5f7fbef5fa2169006f29/500x500-000000-80-0-0.jpg"
  },
  {
   "title": "Get Up with It",
@@ -2916,9 +2916,9 @@
   "genre": "Jazz",
   "subgenres": [],
   "type": "Studio",
-  "id": "local:miles-davis-get-up-with-it",
-  "cover": null,
-  "coverLarge": null
+  "id": "49f122e4-8eef-3c69-93d4-a4369dc408d8",
+  "cover": "https://cdn-images.dzcdn.net/images/cover/fc1e39c4edd2f69d9cd94707cd976d82/250x250-000000-80-0-0.jpg",
+  "coverLarge": "https://cdn-images.dzcdn.net/images/cover/fc1e39c4edd2f69d9cd94707cd976d82/500x500-000000-80-0-0.jpg"
  },
  {
   "title": "Kind of Blue",
@@ -2930,9 +2930,9 @@
    "Cool Jazz"
   ],
   "type": "Studio",
-  "id": "local:miles-davis-kind-of-blue",
-  "cover": null,
-  "coverLarge": null
+  "id": "8e8a594f-2175-38c7-a871-abb68ec363e7",
+  "cover": "https://cdn-images.dzcdn.net/images/cover/88aec77a2c4a8ed8dd3c709a9fe418bc/250x250-000000-80-0-0.jpg",
+  "coverLarge": "https://cdn-images.dzcdn.net/images/cover/88aec77a2c4a8ed8dd3c709a9fe418bc/500x500-000000-80-0-0.jpg"
  },
  {
   "title": "Loveless",
@@ -2944,7 +2944,7 @@
    "Noise Pop"
   ],
   "type": "Studio",
-  "id": "local:my-bloody-valentine-loveless",
+  "id": "cb76227e-3ac0-3002-9a10-615a5b73cc59",
   "cover": null,
   "coverLarge": null
  },
@@ -2955,9 +2955,9 @@
   "genre": "Rock",
   "subgenres": [],
   "type": "Studio",
-  "id": "local:paul-simon-graceland",
-  "cover": null,
-  "coverLarge": null
+  "id": "19847822-1430-3380-9cf1-bc45545b34ac",
+  "cover": "https://cdn-images.dzcdn.net/images/cover/8a8c3843f9daf46b8a660b26ef56cb4d/250x250-000000-80-0-0.jpg",
+  "coverLarge": "https://cdn-images.dzcdn.net/images/cover/8a8c3843f9daf46b8a660b26ef56cb4d/500x500-000000-80-0-0.jpg"
  },
  {
   "title": "Can't Buy a Thrill",
@@ -2968,9 +2968,9 @@
    "Pop Rock"
   ],
   "type": "Studio",
-  "id": "local:steely-dan-can-t-buy-a-thrill",
-  "cover": null,
-  "coverLarge": null
+  "id": "9d73a864-2976-3286-b6c1-8aabc7407737",
+  "cover": "https://cdn-images.dzcdn.net/images/cover/d6dfdac98e19bdec4a121dfb2d3f98fa/250x250-000000-80-0-0.jpg",
+  "coverLarge": "https://cdn-images.dzcdn.net/images/cover/d6dfdac98e19bdec4a121dfb2d3f98fa/500x500-000000-80-0-0.jpg"
  },
  {
   "title": "Songs in the Key of Life",
@@ -2979,9 +2979,9 @@
   "genre": "R&B & Soul",
   "subgenres": [],
   "type": "Studio",
-  "id": "local:stevie-wonder-songs-in-the-key-of-life",
-  "cover": null,
-  "coverLarge": null
+  "id": "ea88b09b-fd34-33cf-a3e5-25a3a2fb4c6f",
+  "cover": "https://cdn-images.dzcdn.net/images/cover/06bae86c67b3e48abb2e89b3463f062f/250x250-000000-80-0-0.jpg",
+  "coverLarge": "https://cdn-images.dzcdn.net/images/cover/06bae86c67b3e48abb2e89b3463f062f/500x500-000000-80-0-0.jpg"
  },
  {
   "title": "Adventure",
@@ -2990,9 +2990,9 @@
   "genre": "Rock",
   "subgenres": [],
   "type": "Studio",
-  "id": "local:television-adventure",
-  "cover": null,
-  "coverLarge": null
+  "id": "f0bec009-a58e-3984-9ea5-963f4952e0ea",
+  "cover": "https://cdn-images.dzcdn.net/images/cover/e565ad97f244ebd205e9822d453e9005/250x250-000000-80-0-0.jpg",
+  "coverLarge": "https://cdn-images.dzcdn.net/images/cover/e565ad97f244ebd205e9822d453e9005/500x500-000000-80-0-0.jpg"
  },
  {
   "title": "Life After Death",
@@ -3001,9 +3001,9 @@
   "genre": "Hip-hop",
   "subgenres": [],
   "type": "Studio",
-  "id": "local:the-notorious-b-i-g-life-after-death",
-  "cover": null,
-  "coverLarge": null
+  "id": "132d78be-baa5-3301-aba5-933409e3f848",
+  "cover": "https://cdn-images.dzcdn.net/images/cover/6a449dadeb0be589abd05d84215b8c39/250x250-000000-80-0-0.jpg",
+  "coverLarge": "https://cdn-images.dzcdn.net/images/cover/6a449dadeb0be589abd05d84215b8c39/500x500-000000-80-0-0.jpg"
  },
  {
   "title": "Exile on Main St.",
@@ -3012,9 +3012,9 @@
   "genre": "Rock",
   "subgenres": [],
   "type": "Studio",
-  "id": "local:the-rolling-stones-exile-on-main-st",
-  "cover": null,
-  "coverLarge": null
+  "id": "4838a3c9-fd2b-30a5-83eb-e32545b5d7fc",
+  "cover": "https://cdn-images.dzcdn.net/images/cover/28e5ea6c9e305a2cb85a589b1260a88a/250x250-000000-80-0-0.jpg",
+  "coverLarge": "https://cdn-images.dzcdn.net/images/cover/28e5ea6c9e305a2cb85a589b1260a88a/500x500-000000-80-0-0.jpg"
  },
  {
   "title": "Let It Bleed",
@@ -3023,9 +3023,9 @@
   "genre": "Rock",
   "subgenres": [],
   "type": "Studio",
-  "id": "local:the-rolling-stones-let-it-bleed",
-  "cover": null,
-  "coverLarge": null
+  "id": "784c0edd-0f37-33a2-9ca5-dff87b4f999c",
+  "cover": "https://cdn-images.dzcdn.net/images/cover/99a687eb74f85a0da2cee8662edfc868/250x250-000000-80-0-0.jpg",
+  "coverLarge": "https://cdn-images.dzcdn.net/images/cover/99a687eb74f85a0da2cee8662edfc868/500x500-000000-80-0-0.jpg"
  },
  {
   "title": "Mellon Collie and the Infinite Sadness",
@@ -3034,9 +3034,9 @@
   "genre": "Rock",
   "subgenres": [],
   "type": "Studio",
-  "id": "local:the-smashing-pumpkins-mellon-collie-and-the-infinite-sadness",
-  "cover": null,
-  "coverLarge": null
+  "id": "1af599c9-0b44-3a5a-a06b-39e8db6b2b4e",
+  "cover": "https://cdn-images.dzcdn.net/images/cover/eebc22076a527fa2ae9159a9b1b95649/250x250-000000-80-0-0.jpg",
+  "coverLarge": "https://cdn-images.dzcdn.net/images/cover/eebc22076a527fa2ae9159a9b1b95649/500x500-000000-80-0-0.jpg"
  },
  {
   "title": "Koi No Yokan",
@@ -3047,9 +3047,9 @@
    "Alternative Metal"
   ],
   "type": "Studio",
-  "id": "local:deftones-koi-no-yokan",
-  "cover": null,
-  "coverLarge": null
+  "id": "87338b87-34e2-4f11-8e2e-600636b6dbcb",
+  "cover": "https://cdn-images.dzcdn.net/images/cover/701a2d2032dea2b6b880058f90d67f9b/250x250-000000-80-0-0.jpg",
+  "coverLarge": "https://cdn-images.dzcdn.net/images/cover/701a2d2032dea2b6b880058f90d67f9b/500x500-000000-80-0-0.jpg"
  },
  {
   "title": "Ambient 1: Music for Airports",
@@ -3060,9 +3060,9 @@
    "Ambient"
   ],
   "type": "Studio",
-  "id": "local:brian-eno-ambient-1-music-for-airports",
-  "cover": null,
-  "coverLarge": null
+  "id": "5fdd6ba8-83c1-3a87-b378-d5f61dec5ddd",
+  "cover": "https://cdn-images.dzcdn.net/images/cover/c4ae667b0e909274ee408dd0712e6ae2/250x250-000000-80-0-0.jpg",
+  "coverLarge": "https://cdn-images.dzcdn.net/images/cover/c4ae667b0e909274ee408dd0712e6ae2/500x500-000000-80-0-0.jpg"
  },
  {
   "title": "Chill Out",
@@ -3073,9 +3073,9 @@
    "Ambient House"
   ],
   "type": "Studio",
-  "id": "local:the-klf-chill-out",
-  "cover": null,
-  "coverLarge": null
+  "id": "a415fc9b-1516-303e-b354-fc3a5b269f1b",
+  "cover": "https://cdn-images.dzcdn.net/images/cover/538909650bb894e70582e73ed85f5d88/250x250-000000-80-0-0.jpg",
+  "coverLarge": "https://cdn-images.dzcdn.net/images/cover/538909650bb894e70582e73ed85f5d88/500x500-000000-80-0-0.jpg"
  },
  {
   "title": "The Tired Sounds of Stars of the Lid",
@@ -3087,9 +3087,9 @@
    "Drone"
   ],
   "type": "Studio",
-  "id": "local:stars-of-the-lid-the-tired-sounds-of-stars-of-the-lid",
-  "cover": null,
-  "coverLarge": null
+  "id": "02e510c3-7aff-39ea-8bb9-45780a390868",
+  "cover": "https://cdn-images.dzcdn.net/images/cover/ec212fb04a1e1c82ea415c98c85c7b17/250x250-000000-80-0-0.jpg",
+  "coverLarge": "https://cdn-images.dzcdn.net/images/cover/ec212fb04a1e1c82ea415c98c85c7b17/500x500-000000-80-0-0.jpg"
  },
  {
   "title": "The Disintegration Loops",
@@ -3101,9 +3101,9 @@
    "Tape Music"
   ],
   "type": "Studio",
-  "id": "local:william-basinski-the-disintegration-loops",
-  "cover": null,
-  "coverLarge": null
+  "id": "29560694-e850-385b-8cee-8d3b41c2bd1c",
+  "cover": "https://cdn-images.dzcdn.net/images/cover/57ac0d49d4b907b7f066c239aaab5da4/250x250-000000-80-0-0.jpg",
+  "coverLarge": "https://cdn-images.dzcdn.net/images/cover/57ac0d49d4b907b7f066c239aaab5da4/500x500-000000-80-0-0.jpg"
  },
  {
   "title": "Raising Hell",
@@ -3115,8 +3115,8 @@
   ],
   "type": "Studio",
   "id": "local:run-dmc-raising-hell",
-  "cover": null,
-  "coverLarge": null
+  "cover": "https://cdn-images.dzcdn.net/images/cover/df4b8cf8a601facf7e8800569f686ba3/250x250-000000-80-0-0.jpg",
+  "coverLarge": "https://cdn-images.dzcdn.net/images/cover/df4b8cf8a601facf7e8800569f686ba3/500x500-000000-80-0-0.jpg"
  },
  {
   "title": "It Takes a Nation of Millions to Hold Us Back",
@@ -3128,9 +3128,9 @@
    "Hardcore Hip Hop"
   ],
   "type": "Studio",
-  "id": "local:public-enemy-it-takes-a-nation-of-millions-to-hold-us-back",
-  "cover": null,
-  "coverLarge": null
+  "id": "01921d99-9d15-3fce-8734-46e58327cfb7",
+  "cover": "https://cdn-images.dzcdn.net/images/cover/b79ed4857d3bb79e2503ee0e4c22ef58/250x250-000000-80-0-0.jpg",
+  "coverLarge": "https://cdn-images.dzcdn.net/images/cover/b79ed4857d3bb79e2503ee0e4c22ef58/500x500-000000-80-0-0.jpg"
  },
  {
   "title": "The Shape of Jazz to Come",
@@ -3141,9 +3141,9 @@
    "Free Jazz"
   ],
   "type": "Studio",
-  "id": "local:ornette-coleman-the-shape-of-jazz-to-come",
-  "cover": null,
-  "coverLarge": null
+  "id": "5879cfca-e1d0-3ef4-8014-3b284832ed18",
+  "cover": "https://cdn-images.dzcdn.net/images/cover/4ae4729e870caaa88595b3c2e05b5f35/250x250-000000-80-0-0.jpg",
+  "coverLarge": "https://cdn-images.dzcdn.net/images/cover/4ae4729e870caaa88595b3c2e05b5f35/500x500-000000-80-0-0.jpg"
  },
  {
   "title": "Out to Lunch!",
@@ -3155,9 +3155,9 @@
    "Post-Bop"
   ],
   "type": "Studio",
-  "id": "local:eric-dolphy-out-to-lunch",
-  "cover": null,
-  "coverLarge": null
+  "id": "bc6c2573-bc7d-346a-8880-0e34b8fb7e50",
+  "cover": "https://cdn-images.dzcdn.net/images/cover/6b9113bfba32e89a11d9f6954d94ec64/250x250-000000-80-0-0.jpg",
+  "coverLarge": "https://cdn-images.dzcdn.net/images/cover/6b9113bfba32e89a11d9f6954d94ec64/500x500-000000-80-0-0.jpg"
  },
  {
   "title": "Spiritual Unity",
@@ -3168,8 +3168,8 @@
    "Free Jazz"
   ],
   "type": "Studio",
-  "id": "local:albert-ayler-trio-spiritual-unity",
-  "cover": null,
-  "coverLarge": null
+  "id": "0299b455-5537-3b27-ba6e-396882bf3ef2",
+  "cover": "https://cdn-images.dzcdn.net/images/cover/2e14362fb771ed5980f4657d82b0fe68/250x250-000000-80-0-0.jpg",
+  "coverLarge": "https://cdn-images.dzcdn.net/images/cover/2e14362fb771ed5980f4657d82b0fe68/500x500-000000-80-0-0.jpg"
  }
 ]
