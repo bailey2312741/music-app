@@ -2,8 +2,9 @@ name: Publish web version
 
 # Builds the app for the browser and publishes it with GitHub Pages,
 # so it can be tried on a PC with nothing installed.
-# Manual for now: runs on every push once GitHub Pages is switched on.
 on:
+  push:
+    branches: [main]
   workflow_dispatch:
 
 permissions:
