@@ -11,11 +11,14 @@ void main() {
 
   test('ratings snap to half steps and persist', () async {
     final store = await Store.load();
-    await store.rate('a', 7.3);
+    const album = Album(id: 'a', title: 'T', artist: 'A');
+    await store.rate(album, 7.3);
     expect(store.ratingOf('a'), 7.5);
     final reloaded = await Store.load();
     expect(reloaded.ratingOf('a'), 7.5);
-    await reloaded.rate('a', null);
+    expect(reloaded.ratedAlbums.single.album.title, 'T');
+    await reloaded.rate(album, null);
+    expect(reloaded.ratedAlbums, isEmpty);
     expect(reloaded.ratingOf('a'), isNull);
   });
 

@@ -31,7 +31,11 @@ const expeditions = [
       ExpeditionStop('Ambient 1: Music for Airports', 'Brian Eno', Difficulty.foothills),
       ExpeditionStop('Chill Out', 'The KLF', Difficulty.foothills),
       ExpeditionStop('Selected Ambient Works 85–92', 'Aphex Twin', Difficulty.baseCamp),
-      ExpeditionStop('The Tired Sounds of Stars of the Lid', 'Stars of the Lid', Difficulty.highAltitude),
+      ExpeditionStop(
+        'The Tired Sounds of Stars of the Lid',
+        'Stars of the Lid',
+        Difficulty.highAltitude,
+      ),
       ExpeditionStop('The Disintegration Loops', 'William Basinski', Difficulty.summit),
     ],
   ),
@@ -40,23 +44,23 @@ const expeditions = [
     'How hip-hop albums grew from party records into the late-80s and early-90s classics.',
     [
       ExpeditionStop('Raising Hell', 'Run-DMC', Difficulty.baseCamp),
-      ExpeditionStop('It Takes a Nation of Millions to Hold Us Back', 'Public Enemy', Difficulty.foothills),
+      ExpeditionStop(
+        'It Takes a Nation of Millions to Hold Us Back',
+        'Public Enemy',
+        Difficulty.foothills,
+      ),
       ExpeditionStop('The Low End Theory', 'A Tribe Called Quest', Difficulty.baseCamp),
       ExpeditionStop('Enter the Wu-Tang (36 Chambers)', 'Wu-Tang Clan', Difficulty.foothills),
       ExpeditionStop('Illmatic', 'Nas', Difficulty.baseCamp),
     ],
   ),
-  Expedition(
-    'Jazz Breaks Free',
-    'From modal cool to free jazz in six years.',
-    [
-      ExpeditionStop('Kind of Blue', 'Miles Davis', Difficulty.baseCamp),
-      ExpeditionStop('The Shape of Jazz to Come', 'Ornette Coleman', Difficulty.foothills),
-      ExpeditionStop('Out to Lunch!', 'Eric Dolphy', Difficulty.highAltitude),
-      ExpeditionStop('A Love Supreme', 'John Coltrane', Difficulty.foothills),
-      ExpeditionStop('Spiritual Unity', 'Albert Ayler Trio', Difficulty.summit),
-    ],
-  ),
+  Expedition('Jazz Breaks Free', 'From modal cool to free jazz in six years.', [
+    ExpeditionStop('Kind of Blue', 'Miles Davis', Difficulty.baseCamp),
+    ExpeditionStop('The Shape of Jazz to Come', 'Ornette Coleman', Difficulty.foothills),
+    ExpeditionStop('Out to Lunch!', 'Eric Dolphy', Difficulty.highAltitude),
+    ExpeditionStop('A Love Supreme', 'John Coltrane', Difficulty.foothills),
+    ExpeditionStop('Spiritual Unity', 'Albert Ayler Trio', Difficulty.summit),
+  ]),
 ];
 
 /// Difficulty is known only for expedition albums for now; others show none.
@@ -71,6 +75,6 @@ Difficulty? difficultyOf(Store store, String albumId) {
 
 /// How many stops of an expedition the user has rated.
 int ratedCount(Store store, Expedition e) => e.stops.where((s) {
-      final album = store.resolvedStop(s.key);
-      return album != null && store.ratingOf(album.id) != null;
-    }).length;
+  final album = store.resolvedStop(s.key);
+  return album != null && store.ratingOf(album.id) != null;
+}).length;

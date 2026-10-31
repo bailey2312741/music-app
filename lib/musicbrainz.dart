@@ -32,7 +32,9 @@ class MusicBrainz {
   /// Finds one specific album by title and artist (used for expedition stops).
   static Future<Album?> find(String title, String artist) async {
     final results = await _query(
-        'releasegroup:"${_esc(title)}" AND artist:"${_esc(artist)}" AND primarytype:album', 5);
+      'releasegroup:"${_esc(title)}" AND artist:"${_esc(artist)}" AND primarytype:album',
+      5,
+    );
     return results.isEmpty ? null : results.first;
   }
 

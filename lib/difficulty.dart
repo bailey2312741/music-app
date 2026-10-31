@@ -3,29 +3,63 @@ import 'package:flutter/material.dart';
 /// Listening difficulty. Shown to users as a word plus an icon only,
 /// never as a number, so it can't be confused with the quality rating.
 enum Difficulty {
-  baseCamp('Base Camp', Icons.cabin),
-  foothills('Foothills', Icons.forest),
-  highAltitude('High Altitude', Icons.terrain),
-  summit('Summit', Icons.flag);
+  baseCamp(
+    'Base Camp',
+    Icons.cabin,
+    'Easy to get into. Familiar song shapes and sounds that reward a first listen.',
+  ),
+  foothills(
+    'Foothills',
+    Icons.park,
+    'Takes a little adjusting: some unusual sounds, length or structure, but an open way in.',
+  ),
+  highAltitude(
+    'High Altitude',
+    Icons.terrain,
+    'Demanding. Unconventional sound or structure that usually needs a few listens.',
+  ),
+  summit(
+    'Summit',
+    Icons.flag,
+    'The hardest climb. Abrasive, very long or very abstract records for when you are ready.',
+  );
 
   final String label;
   final IconData icon;
-  const Difficulty(this.label, this.icon);
+  final String description;
+  const Difficulty(this.label, this.icon, this.description);
 }
 
-/// Shows a difficulty as icon + word. Shows nothing when there is none.
+/// Difficulty as a small outlined pill: icon + word. Shows nothing when unknown.
 class DifficultyTag extends StatelessWidget {
   final Difficulty? difficulty;
-  const DifficultyTag(this.difficulty, {super.key});
+  final bool small;
+  const DifficultyTag(this.difficulty, {super.key, this.small = false});
 
   @override
   Widget build(BuildContext context) {
     final d = difficulty;
     if (d == null) return const SizedBox.shrink();
-    return Row(mainAxisSize: MainAxisSize.min, children: [
-      Icon(d.icon, size: 18),
-      const SizedBox(width: 4),
-      Text(d.label),
-    ]);
+    final scheme = Theme.of(context).colorScheme;
+    final style =
+        (small ? Theme.of(context).textTheme.labelSmall : Theme.of(context).textTheme.labelLarge)
+            ?.copyWith(color: scheme.onSurfaceVariant);
+    return Container(
+      padding: EdgeInsets.symmetric(horizontal: small ? 6 : 10, vertical: small ? 2 : 4),
+      decoration: BoxDecoration(
+        border: Border.all(color: scheme.outlineVariant),
+        borderRadius: BorderRadius.circular(20),
+      ),
+      child: Row(
+        mainAxisSize: MainAxisSize.min,
+        children: [
+          Icon(d.icon, size: small ? 12 : 16, color: scheme.onSurfaceVariant),
+          SizedBox(width: small ? 3 : 5),
+          Flexible(
+            child: Text(d.label, style: style, overflow: TextOverflow.ellipsis),
+          ),
+        ],
+      ),
+    );
   }
 }
