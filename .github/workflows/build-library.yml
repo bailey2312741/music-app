@@ -39,6 +39,7 @@ jobs:
         env:
           LIBRARY_SIZE: ${{ inputs.library_size || '10000' }}
           MAX_SEED_ARTISTS: ${{ inputs.seed_artists || '3500' }}
+          LISTENBRAINZ_TOKEN: ${{ secrets.LISTENBRAINZ_TOKEN }}
       - uses: actions/cache/save@v4
         if: always()
         with:

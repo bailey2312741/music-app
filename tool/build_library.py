@@ -37,6 +37,7 @@ DROP_SECONDARY = {"Compilation", "Demo", "DJ-mix", "Spokenword", "Interview", "A
                   "Field recording"}
 
 _last = {}
+LB_TOKEN = os.environ.get("LISTENBRAINZ_TOKEN", "").strip()
 
 # Answers saved between runs (GitHub keeps .cache/ with actions/cache), so a run
 # that stops early, or a later rebuild, doesn't ask the same questions again.
@@ -80,18 +81,21 @@ def _fetch(url, data, host_pause):
     body = json.dumps(data).encode() if data is not None else None
     for attempt in range(6):
         _last[host] = time.time()
-        req = urllib.request.Request(url, data=body, headers={
-            "User-Agent": UA, "Accept": "application/json", "Content-Type": "application/json"})
+        headers = {"User-Agent": UA, "Accept": "application/json", "Content-Type": "application/json"}
+        if LB_TOKEN and "listenbrainz" in host:
+            headers["Authorization"] = f"Token {LB_TOKEN}"
+        req = urllib.request.Request(url, data=body, headers=headers)
         try:
             with urllib.request.urlopen(req, timeout=30) as r:
                 if r.status == 204:
                     return None, True
                 return json.load(r), True
         except urllib.error.HTTPError as e:
-            # ListenBrainz sometimes answers 401 instead of 429 when requests come too fast.
-            if e.code in (401, 429, 503, 502, 500):
-                if e.code == 401 and attempt == 0:
-                    log("  401, slowing down:", e.read()[:200])
+            if e.code == 401:
+                # ListenBrainz now needs a user token for some endpoints.
+                log("  401 (needs a ListenBrainz token):", url[:100])
+                return None, False
+            if e.code in (429, 503, 502, 500):
                 delay = float(e.headers.get("Retry-After") or e.headers.get("X-RateLimit-Reset-In") or 2 * (attempt + 1))
                 time.sleep(min(delay, 30) + 0.5)
                 continue
@@ -242,6 +246,8 @@ def caa_front(rgid):
 
 def main():
     t0 = time.time()
+    if not LB_TOKEN:
+        sys.exit("LISTENBRAINZ_TOKEN is not set. ListenBrainz needs a user token for album popularity.")
     seeds = seed_artists()
     log(f"{len(seeds)} seed artists")
     listens = artist_listens(seeds)
