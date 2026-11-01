@@ -8,6 +8,7 @@ Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
   final store = await Store.load();
   await Catalogue.load();
+  await store.applyAliases(Catalogue.aliases);
   runApp(MusicApp(store: store));
 }
 

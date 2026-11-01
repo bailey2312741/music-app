@@ -366,4 +366,30 @@ void main() {
     expect(b[10], 1);
     expect(b[7], 1);
   });
+
+  test('saved ratings follow an album when its ID is corrected', () async {
+    SharedPreferences.setMockInitialValues({
+      'ratings': '{"old-bends": 9}',
+      'rated_at': '{"old-bends": 5}',
+      'listen_later': '["old-bends"]',
+      'range': '["old-bends"]',
+      'reviews': '{"album:old-bends": {"text": "Great", "at": 1}}',
+    });
+    Catalogue.use([
+      ...Catalogue.albums,
+      const Album(id: 'bends', title: 'The Bends', artist: 'Radiohead', year: '1995'),
+    ]);
+    Catalogue.aliases = {'old-bends': 'bends'};
+    expect(Catalogue.byId('old-bends')?.id, 'bends');
+    final store = await Store.load();
+    await store.applyAliases(Catalogue.aliases);
+    expect(store.ratingOf('bends'), 9);
+    expect(store.ratingOf('old-bends'), isNull);
+    expect(store.isListenLater('bends'), isTrue);
+    expect(store.isPinned('bends'), isTrue);
+    expect(store.reviewOf('album:bends')?.text, 'Great');
+    final again = await Store.load();
+    expect(again.ratingOf('bends'), 9);
+    Catalogue.aliases = {};
+  });
 }

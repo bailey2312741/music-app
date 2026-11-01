@@ -9,6 +9,7 @@ import 'models.dart';
 class Catalogue {
   static List<Album> albums = [];
   static Map<String, Album> _byId = {};
+  static Map<String, String> aliases = {}; // old album ID -> current one
   static Map<String, Album> _byKey = {};
   static Map<String, List<Album>> _byArtist = {};
   static Map<String, int> _artistPopularity = {};
@@ -31,6 +32,7 @@ class Catalogue {
       [for (final a in j['albums'] as List) Album.fromLibrary(Map<String, dynamic>.from(a as Map))],
       featured: [for (final n in (j['featuredArtists'] as List?) ?? const []) n as String],
     );
+    aliases = Map<String, String>.from((j['aliases'] as Map?) ?? const {});
   }
 
   /// Sets the albums directly (also used by tests). [featured] is the list
@@ -77,7 +79,7 @@ class Catalogue {
   /// Name used for A to Z order: ignores case, punctuation and a leading "The".
   static String sortName(String s) => norm(s).replaceFirst(RegExp(r'^the '), '');
 
-  static Album? byId(String id) => _byId[id];
+  static Album? byId(String id) => _byId[id] ?? _byId[aliases[id]];
   static Album? find(String title, String artist) => _byKey[key(title, artist)];
 
   /// Every artist, most popular first.

@@ -5,7 +5,7 @@ name: Build album library
 on:
   push:
     branches: [main]
-    paths: [data/albums.json, data/exceptions.json, data/genres.json, tool/build_library.py]
+    paths: [data/albums.json, data/exceptions.json, data/genres.json, data/known_albums.json, tool/build_library.py, tool/check_library.py]
   workflow_dispatch:
     inputs:
       library_size:
@@ -45,6 +45,8 @@ jobs:
         with:
           path: .cache
           key: library-answers-${{ github.run_id }}
+      - name: Check the library
+        run: python3 tool/check_library.py
       - name: Save a preview copy on the library-preview branch
         if: ${{ github.event_name == 'workflow_dispatch' && !inputs.commit }}
         run: |

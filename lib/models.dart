@@ -4,6 +4,9 @@ class Album {
   final String title;
   final String artist;
   final String? year;
+  final String? date; // first release date, e.g. "1995-03-13" (when known)
+  final String? releaseId; // the original release, for the tracklist
+  final int? trackCount; // tracks on that release
   final String? type; // Studio, EP, Live
   final String? genre; // main genre, from Bailey's sheet
   final List<String> subgenres;
@@ -18,6 +21,9 @@ class Album {
     required this.title,
     required this.artist,
     this.year,
+    this.date,
+    this.releaseId,
+    this.trackCount,
     this.type,
     this.genre,
     this.subgenres = const [],
@@ -47,6 +53,9 @@ class Album {
     title: j['t'] as String,
     artist: j['a'] as String,
     year: j['y'] as String?,
+    date: j['d'] as String?,
+    releaseId: j['rl'] as String?,
+    trackCount: (j['n'] as num?)?.toInt(),
     type: j['ty'] as String?,
     genre: j['g'] as String?,
     subgenres: [for (final s in (j['s'] as List?) ?? const []) s as String],
@@ -60,6 +69,8 @@ class Album {
     'title': title,
     'artist': artist,
     'year': year,
+    'date': date,
+    'releaseId': releaseId,
     'type': type,
     'genre': genre,
     'subgenres': subgenres,
@@ -75,6 +86,8 @@ class Album {
     title: j['title'] as String,
     artist: j['artist'] as String,
     year: j['year'] as String?,
+    date: j['date'] as String?,
+    releaseId: j['releaseId'] as String?,
     type: j['type'] as String?,
     genre: j['genre'] as String?,
     subgenres: [for (final s in (j['subgenres'] as List?) ?? const []) s as String],

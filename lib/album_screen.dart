@@ -74,10 +74,8 @@ class _AlbumScreenState extends State<AlbumScreen> {
           final saved = store.ratingOf(a.id);
           final difficulty = difficultyOf(store, a.id);
           final type = (a.type == null || a.type == 'Studio') ? 'Album' : a.type!;
-          final kind = [
-            type,
-            if (tracks.isNotEmpty) '${tracks.length} ${tracks.length == 1 ? 'track' : 'tracks'}',
-          ].join(' · ');
+          final n = tracks.isNotEmpty ? tracks.length : a.trackCount;
+          final kind = [type, if (n != null) '$n ${n == 1 ? 'track' : 'tracks'}'].join(' · ');
           final total = _details?.totalMs;
 
           return ListView(
@@ -87,7 +85,7 @@ class _AlbumScreenState extends State<AlbumScreen> {
               Row(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  SizedBox(width: 116, child: Cover(album: a, radius: 10, large: true)),
+                  SizedBox(width: 116, child: Cover(album: a, radius: 10)),
                   const SizedBox(width: 12),
                   Expanded(
                     child: Column(
@@ -208,7 +206,10 @@ class _AlbumScreenState extends State<AlbumScreen> {
               const Divider(height: 32),
               MountainChart(counts: ratingBuckets([?saved])),
               const Divider(height: 32),
-              _Fact('Release date', _details?.date == null ? a.year : fmtDate(_details!.date!)),
+              _Fact('Release date', switch (a.date ?? _details?.date) {
+                final d? => fmtDate(d),
+                null => a.year,
+              }),
               _Fact('Duration', total == null ? null : fmtDuration(total)),
               _Fact('Record label', _details?.label),
               const Divider(height: 32),

@@ -48,6 +48,7 @@ except (OSError, ValueError):
     _cache = {}
 # Stop looking through artists after this many minutes, so the run always finishes.
 ARTIST_BUDGET = float(os.environ.get("ARTIST_MINUTES", "95")) * 60
+RELEASE_BUDGET = float(os.environ.get("RELEASE_MINUTES", "110")) * 60
 
 
 def save_cache():
@@ -221,13 +222,40 @@ def credit_name(g):
 
 def mb_find(title, artist):
     """Finds one album by title and artist (for sheet albums without a known ID)."""
-    q = f'releasegroup:"{title}" AND artist:"{artist}"'
+    q = f'releasegroup:"{title}" AND artist:"{artist}" AND (primarytype:album OR primarytype:ep)'
     d = fetch(f"{MB}/release-group?" + urllib.parse.urlencode({"query": q, "fmt": "json", "limit": "5"}),
               host_pause=1.1) or {}
     for g in d.get("release-groups", []):
         if norm(artist) in norm(credit_name(g)) or norm(credit_name(g)) in norm(artist):
             return g["id"]
     return None
+
+
+PREFERRED_COUNTRIES = {"GB": 0, "US": 0, "XW": 1, "XE": 1}
+
+
+def pick_release(rgid, prefer=None):
+    """The album's original official release: earliest date, then the usual
+    track count, then a UK/US/worldwide edition, then the cover's release."""
+    d = fetch(f"{MB}/release?" + urllib.parse.urlencode(
+        {"release-group": rgid, "status": "official", "inc": "media", "fmt": "json", "limit": "100"}),
+        host_pause=1.05) or {}
+    rels = d.get("releases") or []
+    if not rels:
+        return prefer, None
+    counts = {}
+    for r in rels:
+        n = sum(m.get("track-count") or 0 for m in r.get("media") or [])
+        r["_n"] = n
+        counts[n] = counts.get(n, 0) + 1
+    usual = max(counts, key=lambda n: (counts[n], -n))
+
+    def rank(r):
+        date = r.get("date") or "9999"
+        return (date[:4], 0 if r["_n"] == usual else 1, date, PREFERRED_COUNTRIES.get(r.get("country"), 2),
+                0 if r.get("id") == prefer else 1)
+    best = min(rels, key=rank)
+    return best.get("id"), best["_n"] or None
 
 
 def caa_front(rgid):
@@ -298,11 +326,16 @@ def main():
         if bad:
             dropped[bad[0]] = dropped.get(bad[0], 0) + 1
             continue
+        # Release groups with no official release are bootlegs.
+        statuses = {r.get("status") for r in g.get("releases") or []}
+        if statuses and "Official" not in statuses:
+            dropped["Bootleg"] = dropped.get("Bootleg", 0) + 1
+            continue
         label = next((KEEP_SECONDARY[s] for s in sec), None) or ("EP" if c["pt"] == "EP" else None)
         fam, subs = genres_from_tags(g.get("tags"))
         date = g.get("first-release-date") or ""
         kept.append({**c, "t": g.get("title") or c["t"], "a": credit_name(g) or c["a"],
-                     "y": date[:4] or c["y"], "ty": label, "g": fam, "s": subs})
+                     "y": date[:4] or c["y"], "d": date or None, "ty": label, "g": fam, "s": subs})
         if len(kept) >= LIBRARY_SIZE:
             break
     log(f"kept {len(kept)} popular albums; dropped {dropped}")
@@ -319,22 +352,31 @@ def main():
     forced = [dict(a, _sheet=True) for a in sheet] + [dict(a, _sheet=False) for a in exceptions]
     missing_cover = 0
     merged = 0
+    aliases = {}  # old album ID -> new one, so ratings saved under the old ID still match
+    # Check the saved sheet IDs really are albums (one pointed at a single).
+    sheet_details = mb_details({v for v in ids.values() if v and not v.startswith("local:")})
     for a in forced:
         key = f"{a['artist']}|{a['title']}"
-        gid = ids.get(key) or mb_find(re.sub(r"\s*\[.*?\]", "", a["title"]), a["artist"])
+        title = re.sub(r"\s*\[.*?\]", "", a["title"])
+        old = ids.get(key)
+        gid = old
+        g = sheet_details.get(gid) if gid else None
+        if gid and g and g.get("primary-type") not in ("Album", "EP", None):
+            log(f"  sheet ID for {key} is a {g.get('primary-type')}, looking again")
+            gid = None
+        twin = by_name.get(norm(a["artist"]) + "|" + norm(title))
+        if twin and twin["id"] != gid and (gid is None or gid not in by_id):
+            # The popular entry for the same album wins; the old ID becomes an alias.
+            gid = twin["id"]
+            merged += 1
+        gid = gid or mb_find(title, a["artist"])
         if gid:
             ids[key] = gid
+            if old and old != gid:
+                aliases[old] = gid
         else:
             gid = "local:" + norm(a["artist"] + " " + a["title"]).replace(" ", "-")
-        entry = by_id.get(gid)
-        twin = by_name.get(norm(a["artist"]) + "|" + norm(re.sub(r"\s*\[.*?\]", "", a["title"])))
-        if not entry and twin and twin["id"] != gid:
-            # The sheet points at another MusicBrainz entry for the same album: merge them,
-            # keeping the sheet's ID so existing ratings still match.
-            by_id.pop(twin["id"], None)
-            entry = {**twin, "id": gid}
-            merged += 1
-        entry = entry or {"id": gid, "p": 0, "cr": None, "ci": None}
+        entry = by_id.get(gid) or {"id": gid, "p": 0, "cr": None, "ci": None}
         if not entry.get("ci") and not gid.startswith("local:"):
             entry["cr"], entry["ci"] = caa_front(gid)
         if not entry.get("ci"):
@@ -351,15 +393,32 @@ def main():
             entry.setdefault("g", None)
             entry.setdefault("s", [])
         by_id[gid] = entry
-    log(f"merged {merged} sheet albums with their popular twin")
+    log(f"merged {merged} sheet albums with their popular twin; {len(aliases)} IDs changed")
     save_cache()
     json.dump(ids, open("data/sheet_ids.json", "w", encoding="utf-8"), ensure_ascii=False, indent=1)
 
     albums = sorted(by_id.values(), key=lambda a: -a.get("p", 0))
+
+    # The original release of each album (most popular first, within a time budget;
+    # cached, so later runs carry on). The app loads its tracklist in one request.
+    started, chosen = time.time(), 0
+    for a in albums:
+        if a["id"].startswith("local:"):
+            continue
+        if time.time() - started > RELEASE_BUDGET:
+            log(f"release budget reached after {chosen} albums")
+            break
+        a["rl"], a["n"] = pick_release(a["id"], a.get("cr"))
+        chosen += 1
+        if chosen % 1000 == 0:
+            save_cache()
+            log(f"  releases chosen: {chosen}")
+    save_cache()
+
     out_albums = []
     for a in albums:
         row = {"id": a["id"], "t": a["t"], "a": a["a"]}
-        for k in ("y", "ty", "g", "cr", "ci"):
+        for k in ("y", "d", "ty", "g", "cr", "ci", "rl", "n"):
             if a.get(k):
                 row[k] = a[k]
         if a.get("s"):
@@ -374,7 +433,7 @@ def main():
         art[a["a"]] = art.get(a["a"], 0) + a.get("p", 0)
     featured = [n for n, _ in sorted(art.items(), key=lambda x: -x[1])[:FEATURED_ARTISTS]]
 
-    json.dump({"version": 2, "albums": out_albums, "featuredArtists": featured},
+    json.dump({"version": 2, "albums": out_albums, "featuredArtists": featured, "aliases": aliases},
               open("assets/catalogue.json", "w", encoding="utf-8"), ensure_ascii=False, separators=(",", ":"))
 
     with_genre = sum(1 for a in out_albums if a.get("g"))
@@ -383,6 +442,7 @@ def main():
     for a in out_albums:
         types[a.get("ty") or "Studio"] = types.get(a.get("ty") or "Studio", 0) + 1
     log(f"artists looked through: {looked}/{len(ranked_artists)}")
+    log(f"albums with a chosen release: {sum(1 for a in out_albums if a.get('rl'))}")
     log(f"\nDONE in {int(time.time() - t0)}s: {len(out_albums)} albums, {len(featured)} featured artists")
     log(f"covers: {with_cover}, genres: {with_genre}, types: {types}, sheet/exception albums without cover: {missing_cover}")
 

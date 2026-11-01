@@ -1,5 +1,12 @@
 # Changelog
 
+## v0.7.1 (bug fixes)
+- Fixed wrong album data: a few albums pointed at the wrong MusicBrainz entry (The Bends pointed at the 1996 single). Albums now use the main entry, and any ratings, reviews or saves you made on the old one move across automatically.
+- Tracklists, durations and release dates now come from the album's original release (earliest official release with the usual track count), chosen when the library is built.
+- Bootlegs are gone from the library. On artist pages, releases far less played than the artist's best-known album (regional editions, archive releases) are tucked into a "Less-known releases" section at the bottom, closed until you tap Show. Rated albums and albums from Bailey's rankings always show.
+- Faster tracklists: one lookup instead of two for most albums, and the track count shows straight away. Album pages reuse the cover already loaded for the card, so it appears instantly.
+- Every library build is now checked automatically against a list of known albums (data/known_albums.json). If a check fails, the new library isn't published.
+
 ## v0.7
 - Album page redesign: cover on the left, with the title, type and track count beside it and an artist button with a small round picture (for now, the artist's most popular cover). Ratings count, your rating and the average sit on the right.
 - Tracklist on every album page, with each track's length and average. Tap "Rate" to rate a track right from the list.

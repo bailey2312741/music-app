@@ -374,11 +374,21 @@ const _smallGrid = SliverGridDelegateWithMaxCrossAxisExtent(
 
 class _ArtistScreenState extends State<ArtistScreen> {
   SortOrder? _sort;
+  bool _showMinor = false;
 
   @override
   Widget build(BuildContext context) {
-    final own = Catalogue.byArtist(widget.artist); // oldest first
-    final albums = _sort == null ? own : _sort!.apply(own, widget.store);
+    final store = widget.store;
+    final all = Catalogue.byArtist(widget.artist); // oldest first
+    // Releases far less played than the artist's best known album (often
+    // regional editions or archive releases) are tucked away at the bottom.
+    // Albums from Bailey's sheet (no play count) and rated ones always show.
+    final top = all.fold<int>(0, (m, a) => a.popularity > m ? a.popularity : m);
+    bool minor(Album a) =>
+        a.popularity > 0 && a.popularity < top * 0.02 && store.ratingOf(a.id) == null;
+    final own = all.where((a) => !minor(a)).toList();
+    final hidden = all.where(minor).toList();
+    final albums = _sort == null ? own : _sort!.apply(own, store);
     bool isStudio(Album a) => a.type == null || a.type == 'Studio';
     final studio = albums.where(isStudio).toList();
     final others = <String, List<Album>>{};
@@ -444,6 +454,23 @@ class _ArtistScreenState extends State<ArtistScreen> {
                 delegate: _smallGrid,
               ),
             ],
+            if (hidden.isNotEmpty) ...[
+              header(
+                'Less-known releases (${hidden.length})',
+                trailing: TextButton(
+                  onPressed: () => setState(() => _showMinor = !_showMinor),
+                  child: Text(_showMinor ? 'Hide' : 'Show'),
+                ),
+              ),
+              if (_showMinor)
+                SliverAlbumGrid(
+                  albums: _sort == null ? hidden : _sort!.apply(hidden, store),
+                  store: store,
+                  onTap: onTap,
+                  delegate: _smallGrid,
+                ),
+            ],
+            const SliverToBoxAdapter(child: SizedBox(height: 24)),
           ],
         ),
       ),

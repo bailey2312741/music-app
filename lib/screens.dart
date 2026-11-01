@@ -14,7 +14,7 @@ export 'profile_screen.dart';
 export 'search_screen.dart';
 export 'widgets.dart' show fmt;
 
-const appVersion = '0.7';
+const appVersion = '0.7.1';
 
 /// Three tabs: Ratings, Search (opens first) and Expeditions.
 /// Profile and info open from buttons in the top corner.

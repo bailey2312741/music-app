@@ -126,22 +126,26 @@ class DetailsLoader {
     if (album.id.isEmpty || album.id.startsWith('local:')) return null;
     if (_memory[album.id] case final d?) return d;
     final prefs = await SharedPreferences.getInstance();
-    final saved = prefs.getString('details:${album.id}');
+    // "details2": saved by 0.7.1 and later (0.7 sometimes picked the wrong release).
+    final saved = prefs.getString('details2:${album.id}');
     if (saved != null) {
       return _memory[album.id] = AlbumDetails.fromJson(
         Map<String, dynamic>.from(jsonDecode(saved) as Map),
       );
     }
-    final group = await _get('release-group/${album.id}?inc=releases&fmt=json');
-    final releaseId = AlbumDetails.pickRelease(group, prefer: album.coverRelease);
+    // The library names the original release for most albums: one request.
+    // Otherwise look through the album's releases first.
+    var releaseId = album.releaseId;
+    var firstDate = album.date;
+    if (releaseId == null) {
+      final group = await _get('release-group/${album.id}?inc=releases&fmt=json');
+      releaseId = AlbumDetails.pickRelease(group, prefer: album.coverRelease);
+      firstDate ??= group['first-release-date'] as String?;
+    }
     if (releaseId == null) return const AlbumDetails();
     final release = await _get('release/$releaseId?inc=recordings+labels&fmt=json');
-    final details = AlbumDetails.fromRelease(
-      album.id,
-      release,
-      firstDate: group['first-release-date'] as String?,
-    );
-    await prefs.setString('details:${album.id}', jsonEncode(details.toJson()));
+    final details = AlbumDetails.fromRelease(album.id, release, firstDate: firstDate);
+    await prefs.setString('details2:${album.id}', jsonEncode(details.toJson()));
     return _memory[album.id] = details;
   }
 

@@ -81,6 +81,61 @@ class Store extends ChangeNotifier {
 
   // ------------------------------------------------------------ albums
 
+  /// Moves anything saved under an album's old ID to its current one (the
+  /// library sometimes corrects which MusicBrainz entry an album points at).
+  Future<void> applyAliases(Map<String, String> aliases) async {
+    var changed = false;
+    void move<T>(Map<String, T> map) {
+      for (final old in map.keys.where(aliases.containsKey).toList()) {
+        final value = map.remove(old) as T;
+        map.putIfAbsent(aliases[old]!, () => value);
+        changed = true;
+      }
+    }
+
+    move(_ratings);
+    move(_ratedAt);
+    move(_info);
+    for (var i = 0; i < _listenLater.length; i++) {
+      if (aliases[_listenLater[i]] case final now?) {
+        _listenLater[i] = now;
+        changed = true;
+      }
+    }
+    for (var i = 0; i < _range.length; i++) {
+      if (aliases[_range[i]] case final now?) {
+        _range[i] = now;
+        changed = true;
+      }
+    }
+    final unique = _listenLater.toSet().toList();
+    _listenLater
+      ..clear()
+      ..addAll(unique);
+    final reviews = {
+      for (final e in _reviews.entries)
+        if (e.key.startsWith('album:') && aliases.containsKey(e.key.substring(6)))
+          e.key: 'album:${aliases[e.key.substring(6)]}',
+    };
+    for (final e in reviews.entries) {
+      _reviews.putIfAbsent(e.value, () => _reviews[e.key]!);
+      _reviews.remove(e.key);
+      changed = true;
+    }
+    if (!changed) return;
+    // Info entries still hold the old ID inside; refresh them from the library.
+    for (final id in _info.keys.toList()) {
+      if (Catalogue.byId(id) case final a?) _info[id] = a;
+    }
+    await _prefs.setString('ratings', jsonEncode(_ratings));
+    await _prefs.setString('rated_at', jsonEncode(_ratedAt));
+    await _prefs.setString('rated_info', jsonEncode(_info.map((k, v) => MapEntry(k, v.toJson()))));
+    await _prefs.setString('listen_later', jsonEncode(_listenLater.toSet().toList()));
+    await _prefs.setString('range', jsonEncode(_range));
+    await _prefs.setString('reviews', jsonEncode(_reviews.map((k, v) => MapEntry(k, v.toJson()))));
+    notifyListeners();
+  }
+
   /// The freshest details for an album: the bundled catalogue first.
   Album? albumById(String id) =>
       Catalogue.byId(id) ?? _info[id] ?? _resolved.values.where((a) => a.id == id).firstOrNull;

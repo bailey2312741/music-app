@@ -1,0 +1,18 @@
+{
+  "_note": "Facts the library must get right. tool/check_library.py checks them after every build; if one fails, the new library is not published. Add an album here whenever a data bug is found, so it can't come back.",
+  "albums": [
+    {"artist": "Radiohead", "title": "The Bends", "year": "1995", "tracks": 12, "type": null},
+    {"artist": "Radiohead", "title": "OK Computer", "year": "1997", "tracks": 12, "type": null},
+    {"artist": "The Beatles", "title": "Abbey Road", "year": "1969", "tracks": 17, "type": null},
+    {"artist": "The Beatles", "title": "Revolver", "year": "1966", "tracks": 14, "type": null},
+    {"artist": "Fleetwood Mac", "title": "Rumours", "year": "1977", "tracks": 11, "type": null},
+    {"artist": "Pink Floyd", "title": "The Dark Side of the Moon", "year": "1973", "tracks": 10, "type": null},
+    {"artist": "Daft Punk", "title": "Discovery", "year": "2001", "tracks": 14, "type": null}
+  ],
+  "absent": [
+    {"artist": "The Beatles", "title": "The Decca Tapes"},
+    {"artist": "The Beatles", "title": "Rare Tracks"},
+    {"artist": "The Beatles", "title": "Songs From the Past, Vol. 2"},
+    {"artist": "The Beatles", "title": "The Unreleased Tracks, Volume 2"}
+  ]
+}
