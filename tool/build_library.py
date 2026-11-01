@@ -38,13 +38,39 @@ DROP_SECONDARY = {"Compilation", "Demo", "DJ-mix", "Spokenword", "Interview", "A
 
 _last = {}
 
+# Answers saved between runs (GitHub keeps .cache/ with actions/cache), so a run
+# that stops early, or a later rebuild, doesn't ask the same questions again.
+CACHE_FILE = ".cache/answers.json"
+try:
+    _cache = json.load(open(CACHE_FILE, encoding="utf-8"))
+except (OSError, ValueError):
+    _cache = {}
+# Stop looking through artists after this many minutes, so the run always finishes.
+ARTIST_BUDGET = float(os.environ.get("ARTIST_MINUTES", "95")) * 60
+
+
+def save_cache():
+    os.makedirs(".cache", exist_ok=True)
+    json.dump(_cache, open(CACHE_FILE, "w", encoding="utf-8"), separators=(",", ":"))
+
 
 def log(*a):
     print(*a, flush=True)
 
 
 def fetch(url, data=None, host_pause=None):
-    """GET (or POST JSON) with polite pacing per host and retries on rate limits."""
+    """GET (or POST JSON) with polite pacing per host and retries on rate limits.
+    GET answers are cached."""
+    if data is None and url in _cache:
+        return _cache[url]
+    result, ok = _fetch(url, data, host_pause)
+    if ok and data is None and "/stats/sitewide/" not in url:
+        _cache[url] = result
+    return result
+
+
+def _fetch(url, data, host_pause):
+    """Returns (answer, whether it is a real answer worth caching)."""
     host = urllib.parse.urlparse(url).netloc
     if host_pause is None:
         host_pause = 1.0 if 'listenbrainz' in host else 0.25
@@ -59,8 +85,8 @@ def fetch(url, data=None, host_pause=None):
         try:
             with urllib.request.urlopen(req, timeout=30) as r:
                 if r.status == 204:
-                    return None
-                return json.load(r)
+                    return None, True
+                return json.load(r), True
         except urllib.error.HTTPError as e:
             # ListenBrainz sometimes answers 401 instead of 429 when requests come too fast.
             if e.code in (401, 429, 503, 502, 500):
@@ -70,13 +96,13 @@ def fetch(url, data=None, host_pause=None):
                 time.sleep(min(delay, 30) + 0.5)
                 continue
             if e.code in (400, 404):
-                return None
+                return None, True
             log("  HTTP", e.code, url[:120])
-            return None
+            return None, False
         except Exception as e:  # network blip
             log("  retry", attempt + 1, e)
             time.sleep(2 * (attempt + 1))
-    return None
+    return None, False
 
 
 def norm(s):
@@ -223,7 +249,12 @@ def main():
 
     # Each artist's most-listened release groups, with type and exact cover IDs.
     cands = {}
+    looked = 0
     for n, m in enumerate(ranked_artists):
+        if time.time() - t0 > ARTIST_BUDGET:
+            log(f"time budget reached after {n} artists (cached answers make the next run go further)")
+            break
+        looked = n + 1
         for r in fetch(f"{LB}/popularity/top-release-groups-for-artist/{m}") or []:
             rg = r.get("release_group") or {}
             gid = r.get("release_group_mbid")
@@ -244,6 +275,7 @@ def main():
                 "am": m,
             }
         if n % 250 == 0:
+            save_cache()
             log(f"artist albums {n}/{len(ranked_artists)}: {len(cands)} candidates ({int(time.time() - t0)}s)")
 
     # Check types on MusicBrainz for the most popular candidates (with headroom for drops).
@@ -301,6 +333,7 @@ def main():
             entry.setdefault("g", None)
             entry.setdefault("s", [])
         by_id[gid] = entry
+    save_cache()
     json.dump(ids, open("data/sheet_ids.json", "w", encoding="utf-8"), ensure_ascii=False, indent=1)
 
     albums = sorted(by_id.values(), key=lambda a: -a.get("p", 0))
@@ -330,6 +363,7 @@ def main():
     types = {}
     for a in out_albums:
         types[a.get("ty") or "Studio"] = types.get(a.get("ty") or "Studio", 0) + 1
+    log(f"artists looked through: {looked}/{len(ranked_artists)}")
     log(f"\nDONE in {int(time.time() - t0)}s: {len(out_albums)} albums, {len(featured)} featured artists")
     log(f"covers: {with_cover}, genres: {with_genre}, types: {types}, sheet/exception albums without cover: {missing_cover}")
 

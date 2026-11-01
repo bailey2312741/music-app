@@ -29,10 +29,21 @@ jobs:
     timeout-minutes: 180
     steps:
       - uses: actions/checkout@v5
+      # Answers from earlier runs, so each run goes further and rebuilds are quick.
+      - uses: actions/cache/restore@v4
+        with:
+          path: .cache
+          key: library-answers-${{ github.run_id }}
+          restore-keys: library-answers-
       - run: python3 tool/build_library.py
         env:
           LIBRARY_SIZE: ${{ inputs.library_size || '10000' }}
           MAX_SEED_ARTISTS: ${{ inputs.seed_artists || '3500' }}
+      - uses: actions/cache/save@v4
+        if: always()
+        with:
+          path: .cache
+          key: library-answers-${{ github.run_id }}
       - name: Save a preview copy on the library-preview branch
         if: ${{ github.event_name == 'workflow_dispatch' && !inputs.commit }}
         run: |
