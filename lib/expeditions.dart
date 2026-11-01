@@ -119,9 +119,12 @@ List<Expedition> allExpeditions(Store store) => [...builtInExpeditions, ...store
 Album? albumFor(Store store, ExpeditionStop s) =>
     s.album ?? Catalogue.find(s.title, s.artist) ?? store.resolvedStop(s.key);
 
-bool isRated(Store store, ExpeditionStop s) {
+/// A stop counts as done once its album is rated, after any progress reset.
+bool isDone(Store store, Expedition e, ExpeditionStop s) {
   final a = albumFor(store, s);
-  return a != null && store.ratingOf(a.id) != null;
+  if (a == null || store.ratingOf(a.id) == null) return false;
+  final reset = store.resetAtOf(e.id);
+  return reset == 0 || store.ratedAtOf(a.id) > reset;
 }
 
 /// Difficulty is known only for built-in expedition albums for now; others show none.
@@ -134,25 +137,35 @@ Difficulty? difficultyOf(Store store, String albumId) {
   return null;
 }
 
-/// How many stops of an expedition the user has rated.
-int ratedCount(Store store, Expedition e) => e.stops.where((s) => isRated(store, s)).length;
+/// How many stops of an expedition are done.
+int ratedCount(Store store, Expedition e) => e.stops.where((s) => isDone(store, e, s)).length;
+
+/// Your average rating of the albums done so far, to the nearest 0.1.
+double? expeditionAverage(Store store, Expedition e) {
+  final scores = [
+    for (final s in e.stops)
+      if (isDone(store, e, s)) store.ratingOf(albumFor(store, s)!.id)!,
+  ];
+  if (scores.isEmpty) return null;
+  return (scores.reduce((a, b) => a + b) / scores.length * 10).round() / 10;
+}
 
 /// How many stops are open. In-order expeditions open one stop past the
-/// furthest rated one, so removing an earlier rating doesn't lock anything again.
+/// furthest done one, so removing an earlier rating doesn't lock anything again.
 int unlockedCount(Store store, Expedition e) {
   if (!e.inOrder) return e.stops.length;
   var furthest = -1;
   for (var i = 0; i < e.stops.length; i++) {
-    if (isRated(store, e.stops[i])) furthest = i;
+    if (isDone(store, e, e.stops[i])) furthest = i;
   }
   return (furthest + 2).clamp(1, e.stops.length);
 }
 
-/// First unrated open stop, or null when everything open is rated.
+/// First unfinished open stop, or null when everything open is done.
 int? nextStop(Store store, Expedition e) {
   final open = unlockedCount(store, e);
   for (var i = 0; i < open; i++) {
-    if (!isRated(store, e.stops[i])) return i;
+    if (!isDone(store, e, e.stops[i])) return i;
   }
   return null;
 }

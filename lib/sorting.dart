@@ -1,0 +1,102 @@
+import 'package:flutter/material.dart';
+
+import 'catalogue.dart';
+import 'expeditions.dart';
+import 'models.dart';
+import 'store.dart';
+
+enum SortBy {
+  alphabetical('Alphabetical', 'A to Z', 'Z to A'),
+  popularity('Popularity', 'Most rated first', 'Least rated first'),
+  difficulty('Difficulty', 'Hardest first', 'Easiest first'),
+  rating('Your rating', 'Highest first', 'Lowest first');
+
+  final String label;
+  final String firstWay; // first tap
+  final String otherWay; // second tap
+  const SortBy(this.label, this.firstWay, this.otherWay);
+}
+
+/// A chosen sort: which field, and whether it's reversed from its first tap.
+class SortOrder {
+  final SortBy by;
+  final bool reversed;
+  const SortOrder(this.by, {this.reversed = false});
+
+  String get description => reversed ? by.otherWay : by.firstWay;
+
+  /// Sorts albums. Albums without a value (no difficulty, not rated) always go last.
+  List<Album> apply(List<Album> albums, Store store) {
+    int byTitle(Album a, Album b) => Catalogue.norm(a.title).compareTo(Catalogue.norm(b.title));
+    int compare(Album a, Album b) {
+      switch (by) {
+        case SortBy.alphabetical:
+          final c = byTitle(a, b);
+          return reversed ? -c : c;
+        case SortBy.popularity:
+          final c = store.ratingCount(b.id).compareTo(store.ratingCount(a.id));
+          return (reversed ? -c : c) != 0 ? (reversed ? -c : c) : byTitle(a, b);
+        case SortBy.difficulty:
+        case SortBy.rating:
+          final va = by == SortBy.rating
+              ? store.ratingOf(a.id)
+              : difficultyOf(store, a.id)?.index.toDouble();
+          final vb = by == SortBy.rating
+              ? store.ratingOf(b.id)
+              : difficultyOf(store, b.id)?.index.toDouble();
+          if (va == null && vb == null) return byTitle(a, b);
+          if (va == null) return 1;
+          if (vb == null) return -1;
+          final c = vb.compareTo(va); // highest first
+          return (reversed ? -c : c) != 0 ? (reversed ? -c : c) : byTitle(a, b);
+      }
+    }
+
+    return [...albums]..sort(compare);
+  }
+}
+
+/// One sort button. Pick an option to sort by it; pick the same option again
+/// to reverse it. The button shows the current sort and its direction.
+class SortButton extends StatelessWidget {
+  final SortOrder? value;
+  final ValueChanged<SortOrder> onChanged;
+  const SortButton({super.key, required this.value, required this.onChanged});
+
+  @override
+  Widget build(BuildContext context) {
+    final v = value;
+    return PopupMenuButton<SortBy>(
+      tooltip: 'Sort',
+      onSelected: (by) =>
+          onChanged(v != null && v.by == by ? SortOrder(by, reversed: !v.reversed) : SortOrder(by)),
+      itemBuilder: (_) => [
+        for (final by in SortBy.values)
+          PopupMenuItem(
+            value: by,
+            child: Row(
+              children: [
+                Expanded(child: Text(by.label)),
+                if (v?.by == by)
+                  Icon(v!.reversed ? Icons.arrow_upward : Icons.arrow_downward, size: 18),
+              ],
+            ),
+          ),
+      ],
+      child: Padding(
+        padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 6),
+        child: Row(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            const Icon(Icons.sort, size: 20),
+            const SizedBox(width: 4),
+            Text(
+              v == null ? 'Sort' : '${v.by.label}: ${v.description}',
+              style: Theme.of(context).textTheme.labelLarge,
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+}

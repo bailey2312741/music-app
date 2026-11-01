@@ -61,6 +61,10 @@ class AlbumCard extends StatelessWidget {
   final bool locked; // greyed out with a lock until the stop before is rated
   final VoidCallback? onTap;
 
+  /// Whether the album is on the listen-later list. Null hides the button.
+  final bool? listenLater;
+  final VoidCallback? onListenLater;
+
   const AlbumCard({
     super.key,
     required this.album,
@@ -71,77 +75,105 @@ class AlbumCard extends StatelessWidget {
     this.difficulty,
     this.locked = false,
     this.onTap,
+    this.listenLater,
+    this.onListenLater,
   });
 
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
     final scheme = theme.colorScheme;
-    return Material(
-      color: highlight ? scheme.primaryContainer : Colors.transparent,
-      borderRadius: BorderRadius.circular(12),
-      child: InkWell(
+    return _Hover(
+      builder: (context, hovered) => Material(
+        color: highlight ? scheme.primaryContainer : Colors.transparent,
         borderRadius: BorderRadius.circular(12),
-        onTap: onTap,
-        child: Padding(
-          padding: const EdgeInsets.all(6),
-          // Locked albums stay visible but greyed out, with a lock on the cover.
-          child: Opacity(
-            opacity: locked ? 0.4 : 1,
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Stack(
-                  children: [
-                    Cover(album: album),
-                    if (locked)
-                      const Positioned.fill(child: Center(child: Icon(Icons.lock, size: 30))),
-                    if (number != null)
-                      Positioned(
-                        left: 6,
-                        top: 6,
-                        child: _Badge('$number', scheme.surface, scheme.onSurface),
-                      ),
-                    if (rating != null)
-                      Positioned(
-                        right: 6,
-                        bottom: 6,
-                        child: _Badge(fmt(rating!), scheme.primary, scheme.onPrimary),
-                      ),
-                  ],
-                ),
-                const SizedBox(height: 6),
-                Text(
-                  album.title,
-                  maxLines: 2,
-                  overflow: TextOverflow.ellipsis,
-                  style: theme.textTheme.bodyMedium?.copyWith(
-                    fontWeight: FontWeight.w600,
-                    height: 1.2,
+        child: InkWell(
+          borderRadius: BorderRadius.circular(12),
+          onTap: onTap,
+          // On phones (no hover), press and hold to add to Listen later.
+          onLongPress: onListenLater,
+          child: Padding(
+            padding: const EdgeInsets.all(6),
+            // Locked albums stay visible but greyed out, with a lock on the cover.
+            child: Opacity(
+              opacity: locked ? 0.4 : 1,
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Stack(
+                    children: [
+                      Cover(album: album),
+                      if (locked)
+                        const Positioned.fill(child: Center(child: Icon(Icons.lock, size: 30))),
+                      if (number != null)
+                        Positioned(
+                          left: 6,
+                          top: 6,
+                          child: _Badge('$number', scheme.surface, scheme.onSurface),
+                        ),
+                      if (rating != null)
+                        Positioned(
+                          right: 6,
+                          bottom: 6,
+                          child: _Badge(fmt(rating!), scheme.primary, scheme.onPrimary),
+                        ),
+                      // Listen-later button: shows on hover, and stays once the album is saved.
+                      if (listenLater != null && !locked && (hovered || listenLater!))
+                        Positioned(
+                          right: 4,
+                          top: 4,
+                          child: Material(
+                            color: scheme.surface.withValues(alpha: 0.9),
+                            shape: const CircleBorder(),
+                            child: InkWell(
+                              customBorder: const CircleBorder(),
+                              onTap: onListenLater,
+                              child: Padding(
+                                padding: const EdgeInsets.all(5),
+                                child: Icon(
+                                  listenLater! ? Icons.bookmark : Icons.bookmark_add_outlined,
+                                  size: 18,
+                                  color: scheme.primary,
+                                ),
+                              ),
+                            ),
+                          ),
+                        ),
+                    ],
                   ),
-                ),
-                const SizedBox(height: 2),
-                Text(
-                  album.artist,
-                  maxLines: 1,
-                  overflow: TextOverflow.ellipsis,
-                  style: theme.textTheme.bodySmall?.copyWith(color: scheme.onSurfaceVariant),
-                ),
-                if (difficulty != null) ...[
-                  const SizedBox(height: 4),
-                  DifficultyTag(difficulty, small: true),
-                ],
-                if (caption != null) ...[
-                  const SizedBox(height: 2),
+                  const SizedBox(height: 6),
                   Text(
-                    caption!,
-                    style: theme.textTheme.labelSmall?.copyWith(
-                      color: scheme.primary,
-                      fontWeight: FontWeight.bold,
+                    album.title,
+                    maxLines: 2,
+                    overflow: TextOverflow.ellipsis,
+                    style: theme.textTheme.bodyMedium?.copyWith(
+                      fontWeight: FontWeight.w600,
+                      height: 1.2,
                     ),
                   ),
+                  const SizedBox(height: 2),
+                  Text(
+                    album.artist,
+                    maxLines: 1,
+                    overflow: TextOverflow.ellipsis,
+                    style: theme.textTheme.bodySmall?.copyWith(color: scheme.onSurfaceVariant),
+                  ),
+                  if (difficulty != null) ...[
+                    const SizedBox(height: 4),
+                    DifficultyTag(difficulty, small: true),
+                  ],
+                  if (caption != null) ...[
+                    const SizedBox(height: 2),
+                    Text(
+                      caption!,
+                      style: theme.textTheme.labelSmall?.copyWith(
+                        color: scheme.primary,
+                        fontWeight: FontWeight.bold,
+                      ),
+                    ),
+                  ],
                 ],
-              ],
+              ),
             ),
           ),
         ),
@@ -231,6 +263,110 @@ class ExpeditionCover extends StatelessWidget {
               ),
             ),
         ],
+      ),
+    );
+  }
+}
+
+/// Rebuilds its child with whether the mouse is over it (always false on touch).
+class _Hover extends StatefulWidget {
+  final Widget Function(BuildContext, bool hovered) builder;
+  const _Hover({required this.builder});
+
+  @override
+  State<_Hover> createState() => _HoverState();
+}
+
+class _HoverState extends State<_Hover> {
+  bool _hovered = false;
+
+  @override
+  Widget build(BuildContext context) => MouseRegion(
+    onEnter: (_) => setState(() => _hovered = true),
+    onExit: (_) => setState(() => _hovered = false),
+    child: widget.builder(context, _hovered),
+  );
+}
+
+/// Wide artist card: one of their covers fills the card, name over the image.
+/// Deliberately a different shape from the square album cards.
+class ArtistCard extends StatelessWidget {
+  final String artist;
+  final Album? image; // the album whose cover to use
+  final int albumCount;
+  final VoidCallback? onTap;
+  const ArtistCard({
+    super.key,
+    required this.artist,
+    required this.image,
+    required this.albumCount,
+    this.onTap,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    final theme = Theme.of(context);
+    final url = image?.coverUrl(large: true) ?? '';
+    return SizedBox(
+      width: 220,
+      height: 110,
+      child: Card(
+        margin: EdgeInsets.zero,
+        clipBehavior: Clip.antiAlias,
+        child: InkWell(
+          onTap: onTap,
+          child: Stack(
+            fit: StackFit.expand,
+            children: [
+              if (url.isNotEmpty)
+                Image.network(
+                  url,
+                  fit: BoxFit.cover,
+                  alignment: const Alignment(0, -0.2),
+                  webHtmlElementStrategy: WebHtmlElementStrategy.fallback,
+                  errorBuilder: (_, _, _) =>
+                      Container(color: theme.colorScheme.surfaceContainerHighest),
+                )
+              else
+                Container(color: theme.colorScheme.surfaceContainerHighest),
+              // Dark fade at the bottom so the name is readable on any image.
+              const DecoratedBox(
+                decoration: BoxDecoration(
+                  gradient: LinearGradient(
+                    begin: Alignment.topCenter,
+                    end: Alignment.bottomCenter,
+                    colors: [Colors.transparent, Colors.black87],
+                    stops: [0.35, 1],
+                  ),
+                ),
+              ),
+              Positioned(
+                left: 12,
+                right: 12,
+                bottom: 10,
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  mainAxisSize: MainAxisSize.min,
+                  children: [
+                    Text(
+                      artist,
+                      maxLines: 1,
+                      overflow: TextOverflow.ellipsis,
+                      style: theme.textTheme.titleMedium?.copyWith(
+                        color: Colors.white,
+                        fontWeight: FontWeight.bold,
+                      ),
+                    ),
+                    Text(
+                      '$albumCount ${albumCount == 1 ? 'album' : 'albums'}',
+                      style: theme.textTheme.labelSmall?.copyWith(color: Colors.white70),
+                    ),
+                  ],
+                ),
+              ),
+            ],
+          ),
+        ),
       ),
     );
   }

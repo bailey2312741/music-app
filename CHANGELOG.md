@@ -1,5 +1,17 @@
 # Changelog
 
+## v0.5
+- Profile page, opened from the person icon in the top corner: a nickname you set with the small pencil (saved on the phone), with a placeholder @username underneath until online accounts exist.
+- Your Range: pin up to five favourite albums from their page. They're drawn as a mountain skyline, with peak height set by difficulty and albums without a difficulty at base height with a "?". Empty slots are dashed. Tap a peak to open the album, press and hold to remove it, and choose which to replace when all five are full.
+- Listen later: a bookmark in the corner of album cards (shows on hover on a PC; press and hold on a phone), plus a button on the album page. The list lives on the Ratings tab next to your rated albums.
+- Sort menu on Search, artist pages and the Ratings tab: Alphabetical, Popularity, Difficulty, Your rating. Pick an option again to reverse it; the button shows the current order. Popularity counts ratings, which for now means only this device's.
+- Artists show as wide cards with the image filling the card and the name over it, above the albums in Search.
+- Album page: difficulty in an info square under the cover (symbol, with the level underneath), main genre larger with subgenres smaller underneath, and the album type shown only when it isn't a studio album.
+- Expeditions: bigger, tinted cards with stacked covers and your average rating, and a "Rate this expedition" slider, separate from the album ratings.
+- Reset progress on any expedition. Album ratings are kept, and albums count again once you rate them afresh.
+- Edit your own expeditions: name, description, add or remove albums, reorder, and the in-order toggle. Official expeditions stay read-only.
+- Journey look: stops zig-zag down the page like landmarks on a trail, joined by a line that's solid where you've been and dashed ahead. The final album is bigger and centred.
+
 ## v0.4
 - Ratings save as soon as you let go of the slider. The Save and Remove buttons are gone.
 - Album page shows an average rating next to yours. For now it only counts ratings on this device.

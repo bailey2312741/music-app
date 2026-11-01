@@ -63,3 +63,32 @@ class DifficultyTag extends StatelessWidget {
     );
   }
 }
+
+/// Difficulty as a small info square: the symbol, with the level name underneath.
+class DifficultySquare extends StatelessWidget {
+  final Difficulty difficulty;
+  const DifficultySquare(this.difficulty, {super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    final theme = Theme.of(context);
+    return Tooltip(
+      message: difficulty.description,
+      child: Container(
+        width: 96,
+        padding: const EdgeInsets.symmetric(vertical: 10),
+        decoration: BoxDecoration(
+          border: Border.all(color: theme.colorScheme.outlineVariant),
+          borderRadius: BorderRadius.circular(10),
+        ),
+        child: Column(
+          children: [
+            Icon(difficulty.icon, size: 26, color: theme.colorScheme.onSurfaceVariant),
+            const SizedBox(height: 4),
+            Text(difficulty.label, style: theme.textTheme.labelMedium, textAlign: TextAlign.center),
+          ],
+        ),
+      ),
+    );
+  }
+}

@@ -5,6 +5,7 @@ import 'package:music_app/difficulty.dart';
 import 'package:music_app/expeditions.dart';
 import 'package:music_app/models.dart';
 import 'package:music_app/screens.dart';
+import 'package:music_app/sorting.dart';
 import 'package:music_app/store.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
@@ -149,6 +150,105 @@ void main() {
     await t.pumpAndSettle();
     expect(picked?.id, 'k1');
     expect(find.text('Slide to rate'), findsNothing);
+  });
+
+  test('sort: each option reverses on a second tap, missing values go last', () async {
+    final store = await Store.load();
+    final albums = Catalogue.albums;
+    await store.rate(albums[0], 6);
+    await store.rate(albums[2], 9);
+    final byRating = const SortOrder(SortBy.rating).apply(albums, store);
+    expect(byRating.take(2).map((a) => a.id), ['k1', 'b1']);
+    final lowFirst = const SortOrder(SortBy.rating, reversed: true).apply(albums, store);
+    expect(lowFirst.take(2).map((a) => a.id), ['b1', 'k1']);
+    expect(const SortOrder(SortBy.alphabetical).apply(albums, store).first.title, 'Abbey Road');
+    expect(
+      const SortOrder(SortBy.alphabetical, reversed: true).apply(albums, store).first.title,
+      'Revolver',
+    );
+  });
+
+  test('listen later toggles and persists', () async {
+    final store = await Store.load();
+    final a = Catalogue.albums.first;
+    expect(await store.toggleListenLater(a), isTrue);
+    expect((await Store.load()).listenLater.single.id, a.id);
+    expect(await store.toggleListenLater(a), isFalse);
+    expect(store.listenLater, isEmpty);
+  });
+
+  test('Your Range holds five albums in order and can replace one', () async {
+    final store = await Store.load();
+    final albums = [for (var i = 0; i < 6; i++) Album(id: 'r$i', title: 'R$i', artist: 'A')];
+    for (final a in albums.take(5)) {
+      await store.pin(a);
+    }
+    expect(store.rangeFull, isTrue);
+    await store.pin(albums[5], slot: 2);
+    final reloaded = await Store.load();
+    expect(reloaded.range.map((a) => a?.id), ['r0', 'r1', 'r5', 'r3', 'r4']);
+    await reloaded.unpin('r1');
+    expect(reloaded.range[1], isNull);
+    expect(reloaded.rangeFull, isFalse);
+  });
+
+  test('expedition average, own rating, and reset progress keeping album ratings', () async {
+    final store = await Store.load();
+    final albums = [for (var i = 0; i < 3; i++) Album(id: 'e$i', title: 'E$i', artist: 'A')];
+    final e = Expedition(
+      'ex',
+      'Ex',
+      '',
+      [for (final a in albums) ExpeditionStop.ofAlbum(a)],
+      inOrder: true,
+      custom: true,
+    );
+    await store.rate(albums[0], 7);
+    await store.rate(albums[1], 8.5);
+    expect(expeditionAverage(store, e), 7.8);
+    await store.rateExpedition('ex', 9);
+    expect(store.expeditionRating('ex'), 9);
+    await Future<void>.delayed(const Duration(milliseconds: 5));
+    await store.resetProgress('ex');
+    expect(ratedCount(store, e), 0);
+    expect(unlockedCount(store, e), 1);
+    expect(store.ratingOf('e0'), 7); // album ratings are kept
+    expect(store.expeditionRating('ex'), isNull);
+    await Future<void>.delayed(const Duration(milliseconds: 5));
+    await store.rate(albums[0], 7);
+    expect(ratedCount(store, e), 1);
+  });
+
+  test('editing an expedition keeps its place and id', () async {
+    final store = await Store.load();
+    const a = Album(id: 'z', title: 'Z', artist: 'A');
+    const b = Album(id: 'y', title: 'Y', artist: 'A');
+    await store.saveExpedition(
+      Expedition('one', 'One', '', [
+        ExpeditionStop.ofAlbum(a),
+        ExpeditionStop.ofAlbum(b),
+      ], custom: true),
+    );
+    await store.saveExpedition(
+      Expedition('two', 'Two', '', [
+        ExpeditionStop.ofAlbum(a),
+        ExpeditionStop.ofAlbum(b),
+      ], custom: true),
+    );
+    await store.saveExpedition(
+      Expedition(
+        'one',
+        'One renamed',
+        '',
+        [ExpeditionStop.ofAlbum(b), ExpeditionStop.ofAlbum(a)],
+        inOrder: true,
+        custom: true,
+      ),
+    );
+    final list = (await Store.load()).customExpeditions;
+    expect(list.map((e) => e.name), ['One renamed', 'Two']);
+    expect(list.first.stops.first.album!.id, 'y');
+    expect(list.first.inOrder, isTrue);
   });
 
   test('ratings display without trailing .0', () {
