@@ -177,8 +177,8 @@ def seed_artists():
             if m:
                 artists[m] = max(artists.get(m, 0), r.get("listen_count", 0))
         log(f"sitewide artists {rng}: {len(rows)} rows, {len(artists)} unique so far")
-    for rng in ("all_time", "year"):
-        rows = sitewide("release-groups", rng, 3000)
+    for rng in ("all_time", "year", "half_yearly", "quarter", "month", "this_year", "this_month", "week"):
+        rows = sitewide("release-groups", rng, 1000)
         for r in rows:
             for m in r.get("artist_mbids") or []:
                 artists.setdefault(m, 0)
@@ -308,6 +308,9 @@ def main():
     log(f"kept {len(kept)} popular albums; dropped {dropped}")
 
     by_id = {k["id"]: k for k in kept}
+    by_name = {}
+    for k in kept:
+        by_name.setdefault(norm(k["a"]) + "|" + norm(k["t"]), k)
 
     # Always include Bailey's sheet, the expedition albums and the exceptions.
     sheet = json.load(open("data/albums.json", encoding="utf-8"))
@@ -315,6 +318,7 @@ def main():
     exceptions = json.load(open("data/exceptions.json", encoding="utf-8"))["albums"]
     forced = [dict(a, _sheet=True) for a in sheet] + [dict(a, _sheet=False) for a in exceptions]
     missing_cover = 0
+    merged = 0
     for a in forced:
         key = f"{a['artist']}|{a['title']}"
         gid = ids.get(key) or mb_find(re.sub(r"\s*\[.*?\]", "", a["title"]), a["artist"])
@@ -322,7 +326,15 @@ def main():
             ids[key] = gid
         else:
             gid = "local:" + norm(a["artist"] + " " + a["title"]).replace(" ", "-")
-        entry = by_id.get(gid) or {"id": gid, "p": 0, "cr": None, "ci": None}
+        entry = by_id.get(gid)
+        twin = by_name.get(norm(a["artist"]) + "|" + norm(re.sub(r"\s*\[.*?\]", "", a["title"])))
+        if not entry and twin and twin["id"] != gid:
+            # The sheet points at another MusicBrainz entry for the same album: merge them,
+            # keeping the sheet's ID so existing ratings still match.
+            by_id.pop(twin["id"], None)
+            entry = {**twin, "id": gid}
+            merged += 1
+        entry = entry or {"id": gid, "p": 0, "cr": None, "ci": None}
         if not entry.get("ci") and not gid.startswith("local:"):
             entry["cr"], entry["ci"] = caa_front(gid)
         if not entry.get("ci"):
@@ -339,6 +351,7 @@ def main():
             entry.setdefault("g", None)
             entry.setdefault("s", [])
         by_id[gid] = entry
+    log(f"merged {merged} sheet albums with their popular twin")
     save_cache()
     json.dump(ids, open("data/sheet_ids.json", "w", encoding="utf-8"), ensure_ascii=False, indent=1)
 
