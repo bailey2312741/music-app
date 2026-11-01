@@ -2451,5 +2451,51 @@
    "Free Jazz"
   ],
   "type": "Studio"
+ },
+ {
+  "title": "Hatful of Hollow",
+  "artist": "The Smiths",
+  "year": "1984",
+  "genre": "Pop",
+  "subgenres": [
+   "Jangle Pop",
+   "Indie Pop"
+  ],
+  "type": "Compilation"
+ },
+ {
+  "title": "Louder Than Bombs",
+  "artist": "The Smiths",
+  "year": "1987",
+  "genre": "Pop",
+  "subgenres": [
+   "Jangle Pop",
+   "Indie Pop"
+  ],
+  "type": "Compilation"
+ },
+ {
+  "title": "The Masterplan",
+  "artist": "Oasis",
+  "year": "1998",
+  "genre": "Rock",
+  "subgenres": [],
+  "type": "Compilation"
+ },
+ {
+  "title": "Special Herbs: The Box Set Vol. 0-9",
+  "artist": "MF DOOM",
+  "year": "2006",
+  "genre": "Hip-hop",
+  "subgenres": [],
+  "type": "Compilation"
+ },
+ {
+  "title": "Incesticide",
+  "artist": "Nirvana",
+  "year": "1992",
+  "genre": "Rock",
+  "subgenres": [],
+  "type": "Compilation"
  }
 ]
