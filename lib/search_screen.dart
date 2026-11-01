@@ -211,7 +211,7 @@ class AlbumRow extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) => SizedBox(
-    height: 232,
+    height: 214,
     child: ListView.builder(
       scrollDirection: Axis.horizontal,
       padding: const EdgeInsets.symmetric(horizontal: 10),
@@ -255,7 +255,7 @@ class _GenreScreenState extends State<GenreScreen> {
   }
 
   static String _letter(Album a) {
-    final n = Catalogue.sortName(a.title);
+    final n = Catalogue.norm(a.title); // same order as the A to Z sort
     final c = n.isEmpty ? '#' : n[0].toUpperCase();
     return RegExp('[A-Z]').hasMatch(c) ? c : '#';
   }
