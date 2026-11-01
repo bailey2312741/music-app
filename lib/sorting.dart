@@ -7,7 +7,7 @@ import 'store.dart';
 
 enum SortBy {
   alphabetical('Alphabetical', 'A to Z', 'Z to A'),
-  popularity('Popularity', 'Most rated first', 'Least rated first'),
+  popularity('Popularity', 'Most popular first', 'Least popular first'),
   difficulty('Difficulty', 'Hardest first', 'Easiest first'),
   rating('Your rating', 'Highest first', 'Lowest first');
 
@@ -34,7 +34,9 @@ class SortOrder {
           final c = byTitle(a, b);
           return reversed ? -c : c;
         case SortBy.popularity:
-          final c = store.ratingCount(b.id).compareTo(store.ratingCount(a.id));
+          // Outside listening counts for now; the app's own rating counts later.
+          var c = b.popularity.compareTo(a.popularity);
+          if (c == 0) c = store.ratingCount(b.id).compareTo(store.ratingCount(a.id));
           return (reversed ? -c : c) != 0 ? (reversed ? -c : c) : byTitle(a, b);
         case SortBy.difficulty:
         case SortBy.rating:

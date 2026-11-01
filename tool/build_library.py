@@ -11,7 +11,7 @@ Sources (all free, no keys):
 Always included: Bailey's sheet and the expedition albums (data/albums.json)
 and hand-picked compilations (data/exceptions.json).
 
-Runs on GitHub Actions (about 30 to 45 minutes). Standard library only.
+Runs on GitHub Actions (about 90 minutes). Standard library only.
 Set LIBRARY_SIZE to change how many popular albums are kept.
 """
 
@@ -43,9 +43,11 @@ def log(*a):
     print(*a, flush=True)
 
 
-def fetch(url, data=None, host_pause=0.25):
+def fetch(url, data=None, host_pause=None):
     """GET (or POST JSON) with polite pacing per host and retries on rate limits."""
     host = urllib.parse.urlparse(url).netloc
+    if host_pause is None:
+        host_pause = 1.0 if 'listenbrainz' in host else 0.25
     wait = host_pause - (time.time() - _last.get(host, 0))
     if wait > 0:
         time.sleep(wait)
@@ -60,7 +62,10 @@ def fetch(url, data=None, host_pause=0.25):
                     return None
                 return json.load(r)
         except urllib.error.HTTPError as e:
-            if e.code in (429, 503, 502, 500):
+            # ListenBrainz sometimes answers 401 instead of 429 when requests come too fast.
+            if e.code in (401, 429, 503, 502, 500):
+                if e.code == 401 and attempt == 0:
+                    log("  401, slowing down:", e.read()[:200])
                 delay = float(e.headers.get("Retry-After") or e.headers.get("X-RateLimit-Reset-In") or 2 * (attempt + 1))
                 time.sleep(min(delay, 30) + 0.5)
                 continue

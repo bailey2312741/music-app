@@ -255,4 +255,35 @@ void main() {
     expect(fmt(8), '8');
     expect(fmt(8.5), '8.5');
   });
+
+  test('library rows: exact covers, popularity order, featured artists', () async {
+    final hit = Album.fromLibrary({
+      'id': 'p1',
+      't': 'Popular',
+      'a': 'Big Band',
+      'y': '2001',
+      'ty': 'Live',
+      'g': 'Rock',
+      'p': 900,
+      'cr': 'rel',
+      'ci': '42',
+    });
+    final noCover = Album.fromLibrary({'id': 'p2', 't': 'Quiet', 'a': 'Small Band', 'p': 5});
+    expect(hit.coverUrl(), 'https://coverartarchive.org/release/rel/42-250');
+    expect(hit.coverUrl(large: true), 'https://coverartarchive.org/release/rel/42-500');
+    expect(noCover.coverUrl(), ''); // placeholder, never a guessed cover
+    expect(Album.fromJson(hit.toJson()).coverUrl(), hit.coverUrl());
+
+    Catalogue.use([noCover, ...Catalogue.albums, hit], featured: ['Big Band']);
+    expect(Catalogue.albums.first.id, 'p1'); // most popular first
+    expect(Catalogue.search('band').map((a) => a.id), ['p1', 'p2']);
+    expect(Catalogue.inGenre('Rock').first.id, 'p1');
+    expect(Catalogue.featuredArtists(), ['Big Band']);
+    expect(Catalogue.featuredArtists(['Small Band', 'Nobody']), ['Big Band', 'Small Band']);
+    expect(Catalogue.artistImage('Big Band')?.id, 'p1');
+
+    final store = await Store.load();
+    final sorted = const SortOrder(SortBy.popularity).apply([noCover, hit], store);
+    expect(sorted.first.id, 'p1');
+  });
 }

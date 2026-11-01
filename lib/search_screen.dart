@@ -1,11 +1,17 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/rendering.dart';
 
+import 'actions.dart';
 import 'catalogue.dart';
+import 'expeditions.dart';
 import 'models.dart';
 import 'screens.dart';
 import 'sorting.dart';
 import 'store.dart';
 import 'widgets.dart';
+
+/// How many albums each genre row shows before "See all".
+const _rowLength = 20;
 
 class SearchScreen extends StatefulWidget {
   final Store store;
@@ -26,27 +32,22 @@ class _SearchScreenState extends State<SearchScreen> {
   void _tapAlbum(Album a) =>
       widget.pickMode ? Navigator.of(context).pop(a) : openAlbum(context, widget.store, a);
 
-  Future<void> _openArtist(String name) async {
-    final picked = await Navigator.of(context).push<Album>(
-      MaterialPageRoute(
-        builder: (_) => ArtistScreen(store: widget.store, artist: name, pickMode: widget.pickMode),
-      ),
-    );
+  /// Opens a page; in pick mode, an album picked there is passed back up.
+  Future<void> _push(Widget page) async {
+    final picked = await Navigator.of(context).push<Album>(MaterialPageRoute(builder: (_) => page));
     if (picked != null && mounted) Navigator.of(context).pop(picked);
   }
 
+  void _openArtist(String name) =>
+      _push(ArtistScreen(store: widget.store, artist: name, pickMode: widget.pickMode));
+
+  void _openGenre(String genre) =>
+      _push(GenreScreen(store: widget.store, genre: genre, pickMode: widget.pickMode));
+
   @override
   Widget build(BuildContext context) {
-    final theme = Theme.of(context);
     final store = widget.store;
     final browsing = _text.trim().isEmpty && _genre == null;
-    final artists = _genre != null
-        ? const <String>[]
-        : browsing
-        ? Catalogue.artists
-        : Catalogue.searchArtists(_text);
-    final found = Catalogue.search(_text, genre: _genre);
-    final albums = _sort == null ? found : _sort!.apply(found, store);
 
     return Scaffold(
       appBar: widget.pickMode
@@ -54,29 +55,34 @@ class _SearchScreenState extends State<SearchScreen> {
           : AppBar(title: const Text('Search'), actions: cornerActions(store)),
       body: ListenableBuilder(
         listenable: store,
-        builder: (context, _) => CustomScrollView(
-          slivers: [
-            SliverToBoxAdapter(
-              child: Padding(
-                padding: const EdgeInsets.fromLTRB(12, 4, 12, 4),
-                child: SearchBar(
-                  hintText: 'Album, artist or genre',
-                  leading: const Icon(Icons.search),
-                  elevation: const WidgetStatePropertyAll(0),
-                  onChanged: (v) => setState(() => _text = v),
+        builder: (context, _) {
+          final artists = _genre != null
+              ? const <String>[]
+              : browsing
+              ? Catalogue.featuredArtists([for (final r in store.ratedAlbums) r.album.artist])
+              : Catalogue.searchArtists(_text);
+          return CustomScrollView(
+            slivers: [
+              SliverToBoxAdapter(
+                child: Padding(
+                  padding: const EdgeInsets.fromLTRB(12, 4, 12, 4),
+                  child: SearchBar(
+                    hintText: 'Album, artist or genre',
+                    leading: const Icon(Icons.search),
+                    elevation: const WidgetStatePropertyAll(0),
+                    onChanged: (v) => setState(() => _text = v),
+                  ),
                 ),
               ),
-            ),
-            // Genre filter: tap a tag to show only that genre, tap again to clear.
-            SliverToBoxAdapter(
-              child: SizedBox(
-                height: 48,
-                child: ListView(
-                  scrollDirection: Axis.horizontal,
-                  padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 6),
-                  children: [
-                    for (final g in Catalogue.genres.take(_genre == null ? 10 : 99))
-                      if (_genre == null || g == _genre)
+              // Genre filter: tap a main genre to show only that genre, tap again to clear.
+              SliverToBoxAdapter(
+                child: SizedBox(
+                  height: 48,
+                  child: ListView(
+                    scrollDirection: Axis.horizontal,
+                    padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 6),
+                    children: [
+                      for (final g in _genre == null ? Catalogue.families : [_genre!])
                         Padding(
                           padding: const EdgeInsets.only(right: 6),
                           child: FilterChip(
@@ -85,64 +91,83 @@ class _SearchScreenState extends State<SearchScreen> {
                             onSelected: (on) => setState(() => _genre = on ? g : null),
                           ),
                         ),
-                  ],
-                ),
-              ),
-            ),
-            if (artists.isNotEmpty) ...[
-              _heading(context, browsing ? 'Artists (${artists.length})' : 'Artists'),
-              SliverToBoxAdapter(
-                child: SizedBox(
-                  height: 110,
-                  child: ListView.separated(
-                    scrollDirection: Axis.horizontal,
-                    padding: const EdgeInsets.symmetric(horizontal: 12),
-                    itemCount: artists.length,
-                    separatorBuilder: (_, _) => const SizedBox(width: 8),
-                    itemBuilder: (context, i) {
-                      final own = Catalogue.byArtist(artists[i]);
-                      return ArtistCard(
-                        artist: artists[i],
-                        image: own.where((a) => a.cover != null).lastOrNull ?? own.lastOrNull,
-                        albumCount: own.length,
-                        onTap: () => _openArtist(artists[i]),
-                      );
-                    },
+                    ],
                   ),
                 ),
               ),
+              if (artists.isNotEmpty) ...[
+                _heading(context, 'Artists'),
+                SliverToBoxAdapter(
+                  child: _ArtistRow(artists: artists, onTap: _openArtist),
+                ),
+              ],
+              if (browsing) ..._genreRows(context) else ..._results(context),
             ],
-            SliverToBoxAdapter(
-              child: Padding(
-                padding: const EdgeInsets.fromLTRB(16, 10, 8, 0),
-                child: Row(
-                  children: [
-                    Expanded(
-                      child: Text(
-                        browsing ? 'All albums (${albums.length})' : 'Albums (${albums.length})',
-                        style: theme.textTheme.titleSmall,
-                      ),
-                    ),
-                    SortButton(value: _sort, onChanged: (v) => setState(() => _sort = v)),
-                  ],
-                ),
-              ),
-            ),
-            if (albums.isEmpty)
-              SliverToBoxAdapter(
-                child: Padding(
-                  padding: const EdgeInsets.all(24),
-                  child: Text(
-                    'No albums match. The album list is a short test list for now.',
-                    style: theme.textTheme.bodyMedium,
-                  ),
-                ),
-              ),
-            SliverAlbumGrid(albums: albums, store: store, onTap: _tapAlbum),
-          ],
-        ),
+          );
+        },
       ),
     );
+  }
+
+  /// Browse: one sideways row per main genre, most popular first.
+  List<Widget> _genreRows(BuildContext context) => [
+    for (final g in Catalogue.families) ...[
+      SliverToBoxAdapter(
+        child: Padding(
+          padding: const EdgeInsets.fromLTRB(16, 12, 4, 0),
+          child: Row(
+            children: [
+              Expanded(child: Text(g, style: Theme.of(context).textTheme.titleMedium)),
+              TextButton(onPressed: () => _openGenre(g), child: const Text('See all')),
+            ],
+          ),
+        ),
+      ),
+      SliverToBoxAdapter(
+        child: AlbumRow(
+          albums: Catalogue.inGenre(g).take(_rowLength).toList(),
+          store: widget.store,
+          onTap: _tapAlbum,
+        ),
+      ),
+    ],
+    const SliverToBoxAdapter(child: SizedBox(height: 16)),
+  ];
+
+  /// Search results (or one genre) as a grid.
+  List<Widget> _results(BuildContext context) {
+    final found = Catalogue.search(_text, genre: _genre);
+    final albums = _sort == null ? found : _sort!.apply(found, widget.store);
+    return [
+      SliverToBoxAdapter(
+        child: Padding(
+          padding: const EdgeInsets.fromLTRB(16, 10, 8, 0),
+          child: Row(
+            children: [
+              Expanded(
+                child: Text(
+                  'Albums (${albums.length})',
+                  style: Theme.of(context).textTheme.titleSmall,
+                ),
+              ),
+              SortButton(value: _sort, onChanged: (v) => setState(() => _sort = v)),
+            ],
+          ),
+        ),
+      ),
+      if (albums.isEmpty)
+        SliverToBoxAdapter(
+          child: Padding(
+            padding: const EdgeInsets.all(24),
+            child: Text(
+              'No albums match. The library has the ${Catalogue.albums.length} most '
+              'popular albums for now.',
+              style: Theme.of(context).textTheme.bodyMedium,
+            ),
+          ),
+        ),
+      SliverAlbumGrid(albums: albums, store: widget.store, onTap: _tapAlbum),
+    ];
   }
 }
 
@@ -152,6 +177,169 @@ Widget _heading(BuildContext context, String text) => SliverToBoxAdapter(
     child: Text(text, style: Theme.of(context).textTheme.titleSmall),
   ),
 );
+
+/// A sideways row of artist cards.
+class _ArtistRow extends StatelessWidget {
+  final List<String> artists;
+  final void Function(String) onTap;
+  const _ArtistRow({required this.artists, required this.onTap});
+
+  @override
+  Widget build(BuildContext context) => SizedBox(
+    height: 110,
+    child: ListView.separated(
+      scrollDirection: Axis.horizontal,
+      padding: const EdgeInsets.symmetric(horizontal: 12),
+      itemCount: artists.length,
+      separatorBuilder: (_, _) => const SizedBox(width: 8),
+      itemBuilder: (context, i) => ArtistCard(
+        artist: artists[i],
+        image: Catalogue.artistImage(artists[i]),
+        albumCount: Catalogue.byArtist(artists[i]).length,
+        onTap: () => onTap(artists[i]),
+      ),
+    ),
+  );
+}
+
+/// A sideways row of album cards, the same size as in the grids.
+class AlbumRow extends StatelessWidget {
+  final List<Album> albums;
+  final Store store;
+  final void Function(Album) onTap;
+  const AlbumRow({super.key, required this.albums, required this.store, required this.onTap});
+
+  @override
+  Widget build(BuildContext context) => SizedBox(
+    height: 232,
+    child: ListView.builder(
+      scrollDirection: Axis.horizontal,
+      padding: const EdgeInsets.symmetric(horizontal: 10),
+      itemCount: albums.length,
+      itemExtent: 130,
+      itemBuilder: (context, i) {
+        final a = albums[i];
+        return AlbumCard(
+          album: a,
+          rating: store.ratingOf(a.id),
+          difficulty: difficultyOf(store, a.id),
+          listenLater: store.isListenLater(a.id),
+          onListenLater: () => toggleListenLater(context, store, a),
+          onTap: () => onTap(a),
+        );
+      },
+    ),
+  );
+}
+
+/// Every album in one genre: most popular first, or A to Z with a letter
+/// index to jump through the list.
+class GenreScreen extends StatefulWidget {
+  final Store store;
+  final String genre;
+  final bool pickMode;
+  const GenreScreen({super.key, required this.store, required this.genre, this.pickMode = false});
+
+  @override
+  State<GenreScreen> createState() => _GenreScreenState();
+}
+
+class _GenreScreenState extends State<GenreScreen> {
+  SortOrder? _sort;
+  final _scroll = ScrollController();
+
+  @override
+  void dispose() {
+    _scroll.dispose();
+    super.dispose();
+  }
+
+  static String _letter(Album a) {
+    final n = Catalogue.sortName(a.title);
+    final c = n.isEmpty ? '#' : n[0].toUpperCase();
+    return RegExp('[A-Z]').hasMatch(c) ? c : '#';
+  }
+
+  /// Scrolls the grid so the album at [index] is at the top.
+  void _jumpTo(int index, double width) {
+    final layout = albumGridDelegate.getLayout(
+      SliverConstraints(
+        axisDirection: AxisDirection.down,
+        growthDirection: GrowthDirection.forward,
+        userScrollDirection: ScrollDirection.idle,
+        scrollOffset: 0,
+        precedingScrollExtent: 0,
+        overlap: 0,
+        remainingPaintExtent: 0,
+        crossAxisExtent: width - 20, // grid side padding
+        crossAxisDirection: AxisDirection.right,
+        viewportMainAxisExtent: 0,
+        remainingCacheExtent: 0,
+        cacheOrigin: 0,
+      ),
+    ) as SliverGridRegularTileLayout;
+    final offset = 4 + (index ~/ layout.crossAxisCount) * layout.mainAxisStride;
+    _scroll.jumpTo(offset.clamp(0, _scroll.position.maxScrollExtent));
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    final all = Catalogue.inGenre(widget.genre);
+    final albums = _sort == null ? all : _sort!.apply(all, widget.store);
+    final az = _sort?.by == SortBy.alphabetical;
+    // First position of each letter (A to Z order, or Z to A when reversed).
+    final firstOf = <String, int>{};
+    if (az) {
+      for (var i = 0; i < albums.length; i++) {
+        firstOf.putIfAbsent(_letter(albums[i]), () => i);
+      }
+    }
+    return Scaffold(
+      appBar: AppBar(
+        title: Text(widget.genre),
+        actions: [SortButton(value: _sort, onChanged: (v) => setState(() => _sort = v))],
+        bottom: az
+            ? PreferredSize(
+                preferredSize: const Size.fromHeight(40),
+                child: LayoutBuilder(
+                  builder: (context, box) => SizedBox(
+                    height: 40,
+                    child: ListView(
+                      scrollDirection: Axis.horizontal,
+                      padding: const EdgeInsets.symmetric(horizontal: 8),
+                      children: [
+                        for (final e in firstOf.entries)
+                          TextButton(
+                            style: TextButton.styleFrom(
+                              minimumSize: const Size(36, 36),
+                              padding: EdgeInsets.zero,
+                            ),
+                            onPressed: () => _jumpTo(e.value, box.maxWidth),
+                            child: Text(e.key),
+                          ),
+                      ],
+                    ),
+                  ),
+                ),
+              )
+            : null,
+      ),
+      body: ListenableBuilder(
+        listenable: widget.store,
+        builder: (context, _) => CustomScrollView(
+          controller: _scroll,
+          slivers: [
+            SliverAlbumGrid(
+              albums: albums,
+              store: widget.store,
+              onTap: widget.pickMode ? (a) => Navigator.of(context).pop(a) : null,
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+}
 
 /// One artist's albums, oldest first.
 class ArtistScreen extends StatefulWidget {

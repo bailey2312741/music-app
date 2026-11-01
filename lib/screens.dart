@@ -14,7 +14,7 @@ export 'profile_screen.dart';
 export 'search_screen.dart';
 export 'widgets.dart' show fmt;
 
-const appVersion = '0.5';
+const appVersion = '0.6';
 
 /// Three tabs: Ratings, Search (opens first) and Expeditions.
 /// Profile and info open from buttons in the top corner.
@@ -162,8 +162,10 @@ class InfoScreen extends StatelessWidget {
           ),
           heading('Where the data comes from'),
           para(
-            'For testing, search covers a fixed list of about 240 albums with genre tags from '
-            'Bailey\'s album rankings. Album IDs come from MusicBrainz and covers from Deezer.',
+            'The library has about 10,000 of the most listened-to albums (popularity from '
+            'ListenBrainz), plus every album from Bailey\'s rankings. Album details come from '
+            'MusicBrainz and covers from the Cover Art Archive. Genres outside Bailey\'s rankings '
+            'are a first guess from MusicBrainz tags.',
           ),
           const SizedBox(height: 16),
           Text('Version $appVersion', style: theme.textTheme.bodySmall),

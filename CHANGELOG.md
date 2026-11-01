@@ -1,5 +1,14 @@
 # Changelog
 
+## v0.6
+- First real library: about 10,000 of the most listened-to albums, plus every album from Bailey's rankings and the expeditions. It ships inside the app, so search is still instant and works offline.
+- Popularity comes from ListenBrainz listen counts for now, until the app has enough ratings of its own. Search results, genre rows and the Popularity sort all use it.
+- Album types: studio albums, mixtapes, EPs, live albums, soundtracks and remix albums are all included. Anything that isn't a studio album has a small label on its cover. Singles, demos, DJ mixes, spoken word and compilations are left out, apart from a short hand-picked list of important compilations.
+- Browse by genre: Search now shows one sideways row per main genre, most popular first, with "See all" for the full list. The full list sorts by popularity or A to Z, and A to Z adds a letter index to jump through it.
+- Artist cards for the top 2,000 artists by popularity, plus any artist you've rated. Each card uses an enlarged cover of the artist's most popular album.
+- Fixed wrong covers: every album now stores its exact cover from the Cover Art Archive, so it can never show another album's cover. Albums without a cover show a plain placeholder.
+- Genres for albums outside Bailey's rankings are a first guess from MusicBrainz tags, mapped onto the genre list from the rankings.
+
 ## v0.5
 - Profile page, opened from the person icon in the top corner: a nickname you set with the small pencil (saved on the phone), with a placeholder @username underneath until online accounts exist.
 - Your Range: pin up to five favourite albums from their page. They're drawn as a mountain skyline, with peak height set by difficulty and albums without a difficulty at base height with a "?". Empty slots are dashed. Tap a peak to open the album, press and hold to remove it, and choose which to replace when all five are full.

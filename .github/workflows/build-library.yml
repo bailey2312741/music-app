@@ -33,10 +33,15 @@ jobs:
         env:
           LIBRARY_SIZE: ${{ inputs.library_size || '10000' }}
           MAX_SEED_ARTISTS: ${{ inputs.seed_artists || '3500' }}
-      - uses: actions/upload-artifact@v4
-        with:
-          name: catalogue
-          path: assets/catalogue.json
+      - name: Save a preview copy on the library-preview branch
+        if: ${{ github.event_name == 'workflow_dispatch' && !inputs.commit }}
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git checkout -b library-preview
+          git add assets/catalogue.json data/sheet_ids.json
+          git commit -m "Library preview [skip ci]"
+          git push -f origin library-preview
       - name: Commit library and rebuild the app
         if: ${{ github.event_name == 'push' || inputs.commit }}
         env:

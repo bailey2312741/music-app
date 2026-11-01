@@ -111,6 +111,13 @@ class AlbumCard extends StatelessWidget {
                           top: 6,
                           child: _Badge('$number', scheme.surface, scheme.onSurface),
                         ),
+                      // Anything other than a studio album says what it is (EP, Live...).
+                      if (album.type != null && album.type != 'Studio')
+                        Positioned(
+                          left: 6,
+                          bottom: 6,
+                          child: _Badge(album.type!, scheme.surface, scheme.onSurface, small: true),
+                        ),
                       if (rating != null)
                         Positioned(
                           right: 6,
@@ -186,18 +193,19 @@ class _Badge extends StatelessWidget {
   final String text;
   final Color bg;
   final Color fg;
-  const _Badge(this.text, this.bg, this.fg);
+  final bool small;
+  const _Badge(this.text, this.bg, this.fg, {this.small = false});
 
   @override
   Widget build(BuildContext context) => Container(
-    padding: const EdgeInsets.symmetric(horizontal: 7, vertical: 3),
+    padding: EdgeInsets.symmetric(horizontal: small ? 5 : 7, vertical: small ? 2 : 3),
     decoration: BoxDecoration(
       color: bg.withValues(alpha: 0.92),
       borderRadius: BorderRadius.circular(10),
     ),
     child: Text(
       text,
-      style: TextStyle(color: fg, fontWeight: FontWeight.bold, fontSize: 12),
+      style: TextStyle(color: fg, fontWeight: FontWeight.bold, fontSize: small ? 10 : 12),
     ),
   );
 }
