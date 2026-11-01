@@ -94,13 +94,20 @@ class SliverAlbumGrid extends StatelessWidget {
   final List<Album> albums;
   final Store store;
   final void Function(Album)? onTap;
-  const SliverAlbumGrid({super.key, required this.albums, required this.store, this.onTap});
+  final SliverGridDelegate delegate;
+  const SliverAlbumGrid({
+    super.key,
+    required this.albums,
+    required this.store,
+    this.onTap,
+    this.delegate = albumGridDelegate,
+  });
 
   @override
   Widget build(BuildContext context) => SliverPadding(
     padding: const EdgeInsets.fromLTRB(10, 4, 10, 16),
     sliver: SliverGrid.builder(
-      gridDelegate: albumGridDelegate,
+      gridDelegate: delegate,
       itemCount: albums.length,
       itemBuilder: (context, i) {
         final a = albums[i];

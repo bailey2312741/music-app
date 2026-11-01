@@ -1,5 +1,16 @@
 # Changelog
 
+## v0.7
+- Album page redesign: cover on the left, with the title, type and track count beside it and an artist button with a small round picture (for now, the artist's most popular cover). Ratings count, your rating and the average sit on the right.
+- Tracklist on every album page, with each track's length and average. Tap "Rate" to rate a track right from the list.
+- Song pages: tap a track to open it. It looks like the album page but with a round cover, a "Song" label and a link back to its album, and has its own rating, chart and reviews.
+- Mountain rating chart: the rating spread is drawn as a mountain range, with snow and a flag on the highest peak. A temporary "Test" button fills it with made-up ratings to preview the look.
+- Release date (month, day, year), total duration and record label under the chart. Tracklists and these facts load from MusicBrainz the first time you open an album, then stay saved on the phone.
+- Reviews on albums and songs, with like, comment and report buttons. This is a test version: everything stays on your phone and the totals only count your own ratings until online accounts exist.
+- Artist pages: studio albums first, oldest to newest and shown bigger, then EPs, mixtapes, live albums, soundtracks and other releases below in smaller cards.
+- Faster covers: on the phone, covers are saved after the first load so they show instantly next time, and artist cards use smaller images.
+- Fixed: the "Saved to Listen later" banner now disappears after two seconds.
+
 ## v0.6
 - First real library: about 10,000 of the most listened-to albums, plus every album from Bailey's rankings and the expeditions. It ships inside the app, so search is still instant and works offline.
 - Popularity comes from ListenBrainz listen counts for now, until the app has enough ratings of its own. Search results, genre rows and the Popularity sort all use it.

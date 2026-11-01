@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:music_app/catalogue.dart';
+import 'package:music_app/chart.dart';
+import 'package:music_app/details.dart';
 import 'package:music_app/difficulty.dart';
 import 'package:music_app/expeditions.dart';
 import 'package:music_app/models.dart';
@@ -285,5 +287,83 @@ void main() {
     final store = await Store.load();
     final sorted = const SortOrder(SortBy.popularity).apply([noCover, hit], store);
     expect(sorted.first.id, 'p1');
+  });
+
+  test('album details: first official release, tracks, label, date', () {
+    final group = {
+      'first-release-date': '1997-05-21',
+      'releases': [
+        {'id': 'reissue', 'status': 'Official', 'date': '2009-03-24'},
+        {'id': 'bootleg', 'status': 'Bootleg', 'date': '1996-01-01'},
+        {'id': 'first', 'status': 'Official', 'date': '1997-05-21'},
+      ],
+    };
+    expect(AlbumDetails.pickRelease(group, prefer: 'reissue'), 'first');
+    expect(AlbumDetails.pickRelease(const {}, prefer: 'cover'), 'cover');
+    final d = AlbumDetails.fromRelease('rg', {
+      'date': '1997-06-16',
+      'label-info': [
+        {
+          'label': {'name': 'Parlophone'},
+        },
+        {
+          'label': {'name': 'Parlophone'},
+        },
+      ],
+      'media': [
+        {
+          'tracks': [
+            {
+              'number': '1',
+              'title': 'Airbag',
+              'length': 284000,
+              'recording': {'id': 'r1'},
+            },
+            {
+              'number': '2',
+              'title': 'Paranoid Android',
+              'length': 383000,
+              'recording': {'id': 'r2'},
+            },
+          ],
+        },
+      ],
+    }, firstDate: '1997-05-21');
+    expect(d.tracks.map((t) => t.id), ['r1', 'r2']);
+    expect(d.label, 'Parlophone');
+    expect(fmtDate(d.date!), 'May 21, 1997');
+    expect(fmtDuration(d.totalMs!), '11 min 7 sec');
+    expect(fmtLength(284000), '4:44');
+    final back = AlbumDetails.fromJson(d.toJson());
+    expect(back.tracks.last.title, 'Paranoid Android');
+  });
+
+  test('track ratings, reviews, likes, comments and reports persist', () async {
+    final store = await Store.load();
+    const t = Track(id: 'r1', number: '1', title: 'Airbag', albumId: 'rg', ms: 284000);
+    await store.rateTrack(t, 8.6);
+    await store.saveReview('album:rg', '  Great record  ');
+    await store.toggleLike('album:rg');
+    await store.addComment('album:rg', 'Agreed');
+    await store.report('album:rg', 'Spam', comment: 0);
+    final again = await Store.load();
+    expect(again.trackRatingOf('r1'), 8.5);
+    expect(again.trackRatingCount('r1'), 1);
+    final r = again.reviewOf('album:rg')!;
+    expect(r.text, 'Great record');
+    expect(r.liked, isTrue);
+    expect(r.comments.single.reported, isTrue);
+    expect(r.reported, isFalse);
+    await again.saveReview('album:rg', '');
+    expect(again.reviewOf('album:rg'), isNull);
+  });
+
+  test('rating spread groups scores into whole numbers', () {
+    final b = ratingBuckets([8.5, 8, 0, 10, 7.4]);
+    expect(b[9], 1);
+    expect(b[8], 1);
+    expect(b[0], 1);
+    expect(b[10], 1);
+    expect(b[7], 1);
   });
 }

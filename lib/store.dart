@@ -4,6 +4,7 @@ import 'package:flutter/foundation.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 import 'catalogue.dart';
+import 'details.dart';
 import 'expeditions.dart';
 import 'models.dart';
 
@@ -53,7 +54,7 @@ class Store extends ChangeNotifier {
     Album album(dynamic v) => Album.fromJson(Map<String, dynamic>.from(v as Map));
 
     final range = [for (final v in readList('range')) v as String?];
-    return Store._(
+    final store = Store._(
       prefs,
       read('ratings').map((k, v) => MapEntry(k, (v as num).toDouble())),
       read('rated_info').map((k, v) => MapEntry(k, album(v))),
@@ -69,6 +70,13 @@ class Store extends ChangeNotifier {
       read('reset_at').map((k, v) => MapEntry(k, v as int)),
       prefs.getString('nickname') ?? '',
     );
+    store._trackRatings = read('track_ratings').map((k, v) => MapEntry(k, (v as num).toDouble()));
+    store._trackInfo = read('track_info')
+        .map((k, v) => MapEntry(k, Track.fromJson(Map<String, dynamic>.from(v as Map))));
+    store._reviews = read('reviews')
+        .map((k, v) => MapEntry(k, Review.fromJson(Map<String, dynamic>.from(v as Map))));
+    store._reports = readList('reports');
+    return store;
   }
 
   // ------------------------------------------------------------ albums
@@ -237,4 +245,161 @@ class Store extends ChangeNotifier {
     await _prefs.setString('expedition_ratings', jsonEncode(_expeditionRatings));
     notifyListeners();
   }
+
+  // ------------------------------------------------------------ tracks
+
+  Map<String, double> _trackRatings = {}; // recording id -> 0..10
+  Map<String, Track> _trackInfo = {}; // recording id -> track details (rated tracks)
+
+  double? trackRatingOf(String trackId) => _trackRatings[trackId];
+
+  /// Only this device's for now, like albums.
+  int trackRatingCount(String trackId) => _trackRatings.containsKey(trackId) ? 1 : 0;
+  double? trackAverageOf(String trackId) => _trackRatings[trackId];
+
+  Future<void> rateTrack(Track track, double? score) async {
+    if (score == null) {
+      _trackRatings.remove(track.id);
+    } else {
+      _trackRatings[track.id] = (score * 2).round() / 2;
+      _trackInfo[track.id] = track;
+      await _prefs.setString(
+        'track_info',
+        jsonEncode(_trackInfo.map((k, v) => MapEntry(k, v.toJson()))),
+      );
+    }
+    await _prefs.setString('track_ratings', jsonEncode(_trackRatings));
+    notifyListeners();
+  }
+
+  // ------------------------------------------------------------ reviews
+
+  /// Reviews are keyed by what they are about: `album:ID` or `track:ID`.
+  /// Kept on the phone for now; likes, comments and reports become shared
+  /// once there are online accounts.
+  Map<String, Review> _reviews = {};
+  List<dynamic> _reports = [];
+
+  Review? reviewOf(String subject) => _reviews[subject];
+
+  /// Saves the user's review; empty text deletes it.
+  Future<void> saveReview(String subject, String text) async {
+    final t = text.trim();
+    if (t.isEmpty) {
+      _reviews.remove(subject);
+    } else {
+      final old = _reviews[subject];
+      _reviews[subject] = Review(
+        text: t,
+        at: DateTime.now().millisecondsSinceEpoch,
+        liked: old?.liked ?? false,
+        comments: old?.comments ?? const [],
+      );
+    }
+    await _saveReviews();
+  }
+
+  Future<void> toggleLike(String subject) async {
+    final r = _reviews[subject];
+    if (r == null) return;
+    _reviews[subject] = r.copyWith(liked: !r.liked);
+    await _saveReviews();
+  }
+
+  Future<void> addComment(String subject, String text) async {
+    final r = _reviews[subject];
+    if (r == null || text.trim().isEmpty) return;
+    _reviews[subject] = r.copyWith(
+      comments: [
+        ...r.comments,
+        ReviewComment(text: text.trim(), at: DateTime.now().millisecondsSinceEpoch),
+      ],
+    );
+    await _saveReviews();
+  }
+
+  /// Records a report on a review (or on one of its comments). With no server
+  /// yet, it is only kept on the phone.
+  Future<void> report(String subject, String reason, {int? comment}) async {
+    final r = _reviews[subject];
+    if (r == null) return;
+    if (comment == null) {
+      _reviews[subject] = r.copyWith(reported: true);
+    } else {
+      final list = [...r.comments];
+      list[comment] = list[comment].copyWith(reported: true);
+      _reviews[subject] = r.copyWith(comments: list);
+    }
+    _reports.add({
+      'subject': subject,
+      'comment': comment,
+      'reason': reason,
+      'at': DateTime.now().millisecondsSinceEpoch,
+    });
+    await _prefs.setString('reports', jsonEncode(_reports));
+    await _saveReviews();
+  }
+
+  Future<void> _saveReviews() async {
+    await _prefs.setString('reviews', jsonEncode(_reviews.map((k, v) => MapEntry(k, v.toJson()))));
+    notifyListeners();
+  }
+}
+
+class Review {
+  final String text;
+  final int at; // when written (ms)
+  final bool liked;
+  final bool reported;
+  final List<ReviewComment> comments;
+  const Review({
+    required this.text,
+    required this.at,
+    this.liked = false,
+    this.reported = false,
+    this.comments = const [],
+  });
+
+  Review copyWith({bool? liked, bool? reported, List<ReviewComment>? comments}) => Review(
+    text: text,
+    at: at,
+    liked: liked ?? this.liked,
+    reported: reported ?? this.reported,
+    comments: comments ?? this.comments,
+  );
+
+  Map<String, dynamic> toJson() => {
+    'text': text,
+    'at': at,
+    'liked': liked,
+    'reported': reported,
+    'comments': [for (final c in comments) c.toJson()],
+  };
+  factory Review.fromJson(Map<String, dynamic> j) => Review(
+    text: j['text'] as String,
+    at: j['at'] as int,
+    liked: j['liked'] as bool? ?? false,
+    reported: j['reported'] as bool? ?? false,
+    comments: [
+      for (final c in (j['comments'] as List?) ?? const [])
+        ReviewComment.fromJson(Map<String, dynamic>.from(c as Map)),
+    ],
+  );
+}
+
+class ReviewComment {
+  final String text;
+  final int at;
+  final bool reported;
+  const ReviewComment({required this.text, required this.at, this.reported = false});
+
+  ReviewComment copyWith({bool? reported}) =>
+      ReviewComment(text: text, at: at, reported: reported ?? this.reported);
+
+  Map<String, dynamic> toJson() => {'text': text, 'at': at, 'reported': reported};
+  factory ReviewComment.fromJson(Map<String, dynamic> j) => ReviewComment(
+    text: j['text'] as String,
+    at: j['at'] as int,
+    reported: j['reported'] as bool? ?? false,
+  );
 }

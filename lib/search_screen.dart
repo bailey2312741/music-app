@@ -341,7 +341,8 @@ class _GenreScreenState extends State<GenreScreen> {
   }
 }
 
-/// One artist's albums, oldest first.
+/// One artist's albums: studio albums first, oldest to newest and shown
+/// bigger, then every other kind of release below, smaller.
 class ArtistScreen extends StatefulWidget {
   final Store store;
   final String artist;
@@ -354,40 +355,95 @@ class ArtistScreen extends StatefulWidget {
   State<ArtistScreen> createState() => _ArtistScreenState();
 }
 
+/// Order of the sections below the studio albums.
+const _otherTypes = ['EP', 'Mixtape', 'Live', 'Soundtrack', 'Remix', 'Compilation'];
+
+const _bigGrid = SliverGridDelegateWithMaxCrossAxisExtent(
+  maxCrossAxisExtent: 200,
+  childAspectRatio: 0.66,
+  crossAxisSpacing: 6,
+  mainAxisSpacing: 6,
+);
+
+const _smallGrid = SliverGridDelegateWithMaxCrossAxisExtent(
+  maxCrossAxisExtent: 112,
+  childAspectRatio: 0.56,
+  crossAxisSpacing: 2,
+  mainAxisSpacing: 2,
+);
+
 class _ArtistScreenState extends State<ArtistScreen> {
   SortOrder? _sort;
 
   @override
   Widget build(BuildContext context) {
-    final own = Catalogue.byArtist(widget.artist);
+    final own = Catalogue.byArtist(widget.artist); // oldest first
     final albums = _sort == null ? own : _sort!.apply(own, widget.store);
+    bool isStudio(Album a) => a.type == null || a.type == 'Studio';
+    final studio = albums.where(isStudio).toList();
+    final others = <String, List<Album>>{};
+    for (final a in albums.where((a) => !isStudio(a))) {
+      (others[a.type!] ??= []).add(a);
+    }
+    final types = others.keys.toList()
+      ..sort((a, b) {
+        int i(String t) => _otherTypes.contains(t) ? _otherTypes.indexOf(t) : 99;
+        return i(a).compareTo(i(b));
+      });
+    final onTap = widget.pickMode ? (Album a) => Navigator.of(context).pop(a) : null;
+    final theme = Theme.of(context);
+
+    Widget header(String text, {Widget? trailing}) => SliverToBoxAdapter(
+      child: Padding(
+        padding: const EdgeInsets.fromLTRB(16, 12, 8, 2),
+        child: Row(
+          children: [
+            Expanded(child: Text(text, style: theme.textTheme.titleMedium)),
+            ?trailing,
+          ],
+        ),
+      ),
+    );
+
+    String plural(String type, int n) => switch (type) {
+      'Live' => 'Live albums',
+      'Remix' => 'Remix albums',
+      _ => n == 1 ? type : '${type}s',
+    };
+
     return Scaffold(
-      appBar: AppBar(title: Text(widget.artist)),
+      appBar: AppBar(
+        title: Row(
+          children: [
+            ArtistAvatar(image: Catalogue.artistImage(widget.artist), size: 32),
+            const SizedBox(width: 10),
+            Expanded(child: Text(widget.artist, overflow: TextOverflow.ellipsis)),
+          ],
+        ),
+        actions: [SortButton(value: _sort, onChanged: (v) => setState(() => _sort = v))],
+      ),
       body: ListenableBuilder(
         listenable: widget.store,
         builder: (context, _) => CustomScrollView(
           slivers: [
-            SliverToBoxAdapter(
-              child: Padding(
-                padding: const EdgeInsets.fromLTRB(16, 4, 8, 0),
-                child: Row(
-                  children: [
-                    Expanded(
-                      child: Text(
-                        '${albums.length} ${albums.length == 1 ? 'album' : 'albums'}',
-                        style: Theme.of(context).textTheme.titleSmall,
-                      ),
-                    ),
-                    SortButton(value: _sort, onChanged: (v) => setState(() => _sort = v)),
-                  ],
-                ),
+            if (studio.isNotEmpty) ...[
+              header('Studio albums (${studio.length})'),
+              SliverAlbumGrid(
+                albums: studio,
+                store: widget.store,
+                onTap: onTap,
+                delegate: _bigGrid,
               ),
-            ),
-            SliverAlbumGrid(
-              albums: albums,
-              store: widget.store,
-              onTap: widget.pickMode ? (a) => Navigator.of(context).pop(a) : null,
-            ),
+            ],
+            for (final t in types) ...[
+              header('${plural(t, others[t]!.length)} (${others[t]!.length})'),
+              SliverAlbumGrid(
+                albums: others[t]!,
+                store: widget.store,
+                onTap: onTap,
+                delegate: _smallGrid,
+              ),
+            ],
           ],
         ),
       ),

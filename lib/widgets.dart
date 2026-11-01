@@ -1,3 +1,5 @@
+import 'package:cached_network_image/cached_network_image.dart';
+import 'package:flutter/foundation.dart' show kIsWeb;
 import 'package:flutter/material.dart';
 
 import 'difficulty.dart';
@@ -5,6 +7,39 @@ import 'models.dart';
 
 /// Formats a rating without a trailing ".0".
 String fmt(double v) => v == v.roundToDouble() ? v.toStringAsFixed(0) : v.toStringAsFixed(1);
+
+/// A picture from the internet. On the phone it's saved after the first load,
+/// so it shows instantly next time; [decodeWidth] keeps small pictures small in memory.
+Widget netImage(
+  String url, {
+  required Widget placeholder,
+  BoxFit fit = BoxFit.cover,
+  Alignment alignment = Alignment.center,
+  int? decodeWidth,
+}) {
+  if (kIsWeb) {
+    // The browser keeps its own copy. Fall back to a plain <img> if the cover
+    // host blocks cross-origin requests, so covers still show.
+    return Image.network(
+      url,
+      fit: fit,
+      alignment: alignment,
+      webHtmlElementStrategy: WebHtmlElementStrategy.fallback,
+      errorBuilder: (_, _, _) => placeholder,
+      loadingBuilder: (_, child, progress) => progress == null ? child : placeholder,
+    );
+  }
+  return CachedNetworkImage(
+    imageUrl: url,
+    fit: fit,
+    alignment: alignment,
+    memCacheWidth: decodeWidth,
+    fadeInDuration: Duration.zero,
+    fadeOutDuration: Duration.zero,
+    placeholder: (_, _) => placeholder,
+    errorWidget: (_, _, _) => placeholder,
+  );
+}
 
 /// Square album cover with a placeholder while loading or when missing.
 class Cover extends StatelessWidget {
@@ -34,14 +69,10 @@ class Cover extends StatelessWidget {
           borderRadius: BorderRadius.circular(radius),
           child: album.coverUrl(large: large).isEmpty
               ? placeholder
-              : Image.network(
+              : netImage(
                   album.coverUrl(large: large),
-                  fit: BoxFit.cover,
-                  // On the web, fall back to a plain <img> if the cover host blocks
-                  // cross-origin requests, so covers still show.
-                  webHtmlElementStrategy: WebHtmlElementStrategy.fallback,
-                  errorBuilder: (_, _, _) => placeholder,
-                  loadingBuilder: (_, child, progress) => progress == null ? child : placeholder,
+                  placeholder: placeholder,
+                  decodeWidth: large ? 500 : 250,
                 ),
         ),
       ),
@@ -314,7 +345,7 @@ class ArtistCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
-    final url = image?.coverUrl(large: true) ?? '';
+    final url = image?.coverUrl() ?? '';
     return SizedBox(
       width: 220,
       height: 110,
@@ -327,13 +358,11 @@ class ArtistCard extends StatelessWidget {
             fit: StackFit.expand,
             children: [
               if (url.isNotEmpty)
-                Image.network(
+                netImage(
                   url,
-                  fit: BoxFit.cover,
                   alignment: const Alignment(0, -0.2),
-                  webHtmlElementStrategy: WebHtmlElementStrategy.fallback,
-                  errorBuilder: (_, _, _) =>
-                      Container(color: theme.colorScheme.surfaceContainerHighest),
+                  decodeWidth: 250,
+                  placeholder: Container(color: theme.colorScheme.surfaceContainerHighest),
                 )
               else
                 Container(color: theme.colorScheme.surfaceContainerHighest),
@@ -375,6 +404,32 @@ class ArtistCard extends StatelessWidget {
             ],
           ),
         ),
+      ),
+    );
+  }
+}
+
+/// Round artist picture. For now it's the artist's most popular album cover.
+class ArtistAvatar extends StatelessWidget {
+  final Album? image;
+  final double size;
+  const ArtistAvatar({super.key, required this.image, this.size = 28});
+
+  @override
+  Widget build(BuildContext context) {
+    final scheme = Theme.of(context).colorScheme;
+    final placeholder = Container(
+      color: scheme.surfaceContainerHighest,
+      child: Icon(Icons.person, size: size * 0.6, color: scheme.onSurfaceVariant),
+    );
+    final url = image?.coverUrl() ?? '';
+    return ClipOval(
+      child: SizedBox(
+        width: size,
+        height: size,
+        child: url.isEmpty
+            ? placeholder
+            : netImage(url, placeholder: placeholder, decodeWidth: 120),
       ),
     );
   }

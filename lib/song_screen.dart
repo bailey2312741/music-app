@@ -1,0 +1,171 @@
+import 'package:flutter/material.dart';
+
+import 'album_screen.dart';
+import 'chart.dart';
+import 'details.dart';
+import 'models.dart';
+import 'page_parts.dart';
+import 'store.dart';
+import 'widgets.dart';
+
+void openSong(BuildContext context, Store store, Album album, Track track) {
+  Navigator.of(context).push(
+    MaterialPageRoute(
+      builder: (_) => SongScreen(store: store, album: album, track: track),
+    ),
+  );
+}
+
+/// A single song. Laid out like the album page, but with a "Song" label, a
+/// smaller cover with a note on it, and a link back to its album.
+class SongScreen extends StatefulWidget {
+  final Store store;
+  final Album album;
+  final Track track;
+  const SongScreen({super.key, required this.store, required this.album, required this.track});
+
+  @override
+  State<SongScreen> createState() => _SongScreenState();
+}
+
+class _SongScreenState extends State<SongScreen> {
+  late double? _draft = widget.store.trackRatingOf(widget.track.id);
+
+  @override
+  Widget build(BuildContext context) {
+    final store = widget.store;
+    final t = widget.track;
+    final a = widget.album;
+    final theme = Theme.of(context);
+    final scheme = theme.colorScheme;
+
+    return Scaffold(
+      appBar: AppBar(),
+      body: ListenableBuilder(
+        listenable: store,
+        builder: (context, _) {
+          final saved = store.trackRatingOf(t.id);
+          return ListView(
+            padding: const EdgeInsets.fromLTRB(16, 0, 16, 32),
+            children: [
+              Row(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  SizedBox(
+                    width: 84,
+                    child: Stack(
+                      children: [
+                        Cover(album: a, radius: 42), // round, like a record
+                        Positioned(
+                          right: 0,
+                          bottom: 0,
+                          child: CircleAvatar(
+                            radius: 13,
+                            backgroundColor: scheme.primary,
+                            child: Icon(Icons.music_note, size: 16, color: scheme.onPrimary),
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+                  const SizedBox(width: 12),
+                  Expanded(
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Text.rich(
+                          TextSpan(
+                            children: [
+                              TextSpan(
+                                text: t.title,
+                                style: theme.textTheme.titleLarge?.copyWith(
+                                  fontWeight: FontWeight.bold,
+                                  height: 1.15,
+                                ),
+                              ),
+                              const WidgetSpan(child: SizedBox(width: 8)),
+                              WidgetSpan(
+                                alignment: PlaceholderAlignment.middle,
+                                child: Container(
+                                  padding: const EdgeInsets.symmetric(horizontal: 7, vertical: 2),
+                                  decoration: BoxDecoration(
+                                    color: scheme.secondaryContainer,
+                                    borderRadius: BorderRadius.circular(6),
+                                  ),
+                                  child: Text(
+                                    'Song',
+                                    style: theme.textTheme.labelSmall?.copyWith(
+                                      color: scheme.onSecondaryContainer,
+                                      fontWeight: FontWeight.bold,
+                                    ),
+                                  ),
+                                ),
+                              ),
+                            ],
+                          ),
+                        ),
+                        const SizedBox(height: 4),
+                        InkWell(
+                          onTap: () => openAlbum(context, store, a),
+                          child: Text(
+                            'Track ${t.number} on ${a.title}',
+                            style: theme.textTheme.bodySmall?.copyWith(
+                              color: scheme.primary,
+                              decoration: TextDecoration.underline,
+                              decorationColor: scheme.primary,
+                            ),
+                          ),
+                        ),
+                        if (t.ms != null)
+                          Text(
+                            fmtLength(t.ms!),
+                            style: theme.textTheme.bodySmall?.copyWith(
+                              color: scheme.onSurfaceVariant,
+                            ),
+                          ),
+                        const SizedBox(height: 6),
+                        ArtistButton(store: store, artist: a.artist),
+                      ],
+                    ),
+                  ),
+                  const SizedBox(width: 6),
+                  RatingStats(
+                    count: store.trackRatingCount(t.id),
+                    yours: saved,
+                    average: store.trackAverageOf(t.id),
+                  ),
+                ],
+              ),
+              const SizedBox(height: 12),
+              Row(
+                children: [
+                  Text('Your rating', style: theme.textTheme.labelLarge),
+                  const Spacer(),
+                  Text(
+                    _draft == null ? 'Slide to rate' : fmt(_draft!),
+                    style: _draft == null
+                        ? theme.textTheme.bodySmall
+                        : theme.textTheme.headlineSmall?.copyWith(fontWeight: FontWeight.bold),
+                  ),
+                ],
+              ),
+              Slider(
+                value: _draft ?? 5,
+                min: 0,
+                max: 10,
+                divisions: 20,
+                label: fmt(_draft ?? 5),
+                onChanged: (v) => setState(() => _draft = v),
+                onChangeEnd: (v) => store.rateTrack(t, v),
+              ),
+              const Divider(height: 32),
+              MountainChart(counts: ratingBuckets([?saved])),
+              const Divider(height: 32),
+              ReviewSection(store: store, subject: 'track:${t.id}'),
+            ],
+          );
+        },
+      ),
+    );
+  }
+}

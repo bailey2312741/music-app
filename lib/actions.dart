@@ -13,6 +13,7 @@ Future<void> toggleListenLater(BuildContext context, Store store, Album album) a
       SnackBar(
         content: Text(added ? 'Saved to Listen later' : 'Removed from Listen later'),
         duration: const Duration(seconds: 2),
+        persist: false, // an Undo button would otherwise keep it on screen forever
         action: SnackBarAction(label: 'Undo', onPressed: () => store.toggleListenLater(album)),
       ),
     );
