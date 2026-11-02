@@ -385,7 +385,7 @@ class _ArtistScreenState extends State<ArtistScreen> {
     // Albums from Bailey's sheet (no play count) and rated ones always show.
     final top = all.fold<int>(0, (m, a) => a.popularity > m ? a.popularity : m);
     bool minor(Album a) =>
-        a.popularity > 0 && a.popularity < top * 0.02 && store.ratingOf(a.id) == null;
+        a.popularity > 0 && a.popularity < top * 0.01 && store.ratingOf(a.id) == null;
     final own = all.where((a) => !minor(a)).toList();
     final hidden = all.where(minor).toList();
     final albums = _sort == null ? own : _sort!.apply(own, store);

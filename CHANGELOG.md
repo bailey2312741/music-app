@@ -1,11 +1,11 @@
 # Changelog
 
 ## v0.7.1 (bug fixes)
-- Fixed wrong album data: a few albums pointed at the wrong MusicBrainz entry (The Bends pointed at the 1996 single). Albums now use the main entry, and any ratings, reviews or saves you made on the old one move across automatically.
-- Tracklists, durations and release dates now come from the album's original release (earliest official release with the usual track count), chosen when the library is built.
-- Bootlegs are gone from the library. On artist pages, releases far less played than the artist's best-known album (regional editions, archive releases) are tucked into a "Less-known releases" section at the bottom, closed until you tap Show. Rated albums and albums from Bailey's rankings always show.
-- Faster tracklists: one lookup instead of two for most albums, and the track count shows straight away. Album pages reuse the cover already loaded for the card, so it appears instantly.
-- Every library build is now checked automatically against a list of known albums (data/known_albums.json). If a check fails, the new library isn't published.
+- Fixed wrong album data: 26 albums from Bailey's rankings pointed at the wrong MusicBrainz entry (The Bends pointed at the 1996 single). They now use the real album, and any ratings, reviews or saves you made on the old entry move across automatically.
+- Removed 931 bootlegs (unofficial live recordings and rarities) from the library, which now has 9,120 albums. Every album also has its full release date.
+- Artist pages: releases played far less than the artist's best-known album are tucked into a "Less-known releases" section at the bottom, closed until you tap Show. Rated albums and albums from Bailey's rankings always show.
+- Album pages reuse the cover already loaded for the card, so it appears instantly. The tracklist shows the track count straight away where known.
+- Every library change is now checked automatically against a list of known albums (data/known_albums.json). If a check fails, the change isn't published.
 
 ## v0.7
 - Album page redesign: cover on the left, with the title, type and track count beside it and an artist button with a small round picture (for now, the artist's most popular cover). Ratings count, your rating and the average sit on the right.
