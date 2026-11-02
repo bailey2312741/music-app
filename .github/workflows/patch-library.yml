@@ -1,0 +1,45 @@
+name: Fix album library
+
+# Fixes the existing library in place (no rebuild): removes bootlegs, adds
+# full dates and corrects sheet albums, checks it, then rebuilds the app.
+on:
+  workflow_dispatch:
+
+permissions:
+  contents: write
+  actions: write
+
+jobs:
+  patch:
+    runs-on: ubuntu-latest
+    timeout-minutes: 60
+    steps:
+      - uses: actions/checkout@v5
+      - uses: actions/cache/restore@v4
+        with:
+          path: .cache
+          key: library-answers-${{ github.run_id }}
+          restore-keys: library-answers-
+      - run: python3 tool/patch_library.py
+      - uses: actions/cache/save@v4
+        if: always()
+        with:
+          path: .cache
+          key: library-answers-${{ github.run_id }}
+      - name: Check the library
+        run: python3 tool/check_library.py
+      - name: Commit library and rebuild the app
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          if git diff --quiet assets/catalogue.json data/sheet_ids.json; then
+            echo "Library unchanged"; exit 0
+          fi
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add assets/catalogue.json data/sheet_ids.json
+          git commit -m "Fix album library"
+          git pull --rebase origin main
+          git push
+          gh workflow run build-android.yml --ref main
+          gh workflow run deploy-web.yml --ref main
