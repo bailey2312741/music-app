@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 
+import 'details.dart';
 import 'models.dart';
 import 'store.dart';
 
@@ -45,3 +46,39 @@ Future<void> pinToRange(BuildContext context, Store store, Album album) async {
   );
   if (slot != null) await store.pin(album, slot: slot);
 }
+
+void _undoMessage(ScaffoldMessengerState messenger, String text, VoidCallback undo) {
+  messenger
+    ..hideCurrentSnackBar()
+    ..showSnackBar(
+      SnackBar(
+        content: Text(text),
+        duration: const Duration(seconds: 3),
+        persist: false,
+        action: SnackBarAction(label: 'Undo', onPressed: undo),
+      ),
+    );
+}
+
+/// Removes an album rating, with a short "Rating removed. Undo" message.
+Future<void> clearRating(BuildContext context, Store store, Album album) async {
+  final messenger = ScaffoldMessenger.of(context);
+  final old = store.ratingOf(album.id);
+  if (old == null) return;
+  final at = store.ratedAtOf(album.id);
+  await store.rate(album, null);
+  _undoMessage(messenger, 'Rating removed', () => store.rate(album, old, at: at));
+}
+
+/// Removes a song rating, with Undo.
+Future<void> clearTrackRating(BuildContext context, Store store, Track track) async {
+  final messenger = ScaffoldMessenger.of(context);
+  final old = store.trackRatingOf(track.id);
+  if (old == null) return;
+  await store.rateTrack(track, null);
+  _undoMessage(messenger, 'Rating removed', () => store.rateTrack(track, old));
+}
+
+/// Shows a message with Undo (used by Reset progress).
+void showUndo(BuildContext context, String text, VoidCallback undo) =>
+    _undoMessage(ScaffoldMessenger.of(context), text, undo);

@@ -8,29 +8,23 @@ import 'difficulty.dart';
 import 'expeditions.dart';
 import 'models.dart';
 import 'page_parts.dart';
-import 'song_screen.dart';
+import 'nav.dart';
 import 'store.dart';
 import 'widgets.dart';
-
-void openAlbum(BuildContext context, Store store, Album album) {
-  Navigator.of(context).push(
-    MaterialPageRoute(
-      builder: (_) => AlbumScreen(store: store, album: album),
-    ),
-  );
-}
 
 class AlbumScreen extends StatefulWidget {
   final Store store;
   final Album album;
-  const AlbumScreen({super.key, required this.store, required this.album});
+
+  /// Set when opened from an expedition, so the rating bar can offer the next stop.
+  final String? expeditionId;
+  const AlbumScreen({super.key, required this.store, required this.album, this.expeditionId});
 
   @override
   State<AlbumScreen> createState() => _AlbumScreenState();
 }
 
 class _AlbumScreenState extends State<AlbumScreen> {
-  late double? _draft = widget.store.ratingOf(widget.album.id);
   late final Album _album = Catalogue.byId(widget.album.id) ?? widget.album;
   AlbumDetails? _details;
   bool _loading = true;
@@ -68,6 +62,16 @@ class _AlbumScreenState extends State<AlbumScreen> {
 
     return Scaffold(
       appBar: AppBar(),
+      // The rating bar stays at the bottom while the page scrolls.
+      bottomNavigationBar: ListenableBuilder(
+        listenable: store,
+        builder: (context, _) => RatingBar(
+          saved: store.ratingOf(a.id),
+          onSave: (v) => store.rate(a, v),
+          onClear: () => clearRating(context, store, a),
+          next: _nextButton(context),
+        ),
+      ),
       body: ListenableBuilder(
         listenable: store,
         builder: (context, _) {
@@ -124,7 +128,10 @@ class _AlbumScreenState extends State<AlbumScreen> {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   if (difficulty != null) ...[
-                    DifficultySquare(difficulty),
+                    DifficultySquare(
+                      difficulty,
+                      onTap: () => explainDifficulty(context, difficulty),
+                    ),
                     const SizedBox(width: 10),
                   ],
                   Expanded(
@@ -161,28 +168,6 @@ class _AlbumScreenState extends State<AlbumScreen> {
                     label: Text(store.isPinned(a.id) ? 'In Your Range' : 'Add to Your Range'),
                   ),
                 ],
-              ),
-              // Your rating. Saves as soon as you let go of the slider.
-              Row(
-                children: [
-                  Text('Your rating', style: theme.textTheme.labelLarge),
-                  const Spacer(),
-                  Text(
-                    _draft == null ? 'Slide to rate' : fmt(_draft!),
-                    style: _draft == null
-                        ? theme.textTheme.bodySmall
-                        : theme.textTheme.headlineSmall?.copyWith(fontWeight: FontWeight.bold),
-                  ),
-                ],
-              ),
-              Slider(
-                value: _draft ?? 5,
-                min: 0,
-                max: 10,
-                divisions: 20,
-                label: fmt(_draft ?? 5),
-                onChanged: (v) => setState(() => _draft = v),
-                onChangeEnd: (v) => store.rate(a, v),
               ),
               const Divider(height: 24),
               Text('Tracklist', style: theme.textTheme.titleMedium),
@@ -222,6 +207,30 @@ class _AlbumScreenState extends State<AlbumScreen> {
   }
 }
 
+extension on _AlbumScreenState {
+  /// After rating an expedition album: a shortcut to the next stop.
+  Widget? _nextButton(BuildContext context) {
+    final id = widget.expeditionId;
+    if (id == null) return null;
+    final e = allExpeditions(widget.store).where((x) => x.id == id).firstOrNull;
+    if (e == null) return null;
+    final here = e.stops.where((s) => albumFor(widget.store, s)?.id == _album.id).firstOrNull;
+    if (here == null || !isDone(widget.store, e, here)) return null;
+    final i = nextStop(widget.store, e);
+    final next = i == null ? null : albumFor(widget.store, e.stops[i]);
+    if (next == null || next.id == _album.id) return null;
+    return Align(
+      alignment: Alignment.centerRight,
+      child: TextButton.icon(
+        style: TextButton.styleFrom(minimumSize: const Size(44, 44)),
+        onPressed: () => replaceWithAlbum(context, next, id),
+        icon: const Icon(Icons.arrow_forward),
+        label: Text('Next: ${next.title}', overflow: TextOverflow.ellipsis),
+      ),
+    );
+  }
+}
+
 class _TrackRow extends StatelessWidget {
   final Store store;
   final Album album;
@@ -238,7 +247,7 @@ class _TrackRow extends StatelessWidget {
       if (track.ms != null) fmtLength(track.ms!),
       'avg ${avg == null ? '–' : fmt(avg)}',
     ].join(' · ');
-    return InkWell(
+    final row = InkWell(
       onTap: () => openSong(context, store, album, track),
       child: Padding(
         padding: const EdgeInsets.symmetric(vertical: 6),
@@ -268,7 +277,7 @@ class _TrackRow extends StatelessWidget {
             mine == null
                 ? OutlinedButton(
                     style: OutlinedButton.styleFrom(
-                      visualDensity: VisualDensity.compact,
+                      minimumSize: const Size(56, 44),
                       padding: const EdgeInsets.symmetric(horizontal: 12),
                     ),
                     onPressed: () => _rate(context),
@@ -276,7 +285,7 @@ class _TrackRow extends StatelessWidget {
                   )
                 : FilledButton.tonal(
                     style: FilledButton.styleFrom(
-                      visualDensity: VisualDensity.compact,
+                      minimumSize: const Size(56, 44),
                       padding: const EdgeInsets.symmetric(horizontal: 12),
                     ),
                     onPressed: () => _rate(context),
@@ -285,6 +294,22 @@ class _TrackRow extends StatelessWidget {
           ],
         ),
       ),
+    );
+    if (mine == null) return row;
+    // Swipe a rated track sideways to clear its rating.
+    return Dismissible(
+      key: ValueKey('track-${track.id}'),
+      confirmDismiss: (_) async {
+        clearTrackRating(context, store, track);
+        return false;
+      },
+      background: Container(
+        color: Theme.of(context).colorScheme.surfaceContainerHighest,
+        alignment: Alignment.centerLeft,
+        padding: const EdgeInsets.symmetric(horizontal: 16),
+        child: const Text('Clear rating'),
+      ),
+      child: row,
     );
   }
 

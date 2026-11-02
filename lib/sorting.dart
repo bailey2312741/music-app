@@ -7,9 +7,11 @@ import 'store.dart';
 
 enum SortBy {
   alphabetical('Alphabetical', 'A to Z', 'Z to A'),
-  popularity('Popularity', 'Most popular first', 'Least popular first'),
+  popularity('Popularity', 'Most popular', 'Least popular'),
+  releaseDate('Release date', 'Oldest first', 'Newest first'),
+  dateRated('Date rated', 'Recently rated', 'Oldest rated'),
   difficulty('Difficulty', 'Hardest first', 'Easiest first'),
-  rating('Your rating', 'Highest first', 'Lowest first');
+  rating('Your rating', 'Highest rated', 'Lowest rated');
 
   final String label;
   final String firstWay; // first tap
@@ -38,6 +40,21 @@ class SortOrder {
           var c = b.popularity.compareTo(a.popularity);
           if (c == 0) c = store.ratingCount(b.id).compareTo(store.ratingCount(a.id));
           return (reversed ? -c : c) != 0 ? (reversed ? -c : c) : byTitle(a, b);
+        case SortBy.releaseDate:
+          // Oldest first; albums without a date go last either way.
+          final da = a.date ?? a.year, db = b.date ?? b.year;
+          if (da == null && db == null) return byTitle(a, b);
+          if (da == null) return 1;
+          if (db == null) return -1;
+          final c = da.compareTo(db);
+          return (reversed ? -c : c) != 0 ? (reversed ? -c : c) : byTitle(a, b);
+        case SortBy.dateRated:
+          final ta = store.ratedAtOf(a.id), tb = store.ratedAtOf(b.id);
+          if (ta == 0 && tb == 0) return byTitle(a, b);
+          if (ta == 0) return 1;
+          if (tb == 0) return -1;
+          final c = tb.compareTo(ta); // most recent first
+          return (reversed ? -c : c) != 0 ? (reversed ? -c : c) : byTitle(a, b);
         case SortBy.difficulty:
         case SortBy.rating:
           final va = by == SortBy.rating
@@ -59,44 +76,70 @@ class SortOrder {
 }
 
 /// One sort button. Pick an option to sort by it; pick the same option again
-/// to reverse it. The button shows the current sort and its direction.
+/// to reverse it. The button always names the current order; [defaultLabel]
+/// names the page's own order (null value), which is also the menu's first
+/// option, so there is always a way back to it.
 class SortButton extends StatelessWidget {
   final SortOrder? value;
-  final ValueChanged<SortOrder> onChanged;
-  const SortButton({super.key, required this.value, required this.onChanged});
+  final String defaultLabel;
+  final ValueChanged<SortOrder?> onChanged;
+  const SortButton({
+    super.key,
+    required this.value,
+    required this.onChanged,
+    required this.defaultLabel,
+  });
 
   @override
   Widget build(BuildContext context) {
     final v = value;
-    return PopupMenuButton<SortBy>(
+    return PopupMenuButton<SortBy?>(
       tooltip: 'Sort',
-      onSelected: (by) =>
-          onChanged(v != null && v.by == by ? SortOrder(by, reversed: !v.reversed) : SortOrder(by)),
+      onSelected: (by) => onChanged(
+        by == null
+            ? null
+            : v != null && v.by == by
+            ? SortOrder(by, reversed: !v.reversed)
+            : SortOrder(by),
+      ),
       itemBuilder: (_) => [
+        PopupMenuItem<SortBy?>(
+          value: null,
+          child: Row(
+            children: [
+              Expanded(child: Text(defaultLabel)),
+              if (v == null) const Icon(Icons.check, size: 18),
+            ],
+          ),
+        ),
+        const PopupMenuDivider(),
         for (final by in SortBy.values)
-          PopupMenuItem(
+          PopupMenuItem<SortBy?>(
             value: by,
             child: Row(
               children: [
                 Expanded(child: Text(by.label)),
                 if (v?.by == by)
-                  Icon(v!.reversed ? Icons.arrow_upward : Icons.arrow_downward, size: 18),
+                  Text(v!.description, style: Theme.of(context).textTheme.labelSmall),
               ],
             ),
           ),
       ],
-      child: Padding(
-        padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 6),
-        child: Row(
-          mainAxisSize: MainAxisSize.min,
-          children: [
-            const Icon(Icons.sort, size: 20),
-            const SizedBox(width: 4),
-            Text(
-              v == null ? 'Sort' : '${v.by.label}: ${v.description}',
-              style: Theme.of(context).textTheme.labelLarge,
-            ),
-          ],
+      child: ConstrainedBox(
+        constraints: const BoxConstraints(minHeight: 44, minWidth: 44),
+        child: Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 10),
+          child: Row(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              const Icon(Icons.sort, size: 20),
+              const SizedBox(width: 4),
+              Text(
+                v == null ? defaultLabel : v.description,
+                style: Theme.of(context).textTheme.labelLarge,
+              ),
+            ],
+          ),
         ),
       ),
     );

@@ -1,96 +1,14 @@
 import 'dart:math' as math;
 
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
 
-import 'album_screen.dart';
 import 'difficulty.dart';
 import 'expeditions.dart';
 import 'models.dart';
+import 'nav.dart';
 import 'store.dart';
 import 'widgets.dart';
-
-class ProfileScreen extends StatelessWidget {
-  final Store store;
-  const ProfileScreen({super.key, required this.store});
-
-  Future<void> _editNickname(BuildContext context) async {
-    final controller = TextEditingController(text: store.nickname);
-    final value = await showDialog<String>(
-      context: context,
-      builder: (c) => AlertDialog(
-        title: const Text('Nickname'),
-        content: TextField(
-          controller: controller,
-          autofocus: true,
-          maxLength: 30,
-          decoration: const InputDecoration(hintText: 'What should we call you?'),
-          onSubmitted: (v) => Navigator.pop(c, v),
-        ),
-        actions: [
-          TextButton(onPressed: () => Navigator.pop(c), child: const Text('Cancel')),
-          TextButton(onPressed: () => Navigator.pop(c, controller.text), child: const Text('Save')),
-        ],
-      ),
-    );
-    if (value != null) await store.setNickname(value);
-  }
-
-  @override
-  Widget build(BuildContext context) {
-    final theme = Theme.of(context);
-    return Scaffold(
-      appBar: AppBar(title: const Text('Profile')),
-      body: ListenableBuilder(
-        listenable: store,
-        builder: (context, _) => ListView(
-          padding: const EdgeInsets.fromLTRB(20, 8, 20, 32),
-          children: [
-            Row(
-              children: [
-                Flexible(
-                  child: Text(
-                    store.nickname.isEmpty ? 'Your nickname' : store.nickname,
-                    style: theme.textTheme.headlineMedium?.copyWith(
-                      fontWeight: FontWeight.bold,
-                      color: store.nickname.isEmpty ? theme.colorScheme.onSurfaceVariant : null,
-                    ),
-                  ),
-                ),
-                IconButton(
-                  icon: const Icon(Icons.edit_outlined, size: 18),
-                  tooltip: 'Edit nickname',
-                  visualDensity: VisualDensity.compact,
-                  color: theme.colorScheme.onSurfaceVariant,
-                  onPressed: () => _editNickname(context),
-                ),
-              ],
-            ),
-            // Real, unique usernames need online accounts, so this is a placeholder.
-            Text(
-              '@username',
-              style: theme.textTheme.bodyMedium?.copyWith(
-                color: theme.colorScheme.onSurfaceVariant,
-              ),
-            ),
-            const SizedBox(height: 28),
-            Text('Your Range', style: theme.textTheme.titleMedium),
-            Text(
-              'Up to five favourites. Harder albums stand taller.',
-              style: theme.textTheme.bodySmall,
-            ),
-            const SizedBox(height: 12),
-            RangeSkyline(store: store),
-            const SizedBox(height: 8),
-            Text(
-              'Add albums from their page with "Add to Your Range". Press and hold a peak to remove it.',
-              style: theme.textTheme.bodySmall?.copyWith(color: theme.colorScheme.onSurfaceVariant),
-            ),
-          ],
-        ),
-      ),
-    );
-  }
-}
 
 /// "Your Range": the pinned albums drawn as a mountain skyline. Each cover sits
 /// on top of a peak whose height comes from the album's difficulty.
@@ -151,13 +69,10 @@ class RangeSkyline extends StatelessWidget {
                   child: _PeakTop(
                     album: range[i],
                     noDifficulty: range[i] != null && difficultyOf(store, range[i]!.id) == null,
+                    rating: range[i] == null ? null : store.ratingOf(range[i]!.id),
+                    // An empty slot opens a list of your rated albums to pick from.
                     onTap: range[i] == null
-                        ? () => ScaffoldMessenger.of(context).showSnackBar(
-                            const SnackBar(
-                              content: Text('Open an album and tap "Add to Your Range".'),
-                              duration: Duration(seconds: 2),
-                            ),
-                          )
+                        ? () => context.push('/you/range/$i')
                         : () => openAlbum(context, store, range[i]!),
                     onLongPress: range[i] == null ? null : () => store.unpin(range[i]!.id),
                   ),
@@ -179,11 +94,13 @@ class _Peak {
 class _PeakTop extends StatelessWidget {
   final Album? album;
   final bool noDifficulty;
+  final double? rating;
   final VoidCallback onTap;
   final VoidCallback? onLongPress;
   const _PeakTop({
     required this.album,
     required this.noDifficulty,
+    required this.rating,
     required this.onTap,
     this.onLongPress,
   });
@@ -205,6 +122,26 @@ class _PeakTop extends StatelessWidget {
               clipBehavior: Clip.none,
               children: [
                 Cover(album: album!, size: size, radius: 6),
+                if (rating != null)
+                  Positioned(
+                    left: -6,
+                    bottom: -6,
+                    child: Container(
+                      padding: const EdgeInsets.symmetric(horizontal: 5, vertical: 1),
+                      decoration: BoxDecoration(
+                        color: scheme.primary,
+                        borderRadius: BorderRadius.circular(6),
+                      ),
+                      child: Text(
+                        fmt(rating!),
+                        style: TextStyle(
+                          color: scheme.onPrimary,
+                          fontSize: 12,
+                          fontWeight: FontWeight.bold,
+                        ),
+                      ),
+                    ),
+                  ),
                 if (noDifficulty)
                   Positioned(
                     right: -6,

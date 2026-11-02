@@ -158,14 +158,16 @@ class Store extends ChangeNotifier {
   double? averageOf(String albumId) => _ratings[albumId];
 
   /// Saves a rating, or removes it when [score] is null.
-  Future<void> rate(Album album, double? score) async {
+  /// Saves a rating (null removes it). [at] restores the original time when
+  /// undoing a removal, so expedition progress comes back exactly as it was.
+  Future<void> rate(Album album, double? score, {int? at}) async {
     final id = album.id;
     if (score == null) {
       _ratings.remove(id);
       _ratedAt.remove(id);
     } else {
       _ratings[id] = (score * 2).round() / 2; // snap to 0.5 steps
-      _ratedAt[id] = DateTime.now().millisecondsSinceEpoch;
+      _ratedAt[id] = at ?? DateTime.now().millisecondsSinceEpoch;
       await _remember(album);
     }
     await _prefs.setString('ratings', jsonEncode(_ratings));
@@ -288,12 +290,31 @@ class Store extends ChangeNotifier {
     notifyListeners();
   }
 
+  final Map<String, (int?, double?)> _undoReset = {};
+
+  /// Puts an expedition back as it was before the last reset (for Undo).
+  Future<void> undoReset(String id) async {
+    final prev = _undoReset.remove(id);
+    if (prev == null) return;
+    final (at, rating) = prev;
+    if (at == null) {
+      _resetAt.remove(id);
+    } else {
+      _resetAt[id] = at;
+    }
+    if (rating != null) _expeditionRatings[id] = rating;
+    await _prefs.setString('reset_at', jsonEncode(_resetAt));
+    await _prefs.setString('expedition_ratings', jsonEncode(_expeditionRatings));
+    notifyListeners();
+  }
+
   /// When progress on an expedition was last reset (0 = never).
   int resetAtOf(String id) => _resetAt[id] ?? 0;
 
   /// Starts an expedition over. Album ratings are kept; albums count again
   /// once you rate them afresh. The expedition's own rating is cleared.
   Future<void> resetProgress(String id) async {
+    _undoReset[id] = (_resetAt[id], _expeditionRatings[id]);
     _resetAt[id] = DateTime.now().millisecondsSinceEpoch;
     _expeditionRatings.remove(id);
     await _prefs.setString('reset_at', jsonEncode(_resetAt));
@@ -336,6 +357,14 @@ class Store extends ChangeNotifier {
   List<dynamic> _reports = [];
 
   Review? reviewOf(String subject) => _reviews[subject];
+
+  /// All of the user's reviews, newest first, as (subject, review).
+  List<(String, Review)> get reviews =>
+      [for (final e in _reviews.entries) (e.key, e.value)]
+        ..sort((a, b) => b.$2.at.compareTo(a.$2.at));
+
+  /// A rated track's details (to open its page from a list).
+  Track? trackInfo(String trackId) => _trackInfo[trackId];
 
   /// Saves the user's review; empty text deletes it.
   Future<void> saveReview(String subject, String text) async {

@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
 import 'catalogue.dart';
-import 'search_screen.dart';
+import 'nav.dart';
 import 'store.dart';
 import 'widgets.dart';
 
@@ -50,13 +50,7 @@ class ArtistButton extends StatelessWidget {
       avatar: ArtistAvatar(image: Catalogue.artistImage(artist), size: 24),
       label: Text(artist, overflow: TextOverflow.ellipsis),
       visualDensity: VisualDensity.compact,
-      onPressed: known
-          ? () => Navigator.of(context).push(
-              MaterialPageRoute(
-                builder: (_) => ArtistScreen(store: store, artist: artist),
-              ),
-            )
-          : null,
+      onPressed: known ? () => openArtist(context, artist) : null,
     );
   }
 }
@@ -82,13 +76,17 @@ Future<void> showRatingSheet(
               const SizedBox(height: 8),
               Text(draft == null ? '–' : fmt(draft!), style: Theme.of(c).textTheme.displaySmall),
               Slider(
-                value: draft ?? 5,
+                value: draft ?? 0,
                 min: 0,
                 max: 10,
                 divisions: 20,
-                label: fmt(draft ?? 5),
+                label: draft == null ? null : fmt(draft!),
                 onChanged: (v) => setSheet(() => draft = v),
-                onChangeEnd: onSave,
+                // Saves and closes in one move.
+                onChangeEnd: (v) {
+                  onSave(v);
+                  Navigator.pop(c);
+                },
               ),
               if (current != null || draft != null)
                 TextButton(
@@ -310,4 +308,115 @@ String _ago(int ms) {
   if (d.inDays < 30) return '${d.inDays} ${d.inDays == 1 ? 'day' : 'days'} ago';
   final t = DateTime.fromMillisecondsSinceEpoch(ms);
   return '${t.day}/${t.month}/${t.year}';
+}
+
+/// The rating bar fixed to the bottom of album and song pages, so the slider
+/// is always in the same place. Unrated: a grey track with the thumb parked
+/// at the left and a dash; the first touch sets the value. Saves when you let
+/// go. Tap the number to clear it. [next] (expeditions) sits under it.
+class RatingBar extends StatefulWidget {
+  final double? saved;
+  final Future<void> Function(double score) onSave;
+  final VoidCallback onClear;
+  final Widget? next;
+  const RatingBar({
+    super.key,
+    required this.saved,
+    required this.onSave,
+    required this.onClear,
+    this.next,
+  });
+
+  @override
+  State<RatingBar> createState() => _RatingBarState();
+}
+
+class _RatingBarState extends State<RatingBar> {
+  late double? _draft = widget.saved;
+  bool _dragging = false;
+
+  @override
+  void didUpdateWidget(RatingBar old) {
+    super.didUpdateWidget(old);
+    if (!_dragging) _draft = widget.saved;
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    final theme = Theme.of(context);
+    final scheme = theme.colorScheme;
+    final unrated = _draft == null;
+    return Material(
+      color: scheme.surfaceContainer,
+      child: SafeArea(
+        top: false,
+        child: Padding(
+          // Wide side padding keeps the thumb away from Android's back-swipe edge.
+          padding: const EdgeInsets.fromLTRB(20, 6, 20, 6),
+          child: Column(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              Row(
+                children: [
+                  GestureDetector(
+                    behavior: HitTestBehavior.opaque,
+                    onTap: widget.saved == null ? null : widget.onClear,
+                    child: SizedBox(
+                      width: 72,
+                      height: 60,
+                      child: FittedBox(
+                        fit: BoxFit.scaleDown,
+                        child: Column(
+                          mainAxisSize: MainAxisSize.min,
+                          children: [
+                            Text(
+                              unrated ? '–' : fmt(_draft!),
+                              style: theme.textTheme.headlineSmall?.copyWith(
+                                fontWeight: FontWeight.bold,
+                                color: unrated ? scheme.outline : null,
+                              ),
+                            ),
+                            if (widget.saved != null)
+                              Text(
+                                'tap to clear',
+                                style: theme.textTheme.labelSmall?.copyWith(color: scheme.outline),
+                              ),
+                          ],
+                        ),
+                      ),
+                    ),
+                  ),
+                  Expanded(
+                    child: SliderTheme(
+                      data: unrated
+                          ? SliderTheme.of(context).copyWith(
+                              activeTrackColor: scheme.outlineVariant,
+                              inactiveTrackColor: scheme.outlineVariant,
+                              thumbColor: scheme.outline,
+                            )
+                          : SliderTheme.of(context),
+                      child: Slider(
+                        value: _draft ?? 0,
+                        min: 0,
+                        max: 10,
+                        divisions: 20,
+                        label: unrated ? null : fmt(_draft!),
+                        onChangeStart: (_) => _dragging = true,
+                        onChanged: (v) => setState(() => _draft = v),
+                        onChangeEnd: (v) async {
+                          _dragging = false;
+                          await widget.onSave(v);
+                        },
+                      ),
+                    ),
+                  ),
+                ],
+              ),
+              ?widget.next,
+            ],
+          ),
+        ),
+      ),
+    );
+  }
 }

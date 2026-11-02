@@ -155,23 +155,36 @@ class AlbumCard extends StatelessWidget {
                           bottom: 6,
                           child: _Badge(fmt(rating!), scheme.primary, scheme.onPrimary),
                         ),
-                      // Listen-later button: shows on hover, and stays once the album is saved.
-                      if (listenLater != null && !locked && (hovered || listenLater!))
+                      // Listen-later bookmark on every card. The visible circle is
+                      // small, but the tap area is 44 px.
+                      if (listenLater != null && !locked)
                         Positioned(
-                          right: 4,
-                          top: 4,
-                          child: Material(
-                            color: scheme.surface.withValues(alpha: 0.9),
-                            shape: const CircleBorder(),
-                            child: InkWell(
-                              customBorder: const CircleBorder(),
+                          right: 0,
+                          top: 0,
+                          child: Semantics(
+                            button: true,
+                            label: listenLater! ? 'Remove from Listen later' : 'Listen later',
+                            child: GestureDetector(
+                              behavior: HitTestBehavior.opaque,
                               onTap: onListenLater,
-                              child: Padding(
-                                padding: const EdgeInsets.all(5),
-                                child: Icon(
-                                  listenLater! ? Icons.bookmark : Icons.bookmark_add_outlined,
-                                  size: 18,
-                                  color: scheme.primary,
+                              child: SizedBox(
+                                width: 44,
+                                height: 44,
+                                child: Center(
+                                  child: Container(
+                                    padding: const EdgeInsets.all(4),
+                                    decoration: BoxDecoration(
+                                      color: scheme.surface.withValues(
+                                        alpha: hovered || listenLater! ? 0.92 : 0.75,
+                                      ),
+                                      shape: BoxShape.circle,
+                                    ),
+                                    child: Icon(
+                                      listenLater! ? Icons.bookmark : Icons.bookmark_add_outlined,
+                                      size: 18,
+                                      color: scheme.primary,
+                                    ),
+                                  ),
                                 ),
                               ),
                             ),
@@ -198,7 +211,10 @@ class AlbumCard extends StatelessWidget {
                   ),
                   if (difficulty != null) ...[
                     const SizedBox(height: 4),
-                    DifficultyTag(difficulty, small: true),
+                    GestureDetector(
+                      onTap: () => explainDifficulty(context, difficulty!),
+                      child: DifficultyTag(difficulty, small: true),
+                    ),
                   ],
                   if (caption != null) ...[
                     const SizedBox(height: 2),

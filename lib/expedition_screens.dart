@@ -1,33 +1,66 @@
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
 
+import 'actions.dart';
 import 'expeditions.dart';
 import 'models.dart';
-import 'screens.dart';
+import 'nav.dart';
+import 'profile_screen.dart' show drawDashedLine;
+import 'search_screen.dart';
 import 'store.dart';
 import 'widgets.dart';
 
-class ExpeditionListScreen extends StatelessWidget {
+class ExpeditionListScreen extends StatefulWidget {
   final Store store;
   const ExpeditionListScreen({super.key, required this.store});
 
   @override
+  State<ExpeditionListScreen> createState() => _ExpeditionListScreenState();
+}
+
+class _ExpeditionListScreenState extends State<ExpeditionListScreen> {
+  final _scroll = ScrollController();
+
+  @override
+  void initState() {
+    super.initState();
+    tabReselects[1].addListener(_toTop);
+  }
+
+  @override
+  void dispose() {
+    tabReselects[1].removeListener(_toTop);
+    _scroll.dispose();
+    super.dispose();
+  }
+
+  void _toTop() {
+    if (_scroll.hasClients) _scroll.jumpTo(0);
+  }
+
+  @override
   Widget build(BuildContext context) {
+    final store = widget.store;
     return Scaffold(
-      appBar: AppBar(title: const Text('Expeditions'), actions: cornerActions(store)),
-      floatingActionButton: FloatingActionButton.extended(
-        icon: const Icon(Icons.add),
-        label: const Text('New expedition'),
-        onPressed: () =>
-            Navigator.of(context)
-                .push(MaterialPageRoute(builder: (_) => CreateExpeditionScreen(store: store))),
+      appBar: AppBar(
+        title: const Text('Expeditions'),
+        actions: [
+          IconButton(
+            icon: const Icon(Icons.add),
+            tooltip: 'New expedition',
+            onPressed: () => context.push('/expeditions/new'),
+          ),
+        ],
       ),
       body: ListenableBuilder(
         listenable: store,
         builder: (context, _) {
           final custom = store.customExpeditions;
           return ListView(
-            padding: const EdgeInsets.fromLTRB(12, 0, 12, 96),
+            controller: _scroll,
+            padding: const EdgeInsets.fromLTRB(12, 0, 12, 24),
             children: [
+              ?ContinueCard.maybe(store),
               for (final e in builtInExpeditions) ExpeditionTile(store: store, expedition: e),
               if (custom.isNotEmpty)
                 Padding(
@@ -38,6 +71,92 @@ class ExpeditionListScreen extends StatelessWidget {
             ],
           );
         },
+      ),
+    );
+  }
+}
+
+/// "Continue": the next album of the expedition you were last on. Tapping it
+/// opens the album with the rating bar ready.
+class ContinueCard extends StatelessWidget {
+  final Store store;
+  final Expedition expedition;
+  final Album album;
+  final int stop;
+  const ContinueCard._(this.store, this.expedition, this.album, this.stop);
+
+  /// The started, unfinished expedition rated most recently; if none is
+  /// started yet, the first one. Null when everything is done.
+  static ContinueCard? maybe(Store store) {
+    Expedition? best;
+    var bestAt = -1;
+    for (final e in allExpeditions(store)) {
+      if (nextStop(store, e) == null) continue;
+      var at = 0;
+      for (final s in e.stops) {
+        if (!isDone(store, e, s)) continue;
+        final t = store.ratedAtOf(albumFor(store, s)!.id);
+        if (t > at) at = t;
+      }
+      if (at > bestAt) {
+        best = e;
+        bestAt = at;
+      }
+    }
+    if (best == null) return null;
+    final i = nextStop(store, best)!;
+    final album = albumFor(store, best.stops[i]);
+    if (album == null) return null;
+    return ContinueCard._(store, best, album, i);
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    final theme = Theme.of(context);
+    final scheme = theme.colorScheme;
+    return Card(
+      elevation: 0,
+      color: scheme.primaryContainer,
+      margin: const EdgeInsets.only(bottom: 12),
+      clipBehavior: Clip.antiAlias,
+      child: InkWell(
+        onTap: () => openAlbum(context, store, album, expeditionId: expedition.id),
+        child: Padding(
+          padding: const EdgeInsets.all(12),
+          child: Row(
+            children: [
+              Cover(album: album, size: 64, radius: 6),
+              const SizedBox(width: 12),
+              Expanded(
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text(
+                      'Continue: ${expedition.name}',
+                      style: theme.textTheme.labelMedium?.copyWith(
+                        color: scheme.onPrimaryContainer,
+                      ),
+                    ),
+                    const SizedBox(height: 2),
+                    Text(
+                      album.title,
+                      maxLines: 1,
+                      overflow: TextOverflow.ellipsis,
+                      style: theme.textTheme.titleMedium?.copyWith(fontWeight: FontWeight.bold),
+                    ),
+                    Text(
+                      'Stop ${stop + 1} of ${expedition.stops.length} · ${album.artist}',
+                      maxLines: 1,
+                      overflow: TextOverflow.ellipsis,
+                      style: theme.textTheme.bodySmall,
+                    ),
+                  ],
+                ),
+              ),
+              Icon(Icons.chevron_right, color: scheme.onPrimaryContainer),
+            ],
+          ),
+        ),
       ),
     );
   }
@@ -64,11 +183,7 @@ class ExpeditionTile extends StatelessWidget {
       margin: const EdgeInsets.only(bottom: 12),
       clipBehavior: Clip.antiAlias,
       child: InkWell(
-        onTap: () => Navigator.of(context).push(
-          MaterialPageRoute(
-            builder: (_) => ExpeditionScreen(store: store, expeditionId: e.id),
-          ),
-        ),
+        onTap: () => openExpedition(context, e.id),
         child: Padding(
           padding: const EdgeInsets.all(14),
           child: Column(
@@ -153,8 +268,8 @@ class _Fact extends StatelessWidget {
   }
 }
 
-/// One expedition, drawn as a trail: albums are landmarks that zig-zag down
-/// the page, joined by a line (solid where you've been, dashed ahead), with the
+/// One expedition, drawn as a trail: albums are landmarks that zig-zag along
+/// a sideways-scrolling path, joined by a line (solid where you've been, dashed ahead), with the
 /// final album bigger and centred.
 class ExpeditionScreen extends StatefulWidget {
   final Store store;
@@ -173,42 +288,29 @@ class _ExpeditionScreenState extends State<ExpeditionScreen> {
   Expedition? get _expedition =>
       allExpeditions(store).where((e) => e.id == widget.expeditionId).firstOrNull;
 
+  /// Starts the expedition over (album ratings are kept), with Undo.
   Future<void> _reset(Expedition e) async {
-    final ok = await showDialog<bool>(
-      context: context,
-      builder: (c) => AlertDialog(
-        title: const Text('Reset progress?'),
-        content: const Text(
-          'The expedition starts again from the first stop. Your album ratings are kept.',
-        ),
-        actions: [
-          TextButton(onPressed: () => Navigator.pop(c, false), child: const Text('Cancel')),
-          FilledButton(onPressed: () => Navigator.pop(c, true), child: const Text('Reset')),
-        ],
-      ),
-    );
-    if (ok == true) {
-      await store.resetProgress(e.id);
-      setState(() => _draft = null);
-    }
+    final messenger = ScaffoldMessenger.of(context);
+    await store.resetProgress(e.id);
+    setState(() => _draft = null);
+    if (!mounted) return;
+    messenger.hideCurrentSnackBar();
+    showUndo(context, 'Progress reset', () => store.undoReset(e.id));
   }
 
+  /// Deletes one of your expeditions, with Undo.
   Future<void> _delete(Expedition e) async {
-    final ok = await showDialog<bool>(
-      context: context,
-      builder: (c) => AlertDialog(
-        title: const Text('Delete this expedition?'),
-        content: const Text('Your album ratings are kept.'),
-        actions: [
-          TextButton(onPressed: () => Navigator.pop(c, false), child: const Text('Cancel')),
-          TextButton(onPressed: () => Navigator.pop(c, true), child: const Text('Delete')),
-        ],
+    final messenger = ScaffoldMessenger.of(context);
+    context.pop();
+    await store.deleteExpedition(e.id);
+    messenger.hideCurrentSnackBar();
+    messenger.showSnackBar(
+      SnackBar(
+        content: const Text('Expedition deleted'),
+        persist: false,
+        action: SnackBarAction(label: 'Undo', onPressed: () => store.saveExpedition(e)),
       ),
     );
-    if (ok == true) {
-      await store.deleteExpedition(e.id);
-      if (mounted) Navigator.of(context).pop();
-    }
   }
 
   @override
@@ -227,22 +329,21 @@ class _ExpeditionScreenState extends State<ExpeditionScreen> {
           appBar: AppBar(
             title: Text(e.name),
             actions: [
-              if (e.custom)
-                IconButton(
-                  icon: const Icon(Icons.edit_outlined),
-                  tooltip: 'Edit expedition',
-                  onPressed: () => Navigator.of(context).push(
-                    MaterialPageRoute(
-                      builder: (_) => CreateExpeditionScreen(store: store, editing: e),
-                    ),
-                  ),
-                ),
-              if (e.custom)
-                IconButton(
-                  icon: const Icon(Icons.delete_outline),
-                  tooltip: 'Delete expedition',
-                  onPressed: () => _delete(e),
-                ),
+              // A menu keeps Reset (and Delete) out of the way of normal taps.
+              PopupMenuButton<String>(
+                tooltip: 'More',
+                onSelected: (v) => switch (v) {
+                  'edit' => context.push('/expeditions/trail/${Uri.encodeComponent(e.id)}/edit'),
+                  'delete' => _delete(e),
+                  _ => _reset(e),
+                },
+                itemBuilder: (_) => [
+                  const PopupMenuItem(value: 'reset', child: Text('Reset progress')),
+                  if (e.custom) const PopupMenuItem(value: 'edit', child: Text('Edit expedition')),
+                  if (e.custom)
+                    const PopupMenuItem(value: 'delete', child: Text('Delete expedition')),
+                ],
+              ),
             ],
           ),
           body: ListView(
@@ -293,20 +394,24 @@ class _ExpeditionScreenState extends State<ExpeditionScreen> {
                       style: theme.textTheme.bodySmall,
                     ),
                     Text(own == null ? '–' : fmt(own), style: theme.textTheme.headlineMedium),
-                    Slider(
-                      value: own ?? 5,
-                      min: 0,
-                      max: 10,
-                      divisions: 20,
-                      label: fmt(own ?? 5),
-                      onChanged: (v) => setState(() => _draft = v),
-                      onChangeEnd: (v) => store.rateExpedition(e.id, v),
-                    ),
-                    const SizedBox(height: 8),
-                    OutlinedButton.icon(
-                      onPressed: () => _reset(e),
-                      icon: const Icon(Icons.restart_alt),
-                      label: const Text('Reset progress'),
+                    // Unrated: grey, thumb at the far left; the first touch sets the value.
+                    SliderTheme(
+                      data: own == null
+                          ? SliderTheme.of(context).copyWith(
+                              activeTrackColor: theme.colorScheme.outlineVariant,
+                              inactiveTrackColor: theme.colorScheme.outlineVariant,
+                              thumbColor: theme.colorScheme.outline,
+                            )
+                          : SliderTheme.of(context),
+                      child: Slider(
+                        value: own ?? 0,
+                        min: 0,
+                        max: 10,
+                        divisions: 20,
+                        label: own == null ? null : fmt(own),
+                        onChanged: (v) => setState(() => _draft = v),
+                        onChangeEnd: (v) => store.rateExpedition(e.id, v),
+                      ),
                     ),
                   ],
                 ),
@@ -319,16 +424,32 @@ class _ExpeditionScreenState extends State<ExpeditionScreen> {
   }
 }
 
-/// The trail of stops. Positions zig-zag left and right; the final stop is
-/// bigger and centred. The line is solid up to your current stop, dashed after.
-class JourneyTrail extends StatelessWidget {
+/// The trail of stops, scrolling sideways. Stops zig-zag up and down; the
+/// final stop is bigger and centred. The line is solid up to your current
+/// stop, dashed after. It opens scrolled to your next stop.
+class JourneyTrail extends StatefulWidget {
   final Store store;
   final Expedition expedition;
   const JourneyTrail({super.key, required this.store, required this.expedition});
 
   @override
+  State<JourneyTrail> createState() => _JourneyTrailState();
+}
+
+class _JourneyTrailState extends State<JourneyTrail> {
+  ScrollController? _scroll;
+
+  Store get store => widget.store;
+
+  @override
+  void dispose() {
+    _scroll?.dispose();
+    super.dispose();
+  }
+
+  @override
   Widget build(BuildContext context) {
-    final e = expedition;
+    final e = widget.expedition;
     final n = e.stops.length;
     final open = unlockedCount(store, e);
     final next = nextStop(store, e);
@@ -337,31 +458,37 @@ class JourneyTrail extends StatelessWidget {
 
     return LayoutBuilder(
       builder: (context, box) {
-        final w = box.maxWidth.clamp(0, 520).toDouble();
-        final card = (w * 0.38).clamp(96, 150).toDouble();
-        final last = card * 1.3;
+        const card = 120.0;
+        const last = 156.0;
         const textSpace = 96.0; // title, artist, difficulty and caption under each cover
-        final rowH = card * 0.72 + textSpace;
+        const zig = 64.0; // how far the lower stops sit below the upper ones
+        const step = card + 20;
+        const height = card + textSpace + zig + 24;
 
-        // Card positions (top-left) and cover centres for the line.
         final lefts = <double>[], tops = <double>[], sizes = <double>[];
         for (var i = 0; i < n; i++) {
           final isLast = i == n - 1;
           final size = isLast ? last : card;
-          final cx = isLast ? w / 2 : (i.isEven ? w * 0.27 : w * 0.73);
-          lefts.add(cx - size / 2);
-          // The final stop sits fully below the one before it, since it's centred.
-          tops.add(isLast && i > 0 ? tops[i - 1] + card + textSpace + 4 : 16 + i * rowH);
+          lefts.add(16 + i * step + (isLast ? 8 : 0));
+          tops.add(isLast ? (height - last - textSpace) / 2 : 12 + (i.isOdd ? zig : 0));
           sizes.add(size);
         }
-        final height = tops.last + last + textSpace + 16;
+        final width = lefts.last + last + 16;
         final centres = [
           for (var i = 0; i < n; i++) Offset(lefts[i] + sizes[i] / 2, tops[i] + 6 + sizes[i] / 2),
         ];
+        _scroll ??= ScrollController(
+          initialScrollOffset: (lefts[current] + card / 2 - box.maxWidth / 2).clamp(
+            0,
+            (width - box.maxWidth).clamp(0, double.infinity),
+          ),
+        );
 
-        return Center(
+        return SingleChildScrollView(
+          controller: _scroll,
+          scrollDirection: Axis.horizontal,
           child: SizedBox(
-            width: w,
+            width: width,
             height: height,
             child: Stack(
               children: [
@@ -417,7 +544,7 @@ class JourneyTrail extends StatelessWidget {
               )
             : album == null
             ? null
-            : () => openAlbum(context, store, album),
+            : () => openAlbum(context, store, album, expeditionId: e.id),
       ),
     );
   }
@@ -506,7 +633,7 @@ class _CreateExpeditionScreenState extends State<CreateExpeditionScreen> {
         custom: true,
       ),
     );
-    if (mounted) Navigator.of(context).pop();
+    if (mounted) context.pop();
   }
 
   @override

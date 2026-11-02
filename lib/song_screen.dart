@@ -1,20 +1,13 @@
 import 'package:flutter/material.dart';
 
-import 'album_screen.dart';
+import 'actions.dart';
 import 'chart.dart';
 import 'details.dart';
 import 'models.dart';
+import 'nav.dart';
 import 'page_parts.dart';
 import 'store.dart';
 import 'widgets.dart';
-
-void openSong(BuildContext context, Store store, Album album, Track track) {
-  Navigator.of(context).push(
-    MaterialPageRoute(
-      builder: (_) => SongScreen(store: store, album: album, track: track),
-    ),
-  );
-}
 
 /// A single song. Laid out like the album page, but with a "Song" label, a
 /// smaller cover with a note on it, and a link back to its album.
@@ -29,8 +22,6 @@ class SongScreen extends StatefulWidget {
 }
 
 class _SongScreenState extends State<SongScreen> {
-  late double? _draft = widget.store.trackRatingOf(widget.track.id);
-
   @override
   Widget build(BuildContext context) {
     final store = widget.store;
@@ -41,6 +32,14 @@ class _SongScreenState extends State<SongScreen> {
 
     return Scaffold(
       appBar: AppBar(),
+      bottomNavigationBar: ListenableBuilder(
+        listenable: store,
+        builder: (context, _) => RatingBar(
+          saved: store.trackRatingOf(t.id),
+          onSave: (v) => store.rateTrack(t, v),
+          onClear: () => clearTrackRating(context, store, t),
+        ),
+      ),
       body: ListenableBuilder(
         listenable: store,
         builder: (context, _) {
@@ -135,28 +134,6 @@ class _SongScreenState extends State<SongScreen> {
                     average: store.trackAverageOf(t.id),
                   ),
                 ],
-              ),
-              const SizedBox(height: 12),
-              Row(
-                children: [
-                  Text('Your rating', style: theme.textTheme.labelLarge),
-                  const Spacer(),
-                  Text(
-                    _draft == null ? 'Slide to rate' : fmt(_draft!),
-                    style: _draft == null
-                        ? theme.textTheme.bodySmall
-                        : theme.textTheme.headlineSmall?.copyWith(fontWeight: FontWeight.bold),
-                  ),
-                ],
-              ),
-              Slider(
-                value: _draft ?? 5,
-                min: 0,
-                max: 10,
-                divisions: 20,
-                label: fmt(_draft ?? 5),
-                onChanged: (v) => setState(() => _draft = v),
-                onChangeEnd: (v) => store.rateTrack(t, v),
               ),
               const Divider(height: 32),
               MountainChart(counts: ratingBuckets([?saved])),

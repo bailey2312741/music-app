@@ -6,6 +6,7 @@ import 'package:music_app/details.dart';
 import 'package:music_app/difficulty.dart';
 import 'package:music_app/expeditions.dart';
 import 'package:music_app/models.dart';
+import 'package:music_app/page_parts.dart';
 import 'package:music_app/screens.dart';
 import 'package:music_app/sorting.dart';
 import 'package:music_app/store.dart';
@@ -391,5 +392,54 @@ void main() {
     final again = await Store.load();
     expect(again.ratingOf('bends'), 9);
     Catalogue.aliases = {};
+  });
+
+  testWidgets('v0.8: tab bar stays on album pages, rating bar saves and clears', (t) async {
+    final store = await Store.load();
+    await t.pumpWidget(MaterialApp.router(routerConfig: buildRouter(store)));
+    await t.pumpAndSettle();
+    expect(find.text('Discover'), findsWidgets);
+    expect(find.text('Popular'), findsOneWidget);
+    await t.enterText(find.byType(TextField), 'kind of blue');
+    await t.pumpAndSettle();
+    await t.tap(find.text('Kind of Blue').last);
+    await t.pumpAndSettle();
+    // Album page: tab bar still there, rating bar unrated.
+    expect(find.byType(NavigationBar), findsOneWidget);
+    expect(find.byType(RatingBar), findsOneWidget);
+    expect(find.text('tap to clear'), findsNothing);
+    await store.rate(Catalogue.byId('k1')!, 8);
+    await t.pumpAndSettle();
+    expect(find.text('tap to clear'), findsOneWidget);
+    await t.tap(find.text('tap to clear'));
+    await t.pumpAndSettle();
+    expect(store.ratingOf('k1'), isNull);
+    expect(find.text('Rating removed'), findsOneWidget);
+    await t.tap(find.text('Undo'));
+    await t.pumpAndSettle();
+    expect(store.ratingOf('k1'), 8);
+    // You tab, with the Rated list.
+    await t.tap(find.text('You').first);
+    await t.pumpAndSettle();
+    expect(find.text('Rated (1)'), findsOneWidget);
+  });
+
+  test('v0.8: reset progress can be undone; release date and date rated sorts', () async {
+    final store = await Store.load();
+    final e = builtInExpeditions.first;
+    await store.rateExpedition(e.id, 7);
+    await store.resetProgress(e.id);
+    expect(store.expeditionRating(e.id), isNull);
+    await store.undoReset(e.id);
+    expect(store.expeditionRating(e.id), 7);
+
+    final albums = Catalogue.albums;
+    expect(const SortOrder(SortBy.releaseDate).apply(albums, store).first.id, 'k1');
+    await store.rate(albums[1], 5, at: 1000);
+    await store.rate(albums[0], 6, at: 2000);
+    expect(const SortOrder(SortBy.dateRated).apply(albums, store).take(2).map((a) => a.id), [
+      'b1',
+      'b2',
+    ]);
   });
 }

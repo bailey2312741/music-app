@@ -1,5 +1,43 @@
 # Changelog
 
+## v0.8
+Change numbers match the v0.8 wish list.
+
+**1. Bailey's items**
+- 1.1 Release date sort: "Release date" is in every Sort menu (oldest first, tap again for newest first). It is the default on artist pages only.
+- 1.2 Clearing a rating: tap the big number in the rating bar (a faint "tap to clear" shows under it while rated), swipe a rated album sideways in the Rated list, or swipe a rated track on the album page. Each shows "Rating removed" with Undo. Clearing never relocks expedition albums.
+- 1.3 Artist pages scroll all the way down: the last less-known releases sit fully above the tab bar (checked on The Beatles in the web version).
+
+**2. Rating flow**
+- 2.1 The rating bar is fixed at the bottom of every album and song page.
+- 2.2 Unrated: grey track, thumb at the far left and a dash. The first touch sets the value. The expedition rating works the same way.
+- 2.3 The track rating sheet saves and closes when you let go.
+- 2.4 After rating an album opened from an expedition, the rating bar shows "Next: [album]".
+
+**3. Carried over**
+- 3.1 Your Range peaks show your rating on each cover.
+- 3.2 Tapping an empty Your Range slot opens your rated albums, highest first, with a search box.
+- 3.3 The expedition trail scrolls sideways, keeping the zig-zag, the solid and dashed line and the bigger final stop. It opens at your next stop.
+
+**4. Menu and navigation**
+- 4.1 Chart chips under the search bar: Popular, Top rated (your own ratings for now, and it says so), Hardest (expedition albums only for now, and it says so) and one per decade. Each opens a numbered list.
+- 4.2 The tab bar stays on every page.
+- 4.3 Every page has its own web address, so the browser's back button goes back one page. On Android, back on Expeditions or You goes to Discover first, then exits.
+- 4.4 "Date rated" added to Sort. The Sort button always names the order in use ("Recently rated", "Most popular", "Oldest first") and its menu has the default at the top to go back to.
+- 4.5 Every album card shows a bookmark for Listen later. New empty-list text.
+- 4.6 Tap the open tab to go back to its first page and scroll to the top; tap again on Discover to clear the search. The search bar is pinned at the top with an x.
+- 4.7 "Continue" card at the top of Expeditions: the next album of the expedition you were last on, opening its page with the rating bar ready.
+- 4.8 Tapping a difficulty tag or square shows what the level means in a short line at the bottom.
+- 4.9 Reset progress is in the menu on the expedition header, with Undo instead of a confirmation. Deleting your own expedition also has Undo now.
+- 4.10 Sort, the track Rate buttons and the card bookmark are all at least 44 px.
+- 4.11 An empty Rated list has a "Find albums" button that opens Discover.
+- 4.12 Tab names and page titles match: Discover, Expeditions, You.
+- 4.13 "New expedition" is a + in the Expeditions header.
+- 4.14 "Rated by me" chip in Discover.
+- 4.15 On a computer the app is capped at 600 px wide, centred.
+- 4.16 Same as 3.2.
+- 4.17 Menu Option A: three tabs (Discover opens first, Expeditions, You). Profile and Ratings are merged into You (nickname, Your Range, then Rated / Listen later / Reviews, About at the bottom). Both corner icons are gone; the nickname is edited in place instead of in a pop-up.
+
 ## v0.7.1 (bug fixes)
 - Fixed wrong album data: 26 albums from Bailey's rankings pointed at the wrong MusicBrainz entry (The Bends pointed at the 1996 single). They now use the real album, and any ratings, reviews or saves you made on the old entry move across automatically.
 - Removed 931 bootlegs (unofficial live recordings and rarities) from the library, which now has 9,120 albums. Every album also has its full release date.

@@ -3,15 +3,26 @@ import 'package:flutter/rendering.dart';
 
 import 'actions.dart';
 import 'catalogue.dart';
+import 'charts.dart';
 import 'expeditions.dart';
+import 'library_screen.dart';
 import 'models.dart';
-import 'screens.dart';
+import 'nav.dart';
 import 'sorting.dart';
 import 'store.dart';
 import 'widgets.dart';
 
 /// How many albums each genre row shows before "See all".
 const _rowLength = 20;
+
+/// The Discover tab (opens first): search, charts and genres.
+class DiscoverScreen extends StatelessWidget {
+  final Store store;
+  const DiscoverScreen({super.key, required this.store});
+
+  @override
+  Widget build(BuildContext context) => SearchScreen(store: store);
+}
 
 class SearchScreen extends StatefulWidget {
   final Store store;
@@ -27,7 +38,41 @@ class SearchScreen extends StatefulWidget {
 class _SearchScreenState extends State<SearchScreen> {
   String _text = '';
   String? _genre;
+  bool _ratedOnly = false;
   SortOrder? _sort;
+  final _search = TextEditingController();
+  final _scroll = ScrollController();
+
+  @override
+  void initState() {
+    super.initState();
+    if (!widget.pickMode) tabReselects[0].addListener(_reselected);
+  }
+
+  @override
+  void dispose() {
+    if (!widget.pickMode) tabReselects[0].removeListener(_reselected);
+    _search.dispose();
+    _scroll.dispose();
+    super.dispose();
+  }
+
+  /// Tapping Discover while on it: scroll to the top, then (second tap) clear the search.
+  void _reselected() {
+    if (_scroll.hasClients && _scroll.offset > 0) {
+      _scroll.jumpTo(0);
+    } else {
+      _clear();
+    }
+  }
+
+  void _clear() => setState(() {
+    _search.clear();
+    _text = '';
+    _genre = null;
+    _ratedOnly = false;
+    _sort = null;
+  });
 
   void _tapAlbum(Album a) =>
       widget.pickMode ? Navigator.of(context).pop(a) : openAlbum(context, widget.store, a);
@@ -38,43 +83,60 @@ class _SearchScreenState extends State<SearchScreen> {
     if (picked != null && mounted) Navigator.of(context).pop(picked);
   }
 
-  void _openArtist(String name) =>
-      _push(ArtistScreen(store: widget.store, artist: name, pickMode: widget.pickMode));
+  void _openArtist(String name) => widget.pickMode
+      ? _push(ArtistScreen(store: widget.store, artist: name, pickMode: true))
+      : openArtist(context, name);
 
-  void _openGenre(String genre) =>
-      _push(GenreScreen(store: widget.store, genre: genre, pickMode: widget.pickMode));
+  void _openGenre(String genre) => widget.pickMode
+      ? _push(GenreScreen(store: widget.store, genre: genre, pickMode: true))
+      : openGenre(context, genre);
 
   @override
   Widget build(BuildContext context) {
     final store = widget.store;
-    final browsing = _text.trim().isEmpty && _genre == null;
+    final browsing = _text.trim().isEmpty && _genre == null && !_ratedOnly;
 
     return Scaffold(
-      appBar: widget.pickMode
-          ? AppBar(title: const Text('Add an album'))
-          : AppBar(title: const Text('Search'), actions: cornerActions(store)),
+      appBar: AppBar(
+        title: Text(widget.pickMode ? 'Add an album' : 'Discover'),
+        // The search bar stays pinned at the top while the page scrolls.
+        bottom: PreferredSize(
+          preferredSize: const Size.fromHeight(60),
+          child: Padding(
+            padding: const EdgeInsets.fromLTRB(12, 0, 12, 8),
+            child: SearchBar(
+              controller: _search,
+              hintText: 'Album, artist or genre',
+              leading: const Icon(Icons.search),
+              trailing: [
+                if (_text.isNotEmpty)
+                  IconButton(
+                    icon: const Icon(Icons.close),
+                    tooltip: 'Clear search',
+                    onPressed: () => setState(() {
+                      _search.clear();
+                      _text = '';
+                    }),
+                  ),
+              ],
+              elevation: const WidgetStatePropertyAll(0),
+              onChanged: (v) => setState(() => _text = v),
+            ),
+          ),
+        ),
+      ),
       body: ListenableBuilder(
         listenable: store,
         builder: (context, _) {
-          final artists = _genre != null
+          final artists = _genre != null || _ratedOnly
               ? const <String>[]
               : browsing
               ? Catalogue.featuredArtists([for (final r in store.ratedAlbums) r.album.artist])
               : Catalogue.searchArtists(_text);
           return CustomScrollView(
+            controller: _scroll,
             slivers: [
-              SliverToBoxAdapter(
-                child: Padding(
-                  padding: const EdgeInsets.fromLTRB(12, 4, 12, 4),
-                  child: SearchBar(
-                    hintText: 'Album, artist or genre',
-                    leading: const Icon(Icons.search),
-                    elevation: const WidgetStatePropertyAll(0),
-                    onChanged: (v) => setState(() => _text = v),
-                  ),
-                ),
-              ),
-              // Genre filter: tap a main genre to show only that genre, tap again to clear.
+              // Charts, then "Rated by me", then the main genres (tap again to clear).
               SliverToBoxAdapter(
                 child: SizedBox(
                   height: 48,
@@ -82,6 +144,24 @@ class _SearchScreenState extends State<SearchScreen> {
                     scrollDirection: Axis.horizontal,
                     padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 6),
                     children: [
+                      if (!widget.pickMode)
+                        for (final (kind, label) in chartChips())
+                          Padding(
+                            padding: const EdgeInsets.only(right: 6),
+                            child: ActionChip(
+                              avatar: const Icon(Icons.leaderboard_outlined, size: 16),
+                              label: Text(label),
+                              onPressed: () => openChart(context, kind),
+                            ),
+                          ),
+                      Padding(
+                        padding: const EdgeInsets.only(right: 6),
+                        child: FilterChip(
+                          label: const Text('Rated by me'),
+                          selected: _ratedOnly,
+                          onSelected: (on) => setState(() => _ratedOnly = on),
+                        ),
+                      ),
                       for (final g in _genre == null ? Catalogue.families : [_genre!])
                         Padding(
                           padding: const EdgeInsets.only(right: 6),
@@ -136,7 +216,10 @@ class _SearchScreenState extends State<SearchScreen> {
 
   /// Search results (or one genre) as a grid.
   List<Widget> _results(BuildContext context) {
-    final found = Catalogue.search(_text, genre: _genre);
+    var found = Catalogue.search(_text, genre: _genre);
+    if (_ratedOnly) {
+      found = found.where((a) => widget.store.ratingOf(a.id) != null).toList();
+    }
     final albums = _sort == null ? found : _sort!.apply(found, widget.store);
     return [
       SliverToBoxAdapter(
@@ -150,7 +233,11 @@ class _SearchScreenState extends State<SearchScreen> {
                   style: Theme.of(context).textTheme.titleSmall,
                 ),
               ),
-              SortButton(value: _sort, onChanged: (v) => setState(() => _sort = v)),
+              SortButton(
+                value: _sort,
+                defaultLabel: _text.trim().isEmpty ? 'Most popular' : 'Best match',
+                onChanged: (v) => setState(() => _sort = v),
+              ),
             ],
           ),
         ),
@@ -160,8 +247,10 @@ class _SearchScreenState extends State<SearchScreen> {
           child: Padding(
             padding: const EdgeInsets.all(24),
             child: Text(
-              'No albums match. The library has the ${Catalogue.albums.length} most '
-              'popular albums for now.',
+              _ratedOnly
+                  ? 'None of your rated albums match.'
+                  : 'No albums match. The library has the ${Catalogue.albums.length} most '
+                        'popular albums for now.',
               style: Theme.of(context).textTheme.bodyMedium,
             ),
           ),
@@ -297,7 +386,13 @@ class _GenreScreenState extends State<GenreScreen> {
     return Scaffold(
       appBar: AppBar(
         title: Text(widget.genre),
-        actions: [SortButton(value: _sort, onChanged: (v) => setState(() => _sort = v))],
+        actions: [
+          SortButton(
+            value: _sort,
+            defaultLabel: 'Most popular',
+            onChanged: (v) => setState(() => _sort = v),
+          ),
+        ],
         bottom: az
             ? PreferredSize(
                 preferredSize: const Size.fromHeight(40),
@@ -430,7 +525,13 @@ class _ArtistScreenState extends State<ArtistScreen> {
             Expanded(child: Text(widget.artist, overflow: TextOverflow.ellipsis)),
           ],
         ),
-        actions: [SortButton(value: _sort, onChanged: (v) => setState(() => _sort = v))],
+        actions: [
+          SortButton(
+            value: _sort,
+            defaultLabel: 'Oldest first',
+            onChanged: (v) => setState(() => _sort = v),
+          ),
+        ],
       ),
       body: ListenableBuilder(
         listenable: widget.store,

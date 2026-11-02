@@ -65,15 +65,18 @@ class DifficultyTag extends StatelessWidget {
 }
 
 /// Difficulty as a small info square: the symbol, with the level name underneath.
+/// Tapping it calls [onTap] (the album page then shows what the level means).
 class DifficultySquare extends StatelessWidget {
   final Difficulty difficulty;
-  const DifficultySquare(this.difficulty, {super.key});
+  final VoidCallback? onTap;
+  const DifficultySquare(this.difficulty, {super.key, this.onTap});
 
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
-    return Tooltip(
-      message: difficulty.description,
+    return InkWell(
+      onTap: onTap,
+      borderRadius: BorderRadius.circular(10),
       child: Container(
         width: 96,
         padding: const EdgeInsets.symmetric(vertical: 10),
@@ -91,4 +94,13 @@ class DifficultySquare extends StatelessWidget {
       ),
     );
   }
+}
+
+/// Shows what a difficulty level means as a short line at the bottom of the screen.
+void explainDifficulty(BuildContext context, Difficulty d) {
+  final m = ScaffoldMessenger.of(context);
+  m.hideCurrentSnackBar();
+  m.showSnackBar(
+    SnackBar(content: Text('${d.label}: ${d.description}'), duration: const Duration(seconds: 4)),
+  );
 }
