@@ -115,7 +115,10 @@ class Cover extends StatelessWidget {
 class AlbumCard extends StatelessWidget {
   final Album album;
   final double? rating;
-  final String? caption; // e.g. "Next stop"
+  final String? caption; // e.g. "Final stop"
+
+  /// Read out by screen readers only, for a label drawn elsewhere.
+  final String? semanticNote;
   final bool highlight;
   final int? number; // chart position or expedition stop
   final Difficulty? difficulty;
@@ -131,6 +134,7 @@ class AlbumCard extends StatelessWidget {
     required this.album,
     this.rating,
     this.caption,
+    this.semanticNote,
     this.highlight = false,
     this.number,
     this.difficulty,
@@ -151,6 +155,7 @@ class AlbumCard extends StatelessWidget {
       if (difficulty != null) 'listening stage ${difficulty!.label}',
       if (locked) 'locked until the stop before is rated',
       ?caption,
+      ?semanticNote,
     ];
     return parts.join(', ');
   }
