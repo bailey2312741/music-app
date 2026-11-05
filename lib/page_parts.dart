@@ -429,9 +429,26 @@ class RatingBar extends StatefulWidget {
   State<RatingBar> createState() => _RatingBarState();
 }
 
-class _RatingBarState extends State<RatingBar> {
+class _RatingBarState extends State<RatingBar> with SingleTickerProviderStateMixin {
   late double? _draft = widget.saved;
   bool _dragging = false;
+
+  /// A short settle of the number when a rating is saved (120 ms).
+  late final _settle = AnimationController(
+    vsync: this,
+    duration: AppMotion.ratingValue.duration,
+    value: 1,
+  );
+  late final Animation<double> _scale = Tween(
+    begin: 1.08,
+    end: 1.0,
+  ).animate(CurvedAnimation(parent: _settle, curve: AppMotion.ratingValue.curve));
+
+  @override
+  void dispose() {
+    _settle.dispose();
+    super.dispose();
+  }
 
   @override
   void didUpdateWidget(RatingBar old) {
@@ -462,7 +479,7 @@ class _RatingBarState extends State<RatingBar> {
             mainAxisSize: MainAxisSize.min,
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              ScoreText(_draft),
+              ScaleTransition(scale: _scale, child: ScoreText(_draft)),
               if (saved != null)
                 Text(
                   'tap to clear',
@@ -509,6 +526,7 @@ class _RatingBarState extends State<RatingBar> {
                           _dragging = false;
                           _draft = v;
                         });
+                        if (!AppMotion.reduced(context)) _settle.forward(from: 0);
                         await widget.onSave(v);
                       },
                     ),

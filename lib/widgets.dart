@@ -188,7 +188,11 @@ class AlbumCard extends StatelessWidget {
       children: [
         Stack(
           children: [
-            Cover(album: album),
+            CoverHero(
+              albumId: album.id,
+              source: context,
+              child: Cover(album: album),
+            ),
             if (locked)
               Positioned.fill(
                 child: Center(
@@ -248,7 +252,12 @@ class AlbumCard extends StatelessWidget {
             label: semanticLabel,
             child: InkWell(
               borderRadius: BorderRadius.circular(AppRadii.card),
-              onTap: onTap,
+              onTap: onTap == null
+                  ? null
+                  : () {
+                      CoverHero.claim(context);
+                      onTap!();
+                    },
               // On phones, press and hold to add to Listen later.
               onLongPress: onListenLater,
               child: Padding(

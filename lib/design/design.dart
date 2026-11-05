@@ -9,6 +9,7 @@ export 'components/badges.dart';
 export 'components/cover_art.dart';
 export 'components/dialog_parts.dart';
 export 'components/genre_button.dart';
+export 'components/motion.dart';
 export 'components/page_header.dart';
 export 'components/progress.dart';
 export 'components/rating_controls.dart';

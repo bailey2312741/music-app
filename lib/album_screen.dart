@@ -111,7 +111,10 @@ class _AlbumScreenState extends State<AlbumScreen> {
                       container: true,
                       image: true,
                       label: 'Cover of ${a.title}',
-                      child: Cover(album: a, size: cover, large: true),
+                      child: CoverHero(
+                        albumId: a.id,
+                        child: Cover(album: a, size: cover, large: true),
+                      ),
                     ),
                   ),
                   const SizedBox(height: AppSpace.lg),

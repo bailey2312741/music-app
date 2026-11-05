@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 
+import 'components/motion.dart';
 import 'tokens/app_colors.dart';
 import 'tokens/app_type.dart';
 import 'tokens/spacing.dart';
@@ -65,6 +66,10 @@ abstract final class AppTheme {
     return ThemeData(
       useMaterial3: true,
       brightness: Brightness.dark,
+      // One restrained page transition on every platform (280 ms).
+      pageTransitionsTheme: PageTransitionsTheme(
+        builders: {for (final p in TargetPlatform.values) p: const AppPageTransitionsBuilder()},
+      ),
       colorScheme: scheme,
       textTheme: text,
       primaryTextTheme: text,
