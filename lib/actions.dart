@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
 
+import 'design/design.dart';
 import 'details.dart';
 import 'models.dart';
 import 'store.dart';
+import 'widgets.dart';
 
 /// Adds or removes an album from Listen later, with a short confirmation.
 Future<void> toggleListenLater(BuildContext context, Store store, Album album) async {
@@ -29,13 +31,26 @@ Future<void> pinToRange(BuildContext context, Store store, Album album) async {
   final slot = await showDialog<int>(
     context: context,
     builder: (c) => SimpleDialog(
-      title: const Text('Your Range is full. Replace which album?'),
+      title: const Text('Your Range is full'),
+      contentPadding: const EdgeInsets.only(top: AppSpace.sm, bottom: AppSpace.lg),
       children: [
-        for (var i = 0; i < range.length; i++)
-          SimpleDialogOption(
-            onPressed: () => Navigator.pop(c, i),
-            child: Text('${i + 1}. ${range[i]?.title ?? 'Empty'} · ${range[i]?.artist ?? ''}'),
+        Padding(
+          padding: const EdgeInsets.fromLTRB(AppSpace.xl, 0, AppSpace.xl, AppSpace.sm),
+          child: Text(
+            'Choose an album to replace with ${album.title}.',
+            style: AppType.bodySmall.copyWith(color: AppColors.of(c).textSecondary),
           ),
+        ),
+        for (var i = 0; i < range.length; i++)
+          DialogChoice(
+            leading: range[i] == null
+                ? null
+                : ExcludeSemantics(child: Cover(album: range[i]!, size: 48)),
+            title: '${i + 1}. ${range[i]?.title ?? 'Empty'}',
+            subtitle: range[i]?.artist,
+            onTap: () => Navigator.pop(c, i),
+          ),
+        const DialogCancel(),
       ],
     ),
   );

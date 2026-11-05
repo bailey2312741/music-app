@@ -504,6 +504,7 @@ class GenreScreen extends StatefulWidget {
 class _GenreScreenState extends State<GenreScreen> {
   SortOrder? _sort;
   final _scroll = ScrollController();
+  final _headerKey = GlobalKey();
 
   @override
   void dispose() {
@@ -535,8 +536,11 @@ class _GenreScreenState extends State<GenreScreen> {
         cacheOrigin: 0,
       ),
     ) as SliverGridRegularTileLayout;
+    final header = _headerKey.currentContext?.size?.height ?? 0;
     final offset =
-        SliverAlbumGrid.topPadding + (index ~/ layout.crossAxisCount) * layout.mainAxisStride;
+        header +
+        SliverAlbumGrid.topPadding +
+        (index ~/ layout.crossAxisCount) * layout.mainAxisStride;
     _scroll.jumpTo(offset.clamp(0, _scroll.position.maxScrollExtent));
   }
 
@@ -558,9 +562,14 @@ class _GenreScreenState extends State<GenreScreen> {
         firstOf.putIfAbsent(_letter(albums[i]), () => i);
       }
     }
+    final c = AppColors.of(context);
+    // The letter strip stays 48 tall, or grows with large text.
+    final stripHeight = math.max(
+      AppSizes.touchMin,
+      MediaQuery.textScalerOf(context).scale(AppType.cardTitle.fontSize!) + AppSpace.xl,
+    );
     return Scaffold(
       appBar: AppBar(
-        title: Text(widget.genre),
         actions: [
           SortButton(
             value: _sort,
@@ -570,24 +579,30 @@ class _GenreScreenState extends State<GenreScreen> {
         ],
         bottom: az
             ? PreferredSize(
-                preferredSize: const Size.fromHeight(40),
+                preferredSize: Size.fromHeight(stripHeight),
                 child: LayoutBuilder(
-                  builder: (context, box) => SizedBox(
-                    height: 40,
-                    child: ListView(
-                      scrollDirection: Axis.horizontal,
-                      padding: const EdgeInsets.symmetric(horizontal: 8),
-                      children: [
-                        for (final e in firstOf.entries)
-                          TextButton(
-                            style: TextButton.styleFrom(
-                              minimumSize: const Size(36, 36),
-                              padding: EdgeInsets.zero,
+                  builder: (context, box) => Semantics(
+                    label: 'Jump to letter',
+                    container: true,
+                    child: SizedBox(
+                      height: stripHeight,
+                      child: ListView(
+                        scrollDirection: Axis.horizontal,
+                        padding: const EdgeInsets.symmetric(horizontal: AppSpace.sm),
+                        children: [
+                          for (final e in firstOf.entries)
+                            TextButton(
+                              style: TextButton.styleFrom(
+                                minimumSize: const Size(AppSizes.touchMin, AppSizes.touchMin),
+                                padding: const EdgeInsets.symmetric(horizontal: AppSpace.xs),
+                                foregroundColor: c.textPrimary,
+                                textStyle: AppType.cardTitle,
+                              ),
+                              onPressed: () => _jumpTo(e.value, box.maxWidth, metrics),
+                              child: Text(e.key, semanticsLabel: 'Jump to ${e.key}'),
                             ),
-                            onPressed: () => _jumpTo(e.value, box.maxWidth, metrics),
-                            child: Text(e.key),
-                          ),
-                      ],
+                        ],
+                      ),
                     ),
                   ),
                 ),
@@ -599,6 +614,20 @@ class _GenreScreenState extends State<GenreScreen> {
         builder: (context, _) => CustomScrollView(
           controller: _scroll,
           slivers: [
+            SliverToBoxAdapter(
+              child: PageHeader(
+                widget.genre,
+                key: _headerKey,
+                subtitle: albums.length == 1 ? '1 album' : '${albums.length} albums',
+              ),
+            ),
+            if (albums.isEmpty)
+              const SliverToBoxAdapter(
+                child: EmptyState(
+                  icon: Icons.album_outlined,
+                  message: 'No albums in this genre yet.',
+                ),
+              ),
             SliverAlbumGrid(
               albums: albums,
               store: widget.store,
@@ -611,8 +640,8 @@ class _GenreScreenState extends State<GenreScreen> {
   }
 }
 
-/// One artist's albums: studio albums first, oldest to newest and shown
-/// bigger, then every other kind of release below, smaller.
+/// One artist's albums: studio albums first, oldest to newest, then every
+/// other kind of release in its own section below.
 class ArtistScreen extends StatefulWidget {
   final Store store;
   final String artist;
@@ -627,10 +656,6 @@ class ArtistScreen extends StatefulWidget {
 
 /// Order of the sections below the studio albums.
 const _otherTypes = ['EP', 'Mixtape', 'Live', 'Soundtrack', 'Remix', 'Compilation'];
-
-/// Studio albums show bigger (two across on a phone), other releases smaller.
-const _bigCard = 200.0;
-const _smallCard = 112.0;
 
 class _ArtistScreenState extends State<ArtistScreen> {
   SortOrder? _sort;
@@ -661,6 +686,7 @@ class _ArtistScreenState extends State<ArtistScreen> {
         return i(a).compareTo(i(b));
       });
     final onTap = widget.pickMode ? (Album a) => Navigator.of(context).pop(a) : null;
+    final image = Catalogue.artistImage(widget.artist);
 
     Widget header(String text, int count, {Widget? trailing}) => SliverToBoxAdapter(
       child: SectionHeader(text, count: count, trailing: trailing),
@@ -674,13 +700,6 @@ class _ArtistScreenState extends State<ArtistScreen> {
 
     return Scaffold(
       appBar: AppBar(
-        title: Row(
-          children: [
-            ArtistAvatar(image: Catalogue.artistImage(widget.artist), size: 32),
-            const SizedBox(width: 10),
-            Expanded(child: Text(widget.artist, overflow: TextOverflow.ellipsis)),
-          ],
-        ),
         actions: [
           SortButton(
             value: _sort,
@@ -693,23 +712,23 @@ class _ArtistScreenState extends State<ArtistScreen> {
         listenable: widget.store,
         builder: (context, _) => CustomScrollView(
           slivers: [
+            SliverToBoxAdapter(
+              child: PageHeader(
+                widget.artist,
+                leading: image == null
+                    ? null
+                    : ExcludeSemantics(
+                        child: ArtistAvatar(image: image, size: AppCoverSizes.sm),
+                      ),
+              ),
+            ),
             if (studio.isNotEmpty) ...[
               header('Studio albums', studio.length),
-              SliverAlbumGrid(
-                albums: studio,
-                store: widget.store,
-                onTap: onTap,
-                maxCardWidth: _bigCard,
-              ),
+              SliverAlbumGrid(albums: studio, store: widget.store, onTap: onTap),
             ],
             for (final t in types) ...[
               header(plural(t, others[t]!.length), others[t]!.length),
-              SliverAlbumGrid(
-                albums: others[t]!,
-                store: widget.store,
-                onTap: onTap,
-                maxCardWidth: _smallCard,
-              ),
+              SliverAlbumGrid(albums: others[t]!, store: widget.store, onTap: onTap),
             ],
             if (hidden.isNotEmpty) ...[
               header(
@@ -725,10 +744,9 @@ class _ArtistScreenState extends State<ArtistScreen> {
                   albums: _sort == null ? hidden : _sort!.apply(hidden, store),
                   store: store,
                   onTap: onTap,
-                  maxCardWidth: _smallCard,
                 ),
             ],
-            const SliverToBoxAdapter(child: SizedBox(height: 24)),
+            const SliverToBoxAdapter(child: SizedBox(height: AppSpace.section)),
           ],
         ),
       ),

@@ -126,7 +126,7 @@ class SortButton extends StatelessWidget {
           ),
       ],
       child: ConstrainedBox(
-        constraints: const BoxConstraints(minHeight: 44, minWidth: 44),
+        constraints: const BoxConstraints(minHeight: 48, minWidth: 48),
         child: Padding(
           padding: const EdgeInsets.symmetric(horizontal: 10),
           child: Row(

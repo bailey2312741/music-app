@@ -1,6 +1,8 @@
 import 'dart:math' as math;
 
 import 'package:flutter/material.dart';
+import 'package:flutter/semantics.dart';
+import 'package:flutter/services.dart';
 import 'package:go_router/go_router.dart';
 
 import 'actions.dart';
@@ -752,7 +754,12 @@ class _CreateExpeditionScreenState extends State<CreateExpeditionScreen> {
   ];
   late bool _inOrder = widget.editing?.inOrder ?? false;
 
-  bool get _canSave => _name.text.trim().isNotEmpty && _albums.length >= 2;
+  /// The name error shows only once the name has been typed in and cleared.
+  bool _nameTouched = false;
+
+  static const _minAlbums = 2;
+
+  bool get _canSave => _name.text.trim().isNotEmpty && _albums.length >= _minAlbums;
 
   Future<void> _addAlbum() async {
     final album = await Navigator.of(context).push<Album>(
@@ -784,6 +791,13 @@ class _CreateExpeditionScreenState extends State<CreateExpeditionScreen> {
     if (mounted) context.pop();
   }
 
+  /// Moves the album at [from] one place up or down (keyboard and screen
+  /// reader alternative to dragging).
+  void _move(int from, int to) {
+    if (to < 0 || to >= _albums.length) return;
+    setState(() => _albums.insert(to, _albums.removeAt(from)));
+  }
+
   @override
   void dispose() {
     _name.dispose();
@@ -793,37 +807,96 @@ class _CreateExpeditionScreenState extends State<CreateExpeditionScreen> {
 
   @override
   Widget build(BuildContext context) {
+    final c = AppColors.of(context);
+    final nameMissing = _name.text.trim().isEmpty;
+    final needed = math.max(0, _minAlbums - _albums.length);
+    final missing = [
+      if (nameMissing) 'a name',
+      if (needed > 0) needed == 1 ? 'one more album' : '$needed more albums',
+    ];
     return Scaffold(
-      appBar: AppBar(
-        title: Text(widget.editing == null ? 'New expedition' : 'Edit expedition'),
-        actions: [TextButton(onPressed: _canSave ? _save : null, child: const Text('Save'))],
+      appBar: AppBar(),
+      // Save sits at the bottom, always in the same place, and says what it
+      // still needs while it can't be pressed.
+      bottomNavigationBar: DecoratedBox(
+        decoration: BoxDecoration(
+          color: c.chrome,
+          border: Border(top: BorderSide(color: c.lineDecorative)),
+        ),
+        child: SafeArea(
+          top: false,
+          child: Padding(
+            padding: const EdgeInsets.fromLTRB(
+              AppSpace.gutter,
+              AppSpace.md,
+              AppSpace.gutter,
+              AppSpace.md,
+            ),
+            child: Column(
+              mainAxisSize: MainAxisSize.min,
+              crossAxisAlignment: CrossAxisAlignment.stretch,
+              children: [
+                if (missing.isNotEmpty) ...[
+                  Text(
+                    'To save, add ${missing.join(' and ')}.',
+                    textAlign: TextAlign.center,
+                    style: AppType.bodySmall.copyWith(color: c.textSecondary),
+                  ),
+                  const SizedBox(height: AppSpace.sm),
+                ],
+                FilledButton(
+                  onPressed: _canSave ? _save : null,
+                  child: Text(widget.editing == null ? 'Save expedition' : 'Save changes'),
+                ),
+              ],
+            ),
+          ),
+        ),
       ),
       body: ListView(
-        padding: const EdgeInsets.all(16),
+        padding: const EdgeInsets.fromLTRB(
+          AppSpace.gutter,
+          AppSpace.xs,
+          AppSpace.gutter,
+          AppSpace.xxl,
+        ),
         children: [
+          PageHeader(widget.editing == null ? 'New expedition' : 'Edit expedition'),
+          const SizedBox(height: AppSpace.sm),
           TextField(
             controller: _name,
-            decoration: const InputDecoration(labelText: 'Name', border: OutlineInputBorder()),
-            onChanged: (_) => setState(() {}),
+            style: AppType.sectionTitle.copyWith(color: c.textPrimary),
+            textCapitalization: TextCapitalization.sentences,
+            textInputAction: TextInputAction.next,
+            decoration: InputDecoration(
+              labelText: 'Name',
+              hintText: 'e.g. Into the Ambient',
+              border: const OutlineInputBorder(),
+              errorText: _nameTouched && nameMissing ? 'Give your expedition a name.' : null,
+            ),
+            onChanged: (_) => setState(() => _nameTouched = true),
           ),
-          const SizedBox(height: 12),
+          const SizedBox(height: AppSpace.lg),
           TextField(
             controller: _blurb,
-            maxLines: 2,
+            minLines: 2,
+            maxLines: 5,
+            textCapitalization: TextCapitalization.sentences,
             decoration: const InputDecoration(
               labelText: 'Description (optional)',
+              alignLabelWithHint: true,
               border: OutlineInputBorder(),
             ),
           ),
-          const SizedBox(height: 4),
+          const SizedBox(height: AppSpace.sm),
           SwitchListTile(
             contentPadding: EdgeInsets.zero,
-            title: const Text('Listen in order'),
+            title: Text('Listen in order', style: AppType.cardTitle.copyWith(color: c.textPrimary)),
             subtitle: const Text('Each album unlocks after you rate the one before it.'),
             value: _inOrder,
             onChanged: (v) => setState(() => _inOrder = v),
           ),
-          const Divider(),
+          const SizedBox(height: AppSpace.sm),
           SectionHeader(
             'Albums',
             count: _albums.length,
@@ -836,53 +909,189 @@ class _CreateExpeditionScreenState extends State<CreateExpeditionScreen> {
                   )
                 : null,
           ),
-          if (_albums.isEmpty)
-            const Padding(
-              padding: EdgeInsets.symmetric(vertical: 8),
-              child: Text('Add at least two albums. Drag to reorder.'),
-            ),
+          Text(
+            needed > 0
+                ? 'Add at least $_minAlbums albums. Drag the handle to change the order.'
+                : 'Drag the handle to change the order.',
+            style: AppType.bodySmall.copyWith(color: c.textSecondary),
+          ),
+          const SizedBox(height: AppSpace.sm),
           ReorderableListView(
             shrinkWrap: true,
             physics: const NeverScrollableScrollPhysics(),
             buildDefaultDragHandles: false,
+            // The lifted row: a flat raised surface, no shadow.
+            proxyDecorator: (child, _, _) => Material(
+              color: c.surfaceRaised,
+              borderRadius: BorderRadius.circular(AppRadii.card),
+              child: child,
+            ),
             onReorderItem: (from, to) => setState(() => _albums.insert(to, _albums.removeAt(from))),
             children: [
               for (var i = 0; i < _albums.length; i++)
-                ListTile(
+                _StopRow(
                   key: ValueKey(_albums[i].id),
-                  contentPadding: EdgeInsets.zero,
-                  leading: Cover(album: _albums[i], size: AppCoverSizes.xs),
-                  title: Text(
-                    '${i + 1}. ${_albums[i].title}',
-                    maxLines: 1,
-                    overflow: TextOverflow.ellipsis,
-                  ),
-                  subtitle: Text(
-                    [_albums[i].artist, _albums[i].year].whereType<String>().join(' · '),
-                    maxLines: 1,
-                    overflow: TextOverflow.ellipsis,
-                  ),
-                  trailing: Row(
-                    mainAxisSize: MainAxisSize.min,
-                    children: [
-                      IconButton(
-                        icon: const Icon(Icons.close),
-                        tooltip: 'Remove',
-                        onPressed: () => setState(() => _albums.removeAt(i)),
-                      ),
-                      ReorderableDragStartListener(index: i, child: const Icon(Icons.drag_handle)),
-                    ],
-                  ),
+                  album: _albums[i],
+                  index: i,
+                  count: _albums.length,
+                  onRemove: () => setState(() => _albums.removeAt(i)),
+                  onMove: (to) => _move(i, to),
                 ),
             ],
           ),
-          const SizedBox(height: 8),
+          const SizedBox(height: AppSpace.md),
           OutlinedButton.icon(
             onPressed: _addAlbum,
             icon: const Icon(Icons.add),
             label: const Text('Add album'),
           ),
         ],
+      ),
+    );
+  }
+}
+
+/// One album in the expedition editor: position, cover, title, artist and
+/// year, a remove button and a drag handle. Arrow keys on the focused handle
+/// (or the screen reader's actions) move it up and down too.
+class _StopRow extends StatelessWidget {
+  final Album album;
+  final int index;
+  final int count;
+  final VoidCallback onRemove;
+  final ValueChanged<int> onMove;
+  const _StopRow({
+    super.key,
+    required this.album,
+    required this.index,
+    required this.count,
+    required this.onRemove,
+    required this.onMove,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    final c = AppColors.of(context);
+    final details = [album.artist, ?album.year].join(' · ');
+    return Semantics(
+      customSemanticsActions: {
+        if (index > 0) const CustomSemanticsAction(label: 'Move up'): () => onMove(index - 1),
+        if (index < count - 1)
+          const CustomSemanticsAction(label: 'Move down'): () => onMove(index + 1),
+      },
+      child: ConstrainedBox(
+        constraints: const BoxConstraints(minHeight: 72),
+        child: Padding(
+          padding: const EdgeInsets.symmetric(vertical: AppSpace.xs),
+          child: Row(
+            children: [
+              ConstrainedBox(
+                constraints: BoxConstraints(minWidth: MediaQuery.textScalerOf(context).scale(24)),
+                child: Text(
+                  '${index + 1}',
+                  semanticsLabel: 'Stop ${index + 1} of $count',
+                  style: AppType.bodySmall.copyWith(
+                    color: c.textTertiary,
+                    fontFeatures: const [FontFeature.tabularFigures()],
+                  ),
+                ),
+              ),
+              const SizedBox(width: AppSpace.xs),
+              ExcludeSemantics(child: Cover(album: album, size: 56)),
+              const SizedBox(width: AppSpace.md),
+              Expanded(
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text(
+                      album.title,
+                      maxLines: 2,
+                      overflow: TextOverflow.ellipsis,
+                      style: AppType.cardTitle.copyWith(color: c.textPrimary),
+                    ),
+                    Text(
+                      details,
+                      maxLines: 2,
+                      overflow: TextOverflow.ellipsis,
+                      style: AppType.bodySmall.copyWith(color: c.textSecondary),
+                    ),
+                  ],
+                ),
+              ),
+              IconButton(
+                icon: const Icon(Icons.close),
+                tooltip: 'Remove ${album.title}',
+                onPressed: onRemove,
+              ),
+              _DragHandle(index: index, count: count, title: album.title, onMove: onMove),
+            ],
+          ),
+        ),
+      ),
+    );
+  }
+}
+
+/// A 48 px drag handle that can also take keyboard focus: Up and Down arrows
+/// move the album.
+class _DragHandle extends StatefulWidget {
+  final int index;
+  final int count;
+  final String title;
+  final ValueChanged<int> onMove;
+  const _DragHandle({
+    required this.index,
+    required this.count,
+    required this.title,
+    required this.onMove,
+  });
+
+  @override
+  State<_DragHandle> createState() => _DragHandleState();
+}
+
+class _DragHandleState extends State<_DragHandle> {
+  bool _focused = false;
+
+  @override
+  Widget build(BuildContext context) {
+    final c = AppColors.of(context);
+    return Focus(
+      onFocusChange: (f) => setState(() => _focused = f),
+      onKeyEvent: (node, event) {
+        if (event is! KeyDownEvent) return KeyEventResult.ignored;
+        final to = switch (event.logicalKey) {
+          LogicalKeyboardKey.arrowUp => widget.index - 1,
+          LogicalKeyboardKey.arrowDown => widget.index + 1,
+          _ => null,
+        };
+        if (to == null || to < 0 || to >= widget.count) return KeyEventResult.ignored;
+        widget.onMove(to);
+        // Keep the focus on this album's handle after it moves.
+        WidgetsBinding.instance.addPostFrameCallback((_) => node.requestFocus());
+        return KeyEventResult.handled;
+      },
+      child: Semantics(
+        container: true,
+        label: 'Reorder ${widget.title}',
+        hint: 'Drag, or use the up and down arrow keys',
+        child: ReorderableDragStartListener(
+          index: widget.index,
+          child: MouseRegion(
+            cursor: SystemMouseCursors.grab,
+            child: Container(
+              width: AppSizes.touchMin,
+              height: AppSizes.touchMin,
+              decoration: _focused
+                  ? BoxDecoration(
+                      border: Border.all(color: c.focusRing, width: AppSizes.indicatorBorderWidth),
+                      borderRadius: BorderRadius.circular(AppRadii.card),
+                    )
+                  : null,
+              child: Icon(Icons.drag_handle, color: c.textSecondary),
+            ),
+          ),
+        ),
       ),
     );
   }

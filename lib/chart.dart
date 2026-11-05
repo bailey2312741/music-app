@@ -18,7 +18,10 @@ List<int> ratingBuckets(Iterable<double> ratings) {
 /// ratings yet it shows a short empty message instead of an empty chart.
 class MountainChart extends StatelessWidget {
   final List<int> counts; // 11 values, for scores 0..10
-  const MountainChart({super.key, required this.counts});
+
+  /// With no ratings, a single line instead of the larger empty message.
+  final bool compactEmpty;
+  const MountainChart({super.key, required this.counts, this.compactEmpty = false});
 
   /// What a screen reader hears: the real counts, highest first.
   String get semanticLabel {
@@ -38,7 +41,12 @@ class MountainChart extends StatelessWidget {
       crossAxisAlignment: CrossAxisAlignment.stretch,
       children: [
         SectionHeader('Rating spread', count: total == 0 ? null : total, padding: EdgeInsets.zero),
-        if (total == 0)
+        if (total == 0 && compactEmpty)
+          Text(
+            'No ratings yet. Use the bar at the bottom to add yours.',
+            style: AppType.bodySmall.copyWith(color: c.textSecondary),
+          )
+        else if (total == 0)
           const EmptyState(
             icon: Icons.landscape_outlined,
             message: 'No ratings yet. Use the bar at the bottom to add yours.',

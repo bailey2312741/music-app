@@ -376,82 +376,95 @@ class AboutScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final theme = Theme.of(context);
+    final c = AppColors.of(context);
     Widget heading(String text) => SectionHeader(
       text,
-      padding: const EdgeInsets.only(top: AppSpace.md, bottom: AppSpace.xxs),
+      padding: const EdgeInsets.only(top: AppSpace.lg, bottom: AppSpace.xxs),
     );
-    Widget para(String text) =>
-        Padding(padding: const EdgeInsets.only(bottom: 8), child: Text(text));
+    Widget para(String text) => Padding(
+      padding: const EdgeInsets.only(bottom: AppSpace.sm),
+      child: Text(text, style: AppType.body.copyWith(color: c.textSecondary)),
+    );
 
     return Scaffold(
-      appBar: AppBar(title: const Text('About')),
+      appBar: AppBar(),
       body: ListView(
-        padding: const EdgeInsets.fromLTRB(16, 0, 16, 32),
+        padding: const EdgeInsets.fromLTRB(0, 0, 0, AppSpace.xxl),
         children: [
-          heading('Difficulty levels'),
-          para(
-            'How much effort an album takes to get into, from easiest to hardest. '
-            'It says nothing about how good the album is. Tap a difficulty on any album '
-            'to see what it means.',
-          ),
-          for (final d in Difficulty.values)
-            ListTile(
-              contentPadding: EdgeInsets.zero,
-              leading: StageIcon(d.icon, size: 40),
-              title: Text(d.label),
-              subtitle: Text(d.description),
+          const PageHeader('About'),
+          Padding(
+            padding: const EdgeInsets.symmetric(horizontal: AppSpace.gutter),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.stretch,
+              children: [
+                heading('Difficulty levels'),
+                para(
+                  'How much effort an album takes to get into, from easiest to hardest. '
+                  'It says nothing about how good the album is. Tap a difficulty on any album '
+                  'to see what it means.',
+                ),
+                for (final d in Difficulty.values)
+                  ListTile(
+                    contentPadding: EdgeInsets.zero,
+                    leading: StageIcon(d.icon, size: 40),
+                    title: Text(d.label, style: AppType.cardTitle.copyWith(color: c.textPrimary)),
+                    subtitle: Text(d.description),
+                  ),
+                para(
+                  'Albums without enough information show no difficulty. '
+                  'For now the levels are set by hand on expedition albums only; '
+                  'AI scoring comes later.',
+                ),
+                heading('Ratings'),
+                para(
+                  'Rate any album or song from 0 to 10 in half steps with the bar at the bottom of '
+                  'its page. It saves when you let go. Tap the big number to clear it, and '
+                  '"Undo" brings it back. In the Rated list you can also swipe an album sideways.',
+                ),
+                para(
+                  'Ratings are saved on this device only for now. The phone app and the web '
+                  'version keep separate ratings.',
+                ),
+                heading('Expeditions'),
+                para(
+                  'A short journey through a handful of albums in a suggested order. '
+                  'The "Continue" card at the top of the Expeditions tab takes you to your next stop, '
+                  'and after rating, the bar offers the next album.',
+                ),
+                para(
+                  'Expeditions marked "In order" unlock one album at a time: rate an album to open '
+                  'the next. Clearing a rating never locks albums again.',
+                ),
+                para(
+                  'Make your own with the + at the top of the Expeditions tab. They are saved on '
+                  'this device only for now. "Reset progress" (in the menu on an expedition) starts '
+                  'it over without deleting your album ratings.',
+                ),
+                heading('Listen later and Your Range'),
+                para(
+                  'Tap the bookmark on any album card to save it to Listen later, on the You tab.',
+                ),
+                para(
+                  'Your Range shows up to five favourite albums as mountain peaks. Taller peaks are '
+                  'harder albums. Tap an empty slot to pick one of your rated albums.',
+                ),
+                heading('Charts'),
+                para(
+                  'Popular and the decade charts use ListenBrainz play counts. Top rated and Hardest '
+                  'only use your own ratings and the expedition albums until accounts arrive.',
+                ),
+                heading('Where the data comes from'),
+                para(
+                  'The library has about 9,000 of the most listened-to albums (popularity from '
+                  'ListenBrainz), plus every album from Bailey\'s rankings. Album details come from '
+                  'MusicBrainz and covers from the Cover Art Archive. Genres outside Bailey\'s rankings '
+                  'are a first guess from MusicBrainz tags.',
+                ),
+                const SizedBox(height: AppSpace.lg),
+                Text('Version $appVersion', style: AppType.caption.copyWith(color: c.textTertiary)),
+              ],
             ),
-          para(
-            'Albums without enough information show no difficulty. '
-            'For now the levels are set by hand on expedition albums only; '
-            'AI scoring comes later.',
           ),
-          heading('Ratings'),
-          para(
-            'Rate any album or song from 0 to 10 in half steps with the bar at the bottom of '
-            'its page. It saves when you let go. Tap the big number to clear it, and '
-            '"Undo" brings it back. In the Rated list you can also swipe an album sideways.',
-          ),
-          para(
-            'Ratings are saved on this device only for now. The phone app and the web '
-            'version keep separate ratings.',
-          ),
-          heading('Expeditions'),
-          para(
-            'A short journey through a handful of albums in a suggested order. '
-            'The "Continue" card at the top of the Expeditions tab takes you to your next stop, '
-            'and after rating, the bar offers the next album.',
-          ),
-          para(
-            'Expeditions marked "In order" unlock one album at a time: rate an album to open '
-            'the next. Clearing a rating never locks albums again.',
-          ),
-          para(
-            'Make your own with the + at the top of the Expeditions tab. They are saved on '
-            'this device only for now. "Reset progress" (in the menu on an expedition) starts '
-            'it over without deleting your album ratings.',
-          ),
-          heading('Listen later and Your Range'),
-          para('Tap the bookmark on any album card to save it to Listen later, on the You tab.'),
-          para(
-            'Your Range shows up to five favourite albums as mountain peaks. Taller peaks are '
-            'harder albums. Tap an empty slot to pick one of your rated albums.',
-          ),
-          heading('Charts'),
-          para(
-            'Popular and the decade charts use ListenBrainz play counts. Top rated and Hardest '
-            'only use your own ratings and the expedition albums until accounts arrive.',
-          ),
-          heading('Where the data comes from'),
-          para(
-            'The library has about 9,000 of the most listened-to albums (popularity from '
-            'ListenBrainz), plus every album from Bailey\'s rankings. Album details come from '
-            'MusicBrainz and covers from the Cover Art Archive. Genres outside Bailey\'s rankings '
-            'are a first guess from MusicBrainz tags.',
-          ),
-          const SizedBox(height: 16),
-          Text('Version $appVersion', style: theme.textTheme.bodySmall),
         ],
       ),
     );
