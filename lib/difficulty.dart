@@ -1,36 +1,40 @@
 import 'package:flutter/material.dart';
 
+import 'design/design.dart';
+
 /// Listening difficulty. Shown to users as a word plus an icon only,
 /// never as a number, so it can't be confused with the quality rating.
 enum Difficulty {
   baseCamp(
     'Base Camp',
-    Icons.cabin,
+    'base_camp',
     'Easy to get into. Familiar song shapes and sounds that reward a first listen.',
   ),
   foothills(
     'Foothills',
-    Icons.park,
+    'foothills',
     'Takes a little adjusting: some unusual sounds, length or structure, but an open way in.',
   ),
   highAltitude(
     'High Altitude',
-    Icons.terrain,
+    'high_altitude',
     'Demanding. Unconventional sound or structure that usually needs a few listens.',
   ),
   summit(
     'Summit',
-    Icons.flag,
+    'summit',
     'The hardest climb. Abrasive, very long or very abstract records for when you are ready.',
   );
 
   final String label;
-  final IconData icon;
+
+  /// Drawing in assets/icons/stages/ (see StageIcon).
+  final String icon;
   final String description;
   const Difficulty(this.label, this.icon, this.description);
 }
 
-/// Difficulty as a small outlined pill: icon + word. Shows nothing when unknown.
+/// Difficulty as a pill: stage drawing + word. Shows nothing when unknown.
 class DifficultyTag extends StatelessWidget {
   final Difficulty? difficulty;
   final bool small;
@@ -40,32 +44,13 @@ class DifficultyTag extends StatelessWidget {
   Widget build(BuildContext context) {
     final d = difficulty;
     if (d == null) return const SizedBox.shrink();
-    final scheme = Theme.of(context).colorScheme;
-    final style =
-        (small ? Theme.of(context).textTheme.labelSmall : Theme.of(context).textTheme.labelLarge)
-            ?.copyWith(color: scheme.onSurfaceVariant);
-    return Container(
-      padding: EdgeInsets.symmetric(horizontal: small ? 6 : 10, vertical: small ? 2 : 4),
-      decoration: BoxDecoration(
-        border: Border.all(color: scheme.outlineVariant),
-        borderRadius: BorderRadius.circular(20),
-      ),
-      child: Row(
-        mainAxisSize: MainAxisSize.min,
-        children: [
-          Icon(d.icon, size: small ? 12 : 16, color: scheme.onSurfaceVariant),
-          SizedBox(width: small ? 3 : 5),
-          Flexible(
-            child: Text(d.label, style: style, overflow: TextOverflow.ellipsis),
-          ),
-        ],
-      ),
-    );
+    return StageBadge(name: d.icon, label: d.label, small: small);
   }
 }
 
-/// Difficulty as a small info square: the symbol, with the level name underneath.
-/// Tapping it calls [onTap] (the album page then shows what the level means).
+/// Difficulty as a small info square: the detailed stage drawing, with the
+/// level name underneath. Tapping it calls [onTap] (the album page then shows
+/// what the level means).
 class DifficultySquare extends StatelessWidget {
   final Difficulty difficulty;
   final VoidCallback? onTap;
@@ -73,23 +58,36 @@ class DifficultySquare extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final theme = Theme.of(context);
-    return InkWell(
-      onTap: onTap,
-      borderRadius: BorderRadius.circular(10),
-      child: Container(
-        width: 96,
-        padding: const EdgeInsets.symmetric(vertical: 10),
-        decoration: BoxDecoration(
-          border: Border.all(color: theme.colorScheme.outlineVariant),
-          borderRadius: BorderRadius.circular(10),
-        ),
-        child: Column(
-          children: [
-            Icon(difficulty.icon, size: 26, color: theme.colorScheme.onSurfaceVariant),
-            const SizedBox(height: 4),
-            Text(difficulty.label, style: theme.textTheme.labelMedium, textAlign: TextAlign.center),
-          ],
+    final c = AppColors.of(context);
+    return MergeSemantics(
+      child: Semantics(
+        button: onTap != null,
+        label: 'Listening stage: ${difficulty.label}',
+        child: InkWell(
+          onTap: onTap,
+          borderRadius: BorderRadius.circular(AppRadii.card),
+          child: Container(
+            // 96 wide normally; wider with large text so words never break.
+            constraints: const BoxConstraints(minWidth: 96),
+            padding: const EdgeInsets.symmetric(vertical: AppSpace.sm + 2, horizontal: AppSpace.sm),
+            decoration: BoxDecoration(
+              border: Border.all(color: c.lineFunctional),
+              borderRadius: BorderRadius.circular(AppRadii.card),
+            ),
+            child: Column(
+              children: [
+                StageIcon(difficulty.icon, size: 44),
+                const SizedBox(height: AppSpace.sm - 2),
+                ExcludeSemantics(
+                  child: Text(
+                    difficulty.label.toUpperCase(),
+                    style: AppType.label.copyWith(color: c.textPrimary, letterSpacing: 0.4),
+                    textAlign: TextAlign.center,
+                  ),
+                ),
+              ],
+            ),
+          ),
         ),
       ),
     );

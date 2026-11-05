@@ -4,6 +4,7 @@ import 'package:flutter/rendering.dart';
 import 'actions.dart';
 import 'catalogue.dart';
 import 'charts.dart';
+import 'design/design.dart';
 import 'expeditions.dart';
 import 'library_screen.dart';
 import 'models.dart';
@@ -139,10 +140,11 @@ class _SearchScreenState extends State<SearchScreen> {
               // Charts, then "Rated by me", then the main genres (tap again to clear).
               SliverToBoxAdapter(
                 child: SizedBox(
-                  height: 48,
+                  // Grows with the phone's text size so labels never clip.
+                  height: 52 + MediaQuery.textScalerOf(context).scale(16) - 16,
                   child: ListView(
                     scrollDirection: Axis.horizontal,
-                    padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 6),
+                    padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 2),
                     children: [
                       if (!widget.pickMode)
                         for (final (kind, label) in chartChips())
@@ -164,11 +166,11 @@ class _SearchScreenState extends State<SearchScreen> {
                       ),
                       for (final g in _genre == null ? Catalogue.families : [_genre!])
                         Padding(
-                          padding: const EdgeInsets.only(right: 6),
-                          child: FilterChip(
-                            label: Text(g),
+                          padding: const EdgeInsets.only(right: 2),
+                          child: GenreButton(
+                            g,
                             selected: g == _genre,
-                            onSelected: (on) => setState(() => _genre = on ? g : null),
+                            onPressed: () => setState(() => _genre = g == _genre ? null : g),
                           ),
                         ),
                     ],
