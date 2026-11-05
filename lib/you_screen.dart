@@ -60,8 +60,7 @@ class _YouScreenState extends State<YouScreen> {
   @override
   Widget build(BuildContext context) {
     final store = widget.store;
-    final theme = Theme.of(context);
-    final muted = theme.textTheme.bodySmall?.copyWith(color: theme.colorScheme.onSurfaceVariant);
+    final muted = AppType.bodySmall.copyWith(color: AppColors.of(context).textSecondary);
     return Scaffold(
       appBar: AppBar(title: const Text('You')),
       body: ListenableBuilder(

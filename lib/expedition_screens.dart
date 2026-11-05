@@ -547,13 +547,73 @@ class JourneyTrail extends StatefulWidget {
   State<JourneyTrail> createState() => _JourneyTrailState();
 }
 
-class _JourneyTrailState extends State<JourneyTrail> {
+class _JourneyTrailState extends State<JourneyTrail> with TickerProviderStateMixin {
   ScrollController? _scroll;
+
+  /// The travelled path grows towards the next stop after a rating is saved
+  /// (400 ms). It follows saved progress only, never the slider while it is
+  /// being dragged, and starts when the trail is on screen again.
+  late final _travel = AnimationController(vsync: this, duration: AppMotion.trail.duration)
+    ..value = 1;
+  late final _travelT = CurvedAnimation(parent: _travel, curve: AppMotion.trail.curve);
+  late int _current = _currentStop();
+  double _from = 0;
+
+  /// The final stop's check mark pops in once when the expedition completes.
+  late final _complete = AnimationController(
+    vsync: this,
+    duration: AppMotion.completeMoment.duration,
+    value: 1,
+  );
+  late bool _wasComplete = nextStop(store, widget.expedition) == null;
+
+  /// Whether a finger is on the trail; then it never scrolls by itself.
+  bool _touching = false;
 
   Store get store => widget.store;
 
+  int _currentStop() => nextStop(store, widget.expedition) ?? widget.expedition.stops.length - 1;
+
+  double get _travelled => _from + (_current - _from) * _travelT.value;
+
+  @override
+  void didUpdateWidget(JourneyTrail old) {
+    super.didUpdateWidget(old);
+    final current = _currentStop();
+    final complete = nextStop(store, widget.expedition) == null;
+    final reduced = AppMotion.reduced(context);
+    if (current != _current) {
+      _from = _travelled;
+      _current = current;
+      if (reduced) {
+        _travel.value = 1;
+      } else {
+        _travel.forward(from: 0);
+        _revealCurrent = true;
+      }
+    }
+    if (complete && !_wasComplete && !reduced) _complete.forward(from: 0);
+    _wasComplete = complete;
+  }
+
+  /// Set when progress moved, so the next layout can bring the new stop into
+  /// view if it is off screen.
+  bool _revealCurrent = false;
+
+  void _reveal(double left, double size, double viewport) {
+    _revealCurrent = false;
+    final scroll = _scroll;
+    if (scroll == null || !scroll.hasClients || _touching) return;
+    final pos = scroll.position;
+    if (left >= pos.pixels && left + size <= pos.pixels + viewport) return; // already visible
+    final target = (left + size / 2 - viewport / 2).clamp(0.0, pos.maxScrollExtent);
+    scroll.animateTo(target, duration: AppMotion.trail.duration, curve: AppMotion.trail.curve);
+  }
+
   @override
   void dispose() {
+    _travel.dispose();
+    _complete.dispose();
     _scroll?.dispose();
     super.dispose();
   }
@@ -604,39 +664,73 @@ class _JourneyTrailState extends State<JourneyTrail> {
           ),
         );
 
-        return SingleChildScrollView(
-          controller: _scroll,
-          scrollDirection: Axis.horizontal,
-          child: SizedBox(
-            width: width,
-            height: height,
-            child: Stack(
-              children: [
-                Positioned.fill(
-                  child: CustomPaint(
-                    painter: _TrailPainter(
-                      points: centres,
-                      travelled: current,
-                      color: AppColors.of(context).progressFill,
-                      faded: AppColors.of(context).lineFunctional,
+        if (_revealCurrent) {
+          WidgetsBinding.instance.addPostFrameCallback(
+            (_) => _reveal(lefts[current], sizes[current], box.maxWidth),
+          );
+        }
+        final motion = AppMotion.trail.resolve(context);
+
+        return Listener(
+          onPointerDown: (_) => _touching = true,
+          onPointerUp: (_) => _touching = false,
+          onPointerCancel: (_) => _touching = false,
+          child: SingleChildScrollView(
+            controller: _scroll,
+            scrollDirection: Axis.horizontal,
+            child: SizedBox(
+              width: width,
+              height: height,
+              child: Stack(
+                children: [
+                  Positioned.fill(
+                    // Only the path repaints while it grows.
+                    child: RepaintBoundary(
+                      child: AnimatedBuilder(
+                        animation: _travelT,
+                        builder: (context, _) => CustomPaint(
+                          painter: _TrailPainter(
+                            points: centres,
+                            travelled: _travelled,
+                            color: AppColors.of(context).progressFill,
+                            faded: AppColors.of(context).lineFunctional,
+                          ),
+                        ),
+                      ),
                     ),
                   ),
-                ),
-                for (var i = 0; i < n; i++)
-                  Positioned(
-                    left: lefts[i],
-                    top: tops[i],
-                    width: sizes[i],
-                    child: _stop(context, e, i, open, next),
-                  ),
-                // The next stop's label sits on its cover, where it's seen first.
-                if (next != null)
-                  Positioned(
-                    left: lefts[next] + AppSpace.md,
-                    top: tops[next] + AppSpace.md,
-                    child: const _NextStopLabel(),
-                  ),
-              ],
+                  for (var i = 0; i < n; i++)
+                    Positioned(
+                      left: lefts[i],
+                      top: tops[i],
+                      width: sizes[i],
+                      child: _stop(context, e, i, open, next),
+                    ),
+                  // The next stop's label sits on its cover, where it's seen
+                  // first, and travels along with the path to the new stop.
+                  if (next != null)
+                    AnimatedPositioned(
+                      duration: motion.duration,
+                      curve: motion.curve,
+                      left: lefts[next] + AppSpace.md,
+                      top: tops[next] + AppSpace.md,
+                      child: const _NextStopLabel(),
+                    ),
+                  // Expedition complete: a check on the final stop.
+                  if (next == null)
+                    Positioned(
+                      left: lefts[n - 1] + sizes[n - 1] - AppSizes.touchMin + AppSpace.xs,
+                      top: tops[n - 1] + sizes[n - 1] - AppSizes.touchMin + AppSpace.xs,
+                      child: ScaleTransition(
+                        scale: CurvedAnimation(
+                          parent: _complete,
+                          curve: AppMotion.completeMoment.curve,
+                        ),
+                        child: const _CompleteMark(),
+                      ),
+                    ),
+                ],
+              ),
             ),
           ),
         );
@@ -676,6 +770,30 @@ class _JourneyTrailState extends State<JourneyTrail> {
   }
 }
 
+/// The check on the final stop of a completed expedition.
+class _CompleteMark extends StatelessWidget {
+  const _CompleteMark();
+
+  @override
+  Widget build(BuildContext context) {
+    final c = AppColors.of(context);
+    return Semantics(
+      label: 'Expedition complete',
+      child: Container(
+        width: 36,
+        height: 36,
+        margin: const EdgeInsets.all(AppSpace.xs),
+        decoration: BoxDecoration(
+          color: c.success,
+          shape: BoxShape.circle,
+          border: Border.all(color: c.page, width: AppSizes.indicatorBorderWidth),
+        ),
+        child: Icon(Icons.check, size: AppIconSizes.regular, color: c.page),
+      ),
+    );
+  }
+}
+
 /// "Next stop" pill on the highlighted stop's cover.
 class _NextStopLabel extends StatelessWidget {
   const _NextStopLabel();
@@ -702,7 +820,10 @@ class _NextStopLabel extends StatelessWidget {
 
 class _TrailPainter extends CustomPainter {
   final List<Offset> points;
-  final int travelled; // segments before this stop index are solid
+
+  /// How far along the stops the solid path reaches: 2 means up to stop 3;
+  /// 2.5 means halfway from stop 3 to stop 4 (while it grows).
+  final double travelled;
   final Color color, faded;
   _TrailPainter({
     required this.points,
@@ -722,16 +843,25 @@ class _TrailPainter extends CustomPainter {
       ..strokeWidth = 3
       ..strokeCap = StrokeCap.round;
     for (var i = 0; i + 1 < points.length; i++) {
-      if (i + 1 <= travelled) {
+      final reach = travelled - i; // 1 or more: the whole segment is travelled
+      if (reach >= 1) {
         canvas.drawLine(points[i], points[i + 1], solid);
-      } else {
-        drawDashedLine(canvas, points[i], points[i + 1], dashed);
+        continue;
+      }
+      drawDashedLine(canvas, points[i], points[i + 1], dashed);
+      if (reach > 0) {
+        canvas.drawLine(points[i], Offset.lerp(points[i], points[i + 1], reach)!, solid);
       }
     }
   }
 
   @override
-  bool shouldRepaint(_TrailPainter old) => true;
+  bool shouldRepaint(_TrailPainter old) =>
+      old.travelled != travelled ||
+      old.color != color ||
+      old.faded != faded ||
+      old.points.length != points.length ||
+      [for (var i = 0; i < points.length; i++) old.points[i] != points[i]].any((d) => d);
 }
 
 // ---------------------------------------------------------------- Create and edit

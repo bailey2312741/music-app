@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 
 import '../tokens/app_colors.dart';
+import '../tokens/motion.dart';
 import '../tokens/spacing.dart';
 
 /// Expedition progress: one equal segment per stop, rated stops filled mint.
@@ -13,6 +14,7 @@ class SegmentedProgress extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final c = AppColors.of(context);
+    final motion = AppMotion.trail.resolve(context);
     return Semantics(
       label: semanticLabel ?? '$done of $total albums rated',
       excludeSemantics: true,
@@ -25,7 +27,10 @@ class SegmentedProgress extends StatelessWidget {
             for (var i = 0; i < total; i++) ...[
               if (i > 0) const SizedBox(width: 3),
               Expanded(
-                child: DecoratedBox(
+                // A newly rated stop fills in; an unchanged bar never replays.
+                child: AnimatedContainer(
+                  duration: motion.duration,
+                  curve: motion.curve,
                   decoration: BoxDecoration(
                     color: i < done ? c.progressFill : c.progressTrack,
                     borderRadius: BorderRadius.circular(AppSizes.progressTrackHeight / 2),

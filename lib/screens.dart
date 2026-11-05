@@ -7,4 +7,4 @@ export 'search_screen.dart';
 export 'widgets.dart' show fmt;
 export 'you_screen.dart';
 
-const appVersion = '0.8';
+const appVersion = '0.9';
