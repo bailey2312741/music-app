@@ -421,6 +421,7 @@ void main() {
     // You tab, with the Rated list.
     await t.tap(find.text('You').first);
     await t.pumpAndSettle();
+    await t.scrollUntilVisible(find.text('Rated (1)'), 200);
     expect(find.text('Rated (1)'), findsOneWidget);
   });
 

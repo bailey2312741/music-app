@@ -30,6 +30,7 @@ class _YouScreenState extends State<YouScreen> {
   _Section _section = _Section.rated;
   SortOrder? _sort;
   bool _editingName = false;
+  bool _editingRange = false;
   final _scroll = ScrollController();
   late final _name = TextEditingController(text: widget.store.nickname);
 
@@ -75,24 +76,40 @@ class _YouScreenState extends State<YouScreen> {
             controller: _scroll,
             slivers: [
               SliverPadding(
-                padding: const EdgeInsets.fromLTRB(20, 0, 20, 0),
+                padding: const EdgeInsets.symmetric(horizontal: AppSpace.gutter),
                 sliver: SliverList.list(
                   children: [
                     _nickname(context),
-                    // Real, unique usernames need online accounts, so this is a placeholder.
-                    Text('@username', style: muted),
-                    const SizedBox(height: 20),
-                    const SectionHeader('Your Range', padding: EdgeInsets.zero),
-                    Text('Up to five favourites. Harder albums stand taller.', style: muted),
-                    const SizedBox(height: 12),
-                    RangeSkyline(store: store),
-                    const SizedBox(height: 8),
+                    SectionHeader(
+                      'Your Range',
+                      padding: const EdgeInsets.only(top: AppSpace.sm),
+                      // A visible way to remove peaks, besides press and hold.
+                      trailing: store.range.every((a) => a == null)
+                          ? null
+                          : TextButton(
+                              onPressed: () => setState(() => _editingRange = !_editingRange),
+                              child: Text(_editingRange ? 'Done' : 'Edit'),
+                            ),
+                    ),
                     Text(
-                      'Tap an empty slot to add one of your rated albums. '
-                      'Press and hold a peak to remove it.',
+                      'Up to five favourites. Harder listening stages stand taller.',
                       style: muted,
                     ),
-                    const SizedBox(height: 20),
+                    const SizedBox(height: AppSpace.md),
+                    RangeSkyline(
+                      store: store,
+                      editing: _editingRange && store.range.any((a) => a != null),
+                    ),
+                    const SizedBox(height: AppSpace.md),
+                    Text(
+                      store.range.every((a) => a == null)
+                          ? 'Tap + to add one of your rated albums.'
+                          : _editingRange
+                          ? 'Tap a cover to remove it. You can undo.'
+                          : 'Tap a cover to open it. Press and hold, or use Edit, to remove it.',
+                      style: muted,
+                    ),
+                    const SizedBox(height: AppSpace.xl),
                     SegmentedButton<_Section>(
                       showSelectedIcon: false,
                       segments: [
@@ -121,7 +138,12 @@ class _YouScreenState extends State<YouScreen> {
               if (_section != _Section.reviews) ...[
                 SliverToBoxAdapter(
                   child: Padding(
-                    padding: const EdgeInsets.fromLTRB(16, 4, 8, 0),
+                    padding: const EdgeInsets.fromLTRB(
+                      AppSpace.gutter,
+                      AppSpace.xs,
+                      AppSpace.sm,
+                      0,
+                    ),
                     child: Row(
                       children: [
                         Expanded(
@@ -163,7 +185,12 @@ class _YouScreenState extends State<YouScreen> {
               ],
               SliverToBoxAdapter(
                 child: Padding(
-                  padding: const EdgeInsets.fromLTRB(4, 16, 4, 24),
+                  padding: const EdgeInsets.fromLTRB(
+                    AppSpace.xs,
+                    AppSpace.lg,
+                    AppSpace.xs,
+                    AppSpace.xl,
+                  ),
                   child: ListTile(
                     leading: const Icon(Icons.info_outline),
                     title: const Text('About this app'),
@@ -203,14 +230,15 @@ class _YouScreenState extends State<YouScreen> {
         Flexible(
           child: Text(
             store.nickname.isEmpty ? 'Your nickname' : store.nickname,
-            style: theme.textTheme.headlineMedium?.copyWith(
-              fontWeight: FontWeight.bold,
-              color: store.nickname.isEmpty ? theme.colorScheme.onSurfaceVariant : null,
+            style: AppType.screenTitle.copyWith(
+              color: store.nickname.isEmpty
+                  ? AppColors.of(context).textTertiary
+                  : AppColors.of(context).textPrimary,
             ),
           ),
         ),
         IconButton(
-          icon: const Icon(Icons.edit_outlined, size: 18),
+          icon: const Icon(Icons.edit_outlined, size: AppIconSizes.regular),
           tooltip: 'Edit nickname',
           color: theme.colorScheme.onSurfaceVariant,
           onPressed: () => setState(() {
@@ -304,7 +332,12 @@ class _RangePickerScreenState extends State<RangePickerScreen> {
         slivers: [
           SliverToBoxAdapter(
             child: Padding(
-              padding: const EdgeInsets.fromLTRB(12, 4, 12, 4),
+              padding: const EdgeInsets.fromLTRB(
+                AppSpace.gutter,
+                AppSpace.xs,
+                AppSpace.gutter,
+                AppSpace.sm,
+              ),
               child: SearchBar(
                 hintText: 'Search your rated albums',
                 leading: const Icon(Icons.search),
@@ -313,6 +346,14 @@ class _RangePickerScreenState extends State<RangePickerScreen> {
               ),
             ),
           ),
+          if (rated.isNotEmpty)
+            SliverToBoxAdapter(
+              child: SectionHeader(
+                q.isEmpty ? 'Your rated albums' : 'Matches',
+                count: rated.length,
+                padding: const EdgeInsets.symmetric(horizontal: AppSpace.gutter),
+              ),
+            ),
           if (rated.isEmpty)
             SliverToBoxAdapter(
               child: EmptyState(
