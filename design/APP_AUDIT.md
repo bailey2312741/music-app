@@ -43,7 +43,7 @@ Screenshots of every v0.8 screen (phone width, with placeholder gradient covers 
 
 **What the app is.** Expeditions is an Android-first (also web) app for rating albums and songs from 0 to 10 in half steps, discovering albums through search, genre rows and charts, and following "expeditions": short guided journeys of 3 to 6 albums drawn as a trail. Each album can carry a listening **difficulty** in four named levels (Base Camp, Foothills, High Altitude, Summit), shown as words and icons, never numbers, so it is not confused with quality. A profile ("You") shows **Your Range**, five favourite albums drawn as a mountain skyline, plus rated albums, a Listen later list and reviews.
 
-**How it is built.** Flutter 3.47.9 (Dart), Material 3 widgets, `go_router` for navigation with three persistent tabs, `shared_preferences` for on-device storage, a bundled 2.2 MB catalogue of about 10,000 albums, and live MusicBrainz look-ups for tracklists. There is no backend yet; accounts and shared ratings are planned for later (Supabase was recommended).
+**How it is built.** Flutter 3.47.9 (Dart), Material 3 widgets, `go_router` for navigation with three persistent tabs, `shared_preferences` for on-device storage, a bundled 2.2 MB catalogue of 9,120 albums, and live MusicBrainz look-ups for tracklists. There is no backend yet; accounts and shared ratings are planned for later (Supabase was recommended).
 
 **State of the design.** Functionally the app is in good shape after eight rounds of usability fixes (fixed rating bar, Undo instead of confirmations, 44 px targets on key controls, tab bar on every page, correct back behaviour). Visually it is **stock Material 3**: one line of theme code (`ThemeData(colorSchemeSeed: Colors.teal)` in `lib/main.dart`), the default Roboto font, default Material icons, the default Flutter launcher icon and a white splash screen. The brand colours (`#172C2B`, `#F3F0E7`) do not appear anywhere in the code. The app is still called "Music App" on the phone and "music_app" in the browser tab. A previous visual audit (3 November) scored the look 4/10.
 
@@ -163,7 +163,7 @@ Only Flutter's Material widgets. Custom shared components are listed in section 
 
 **Performance**
 
-- **Observed:** Discover rebuilds all 12 genre rows on any store change (rating, bookmark), and each row filters the full 10,000-album list (`Catalogue.inGenre`, `lib/catalogue.dart`; `_genreRows`, `lib/search_screen.dart`). `chartChips()` scans every album on each build (`lib/charts.dart`). Not visibly slow today, but animations amplify the cost of rebuilds. **Recommendation:** cache genre lists and chart chips once after loading; listen to the store only where ratings are shown.
+- **Observed:** Discover rebuilds all 12 genre rows on any store change (rating, bookmark), and each row filters the full 9,120-album list (`Catalogue.inGenre`, `lib/catalogue.dart`; `_genreRows`, `lib/search_screen.dart`). `chartChips()` scans every album on each build (`lib/charts.dart`). Not visibly slow today, but animations amplify the cost of rebuilds. **Recommendation:** cache genre lists and chart chips once after loading; listen to the store only where ratings are shown.
 - **Observed:** the 2.2 MB catalogue is parsed on the main thread before the first frame (`lib/main.dart`, `Catalogue.load`), behind a white splash. **Recommendation:** a branded native splash (cheap) and optionally parse in a background isolate.
 - **Observed:** `shouldRepaint` always returns true for the skyline and trail painters. Cheap now, but they will repaint every frame during any animation. Minor fix during the motion phase.
 - **Good:** covers are decoded at small sizes (`memCacheWidth` 250 or 500) and cached on disk.
@@ -317,7 +317,7 @@ Fourteen routed screens, plus two overlays that act like screens (track rating s
 - **File:** `lib/you_screen.dart` (`AboutScreen`)
 - **Route:** `/you/about`
 - **Layout:** long text page: difficulty levels (list with icons), ratings, expeditions, Listen later and Your Range, charts, data sources, version.
-- **Problems:** wall of text; says "about 9,000" albums while the library has 10,054 (content bug, not a design issue).
+- **Problems:** wall of text with no visual structure.
 
 ### 3.14 Missing page
 
