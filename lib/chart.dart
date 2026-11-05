@@ -14,74 +14,57 @@ List<int> ratingBuckets(Iterable<double> ratings) {
 }
 
 /// The rating spread drawn as a mountain range: one peak per score, as tall as
-/// the number of ratings it got. The highest peak has snow and a flag.
-/// "Test" fills it with made-up ratings to preview the look (temporary).
-class MountainChart extends StatefulWidget {
+/// the number of ratings it got. The highest peak has snow and a flag. With no
+/// ratings yet it shows a short empty message instead of an empty chart.
+class MountainChart extends StatelessWidget {
   final List<int> counts; // 11 values, for scores 0..10
   const MountainChart({super.key, required this.counts});
 
-  @override
-  State<MountainChart> createState() => _MountainChartState();
-}
-
-class _MountainChartState extends State<MountainChart> {
-  List<int>? _test;
-
-  void _randomise() {
-    final rnd = Random();
-    final centre = 4 + rnd.nextDouble() * 4.5;
-    final spread = 1.2 + rnd.nextDouble() * 1.8;
-    setState(() {
-      _test = [
-        for (var i = 0; i <= 10; i++)
-          (exp(-pow(i - centre, 2) / (2 * spread * spread)) * (60 + rnd.nextInt(140)) +
-                  rnd.nextInt(12))
-              .round(),
-      ];
-    });
+  /// What a screen reader hears: the real counts, highest first.
+  String get semanticLabel {
+    final total = counts.fold<int>(0, (a, b) => a + b);
+    final scores = [
+      for (var i = 10; i >= 0; i--)
+        if (counts[i] > 0) '${counts[i]} at $i',
+    ];
+    return 'Rating spread, $total ${total == 1 ? 'rating' : 'ratings'}: ${scores.join(', ')}';
   }
 
   @override
   Widget build(BuildContext context) {
-    final theme = Theme.of(context);
-    final counts = _test ?? widget.counts;
+    final c = AppColors.of(context);
     final total = counts.fold<int>(0, (a, b) => a + b);
     return Column(
       crossAxisAlignment: CrossAxisAlignment.stretch,
       children: [
-        Row(
-          children: [
-            Expanded(child: Text('Rating spread', style: theme.textTheme.titleMedium)),
-            if (_test != null)
-              TextButton(onPressed: () => setState(() => _test = null), child: const Text('Real')),
-            OutlinedButton(onPressed: _randomise, child: const Text('Test')),
-          ],
-        ),
-        Text(
-          _test != null
-              ? 'Test data: $total made-up ratings'
-              : total == 0
-              ? 'No ratings yet'
-              : '$total ${total == 1 ? 'rating' : 'ratings'}',
-          style: theme.textTheme.bodySmall,
-        ),
-        const SizedBox(height: 8),
-        SizedBox(
-          height: 170,
-          child: ClipRect(
-            child: CustomPaint(
-              painter: _MountainPainter(
-                counts,
-                shadow: AppColors.of(context).mountainShadow,
-                rock: AppColors.of(context).mountainLit,
-                snow: AppColors.of(context).snowCap,
-                text: AppColors.of(context).textSecondary,
-                flag: AppColors.of(context).warning,
-                ground: AppColors.of(context).lineDecorative,
+        SectionHeader('Rating spread', count: total == 0 ? null : total, padding: EdgeInsets.zero),
+        if (total == 0)
+          const EmptyState(
+            icon: Icons.landscape_outlined,
+            message: 'No ratings yet. Use the bar at the bottom to add yours.',
+          )
+        else
+          Semantics(
+            container: true,
+            label: semanticLabel,
+            excludeSemantics: true,
+            child: SizedBox(
+              height: 170,
+              child: ClipRect(
+                child: CustomPaint(
+                  painter: _MountainPainter(
+                    counts,
+                    shadow: c.mountainShadow,
+                    rock: c.mountainLit,
+                    snow: c.snowCap,
+                    text: c.textSecondary,
+                    flag: c.warning,
+                    ground: c.lineDecorative,
+                  ),
+                ),
               ),
             ),
           ),
-        ),
       ],
     );
   }
