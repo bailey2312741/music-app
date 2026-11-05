@@ -78,11 +78,23 @@ class ArtistButton extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final known = Catalogue.byArtist(artist).isNotEmpty;
-    return ActionChip(
-      avatar: ArtistAvatar(image: Catalogue.artistImage(artist), size: 24),
-      label: Text(artist, overflow: TextOverflow.ellipsis),
-      visualDensity: VisualDensity.compact,
+    final c = AppColors.of(context);
+    // A text link with the artist's small picture. Long names wrap rather
+    // than being cut off.
+    return TextButton.icon(
+      style: TextButton.styleFrom(
+        foregroundColor: c.textPrimary,
+        disabledForegroundColor: c.textSecondary,
+        padding: const EdgeInsets.symmetric(horizontal: AppSpace.md, vertical: AppSpace.xs),
+      ),
       onPressed: known ? () => openArtist(context, artist) : null,
+      icon: ArtistAvatar(image: Catalogue.artistImage(artist), size: 24),
+      label: Text(
+        artist,
+        textAlign: TextAlign.center,
+        semanticsLabel: known ? 'Artist: $artist. Open artist page' : 'Artist: $artist',
+        style: AppType.cardTitle,
+      ),
     );
   }
 }

@@ -26,28 +26,41 @@ class SectionHeader extends StatelessWidget {
       padding: padding,
       child: ConstrainedBox(
         constraints: const BoxConstraints(minHeight: AppSizes.touchMin),
-        child: Row(
-          children: [
-            Expanded(
-              child: Semantics(
-                header: true,
-                child: Text.rich(
-                  TextSpan(
-                    text: title,
-                    children: [
-                      if (count != null)
-                        TextSpan(
-                          text: '  $count',
-                          style: AppType.bodySmall.copyWith(color: c.textTertiary),
-                        ),
-                    ],
+        // Title left, action right; with large text the action drops onto
+        // its own line instead of squeezing the title.
+        child: SizedBox(
+          width: double.infinity,
+          child: Wrap(
+            alignment: WrapAlignment.spaceBetween,
+            crossAxisAlignment: WrapCrossAlignment.center,
+            children: [
+              ConstrainedBox(
+                constraints: const BoxConstraints(minHeight: AppSizes.touchMin),
+                child: Align(
+                  alignment: Alignment.centerLeft,
+                  widthFactor: 1,
+                  heightFactor: 1,
+                  child: Semantics(
+                    header: true,
+                    child: Text.rich(
+                      TextSpan(
+                        text: title,
+                        children: [
+                          if (count != null)
+                            TextSpan(
+                              text: '  $count',
+                              style: AppType.bodySmall.copyWith(color: c.textTertiary),
+                            ),
+                        ],
+                      ),
+                      style: AppType.sectionTitle.copyWith(color: c.textPrimary),
+                    ),
                   ),
-                  style: AppType.sectionTitle.copyWith(color: c.textPrimary),
                 ),
               ),
-            ),
-            ?trailing,
-          ],
+              ?trailing,
+            ],
+          ),
         ),
       ),
     );
