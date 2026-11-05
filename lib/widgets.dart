@@ -2,64 +2,94 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/foundation.dart' show kIsWeb;
 import 'package:flutter/material.dart';
 
+import 'design/design.dart';
 import 'difficulty.dart';
 import 'models.dart';
 
 /// Formats a rating without a trailing ".0".
-String fmt(double v) => v == v.roundToDouble() ? v.toStringAsFixed(0) : v.toStringAsFixed(1);
+String fmt(double v) => formatScore(v);
 
 /// A picture from the internet. On the phone it's saved after the first load,
 /// so it shows instantly next time; [decodeWidth] keeps small pictures small in memory.
+///
+/// The [placeholder] shows until the picture arrives, then the picture fades
+/// in over it (instantly when the system asks for reduced motion).
 Widget netImage(
   String url, {
   required Widget placeholder,
   BoxFit fit = BoxFit.cover,
   Alignment alignment = Alignment.center,
   int? decodeWidth,
-}) {
-  if (kIsWeb) {
-    // The browser keeps its own copy. Fall back to a plain <img> if the cover
-    // host blocks cross-origin requests, so covers still show.
-    return Image.network(
-      url,
+}) => _NetImage(url, placeholder, fit, alignment, decodeWidth);
+
+class _NetImage extends StatelessWidget {
+  final String url;
+  final Widget placeholder;
+  final BoxFit fit;
+  final Alignment alignment;
+  final int? decodeWidth;
+  const _NetImage(this.url, this.placeholder, this.fit, this.alignment, this.decodeWidth);
+
+  @override
+  Widget build(BuildContext context) {
+    final reveal = AppMotion.coverReveal.resolve(context);
+    if (kIsWeb) {
+      // The browser keeps its own copy. Fall back to a plain <img> if the cover
+      // host blocks cross-origin requests, so covers still show.
+      return Stack(
+        fit: StackFit.expand,
+        children: [
+          placeholder,
+          Image.network(
+            url,
+            fit: fit,
+            alignment: alignment,
+            webHtmlElementStrategy: WebHtmlElementStrategy.fallback,
+            errorBuilder: (_, _, _) => const SizedBox.shrink(),
+            frameBuilder: (_, child, frame, wasSynchronouslyLoaded) => wasSynchronouslyLoaded
+                ? child
+                : AnimatedOpacity(
+                    opacity: frame == null ? 0 : 1,
+                    duration: reveal.duration,
+                    curve: reveal.curve,
+                    child: child,
+                  ),
+          ),
+        ],
+      );
+    }
+    return CachedNetworkImage(
+      imageUrl: url,
       fit: fit,
       alignment: alignment,
-      webHtmlElementStrategy: WebHtmlElementStrategy.fallback,
-      errorBuilder: (_, _, _) => placeholder,
-      loadingBuilder: (_, child, progress) => progress == null ? child : placeholder,
+      memCacheWidth: decodeWidth,
+      fadeInDuration: reveal.duration,
+      fadeInCurve: reveal.curve,
+      fadeOutDuration: Duration.zero,
+      placeholder: (_, _) => placeholder,
+      errorWidget: (_, _, _) => placeholder,
     );
   }
-  return CachedNetworkImage(
-    imageUrl: url,
-    fit: fit,
-    alignment: alignment,
-    memCacheWidth: decodeWidth,
-    fadeInDuration: Duration.zero,
-    fadeOutDuration: Duration.zero,
-    placeholder: (_, _) => placeholder,
-    errorWidget: (_, _, _) => placeholder,
-  );
 }
 
-/// Square album cover with a placeholder while loading or when missing.
+/// Square album cover with an on-brand placeholder while loading or when missing.
 class Cover extends StatelessWidget {
   final Album album;
   final double? size; // null = fill the available width
   final double radius;
   final bool large;
-  const Cover({super.key, required this.album, this.size, this.radius = 8, this.large = false});
+  const Cover({
+    super.key,
+    required this.album,
+    this.size,
+    this.radius = AppRadii.cover,
+    this.large = false,
+  });
 
   @override
   Widget build(BuildContext context) {
-    final placeholder = Container(
-      color: Theme.of(context).colorScheme.surfaceContainerHighest,
-      alignment: Alignment.center,
-      child: Icon(
-        Icons.album,
-        size: (size ?? 100) / 2.5,
-        color: Theme.of(context).colorScheme.onSurfaceVariant,
-      ),
-    );
+    const placeholder = CoverPlaceholder();
+    final url = album.coverUrl(large: large);
     return SizedBox(
       width: size,
       height: size,
@@ -67,13 +97,9 @@ class Cover extends StatelessWidget {
         aspectRatio: 1,
         child: ClipRRect(
           borderRadius: BorderRadius.circular(radius),
-          child: album.coverUrl(large: large).isEmpty
+          child: url.isEmpty
               ? placeholder
-              : netImage(
-                  album.coverUrl(large: large),
-                  placeholder: placeholder,
-                  decodeWidth: large ? 500 : 250,
-                ),
+              : netImage(url, placeholder: placeholder, decodeWidth: large ? 500 : 250),
         ),
       ),
     );
@@ -81,13 +107,17 @@ class Cover extends StatelessWidget {
 }
 
 /// Portrait album card: square cover on top, title and artist below.
-/// Shows the user's rating as a badge on the cover, or a tick when [done].
+///
+/// Only two things sit on the artwork: the Listen-later bookmark (top right)
+/// and the user's rating (bottom right). A position number goes before the
+/// title, and a release type other than Studio goes after the artist. The
+/// card's height comes from [AlbumCardMetrics], so a grid never clips it.
 class AlbumCard extends StatelessWidget {
   final Album album;
   final double? rating;
   final String? caption; // e.g. "Next stop"
   final bool highlight;
-  final int? number; // position in an expedition
+  final int? number; // chart position or expedition stop
   final Difficulty? difficulty;
   final bool locked; // greyed out with a lock until the stop before is rated
   final VoidCallback? onTap;
@@ -110,184 +140,159 @@ class AlbumCard extends StatelessWidget {
     this.onListenLater,
   });
 
+  /// What a screen reader says for the card.
+  String get semanticLabel {
+    final parts = [
+      if (number != null) 'Number $number',
+      album.title,
+      album.artist,
+      if (album.type != null && album.type != 'Studio') album.type!,
+      rating == null ? 'not rated' : 'your rating ${formatScore(rating!)} out of 10',
+      if (difficulty != null) 'listening stage ${difficulty!.label}',
+      if (locked) 'locked until the stop before is rated',
+      ?caption,
+    ];
+    return parts.join(', ');
+  }
+
   @override
   Widget build(BuildContext context) {
-    final theme = Theme.of(context);
-    final scheme = theme.colorScheme;
-    return _Hover(
-      builder: (context, hovered) => Material(
-        color: highlight ? scheme.primaryContainer : Colors.transparent,
-        borderRadius: BorderRadius.circular(12),
-        child: InkWell(
-          borderRadius: BorderRadius.circular(12),
-          onTap: onTap,
-          // On phones (no hover), press and hold to add to Listen later.
-          onLongPress: onListenLater,
-          child: Padding(
-            padding: const EdgeInsets.all(6),
-            // Locked albums stay visible but greyed out, with a lock on the cover.
-            child: Opacity(
-              opacity: locked ? 0.4 : 1,
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Stack(
-                    children: [
-                      Cover(album: album),
-                      if (locked)
-                        const Positioned.fill(child: Center(child: Icon(Icons.lock, size: 30))),
-                      if (number != null)
-                        Positioned(
-                          left: 6,
-                          top: 6,
-                          child: _Badge('$number', scheme.surface, scheme.onSurface),
-                        ),
-                      // Anything other than a studio album says what it is (EP, Live...).
-                      if (album.type != null && album.type != 'Studio')
-                        Positioned(
-                          left: 6,
-                          bottom: 6,
-                          child: _Badge(album.type!, scheme.surface, scheme.onSurface, small: true),
-                        ),
-                      if (rating != null)
-                        Positioned(
-                          right: 6,
-                          bottom: 6,
-                          child: _Badge(fmt(rating!), scheme.primary, scheme.onPrimary),
-                        ),
-                      // Listen-later bookmark on every card. The visible circle is
-                      // small, but the tap area is 44 px.
-                      if (listenLater != null && !locked)
-                        Positioned(
-                          right: 0,
-                          top: 0,
-                          child: Semantics(
-                            button: true,
-                            label: listenLater! ? 'Remove from Listen later' : 'Listen later',
-                            child: GestureDetector(
-                              behavior: HitTestBehavior.opaque,
-                              onTap: onListenLater,
-                              child: SizedBox(
-                                width: 44,
-                                height: 44,
-                                child: Center(
-                                  child: Container(
-                                    padding: const EdgeInsets.all(4),
-                                    decoration: BoxDecoration(
-                                      color: scheme.surface.withValues(
-                                        alpha: hovered || listenLater! ? 0.92 : 0.75,
-                                      ),
-                                      shape: BoxShape.circle,
-                                    ),
-                                    child: Icon(
-                                      listenLater! ? Icons.bookmark : Icons.bookmark_add_outlined,
-                                      size: 18,
-                                      color: scheme.primary,
-                                    ),
-                                  ),
-                                ),
-                              ),
-                            ),
-                          ),
-                        ),
-                    ],
+    final c = AppColors.of(context);
+    final type = album.type != null && album.type != 'Studio' ? album.type : null;
+    final title = Text.rich(
+      TextSpan(
+        children: [
+          if (number != null) ...[
+            // The title already scales this badge with the text size, so the
+            // badge itself must not scale again.
+            WidgetSpan(
+              alignment: PlaceholderAlignment.middle,
+              child: MediaQuery.withNoTextScaling(child: RankBadge(number!)),
+            ),
+            const TextSpan(text: ' '),
+          ],
+          TextSpan(text: album.title),
+        ],
+      ),
+      maxLines: 2,
+      overflow: TextOverflow.ellipsis,
+      style: AppType.cardTitle.copyWith(color: c.textPrimary),
+    );
+    final content = Column(
+      crossAxisAlignment: CrossAxisAlignment.stretch,
+      children: [
+        Stack(
+          children: [
+            Cover(album: album),
+            if (locked)
+              Positioned.fill(
+                child: Center(
+                  child: Container(
+                    width: 40,
+                    height: 40,
+                    decoration: BoxDecoration(color: c.chrome, shape: BoxShape.circle),
+                    child: Icon(Icons.lock, size: AppIconSizes.regular, color: c.lockedText),
                   ),
-                  const SizedBox(height: 6),
-                  Text(
-                    album.title,
-                    maxLines: 2,
-                    overflow: TextOverflow.ellipsis,
-                    style: theme.textTheme.bodyMedium?.copyWith(
-                      fontWeight: FontWeight.w600,
-                      height: 1.2,
-                    ),
-                  ),
-                  const SizedBox(height: 2),
-                  Text(
-                    album.artist,
-                    maxLines: 1,
-                    overflow: TextOverflow.ellipsis,
-                    style: theme.textTheme.bodySmall?.copyWith(color: scheme.onSurfaceVariant),
-                  ),
-                  if (difficulty != null) ...[
-                    const SizedBox(height: 4),
-                    GestureDetector(
-                      onTap: () => explainDifficulty(context, difficulty!),
-                      child: DifficultyTag(difficulty, small: true),
-                    ),
-                  ],
-                  if (caption != null) ...[
-                    const SizedBox(height: 2),
-                    Text(
-                      caption!,
-                      style: theme.textTheme.labelSmall?.copyWith(
-                        color: scheme.primary,
-                        fontWeight: FontWeight.bold,
-                      ),
-                    ),
-                  ],
-                ],
+                ),
+              ),
+            if (rating != null)
+              Positioned(
+                right: AppSpace.sm - 2,
+                bottom: AppSpace.sm - 2,
+                child: RatingBadge(rating!),
+              ),
+          ],
+        ),
+        const SizedBox(height: AlbumCardMetrics.coverGap),
+        ExcludeSemantics(
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              title,
+              const SizedBox(height: AppSpace.xxs),
+              Text(
+                type == null ? album.artist : '${album.artist} · $type',
+                maxLines: 1,
+                overflow: TextOverflow.ellipsis,
+                style: AppType.bodySmall.copyWith(color: c.textSecondary),
+              ),
+            ],
+          ),
+        ),
+        if (difficulty != null) ...[const SizedBox(height: AppSpace.xs), _StageRow(difficulty!)],
+        if (caption != null) ...[
+          const SizedBox(height: AppSpace.xxs),
+          ExcludeSemantics(
+            child: Text(
+              caption!,
+              maxLines: 1,
+              overflow: TextOverflow.ellipsis,
+              style: AppType.caption.copyWith(color: c.success, fontWeight: FontWeight.w600),
+            ),
+          ),
+        ],
+      ],
+    );
+    return Material(
+      color: highlight ? c.surfaceSelected : Colors.transparent,
+      borderRadius: BorderRadius.circular(AppRadii.card),
+      child: Stack(
+        children: [
+          Semantics(
+            button: true,
+            label: semanticLabel,
+            child: InkWell(
+              borderRadius: BorderRadius.circular(AppRadii.card),
+              onTap: onTap,
+              // On phones, press and hold to add to Listen later.
+              onLongPress: onListenLater,
+              child: Padding(
+                padding: EdgeInsets.all(highlight ? AppSpace.sm - 2 : 0),
+                // Locked albums stay visible but dimmed, with a lock on the cover.
+                child: Opacity(opacity: locked ? 0.45 : 1, child: content),
               ),
             ),
           ),
-        ),
+          if (listenLater != null && !locked)
+            Positioned(
+              right: highlight ? AppSpace.sm - 2 : 0,
+              top: highlight ? AppSpace.sm - 2 : 0,
+              child: BookmarkButton(saved: listenLater!, onPressed: onListenLater),
+            ),
+        ],
       ),
     );
   }
 }
 
-class _Badge extends StatelessWidget {
-  final String text;
-  final Color bg;
-  final Color fg;
-  final bool small;
-  const _Badge(this.text, this.bg, this.fg, {this.small = false});
+/// The small stage tag on a card. Tapping it explains the stage.
+class _StageRow extends StatelessWidget {
+  final Difficulty difficulty;
+  const _StageRow(this.difficulty);
 
   @override
-  Widget build(BuildContext context) => Container(
-    padding: EdgeInsets.symmetric(horizontal: small ? 5 : 7, vertical: small ? 2 : 3),
-    decoration: BoxDecoration(
-      color: bg.withValues(alpha: 0.92),
-      borderRadius: BorderRadius.circular(10),
-    ),
-    child: Text(
-      text,
-      style: TextStyle(color: fg, fontWeight: FontWeight.bold, fontSize: small ? 10 : 12),
+  Widget build(BuildContext context) => Align(
+    alignment: Alignment.centerLeft,
+    child: Semantics(
+      button: true,
+      label: 'Listening stage ${difficulty.label}. What does this mean?',
+      excludeSemantics: true,
+      onTap: () => explainDifficulty(context, difficulty),
+      child: InkWell(
+        onTap: () => explainDifficulty(context, difficulty),
+        customBorder: const StadiumBorder(),
+        child: ConstrainedBox(
+          constraints: const BoxConstraints(minHeight: AlbumCardMetrics.stageRowMin),
+          child: Align(
+            widthFactor: 1,
+            alignment: Alignment.centerLeft,
+            child: DifficultyTag(difficulty, small: true),
+          ),
+        ),
+      ),
     ),
   );
 }
-
-/// Grid of album cards, about three across on a phone.
-class AlbumGrid extends StatelessWidget {
-  final int itemCount;
-  final Widget Function(BuildContext, int) itemBuilder;
-  final bool shrinkWrap;
-  const AlbumGrid({
-    super.key,
-    required this.itemCount,
-    required this.itemBuilder,
-    this.shrinkWrap = false,
-  });
-
-  @override
-  Widget build(BuildContext context) => GridView.builder(
-    padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 8),
-    shrinkWrap: shrinkWrap,
-    physics: shrinkWrap ? const NeverScrollableScrollPhysics() : null,
-    gridDelegate: albumGridDelegate,
-    itemCount: itemCount,
-    itemBuilder: itemBuilder,
-  );
-}
-
-/// Shared layout for album grids: about three cards across on a phone.
-const albumGridDelegate = SliverGridDelegateWithMaxCrossAxisExtent(
-  maxCrossAxisExtent: 140,
-  // A little taller than v0.8 (0.56) so the brand fonts fit with a difficulty tag.
-  childAspectRatio: 0.53,
-  crossAxisSpacing: 4,
-  mainAxisSpacing: 4,
-);
 
 /// An expedition's picture: its first albums' covers stacked, first on top.
 class ExpeditionCover extends StatelessWidget {
@@ -322,26 +327,6 @@ class ExpeditionCover extends StatelessWidget {
       ),
     );
   }
-}
-
-/// Rebuilds its child with whether the mouse is over it (always false on touch).
-class _Hover extends StatefulWidget {
-  final Widget Function(BuildContext, bool hovered) builder;
-  const _Hover({required this.builder});
-
-  @override
-  State<_Hover> createState() => _HoverState();
-}
-
-class _HoverState extends State<_Hover> {
-  bool _hovered = false;
-
-  @override
-  Widget build(BuildContext context) => MouseRegion(
-    onEnter: (_) => setState(() => _hovered = true),
-    onExit: (_) => setState(() => _hovered = false),
-    child: widget.builder(context, _hovered),
-  );
 }
 
 /// Wide artist card: one of their covers fills the card, name over the image.

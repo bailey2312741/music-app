@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 
 import 'catalogue.dart';
+import 'design/design.dart';
 import 'expeditions.dart';
 import 'library_screen.dart';
 import 'models.dart';
@@ -83,10 +84,7 @@ class ChartScreen extends StatelessWidget {
                 ),
               if (albums.isEmpty)
                 const SliverToBoxAdapter(
-                  child: Padding(
-                    padding: EdgeInsets.all(32),
-                    child: Text('Nothing here yet.', textAlign: TextAlign.center),
-                  ),
+                  child: EmptyState(icon: Icons.leaderboard_outlined, message: 'Nothing here yet.'),
                 ),
               SliverAlbumGrid(albums: albums, store: store, numbered: true),
             ],

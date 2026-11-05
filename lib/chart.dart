@@ -2,6 +2,8 @@ import 'dart:math';
 
 import 'package:flutter/material.dart';
 
+import 'design/design.dart';
+
 /// Ratings 0 to 10 grouped into whole numbers (8.5 counts as 9).
 List<int> ratingBuckets(Iterable<double> ratings) {
   final counts = List<int>.filled(11, 0);
@@ -70,10 +72,12 @@ class _MountainChartState extends State<MountainChart> {
             child: CustomPaint(
               painter: _MountainPainter(
                 counts,
-                rock: theme.colorScheme.primary,
-                text: theme.colorScheme.onSurfaceVariant,
-                flag: Colors.red.shade600,
-                ground: theme.colorScheme.outlineVariant,
+                shadow: AppColors.of(context).mountainShadow,
+                rock: AppColors.of(context).mountainLit,
+                snow: AppColors.of(context).snowCap,
+                text: AppColors.of(context).textSecondary,
+                flag: AppColors.of(context).warning,
+                ground: AppColors.of(context).lineDecorative,
               ),
             ),
           ),
@@ -85,10 +89,12 @@ class _MountainChartState extends State<MountainChart> {
 
 class _MountainPainter extends CustomPainter {
   final List<int> counts;
-  final Color rock, text, flag, ground;
+  final Color shadow, rock, snow, text, flag, ground;
   _MountainPainter(
     this.counts, {
+    required this.shadow,
     required this.rock,
+    required this.snow,
     required this.text,
     required this.flag,
     required this.ground,
@@ -110,14 +116,15 @@ class _MountainPainter extends CustomPainter {
       final h = (base - top) * counts[i] / maxCount;
       final peak = Offset(x(i), base - h);
       final half = step * 0.55 + h * 0.35; // taller peaks have wider bases
-      final shade = 0.45 + 0.55 * counts[i] / maxCount;
+      final shade = 0.35 + 0.65 * counts[i] / maxCount;
       canvas.drawPath(
         Path()
           ..moveTo(peak.dx - half, base)
           ..lineTo(peak.dx, peak.dy)
           ..lineTo(peak.dx + half, base)
           ..close(),
-        Paint()..color = Color.lerp(Colors.white, rock, shade)!,
+        // Small peaks sit back in shadow; the more ratings, the more light.
+        Paint()..color = Color.lerp(shadow, rock, shade)!,
       );
       if (i == highest) {
         // Snow cap: the top quarter, with a jagged lower edge.
@@ -132,7 +139,7 @@ class _MountainPainter extends CustomPainter {
             ..lineTo(peak.dx - capW * 0.35, y - capH * 0.2)
             ..lineTo(peak.dx - capW, y)
             ..close(),
-          Paint()..color = Colors.white,
+          Paint()..color = snow,
         );
         // Flag on the summit.
         final poleTop = peak.translate(0, -28);
@@ -178,5 +185,6 @@ class _MountainPainter extends CustomPainter {
   }
 
   @override
-  bool shouldRepaint(_MountainPainter old) => old.counts != counts || old.rock != rock;
+  bool shouldRepaint(_MountainPainter old) =>
+      old.counts != counts || old.rock != rock || old.shadow != shadow;
 }

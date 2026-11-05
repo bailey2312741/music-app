@@ -5,7 +5,6 @@ import 'actions.dart';
 import 'catalogue.dart';
 import 'charts.dart';
 import 'design/design.dart';
-import 'expeditions.dart';
 import 'library_screen.dart';
 import 'models.dart';
 import 'nav.dart';
@@ -195,13 +194,11 @@ class _SearchScreenState extends State<SearchScreen> {
   List<Widget> _genreRows(BuildContext context) => [
     for (final g in Catalogue.families) ...[
       SliverToBoxAdapter(
-        child: Padding(
-          padding: const EdgeInsets.fromLTRB(16, 12, 4, 0),
-          child: Row(
-            children: [
-              Expanded(child: Text(g, style: Theme.of(context).textTheme.titleMedium)),
-              TextButton(onPressed: () => _openGenre(g), child: const Text('See all')),
-            ],
+        child: SectionHeader(
+          g,
+          trailing: TextButton(
+            onPressed: () => _openGenre(g),
+            child: Text('See all', semanticsLabel: 'See all $g'),
           ),
         ),
       ),
@@ -225,36 +222,25 @@ class _SearchScreenState extends State<SearchScreen> {
     final albums = _sort == null ? found : _sort!.apply(found, widget.store);
     return [
       SliverToBoxAdapter(
-        child: Padding(
-          padding: const EdgeInsets.fromLTRB(16, 10, 8, 0),
-          child: Row(
-            children: [
-              Expanded(
-                child: Text(
-                  'Albums (${albums.length})',
-                  style: Theme.of(context).textTheme.titleSmall,
-                ),
-              ),
-              SortButton(
-                value: _sort,
-                defaultLabel: _text.trim().isEmpty ? 'Most popular' : 'Best match',
-                onChanged: (v) => setState(() => _sort = v),
-              ),
-            ],
+        child: SectionHeader(
+          'Albums',
+          count: albums.length,
+          padding: const EdgeInsets.fromLTRB(AppSpace.lg, AppSpace.sm, AppSpace.xs, 0),
+          trailing: SortButton(
+            value: _sort,
+            defaultLabel: _text.trim().isEmpty ? 'Most popular' : 'Best match',
+            onChanged: (v) => setState(() => _sort = v),
           ),
         ),
       ),
       if (albums.isEmpty)
         SliverToBoxAdapter(
-          child: Padding(
-            padding: const EdgeInsets.all(24),
-            child: Text(
-              _ratedOnly
-                  ? 'None of your rated albums match.'
-                  : 'No albums match. The library has the ${Catalogue.albums.length} most '
-                        'popular albums for now.',
-              style: Theme.of(context).textTheme.bodyMedium,
-            ),
+          child: EmptyState(
+            icon: Icons.search_off,
+            message: _ratedOnly
+                ? 'None of your rated albums match.'
+                : 'No albums match. The library has the ${Catalogue.albums.length} most '
+                      'popular albums for now.',
           ),
         ),
       SliverAlbumGrid(albums: albums, store: widget.store, onTap: _tapAlbum),
@@ -263,9 +249,9 @@ class _SearchScreenState extends State<SearchScreen> {
 }
 
 Widget _heading(BuildContext context, String text) => SliverToBoxAdapter(
-  child: Padding(
-    padding: const EdgeInsets.fromLTRB(16, 10, 16, 6),
-    child: Text(text, style: Theme.of(context).textTheme.titleSmall),
+  child: SectionHeader(
+    text,
+    padding: const EdgeInsets.fromLTRB(AppSpace.lg, AppSpace.sm, AppSpace.lg, 0),
   ),
 );
 
@@ -280,7 +266,7 @@ class _ArtistRow extends StatelessWidget {
     height: 110,
     child: ListView.separated(
       scrollDirection: Axis.horizontal,
-      padding: const EdgeInsets.symmetric(horizontal: 12),
+      padding: const EdgeInsets.symmetric(horizontal: AppSpace.lg),
       itemCount: artists.length,
       separatorBuilder: (_, _) => const SizedBox(width: 8),
       itemBuilder: (context, i) => ArtistCard(
@@ -300,28 +286,41 @@ class AlbumRow extends StatelessWidget {
   final void Function(Album) onTap;
   const AlbumRow({super.key, required this.albums, required this.store, required this.onTap});
 
-  @override
-  Widget build(BuildContext context) => SizedBox(
-    height: 222, // fits a card with a difficulty tag in the brand fonts
+  /// Card width in a row: a little under the grid's, so the next card peeks in.
+  static const cardWidth = 116.0;
 
-    child: ListView.builder(
-      scrollDirection: Axis.horizontal,
-      padding: const EdgeInsets.symmetric(horizontal: 10),
-      itemCount: albums.length,
-      itemExtent: 130,
-      itemBuilder: (context, i) {
-        final a = albums[i];
-        return AlbumCard(
-          album: a,
-          rating: store.ratingOf(a.id),
-          difficulty: difficultyOf(store, a.id),
-          listenLater: store.isListenLater(a.id),
-          onListenLater: () => toggleListenLater(context, store, a),
-          onTap: () => onTap(a),
-        );
-      },
-    ),
-  );
+  @override
+  Widget build(BuildContext context) {
+    final staged = stagesById(store);
+    final stages = [for (final a in albums) staged[a.id]];
+    final metrics = AlbumCardMetrics(
+      textScaler: MediaQuery.textScalerOf(context),
+      withStage: stages.any((d) => d != null),
+    );
+    return SizedBox(
+      height: metrics.cardHeight(cardWidth),
+      child: ListView.separated(
+        scrollDirection: Axis.horizontal,
+        padding: const EdgeInsets.symmetric(horizontal: AppSizes.gridPageGutter),
+        itemCount: albums.length,
+        separatorBuilder: (_, _) => const SizedBox(width: AlbumCardMetrics.gap),
+        itemBuilder: (context, i) {
+          final a = albums[i];
+          return SizedBox(
+            width: cardWidth,
+            child: AlbumCard(
+              album: a,
+              rating: store.ratingOf(a.id),
+              difficulty: stages[i],
+              listenLater: store.isListenLater(a.id),
+              onListenLater: () => toggleListenLater(context, store, a),
+              onTap: () => onTap(a),
+            ),
+          );
+        },
+      ),
+    );
+  }
 }
 
 /// Every album in one genre: most popular first, or A to Z with a letter
@@ -353,8 +352,8 @@ class _GenreScreenState extends State<GenreScreen> {
   }
 
   /// Scrolls the grid so the album at [index] is at the top.
-  void _jumpTo(int index, double width) {
-    final layout = albumGridDelegate.getLayout(
+  void _jumpTo(int index, double width, AlbumCardMetrics metrics) {
+    final layout = metrics.delegate().getLayout(
       SliverConstraints(
         axisDirection: AxisDirection.down,
         growthDirection: GrowthDirection.forward,
@@ -363,14 +362,15 @@ class _GenreScreenState extends State<GenreScreen> {
         precedingScrollExtent: 0,
         overlap: 0,
         remainingPaintExtent: 0,
-        crossAxisExtent: width - 20, // grid side padding
+        crossAxisExtent: width - 2 * AppSizes.gridPageGutter,
         crossAxisDirection: AxisDirection.right,
         viewportMainAxisExtent: 0,
         remainingCacheExtent: 0,
         cacheOrigin: 0,
       ),
     ) as SliverGridRegularTileLayout;
-    final offset = 4 + (index ~/ layout.crossAxisCount) * layout.mainAxisStride;
+    final offset =
+        SliverAlbumGrid.topPadding + (index ~/ layout.crossAxisCount) * layout.mainAxisStride;
     _scroll.jumpTo(offset.clamp(0, _scroll.position.maxScrollExtent));
   }
 
@@ -379,6 +379,12 @@ class _GenreScreenState extends State<GenreScreen> {
     final all = Catalogue.inGenre(widget.genre);
     final albums = _sort == null ? all : _sort!.apply(all, widget.store);
     final az = _sort?.by == SortBy.alphabetical;
+    final staged = stagesById(widget.store);
+    // Same sizes as the grid below, so a letter jumps to the right row.
+    final metrics = AlbumCardMetrics(
+      textScaler: MediaQuery.textScalerOf(context),
+      withStage: albums.any((a) => staged[a.id] != null),
+    );
     // First position of each letter (A to Z order, or Z to A when reversed).
     final firstOf = <String, int>{};
     if (az) {
@@ -412,7 +418,7 @@ class _GenreScreenState extends State<GenreScreen> {
                               minimumSize: const Size(36, 36),
                               padding: EdgeInsets.zero,
                             ),
-                            onPressed: () => _jumpTo(e.value, box.maxWidth),
+                            onPressed: () => _jumpTo(e.value, box.maxWidth, metrics),
                             child: Text(e.key),
                           ),
                       ],
@@ -456,19 +462,9 @@ class ArtistScreen extends StatefulWidget {
 /// Order of the sections below the studio albums.
 const _otherTypes = ['EP', 'Mixtape', 'Live', 'Soundtrack', 'Remix', 'Compilation'];
 
-const _bigGrid = SliverGridDelegateWithMaxCrossAxisExtent(
-  maxCrossAxisExtent: 200,
-  childAspectRatio: 0.66,
-  crossAxisSpacing: 6,
-  mainAxisSpacing: 6,
-);
-
-const _smallGrid = SliverGridDelegateWithMaxCrossAxisExtent(
-  maxCrossAxisExtent: 112,
-  childAspectRatio: 0.53, // fits the brand fonts
-  crossAxisSpacing: 2,
-  mainAxisSpacing: 2,
-);
+/// Studio albums show bigger (two across on a phone), other releases smaller.
+const _bigCard = 200.0;
+const _smallCard = 112.0;
 
 class _ArtistScreenState extends State<ArtistScreen> {
   SortOrder? _sort;
@@ -499,18 +495,9 @@ class _ArtistScreenState extends State<ArtistScreen> {
         return i(a).compareTo(i(b));
       });
     final onTap = widget.pickMode ? (Album a) => Navigator.of(context).pop(a) : null;
-    final theme = Theme.of(context);
 
-    Widget header(String text, {Widget? trailing}) => SliverToBoxAdapter(
-      child: Padding(
-        padding: const EdgeInsets.fromLTRB(16, 12, 8, 2),
-        child: Row(
-          children: [
-            Expanded(child: Text(text, style: theme.textTheme.titleMedium)),
-            ?trailing,
-          ],
-        ),
-      ),
+    Widget header(String text, int count, {Widget? trailing}) => SliverToBoxAdapter(
+      child: SectionHeader(text, count: count, trailing: trailing),
     );
 
     String plural(String type, int n) => switch (type) {
@@ -541,26 +528,27 @@ class _ArtistScreenState extends State<ArtistScreen> {
         builder: (context, _) => CustomScrollView(
           slivers: [
             if (studio.isNotEmpty) ...[
-              header('Studio albums (${studio.length})'),
+              header('Studio albums', studio.length),
               SliverAlbumGrid(
                 albums: studio,
                 store: widget.store,
                 onTap: onTap,
-                delegate: _bigGrid,
+                maxCardWidth: _bigCard,
               ),
             ],
             for (final t in types) ...[
-              header('${plural(t, others[t]!.length)} (${others[t]!.length})'),
+              header(plural(t, others[t]!.length), others[t]!.length),
               SliverAlbumGrid(
                 albums: others[t]!,
                 store: widget.store,
                 onTap: onTap,
-                delegate: _smallGrid,
+                maxCardWidth: _smallCard,
               ),
             ],
             if (hidden.isNotEmpty) ...[
               header(
-                'Less-known releases (${hidden.length})',
+                'Less-known releases',
+                hidden.length,
                 trailing: TextButton(
                   onPressed: () => setState(() => _showMinor = !_showMinor),
                   child: Text(_showMinor ? 'Hide' : 'Show'),
@@ -571,7 +559,7 @@ class _ArtistScreenState extends State<ArtistScreen> {
                   albums: _sort == null ? hidden : _sort!.apply(hidden, store),
                   store: store,
                   onTap: onTap,
-                  delegate: _smallGrid,
+                  maxCardWidth: _smallCard,
                 ),
             ],
             const SliverToBoxAdapter(child: SizedBox(height: 24)),

@@ -150,6 +150,12 @@ abstract final class AppTheme {
             (s) => s.contains(WidgetState.disabled) ? c.disabledForeground : c.primaryButtonText,
           ),
           overlayColor: WidgetStatePropertyAll(c.primaryButtonText.withValues(alpha: 0.08)),
+          // Keyboard focus: a dark 2 px ring inside the cream pill.
+          side: WidgetStateProperty.resolveWith(
+            (s) => s.contains(WidgetState.focused)
+                ? BorderSide(color: c.primaryButtonText, width: AppSizes.indicatorBorderWidth)
+                : BorderSide.none,
+          ),
           minimumSize: const WidgetStatePropertyAll(Size(64, AppSizes.primaryButtonHeight)),
           padding: const WidgetStatePropertyAll(EdgeInsets.symmetric(horizontal: AppSpace.xl)),
           shape: const WidgetStatePropertyAll(stadium),
@@ -184,6 +190,11 @@ abstract final class AppTheme {
           ),
           overlayColor: WidgetStatePropertyAll(c.textPrimary.withValues(alpha: 0.08)),
           minimumSize: const WidgetStatePropertyAll(Size(48, AppSizes.touchMin)),
+          side: WidgetStateProperty.resolveWith(
+            (s) => s.contains(WidgetState.focused)
+                ? BorderSide(color: c.focusRing, width: AppSizes.indicatorBorderWidth)
+                : BorderSide.none,
+          ),
           shape: const WidgetStatePropertyAll(stadium),
           textStyle: buttonText,
         ),
@@ -211,6 +222,11 @@ abstract final class AppTheme {
           ),
           overlayColor: WidgetStatePropertyAll(c.textPrimary.withValues(alpha: 0.08)),
           minimumSize: const WidgetStatePropertyAll(Size.square(AppSizes.touchMin)),
+          side: WidgetStateProperty.resolveWith(
+            (s) => s.contains(WidgetState.focused)
+                ? BorderSide(color: c.focusRing, width: AppSizes.indicatorBorderWidth)
+                : BorderSide.none,
+          ),
         ),
       ),
 
