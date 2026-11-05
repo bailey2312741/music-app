@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 
 import 'catalogue.dart';
+import 'design/design.dart';
 import 'details.dart';
 import 'difficulty.dart';
 import 'library_screen.dart';
@@ -369,7 +370,7 @@ class AboutScreen extends StatelessWidget {
           for (final d in Difficulty.values)
             ListTile(
               contentPadding: EdgeInsets.zero,
-              leading: Icon(d.icon),
+              leading: StageIcon(d.icon, size: 40),
               title: Text(d.label),
               subtitle: Text(d.description),
             ),

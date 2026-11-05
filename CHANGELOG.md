@@ -1,6 +1,10 @@
 # Changelog
 
-## Unreleased: Expeditions design foundation (Phase A)
+## Unreleased: stage icons and genre buttons (Phase B)
+- Four new listening-stage drawings (Base Camp tent, Foothills hills and sun, High Altitude jagged range, Summit peak with trail and flag), each in a detailed and a compact version, replace the old difficulty icons everywhere.
+- Genres in the Discover chip row are text-only buttons. Tap again to clear, as before.
+
+## Phase A: Expeditions design foundation
 - New dark forest-green brand theme from design/DESIGN_SYSTEM_V1.md, built from tokens in lib/design/.
 - Outfit (headings) and Inter (everything else) fonts bundled, with their open font licences.
 - Album cards are a few pixels taller so the new fonts fit. No features, data or navigation changed.
