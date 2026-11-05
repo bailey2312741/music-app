@@ -11,7 +11,22 @@ class PageHeader extends StatelessWidget {
   final String title;
   final String? subtitle;
   final Widget? leading;
-  const PageHeader(this.title, {super.key, this.subtitle, this.leading});
+
+  /// Space around the header; pages that already pad their content pass
+  /// their own.
+  final EdgeInsetsGeometry padding;
+  const PageHeader(
+    this.title, {
+    super.key,
+    this.subtitle,
+    this.leading,
+    this.padding = const EdgeInsets.fromLTRB(
+      AppSpace.gutter,
+      AppSpace.xs,
+      AppSpace.gutter,
+      AppSpace.sm,
+    ),
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -31,12 +46,7 @@ class PageHeader extends StatelessWidget {
       ],
     );
     return Padding(
-      padding: const EdgeInsets.fromLTRB(
-        AppSpace.gutter,
-        AppSpace.xs,
-        AppSpace.gutter,
-        AppSpace.sm,
-      ),
+      padding: padding,
       child: leading == null
           ? SizedBox(width: double.infinity, child: text)
           : Row(

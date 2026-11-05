@@ -1,7 +1,6 @@
 import 'dart:math' as math;
 
 import 'package:flutter/material.dart';
-import 'package:flutter/rendering.dart';
 
 import 'actions.dart';
 import 'catalogue.dart';
@@ -519,28 +518,17 @@ class _GenreScreenState extends State<GenreScreen> {
   }
 
   /// Scrolls the grid so the album at [index] is at the top.
-  void _jumpTo(int index, double width, AlbumCardMetrics metrics) {
-    final layout = metrics.delegate().getLayout(
-      SliverConstraints(
-        axisDirection: AxisDirection.down,
-        growthDirection: GrowthDirection.forward,
-        userScrollDirection: ScrollDirection.idle,
-        scrollOffset: 0,
-        precedingScrollExtent: 0,
-        overlap: 0,
-        remainingPaintExtent: 0,
-        crossAxisExtent: width - 2 * AppSizes.gridPageGutter,
-        crossAxisDirection: AxisDirection.right,
-        viewportMainAxisExtent: 0,
-        remainingCacheExtent: 0,
-        cacheOrigin: 0,
-      ),
-    ) as SliverGridRegularTileLayout;
+  void _jumpTo(List<Album> albums, int index) {
     final header = _headerKey.currentContext?.size?.height ?? 0;
     final offset =
         header +
-        SliverAlbumGrid.topPadding +
-        (index ~/ layout.crossAxisCount) * layout.mainAxisStride;
+        SliverAlbumGrid.offsetOf(
+          albums,
+          widget.store,
+          index,
+          MediaQuery.sizeOf(context).width,
+          MediaQuery.textScalerOf(context),
+        );
     _scroll.jumpTo(offset.clamp(0, _scroll.position.maxScrollExtent));
   }
 
@@ -549,12 +537,6 @@ class _GenreScreenState extends State<GenreScreen> {
     final all = Catalogue.inGenre(widget.genre);
     final albums = _sort == null ? all : _sort!.apply(all, widget.store);
     final az = _sort?.by == SortBy.alphabetical;
-    final staged = stagesById(widget.store);
-    // Same sizes as the grid below, so a letter jumps to the right row.
-    final metrics = AlbumCardMetrics(
-      textScaler: MediaQuery.textScalerOf(context),
-      withStage: albums.any((a) => staged[a.id] != null),
-    );
     // First position of each letter (A to Z order, or Z to A when reversed).
     final firstOf = <String, int>{};
     if (az) {
@@ -598,7 +580,7 @@ class _GenreScreenState extends State<GenreScreen> {
                                 foregroundColor: c.textPrimary,
                                 textStyle: AppType.cardTitle,
                               ),
-                              onPressed: () => _jumpTo(e.value, box.maxWidth, metrics),
+                              onPressed: () => _jumpTo(albums, e.value),
                               child: Text(e.key, semanticsLabel: 'Jump to ${e.key}'),
                             ),
                         ],

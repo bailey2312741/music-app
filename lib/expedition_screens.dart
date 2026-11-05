@@ -861,7 +861,10 @@ class _CreateExpeditionScreenState extends State<CreateExpeditionScreen> {
           AppSpace.xxl,
         ),
         children: [
-          PageHeader(widget.editing == null ? 'New expedition' : 'Edit expedition'),
+          PageHeader(
+            widget.editing == null ? 'New expedition' : 'Edit expedition',
+            padding: const EdgeInsets.only(bottom: AppSpace.sm),
+          ),
           const SizedBox(height: AppSpace.sm),
           TextField(
             controller: _name,
@@ -883,7 +886,8 @@ class _CreateExpeditionScreenState extends State<CreateExpeditionScreen> {
             maxLines: 5,
             textCapitalization: TextCapitalization.sentences,
             decoration: const InputDecoration(
-              labelText: 'Description (optional)',
+              labelText: 'Description',
+              helperText: 'Optional',
               alignLabelWithHint: true,
               border: OutlineInputBorder(),
             ),

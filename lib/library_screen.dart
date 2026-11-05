@@ -1,3 +1,5 @@
+import 'dart:math' as math;
+
 import 'package:flutter/material.dart';
 
 import 'actions.dart';
@@ -48,15 +50,74 @@ class SliverAlbumGrid extends StatelessWidget {
   /// Top padding above the first row (used by screens that scroll to a row).
   static const topPadding = AppSpace.xs;
 
+  /// Each row is only as tall as its own cards: a row with no stage tags
+  /// doesn't keep room for one, so there are no big gaps between rows.
+  static double _rowHeight(
+    List<Difficulty?> stages,
+    int row,
+    int columns,
+    double cardWidth,
+    TextScaler scaler,
+    double maxCardWidth,
+  ) {
+    final from = row * columns;
+    final to = math.min(from + columns, stages.length);
+    return AlbumCardMetrics(
+      maxCardWidth: maxCardWidth,
+      textScaler: scaler,
+      withStage: stages.sublist(from, to).any((d) => d != null),
+    ).cardHeight(cardWidth);
+  }
+
+  /// Distance from the top of the grid to the row holding [index], for a grid
+  /// [width] wide (including its side padding).
+  static double offsetOf(
+    List<Album> albums,
+    Store store,
+    int index,
+    double width,
+    TextScaler scaler, {
+    double maxCardWidth = AlbumCardMetrics.defaultMaxWidth,
+  }) {
+    final staged = stagesById(store);
+    final stages = [for (final a in albums) staged[a.id]];
+    final metrics = AlbumCardMetrics(maxCardWidth: maxCardWidth, textScaler: scaler);
+    final inner = width - 2 * AppSizes.gridPageGutter;
+    final n = metrics.columns(inner);
+    final cw = metrics.cardWidth(inner);
+    var y = topPadding;
+    for (var r = 0; r < index ~/ n; r++) {
+      y += _rowHeight(stages, r, n, cw, scaler, maxCardWidth) + AlbumCardMetrics.rowGap;
+    }
+    return y;
+  }
+
   @override
   Widget build(BuildContext context) {
     final staged = stagesById(store);
     final stages = [for (final a in albums) staged[a.id]];
-    final metrics = AlbumCardMetrics(
-      maxCardWidth: maxCardWidth,
-      textScaler: MediaQuery.textScalerOf(context),
-      withStage: stages.any((d) => d != null),
-    );
+    final scaler = MediaQuery.textScalerOf(context);
+    final metrics = AlbumCardMetrics(maxCardWidth: maxCardWidth, textScaler: scaler);
+
+    Widget card(int i) {
+      final a = albums[i];
+      final card = AlbumCard(
+        album: a,
+        number: numbered ? i + 1 : null,
+        rating: store.ratingOf(a.id),
+        difficulty: stages[i],
+        listenLater: store.isListenLater(a.id),
+        onListenLater: () => toggleListenLater(context, store, a),
+        onTap: () => onTap != null ? onTap!(a) : openAlbum(context, store, a),
+      );
+      if (!swipeToClear) return card;
+      return Dismissible(
+        key: ValueKey('rated-${a.id}'),
+        onDismissed: (_) => clearRating(context, store, a),
+        child: card,
+      );
+    }
+
     return SliverPadding(
       padding: const EdgeInsets.fromLTRB(
         AppSizes.gridPageGutter,
@@ -64,25 +125,29 @@ class SliverAlbumGrid extends StatelessWidget {
         AppSizes.gridPageGutter,
         AppSpace.lg,
       ),
-      sliver: SliverGrid.builder(
-        gridDelegate: metrics.delegate(),
-        itemCount: albums.length,
-        itemBuilder: (context, i) {
-          final a = albums[i];
-          final card = AlbumCard(
-            album: a,
-            number: numbered ? i + 1 : null,
-            rating: store.ratingOf(a.id),
-            difficulty: stages[i],
-            listenLater: store.isListenLater(a.id),
-            onListenLater: () => toggleListenLater(context, store, a),
-            onTap: () => onTap != null ? onTap!(a) : openAlbum(context, store, a),
-          );
-          if (!swipeToClear) return card;
-          return Dismissible(
-            key: ValueKey('rated-${a.id}'),
-            onDismissed: (_) => clearRating(context, store, a),
-            child: card,
+      sliver: SliverLayoutBuilder(
+        builder: (context, constraints) {
+          final width = constraints.crossAxisExtent;
+          final n = metrics.columns(width);
+          final cw = metrics.cardWidth(width);
+          final rows = (albums.length + n - 1) ~/ n;
+          return SliverList.builder(
+            itemCount: rows,
+            itemBuilder: (context, r) => Padding(
+              padding: EdgeInsets.only(top: r == 0 ? 0 : AlbumCardMetrics.rowGap),
+              child: SizedBox(
+                height: _rowHeight(stages, r, n, cw, scaler, maxCardWidth),
+                child: Row(
+                  crossAxisAlignment: CrossAxisAlignment.stretch,
+                  children: [
+                    for (var i = r * n; i < math.min(r * n + n, albums.length); i++) ...[
+                      if (i > r * n) const SizedBox(width: AlbumCardMetrics.gap),
+                      SizedBox(width: cw, child: card(i)),
+                    ],
+                  ],
+                ),
+              ),
+            ),
           );
         },
       ),

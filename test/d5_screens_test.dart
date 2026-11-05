@@ -110,9 +110,15 @@ Future<Store> _store() async {
   return Store.load();
 }
 
-Future<void> _pump(WidgetTester t, Widget home, {double width = 412, double scale = 1}) async {
+Future<void> _pump(
+  WidgetTester t,
+  Widget home, {
+  double width = 412,
+  double scale = 1,
+  double height = 2000,
+}) async {
   t.view.devicePixelRatio = 1;
-  t.view.physicalSize = Size(width, 2000);
+  t.view.physicalSize = Size(width, height);
   addTearDown(t.view.reset);
   await t.pumpWidget(
     MaterialApp(
@@ -171,7 +177,7 @@ void main() {
 
   testWidgets('genre page: heading with count, letter jump with 48 px targets', (t) async {
     final store = await _store();
-    await _pump(t, GenreScreen(store: store, genre: 'Jazz'));
+    await _pump(t, GenreScreen(store: store, genre: 'Jazz'), height: 300);
     expect(
       find.descendant(of: find.byType(PageHeader), matching: find.text('Jazz')),
       findsOneWidget,
@@ -188,6 +194,11 @@ void main() {
     final button = find.ancestor(of: find.text('S'), matching: find.byType(TextButton));
     expect(t.getSize(button).height, greaterThanOrEqualTo(48));
     expect(t.getSize(button).width, greaterThanOrEqualTo(48));
+    // The letter scrolls its first album to just under the bar.
+    final barBottom = t.getRect(find.byType(AppBar)).bottom;
+    await t.tap(button);
+    await t.pumpAndSettle();
+    expect(t.getRect(_card('Spiritual Unity')).top, closeTo(barBottom, 1));
   });
 
   testWidgets('charts: real rank numbers beside titles, stage-only Hardest', (t) async {
@@ -276,7 +287,7 @@ void main() {
     await t.pumpAndSettle();
     expect(find.text('Give your expedition a name.'), findsOneWidget);
     await t.enterText(find.widgetWithText(TextField, 'Name'), 'Miles');
-    await t.enterText(find.widgetWithText(TextField, 'Description (optional)'), 'Two of his.');
+    await t.enterText(find.widgetWithText(TextField, 'Description'), 'Two of his.');
     await t.pumpAndSettle();
 
     Future<void> pick(String title) async {
