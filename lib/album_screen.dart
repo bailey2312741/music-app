@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'actions.dart';
 import 'catalogue.dart';
 import 'chart.dart';
+import 'design/design.dart';
 import 'details.dart';
 import 'difficulty.dart';
 import 'expeditions.dart';
@@ -67,6 +68,7 @@ class _AlbumScreenState extends State<AlbumScreen> {
         listenable: store,
         builder: (context, _) => RatingBar(
           saved: store.ratingOf(a.id),
+          noun: 'album',
           onSave: (v) => store.rate(a, v),
           onClear: () => clearRating(context, store, a),
           next: _nextButton(context),
@@ -153,7 +155,8 @@ class _AlbumScreenState extends State<AlbumScreen> {
                   ),
                 ],
               ),
-              Row(
+              // Side by side; the second wraps underneath with large text.
+              Wrap(
                 children: [
                   TextButton.icon(
                     onPressed: () => toggleListenLater(context, store, a),
@@ -170,22 +173,16 @@ class _AlbumScreenState extends State<AlbumScreen> {
                 ],
               ),
               const Divider(height: 24),
-              Text('Tracklist', style: theme.textTheme.titleMedium),
-              const SizedBox(height: 4),
+              const SectionHeader('Tracklist', padding: EdgeInsets.zero),
               if (_loading)
-                const Padding(
-                  padding: EdgeInsets.all(16),
-                  child: Center(child: CircularProgressIndicator()),
-                )
+                const LoadingPlaceholder(rows: 5, label: 'Loading the tracklist')
               else if (_failed)
-                Row(
-                  children: [
-                    const Expanded(child: Text("Couldn't load the tracklist.")),
-                    TextButton(onPressed: _load, child: const Text('Try again')),
-                  ],
-                )
+                ErrorState(message: "Couldn't load the tracklist.", onRetry: _load)
               else if (tracks.isEmpty)
-                Text('No tracklist for this album yet.', style: theme.textTheme.bodySmall)
+                Text(
+                  'No tracklist for this album yet.',
+                  style: AppType.bodySmall.copyWith(color: AppColors.of(context).textSecondary),
+                )
               else
                 for (final t in tracks) _TrackRow(store: store, album: a, track: t),
               const Divider(height: 32),
@@ -222,7 +219,7 @@ extension on _AlbumScreenState {
     return Align(
       alignment: Alignment.centerRight,
       child: TextButton.icon(
-        style: TextButton.styleFrom(minimumSize: const Size(44, 44)),
+        style: TextButton.styleFrom(minimumSize: const Size(AppSizes.touchMin, AppSizes.touchMin)),
         onPressed: () => replaceWithAlbum(context, next, id),
         icon: const Icon(Icons.arrow_forward),
         label: Text('Next: ${next.title}', overflow: TextOverflow.ellipsis),
@@ -277,19 +274,23 @@ class _TrackRow extends StatelessWidget {
             mine == null
                 ? OutlinedButton(
                     style: OutlinedButton.styleFrom(
-                      minimumSize: const Size(56, 44),
+                      minimumSize: const Size(56, AppSizes.touchMin),
                       padding: const EdgeInsets.symmetric(horizontal: 12),
                     ),
                     onPressed: () => _rate(context),
-                    child: const Text('Rate'),
+                    child: Text('Rate', semanticsLabel: 'Rate ${track.title}'),
                   )
                 : FilledButton.tonal(
                     style: FilledButton.styleFrom(
-                      minimumSize: const Size(56, 44),
+                      minimumSize: const Size(56, AppSizes.touchMin),
                       padding: const EdgeInsets.symmetric(horizontal: 12),
                     ),
                     onPressed: () => _rate(context),
-                    child: Text(fmt(mine), style: const TextStyle(fontWeight: FontWeight.bold)),
+                    child: Text(
+                      formatScore(mine),
+                      semanticsLabel: 'Your rating ${formatScore(mine)}. Change',
+                      style: AppType.scoreSmall.copyWith(fontSize: 14),
+                    ),
                   ),
           ],
         ),

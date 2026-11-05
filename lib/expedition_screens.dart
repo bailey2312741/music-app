@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 
 import 'actions.dart';
+import 'design/design.dart';
 import 'expeditions.dart';
 import 'models.dart';
 import 'nav.dart';
@@ -58,14 +59,15 @@ class _ExpeditionListScreenState extends State<ExpeditionListScreen> {
           final custom = store.customExpeditions;
           return ListView(
             controller: _scroll,
-            padding: const EdgeInsets.fromLTRB(12, 0, 12, 24),
+            padding: const EdgeInsets.fromLTRB(AppSpace.lg, AppSpace.xs, AppSpace.lg, AppSpace.xl),
             children: [
               ?ContinueCard.maybe(store),
               for (final e in builtInExpeditions) ExpeditionTile(store: store, expedition: e),
               if (custom.isNotEmpty)
-                Padding(
-                  padding: const EdgeInsets.fromLTRB(4, 20, 4, 8),
-                  child: Text('Your expeditions', style: Theme.of(context).textTheme.titleMedium),
+                SectionHeader(
+                  'Your expeditions',
+                  count: custom.length,
+                  padding: const EdgeInsets.only(top: AppSpace.md, bottom: AppSpace.xs),
                 ),
               for (final e in custom) ExpeditionTile(store: store, expedition: e),
             ],
@@ -112,12 +114,11 @@ class ContinueCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final theme = Theme.of(context);
-    final scheme = theme.colorScheme;
+    final c = AppColors.of(context);
     return Card(
       elevation: 0,
-      color: scheme.primaryContainer,
-      margin: const EdgeInsets.only(bottom: 12),
+      color: c.surfaceSelected,
+      margin: const EdgeInsets.only(bottom: AppSpace.md),
       clipBehavior: Clip.antiAlias,
       child: InkWell(
         onTap: () => openAlbum(context, store, album, expeditionId: expedition.id),
@@ -125,35 +126,36 @@ class ContinueCard extends StatelessWidget {
           padding: const EdgeInsets.all(12),
           child: Row(
             children: [
-              Cover(album: album, size: 64, radius: 6),
-              const SizedBox(width: 12),
+              Cover(album: album, size: AppCoverSizes.sm),
+              const SizedBox(width: AppSpace.md),
               Expanded(
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Text(
                       'Continue: ${expedition.name}',
-                      style: theme.textTheme.labelMedium?.copyWith(
-                        color: scheme.onPrimaryContainer,
+                      style: AppType.caption.copyWith(
+                        color: c.success,
+                        fontWeight: FontWeight.w600,
                       ),
                     ),
-                    const SizedBox(height: 2),
+                    const SizedBox(height: AppSpace.xxs),
                     Text(
                       album.title,
-                      maxLines: 1,
+                      maxLines: 2,
                       overflow: TextOverflow.ellipsis,
-                      style: theme.textTheme.titleMedium?.copyWith(fontWeight: FontWeight.bold),
+                      style: AppType.cardTitle.copyWith(color: c.textPrimary),
                     ),
                     Text(
                       'Stop ${stop + 1} of ${expedition.stops.length} · ${album.artist}',
                       maxLines: 1,
                       overflow: TextOverflow.ellipsis,
-                      style: theme.textTheme.bodySmall,
+                      style: AppType.bodySmall.copyWith(color: c.textSecondary),
                     ),
                   ],
                 ),
               ),
-              Icon(Icons.chevron_right, color: scheme.onPrimaryContainer),
+              Icon(Icons.chevron_right, color: c.textSecondary),
             ],
           ),
         ),
@@ -172,15 +174,14 @@ class ExpeditionTile extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final e = expedition;
-    final theme = Theme.of(context);
-    final scheme = theme.colorScheme;
+    final c = AppColors.of(context);
     final done = ratedCount(store, e);
     final average = expeditionAverage(store, e);
     final own = store.expeditionRating(e.id);
     return Card(
       elevation: 0,
-      color: scheme.secondaryContainer.withValues(alpha: 0.55),
-      margin: const EdgeInsets.only(bottom: 12),
+      color: c.surfaceRaised,
+      margin: const EdgeInsets.only(bottom: AppSpace.md),
       clipBehavior: Clip.antiAlias,
       child: InkWell(
         onTap: () => openExpedition(context, e.id),
@@ -198,14 +199,14 @@ class ExpeditionTile extends StatelessWidget {
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        Text(e.name, style: theme.textTheme.titleLarge),
-                        const SizedBox(height: 4),
+                        Text(e.name, style: AppType.sectionTitle.copyWith(color: c.textPrimary)),
+                        const SizedBox(height: AppSpace.xs),
                         if (e.blurb.isNotEmpty)
                           Text(
                             e.blurb,
                             maxLines: 3,
                             overflow: TextOverflow.ellipsis,
-                            style: theme.textTheme.bodySmall,
+                            style: AppType.bodySmall.copyWith(color: c.textSecondary),
                           ),
                         const SizedBox(height: 8),
                         Wrap(
@@ -216,7 +217,8 @@ class ExpeditionTile extends StatelessWidget {
                             if (e.inOrder) const _Fact(Icons.lock_outline, 'In order'),
                             if (average != null)
                               _Fact(Icons.star_half, 'Your avg ${average.toStringAsFixed(1)}'),
-                            if (own != null) _Fact(Icons.flag_outlined, 'Rated ${fmt(own)}'),
+                            if (own != null)
+                              _Fact(Icons.flag_outlined, 'Rated ${formatScore(own)}'),
                           ],
                         ),
                       ],
@@ -228,16 +230,17 @@ class ExpeditionTile extends StatelessWidget {
               Row(
                 children: [
                   Expanded(
-                    child: LinearProgressIndicator(
-                      value: done / e.stops.length,
-                      minHeight: 6,
-                      borderRadius: BorderRadius.circular(4),
-                    ),
+                    child: SegmentedProgress(done: done, total: e.stops.length),
                   ),
-                  const SizedBox(width: 10),
-                  Text(
-                    done == e.stops.length ? 'Complete' : '$done of ${e.stops.length}',
-                    style: theme.textTheme.labelMedium,
+                  const SizedBox(width: AppSpace.md),
+                  ExcludeSemantics(
+                    child: Text(
+                      done == e.stops.length ? 'Complete' : '$done of ${e.stops.length}',
+                      style: AppType.caption.copyWith(
+                        color: c.textSecondary,
+                        fontWeight: FontWeight.w600,
+                      ),
+                    ),
                   ),
                 ],
               ),
@@ -256,13 +259,13 @@ class _Fact extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final style = Theme.of(context).textTheme.labelSmall;
+    final c = AppColors.of(context);
     return Row(
       mainAxisSize: MainAxisSize.min,
       children: [
-        Icon(icon, size: 14, color: Theme.of(context).colorScheme.onSurfaceVariant),
-        const SizedBox(width: 3),
-        Text(text, style: style),
+        Icon(icon, size: AppIconSizes.small, color: c.textTertiary),
+        const SizedBox(width: AppSpace.xs),
+        Text(text, style: AppType.caption.copyWith(color: c.textSecondary)),
       ],
     );
   }
@@ -303,14 +306,7 @@ class _ExpeditionScreenState extends State<ExpeditionScreen> {
     final messenger = ScaffoldMessenger.of(context);
     context.pop();
     await store.deleteExpedition(e.id);
-    messenger.hideCurrentSnackBar();
-    messenger.showSnackBar(
-      SnackBar(
-        content: const Text('Expedition deleted'),
-        persist: false,
-        action: SnackBarAction(label: 'Undo', onPressed: () => store.saveExpedition(e)),
-      ),
-    );
+    showUndoOn(messenger, 'Expedition deleted', () => store.saveExpedition(e));
   }
 
   @override
@@ -320,7 +316,7 @@ class _ExpeditionScreenState extends State<ExpeditionScreen> {
       builder: (context, _) {
         final e = _expedition;
         if (e == null) return const Scaffold();
-        final theme = Theme.of(context);
+        final c = AppColors.of(context);
         final done = ratedCount(store, e);
         final average = expeditionAverage(store, e);
         final own = _draft ?? store.expeditionRating(e.id);
@@ -354,28 +350,30 @@ class _ExpeditionScreenState extends State<ExpeditionScreen> {
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    if (e.blurb.isNotEmpty) Text(e.blurb),
-                    const SizedBox(height: 12),
+                    if (e.blurb.isNotEmpty)
+                      Text(e.blurb, style: AppType.body.copyWith(color: c.textSecondary)),
+                    const SizedBox(height: AppSpace.md),
                     Row(
                       children: [
                         Expanded(
-                          child: LinearProgressIndicator(
-                            value: done / e.stops.length,
-                            minHeight: 6,
-                            borderRadius: BorderRadius.circular(4),
-                          ),
+                          child: SegmentedProgress(done: done, total: e.stops.length),
                         ),
-                        const SizedBox(width: 10),
-                        Text(
-                          done == e.stops.length ? 'Complete!' : '$done of ${e.stops.length} rated',
+                        const SizedBox(width: AppSpace.md),
+                        ExcludeSemantics(
+                          child: Text(
+                            done == e.stops.length
+                                ? 'Complete!'
+                                : '$done of ${e.stops.length} rated',
+                            style: AppType.bodySmall.copyWith(color: c.textPrimary),
+                          ),
                         ),
                       ],
                     ),
                     if (average != null) ...[
-                      const SizedBox(height: 6),
+                      const SizedBox(height: AppSpace.sm - 2),
                       Text(
                         'Your average so far: ${average.toStringAsFixed(1)}',
-                        style: theme.textTheme.bodySmall,
+                        style: AppType.bodySmall.copyWith(color: c.textSecondary),
                       ),
                     ],
                   ],
@@ -387,31 +385,31 @@ class _ExpeditionScreenState extends State<ExpeditionScreen> {
                 padding: const EdgeInsets.symmetric(horizontal: 16),
                 child: Column(
                   children: [
-                    Text('Rate this expedition', style: theme.textTheme.titleMedium),
+                    Semantics(
+                      header: true,
+                      child: Text(
+                        'Rate this expedition',
+                        textAlign: TextAlign.center,
+                        style: AppType.sectionTitle.copyWith(color: c.textPrimary),
+                      ),
+                    ),
+                    const SizedBox(height: AppSpace.xs),
                     Text(
                       'How was the journey as a whole? Separate from your album ratings.',
                       textAlign: TextAlign.center,
-                      style: theme.textTheme.bodySmall,
+                      style: AppType.bodySmall.copyWith(color: c.textSecondary),
                     ),
-                    Text(own == null ? '–' : fmt(own), style: theme.textTheme.headlineMedium),
+                    const SizedBox(height: AppSpace.sm),
+                    ExcludeSemantics(child: ScoreText(own, scale: 1.33)),
                     // Unrated: grey, thumb at the far left; the first touch sets the value.
-                    SliderTheme(
-                      data: own == null
-                          ? SliderTheme.of(context).copyWith(
-                              activeTrackColor: theme.colorScheme.outlineVariant,
-                              inactiveTrackColor: theme.colorScheme.outlineVariant,
-                              thumbColor: theme.colorScheme.outline,
-                            )
-                          : SliderTheme.of(context),
-                      child: Slider(
-                        value: own ?? 0,
-                        min: 0,
-                        max: 10,
-                        divisions: 20,
-                        label: own == null ? null : fmt(own),
-                        onChanged: (v) => setState(() => _draft = v),
-                        onChangeEnd: (v) => store.rateExpedition(e.id, v),
-                      ),
+                    RatingSlider(
+                      value: own,
+                      noun: 'expedition',
+                      onChanged: (v) => setState(() => _draft = v),
+                      onChangeEnd: (v) {
+                        setState(() => _draft = v);
+                        store.rateExpedition(e.id, v);
+                      },
                     ),
                   ],
                 ),
@@ -460,10 +458,16 @@ class _JourneyTrailState extends State<JourneyTrail> {
       builder: (context, box) {
         const card = 120.0;
         const last = 156.0;
-        const textSpace = 96.0; // title, artist, difficulty and caption under each cover
+        // Title, artist, stage and caption under each cover; grows with text size.
+        final metrics = AlbumCardMetrics(
+          textScaler: MediaQuery.textScalerOf(context),
+          withStage: true,
+          withCaption: true,
+        );
+        final textSpace = metrics.cardHeight(card) - card;
         const zig = 64.0; // how far the lower stops sit below the upper ones
         const step = card + 20;
-        const height = card + textSpace + zig + 24;
+        final height = card + textSpace + zig + 24;
 
         final lefts = <double>[], tops = <double>[], sizes = <double>[];
         for (var i = 0; i < n; i++) {
@@ -475,7 +479,7 @@ class _JourneyTrailState extends State<JourneyTrail> {
         }
         final width = lefts.last + last + 16;
         final centres = [
-          for (var i = 0; i < n; i++) Offset(lefts[i] + sizes[i] / 2, tops[i] + 6 + sizes[i] / 2),
+          for (var i = 0; i < n; i++) Offset(lefts[i] + sizes[i] / 2, tops[i] + sizes[i] / 2),
         ];
         _scroll ??= ScrollController(
           initialScrollOffset: (lefts[current] + card / 2 - box.maxWidth / 2).clamp(
@@ -497,8 +501,8 @@ class _JourneyTrailState extends State<JourneyTrail> {
                     painter: _TrailPainter(
                       points: centres,
                       travelled: current,
-                      color: Theme.of(context).colorScheme.primary,
-                      faded: Theme.of(context).colorScheme.outline,
+                      color: AppColors.of(context).progressFill,
+                      faded: AppColors.of(context).lineFunctional,
                     ),
                   ),
                 ),
@@ -523,8 +527,8 @@ class _JourneyTrailState extends State<JourneyTrail> {
     final locked = i >= open;
     final shown = album ?? Album(id: '', title: stop.title, artist: stop.artist);
     return Material(
-      color: Theme.of(context).colorScheme.surface,
-      borderRadius: BorderRadius.circular(12),
+      color: AppColors.of(context).page,
+      borderRadius: BorderRadius.circular(AppRadii.card),
       child: AlbumCard(
         album: shown,
         number: i + 1,
@@ -645,7 +649,6 @@ class _CreateExpeditionScreenState extends State<CreateExpeditionScreen> {
 
   @override
   Widget build(BuildContext context) {
-    final theme = Theme.of(context);
     return Scaffold(
       appBar: AppBar(
         title: Text(widget.editing == null ? 'New expedition' : 'Edit expedition'),
@@ -677,18 +680,17 @@ class _CreateExpeditionScreenState extends State<CreateExpeditionScreen> {
             onChanged: (v) => setState(() => _inOrder = v),
           ),
           const Divider(),
-          Row(
-            children: [
-              Expanded(
-                child: Text('Albums (${_albums.length})', style: theme.textTheme.titleMedium),
-              ),
-              if (_albums.length > 1)
-                TextButton.icon(
-                  onPressed: _sortByYear,
-                  icon: const Icon(Icons.sort, size: 18),
-                  label: const Text('Sort by year'),
-                ),
-            ],
+          SectionHeader(
+            'Albums',
+            count: _albums.length,
+            padding: EdgeInsets.zero,
+            trailing: _albums.length > 1
+                ? TextButton.icon(
+                    onPressed: _sortByYear,
+                    icon: const Icon(Icons.sort, size: AppIconSizes.small),
+                    label: const Text('Sort by year'),
+                  )
+                : null,
           ),
           if (_albums.isEmpty)
             const Padding(
@@ -705,7 +707,7 @@ class _CreateExpeditionScreenState extends State<CreateExpeditionScreen> {
                 ListTile(
                   key: ValueKey(_albums[i].id),
                   contentPadding: EdgeInsets.zero,
-                  leading: Cover(album: _albums[i], size: 44, radius: 4),
+                  leading: Cover(album: _albums[i], size: AppCoverSizes.xs),
                   title: Text(
                     '${i + 1}. ${_albums[i].title}',
                     maxLines: 1,

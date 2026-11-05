@@ -82,7 +82,7 @@ class _YouScreenState extends State<YouScreen> {
                     // Real, unique usernames need online accounts, so this is a placeholder.
                     Text('@username', style: muted),
                     const SizedBox(height: 20),
-                    Text('Your Range', style: theme.textTheme.titleMedium),
+                    const SectionHeader('Your Range', padding: EdgeInsets.zero),
                     Text('Up to five favourites. Harder albums stand taller.', style: muted),
                     const SizedBox(height: 12),
                     RangeSkyline(store: store),
@@ -152,12 +152,9 @@ class _YouScreenState extends State<YouScreen> {
               ] else ...[
                 if (reviews.isEmpty)
                   const SliverToBoxAdapter(
-                    child: Padding(
-                      padding: EdgeInsets.all(32),
-                      child: Text(
-                        'Reviews you write on album and song pages show up here.',
-                        textAlign: TextAlign.center,
-                      ),
+                    child: EmptyState(
+                      icon: Icons.rate_review_outlined,
+                      message: 'Reviews you write on album and song pages show up here.',
                     ),
                   ),
                 SliverList.list(
@@ -225,25 +222,14 @@ class _YouScreenState extends State<YouScreen> {
     );
   }
 
-  Widget _empty(BuildContext context) => Padding(
-    padding: const EdgeInsets.all(32),
-    child: Column(
-      children: [
-        Text(
-          _section == _Section.later
-              ? 'Tap the bookmark on any album card to save it here.'
-              : 'Albums you rate will show up here.',
-          textAlign: TextAlign.center,
-        ),
-        if (_section == _Section.rated) ...[
-          const SizedBox(height: 12),
-          FilledButton.tonal(
-            onPressed: () => context.go('/discover'),
-            child: const Text('Find albums'),
-          ),
-        ],
-      ],
-    ),
+  Widget _empty(BuildContext context) => EmptyState(
+    icon: _section == _Section.later ? Icons.bookmark_border : Icons.album_outlined,
+    message: _section == _Section.later
+        ? 'Tap the bookmark on any album card to save it here.'
+        : 'Albums you rate will show up here.',
+    action: _section == _Section.rated
+        ? OutlinedButton(onPressed: () => context.go('/discover'), child: const Text('Find albums'))
+        : null,
   );
 
   Widget _reviewTile(BuildContext context, String subject, Review r) {
@@ -262,12 +248,16 @@ class _YouScreenState extends State<YouScreen> {
     }
     final title =
         track?.title ?? album?.title ?? (subject.startsWith('track:') ? 'A song' : 'An album');
-    return ListTile(
-      leading: album == null
-          ? const Icon(Icons.rate_review_outlined)
-          : Cover(album: album, size: 44, radius: 4),
-      title: Text(title, maxLines: 1, overflow: TextOverflow.ellipsis),
-      subtitle: Text(r.text, maxLines: 2, overflow: TextOverflow.ellipsis),
+    return AlbumListTile(
+      cover: album == null
+          ? ColoredBox(
+              color: AppColors.of(context).surfaceSunken,
+              child: Icon(Icons.rate_review_outlined, color: AppColors.of(context).textTertiary),
+            )
+          : Cover(album: album),
+      title: title,
+      subtitle: r.text,
+      subtitleLines: 2,
       onTap: album == null
           ? null
           : () => track != null
@@ -325,14 +315,11 @@ class _RangePickerScreenState extends State<RangePickerScreen> {
           ),
           if (rated.isEmpty)
             SliverToBoxAdapter(
-              child: Padding(
-                padding: const EdgeInsets.all(32),
-                child: Text(
-                  store.ratedAlbums.isEmpty
-                      ? 'Rate an album first, then add it here.'
-                      : 'None of your rated albums match.',
-                  textAlign: TextAlign.center,
-                ),
+              child: EmptyState(
+                icon: store.ratedAlbums.isEmpty ? Icons.album_outlined : Icons.search_off,
+                message: store.ratedAlbums.isEmpty
+                    ? 'Rate an album first, then add it here.'
+                    : 'None of your rated albums match.',
               ),
             ),
           SliverAlbumGrid(albums: rated, store: store, onTap: _pick),
@@ -349,9 +336,9 @@ class AboutScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
-    Widget heading(String text) => Padding(
-      padding: const EdgeInsets.fromLTRB(0, 20, 0, 8),
-      child: Text(text, style: theme.textTheme.titleMedium?.copyWith(fontWeight: FontWeight.bold)),
+    Widget heading(String text) => SectionHeader(
+      text,
+      padding: const EdgeInsets.only(top: AppSpace.md, bottom: AppSpace.xxs),
     );
     Widget para(String text) =>
         Padding(padding: const EdgeInsets.only(bottom: 8), child: Text(text));

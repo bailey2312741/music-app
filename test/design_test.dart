@@ -3,7 +3,6 @@ import 'dart:io';
 import 'dart:math';
 
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:music_app/catalogue.dart';
 import 'package:music_app/design/design.dart';
@@ -12,6 +11,8 @@ import 'package:music_app/page_parts.dart';
 import 'package:music_app/screens.dart';
 import 'package:music_app/store.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+
+import 'brand_fonts.dart';
 
 /// WCAG 2 contrast ratio between two opaque colours.
 double contrast(Color a, Color b) {
@@ -172,28 +173,21 @@ void main() {
 
   // With the real Inter and Outfit fonts loaded, nothing overflows on phone
   // widths. (The default test font is much wider than Inter.)
+  // Also at 130% and 200% system text size.
   for (final width in [360.0, 412.0, 600.0]) {
-    testWidgets('no overflow with the brand fonts at $width wide', (t) async {
-      await _loadBrandFonts();
-      t.view.devicePixelRatio = 1;
-      t.view.physicalSize = Size(width, 800);
-      addTearDown(t.view.reset);
-      await _clickThrough(t);
-    });
-  }
-}
-
-Future<void> _loadBrandFonts() async {
-  for (final (family, files) in [
-    ('Inter', ['Regular', 'Medium', 'SemiBold', 'Bold']),
-    ('Outfit', ['Bold', 'ExtraBold']),
-  ]) {
-    final loader = FontLoader(family);
-    for (final f in files) {
-      final bytes = File('assets/fonts/${family.toLowerCase()}/$family-$f.ttf').readAsBytesSync();
-      loader.addFont(Future.value(ByteData.sublistView(bytes)));
+    for (final scale in [1.0, 1.3, 2.0]) {
+      testWidgets('no overflow with the brand fonts at $width wide, ${scale * 100}% text', (
+        t,
+      ) async {
+        await loadBrandFonts();
+        t.view.devicePixelRatio = 1;
+        t.view.physicalSize = Size(width, 800);
+        t.platformDispatcher.textScaleFactorTestValue = scale;
+        addTearDown(t.view.reset);
+        addTearDown(t.platformDispatcher.clearTextScaleFactorTestValue);
+        await _clickThrough(t);
+      });
     }
-    await loader.load();
   }
 }
 

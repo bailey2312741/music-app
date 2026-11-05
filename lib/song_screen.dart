@@ -38,6 +38,7 @@ class _SongScreenState extends State<SongScreen> {
           saved: store.trackRatingOf(t.id),
           onSave: (v) => store.rateTrack(t, v),
           onClear: () => clearTrackRating(context, store, t),
+          noun: 'song',
         ),
       ),
       body: ListenableBuilder(
