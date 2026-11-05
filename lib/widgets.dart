@@ -188,7 +188,11 @@ class AlbumCard extends StatelessWidget {
       children: [
         Stack(
           children: [
-            Cover(album: album),
+            CoverHero(
+              albumId: album.id,
+              source: context,
+              child: Cover(album: album),
+            ),
             if (locked)
               Positioned.fill(
                 child: Center(
@@ -248,13 +252,24 @@ class AlbumCard extends StatelessWidget {
             label: semanticLabel,
             child: InkWell(
               borderRadius: BorderRadius.circular(AppRadii.card),
-              onTap: onTap,
+              onTap: onTap == null
+                  ? null
+                  : () {
+                      CoverHero.claim(context);
+                      onTap!();
+                    },
               // On phones, press and hold to add to Listen later.
               onLongPress: onListenLater,
               child: Padding(
                 padding: EdgeInsets.all(highlight ? AppSpace.sm - 2 : 0),
                 // Locked albums stay visible but dimmed, with a lock on the cover.
-                child: Opacity(opacity: locked ? 0.45 : 1, child: content),
+                // A stop that unlocks brightens over 180 ms.
+                child: AnimatedOpacity(
+                  opacity: locked ? 0.45 : 1,
+                  duration: AppMotion.fade.resolve(context).duration,
+                  curve: AppMotion.fade.curve,
+                  child: content,
+                ),
               ),
             ),
           ),

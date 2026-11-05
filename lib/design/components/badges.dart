@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 
 import '../tokens/app_colors.dart';
 import '../tokens/app_type.dart';
+import '../tokens/motion.dart';
 import '../tokens/spacing.dart';
 
 /// Formats a score: whole numbers without ".0" (9), halves with one place (9.5).
@@ -90,10 +91,20 @@ class BookmarkButton extends StatelessWidget {
                 color: c.chrome.withValues(alpha: 0.88),
                 shape: BoxShape.circle,
               ),
-              child: Icon(
-                saved ? Icons.bookmark : Icons.bookmark_add_outlined,
-                size: AppIconSizes.regular,
-                color: c.bookmarkActive,
+              // The icon swaps with a quick scale, so the change is seen.
+              child: AnimatedSwitcher(
+                duration: AppMotion.press.resolve(context).duration,
+                switchInCurve: AppMotion.press.curve,
+                transitionBuilder: (child, a) => ScaleTransition(
+                  scale: Tween(begin: 0.7, end: 1.0).animate(a),
+                  child: FadeTransition(opacity: a, child: child),
+                ),
+                child: Icon(
+                  saved ? Icons.bookmark : Icons.bookmark_add_outlined,
+                  key: ValueKey(saved),
+                  size: AppIconSizes.regular,
+                  color: c.bookmarkActive,
+                ),
               ),
             ),
           ),

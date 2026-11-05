@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import '../tokens/app_colors.dart';
 import '../tokens/app_type.dart';
 import 'badges.dart';
+import 'motion.dart';
 
 /// A score in the score type: "–" when unrated (not the same as 0), "9", "9.5".
 class ScoreText extends StatelessWidget {
@@ -29,7 +30,7 @@ class ScoreText extends StatelessWidget {
 /// Unrated ([value] null): a neutral grey-green track with the thumb parked at
 /// the left, and the first touch picks a value. Saving happens in
 /// [onChangeEnd], when the finger lifts.
-class RatingSlider extends StatelessWidget {
+class RatingSlider extends StatefulWidget {
   final double? value;
   final String noun; // "album", "song", "expedition"
   final ValueChanged<double> onChanged;
@@ -45,7 +46,15 @@ class RatingSlider extends StatelessWidget {
   });
 
   @override
+  State<RatingSlider> createState() => _RatingSliderState();
+}
+
+class _RatingSliderState extends State<RatingSlider> {
+  double? _lastStep;
+
+  @override
   Widget build(BuildContext context) {
+    final value = widget.value;
     final c = AppColors.of(context);
     final unrated = value == null;
     final theme = SliderTheme.of(context);
@@ -58,17 +67,31 @@ class RatingSlider extends StatelessWidget {
             )
           : theme,
       child: Semantics(
-        label: 'Your $noun rating, 0 to 10 in steps of 0.5',
+        label: 'Your ${widget.noun} rating, 0 to 10 in steps of 0.5',
         child: Slider(
           value: value ?? 0,
           min: 0,
           max: 10,
           divisions: 20,
-          label: unrated ? null : formatScore(value!),
+          label: unrated ? null : formatScore(value),
           semanticFormatterCallback: (v) => unrated ? 'Not rated' : '${formatScore(v)} out of 10',
-          onChangeStart: onChangeStart,
-          onChanged: onChanged,
-          onChangeEnd: onChangeEnd,
+          onChangeStart: (v) {
+            _lastStep = v;
+            widget.onChangeStart?.call(v);
+          },
+          // A light tick for each half point passed, never more than one
+          // per step.
+          onChanged: (v) {
+            if (v != _lastStep) {
+              _lastStep = v;
+              AppHaptics.step();
+            }
+            widget.onChanged(v);
+          },
+          onChangeEnd: (v) {
+            AppHaptics.commit();
+            widget.onChangeEnd?.call(v);
+          },
         ),
       ),
     );

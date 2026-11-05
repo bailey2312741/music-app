@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 
 import 'actions.dart';
 import 'chart.dart';
+import 'design/design.dart';
 import 'details.dart';
 import 'models.dart';
 import 'nav.dart';
@@ -9,8 +10,9 @@ import 'page_parts.dart';
 import 'store.dart';
 import 'widgets.dart';
 
-/// A single song. Laid out like the album page, but with a "Song" label, a
-/// smaller cover with a note on it, and a link back to its album.
+/// A single song: the title first, then its artist, the album it comes from
+/// (one tap opens it), your rating, the rating spread and reviews. Rated with
+/// the same fixed bar as an album.
 class SongScreen extends StatefulWidget {
   final Store store;
   final Album album;
@@ -27,11 +29,11 @@ class _SongScreenState extends State<SongScreen> {
     final store = widget.store;
     final t = widget.track;
     final a = widget.album;
-    final theme = Theme.of(context);
-    final scheme = theme.colorScheme;
+    final c = AppColors.of(context);
 
     return Scaffold(
       appBar: AppBar(),
+      // The one rating slider: fixed at the bottom while the page scrolls.
       bottomNavigationBar: ListenableBuilder(
         listenable: store,
         builder: (context, _) => RatingBar(
@@ -45,104 +47,172 @@ class _SongScreenState extends State<SongScreen> {
         listenable: store,
         builder: (context, _) {
           final saved = store.trackRatingOf(t.id);
+          final meta = ['Track ${t.number}', if (t.ms != null) fmtLength(t.ms!)].join(' · ');
           return ListView(
-            padding: const EdgeInsets.fromLTRB(16, 0, 16, 32),
+            padding: const EdgeInsets.fromLTRB(
+              AppSpace.gutter,
+              AppSpace.xs,
+              AppSpace.gutter,
+              AppSpace.xxl,
+            ),
             children: [
+              // ---- Header: the song's title leads; the record stands in for
+              // song artwork.
               Row(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  SizedBox(
-                    width: 84,
-                    child: Stack(
-                      children: [
-                        Cover(album: a, radius: 42), // round, like a record
-                        Positioned(
-                          right: 0,
-                          bottom: 0,
-                          child: CircleAvatar(
-                            radius: 13,
-                            backgroundColor: scheme.primary,
-                            child: Icon(Icons.music_note, size: 16, color: scheme.onPrimary),
-                          ),
-                        ),
-                      ],
-                    ),
-                  ),
-                  const SizedBox(width: 12),
+                  ExcludeSemantics(child: _SongArt(album: a)),
+                  const SizedBox(width: AppSpace.md),
                   Expanded(
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        Text.rich(
-                          TextSpan(
-                            children: [
-                              TextSpan(
-                                text: t.title,
-                                style: theme.textTheme.titleLarge?.copyWith(
-                                  fontWeight: FontWeight.bold,
-                                  height: 1.15,
-                                ),
-                              ),
-                              const WidgetSpan(child: SizedBox(width: 8)),
-                              WidgetSpan(
-                                alignment: PlaceholderAlignment.middle,
-                                child: Container(
-                                  padding: const EdgeInsets.symmetric(horizontal: 7, vertical: 2),
-                                  decoration: BoxDecoration(
-                                    color: scheme.secondaryContainer,
-                                    borderRadius: BorderRadius.circular(6),
-                                  ),
-                                  child: Text(
-                                    'Song',
-                                    style: theme.textTheme.labelSmall?.copyWith(
-                                      color: scheme.onSecondaryContainer,
-                                      fontWeight: FontWeight.bold,
-                                    ),
-                                  ),
-                                ),
-                              ),
-                            ],
-                          ),
+                        Text(
+                          'SONG',
+                          semanticsLabel: 'Song',
+                          style: AppType.label.copyWith(color: c.textSecondary),
                         ),
-                        const SizedBox(height: 4),
-                        InkWell(
-                          onTap: () => openAlbum(context, store, a),
+                        const SizedBox(height: AppSpace.xxs),
+                        Semantics(
+                          header: true,
                           child: Text(
-                            'Track ${t.number} on ${a.title}',
-                            style: theme.textTheme.bodySmall?.copyWith(
-                              color: scheme.primary,
-                              decoration: TextDecoration.underline,
-                              decorationColor: scheme.primary,
-                            ),
+                            t.title,
+                            style: AppType.screenTitle.copyWith(color: c.textPrimary),
                           ),
                         ),
-                        if (t.ms != null)
-                          Text(
-                            fmtLength(t.ms!),
-                            style: theme.textTheme.bodySmall?.copyWith(
-                              color: scheme.onSurfaceVariant,
-                            ),
-                          ),
-                        const SizedBox(height: 6),
-                        ArtistButton(store: store, artist: a.artist),
+                        const SizedBox(height: AppSpace.xs),
+                        Text(meta, style: AppType.bodySmall.copyWith(color: c.textSecondary)),
                       ],
                     ),
                   ),
-                  const SizedBox(width: 6),
-                  RatingStats(
-                    count: store.trackRatingCount(t.id),
-                    yours: saved,
-                    average: store.trackAverageOf(t.id),
-                  ),
                 ],
               ),
-              const Divider(height: 32),
-              MountainChart(counts: ratingBuckets([?saved])),
-              const Divider(height: 32),
+              const SizedBox(height: AppSpace.sm),
+              Align(
+                alignment: Alignment.centerLeft,
+                child: ArtistButton(store: store, artist: a.artist),
+              ),
+              const SizedBox(height: AppSpace.sm),
+              // ---- The album it is on: a whole-row link.
+              _AlbumLink(album: a, track: t, onTap: () => openAlbum(context, store, a)),
+              const SizedBox(height: AppSpace.lg),
+              RatingSummary(
+                count: store.trackRatingCount(t.id),
+                yours: saved,
+                average: store.trackAverageOf(t.id),
+              ),
+              const SizedBox(height: AppSpace.section),
+              MountainChart(counts: ratingBuckets([?saved]), compactEmpty: true),
+              const SizedBox(height: AppSpace.section),
               ReviewSection(store: store, subject: 'track:${t.id}'),
             ],
           );
         },
+      ),
+    );
+  }
+}
+
+/// The album cover shown round, like a record, with a small note on it.
+class _SongArt extends StatelessWidget {
+  final Album album;
+  const _SongArt({required this.album});
+
+  static const _size = 88.0;
+
+  @override
+  Widget build(BuildContext context) {
+    final c = AppColors.of(context);
+    return SizedBox.square(
+      dimension: _size,
+      child: Stack(
+        children: [
+          Cover(album: album, size: _size, radius: _size / 2),
+          Positioned(
+            right: 0,
+            bottom: 0,
+            child: Container(
+              width: 28,
+              height: 28,
+              decoration: BoxDecoration(
+                color: c.surfaceSelected,
+                shape: BoxShape.circle,
+                border: Border.all(color: c.page, width: 2),
+              ),
+              child: Icon(Icons.music_note, size: AppIconSizes.small, color: c.textPrimary),
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+}
+
+/// "From the album": small cover, album title and artist, and a chevron. The
+/// whole row opens the album.
+class _AlbumLink extends StatelessWidget {
+  final Album album;
+  final Track track;
+  final VoidCallback onTap;
+  const _AlbumLink({required this.album, required this.track, required this.onTap});
+
+  @override
+  Widget build(BuildContext context) {
+    final c = AppColors.of(context);
+    return Semantics(
+      button: true,
+      label: 'From the album ${album.title} by ${album.artist}, track ${track.number}. Open album',
+      excludeSemantics: true,
+      child: Material(
+        type: MaterialType.transparency,
+        child: InkWell(
+          onTap: onTap,
+          borderRadius: BorderRadius.circular(AppRadii.card),
+          child: Ink(
+            decoration: BoxDecoration(
+              border: Border.all(color: c.lineDecorative),
+              borderRadius: BorderRadius.circular(AppRadii.card),
+            ),
+            child: ConstrainedBox(
+              constraints: const BoxConstraints(minHeight: 72),
+              child: Padding(
+                padding: const EdgeInsets.all(AppSpace.sm),
+                child: Row(
+                  children: [
+                    Cover(album: album, size: 56),
+                    const SizedBox(width: AppSpace.md),
+                    Expanded(
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        mainAxisSize: MainAxisSize.min,
+                        children: [
+                          Text(
+                            'FROM THE ALBUM',
+                            style: AppType.label.copyWith(color: c.textSecondary),
+                          ),
+                          const SizedBox(height: AppSpace.xxs),
+                          Text(
+                            album.title,
+                            maxLines: 2,
+                            overflow: TextOverflow.ellipsis,
+                            style: AppType.cardTitle.copyWith(color: c.textPrimary),
+                          ),
+                          Text(
+                            album.artist,
+                            maxLines: 1,
+                            overflow: TextOverflow.ellipsis,
+                            style: AppType.bodySmall.copyWith(color: c.textSecondary),
+                          ),
+                        ],
+                      ),
+                    ),
+                    Icon(Icons.chevron_right, color: c.textSecondary),
+                  ],
+                ),
+              ),
+            ),
+          ),
+        ),
       ),
     );
   }

@@ -5,6 +5,7 @@ import 'package:go_router/go_router.dart';
 import 'album_screen.dart';
 import 'catalogue.dart';
 import 'charts.dart';
+import 'design/design.dart';
 import 'details.dart';
 import 'expedition_screens.dart';
 import 'models.dart';
@@ -205,7 +206,13 @@ class _Missing extends StatelessWidget {
   @override
   Widget build(BuildContext context) => Scaffold(
     appBar: AppBar(),
-    body: Center(child: Text("Couldn't find this $what.")),
+    body: Center(
+      child: EmptyState(
+        icon: Icons.search_off,
+        title: "Couldn't find this $what",
+        message: 'It may not be in the library on this device. Go back to keep browsing.',
+      ),
+    ),
   );
 }
 

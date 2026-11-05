@@ -65,6 +65,13 @@ class ChartScreen extends StatelessWidget {
     }
   }
 
+  /// What an empty chart says, in words that match why it is empty.
+  String get _emptyMessage => switch (kind) {
+    'top' => 'Rate an album and it appears here, highest first.',
+    'hardest' => 'No albums have a listening stage yet.',
+    _ => 'No albums here yet.',
+  };
+
   @override
   Widget build(BuildContext context) {
     return ListenableBuilder(
@@ -72,21 +79,16 @@ class ChartScreen extends StatelessWidget {
       builder: (context, _) {
         final (title, note, albums) = _chart();
         return Scaffold(
-          appBar: AppBar(title: Text(title)),
+          appBar: AppBar(),
           body: CustomScrollView(
             slivers: [
-              if (note != null)
-                SliverToBoxAdapter(
-                  child: Padding(
-                    padding: const EdgeInsets.fromLTRB(16, 0, 16, 4),
-                    child: Text(note, style: Theme.of(context).textTheme.bodySmall),
-                  ),
-                ),
+              SliverToBoxAdapter(child: PageHeader(title, subtitle: note)),
               if (albums.isEmpty)
-                const SliverToBoxAdapter(
-                  child: EmptyState(icon: Icons.leaderboard_outlined, message: 'Nothing here yet.'),
+                SliverToBoxAdapter(
+                  child: EmptyState(icon: Icons.leaderboard_outlined, message: _emptyMessage),
                 ),
               SliverAlbumGrid(albums: albums, store: store, numbered: true),
+              const SliverToBoxAdapter(child: SizedBox(height: AppSpace.section)),
             ],
           ),
         );

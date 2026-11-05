@@ -135,7 +135,7 @@ abstract final class RangeGeometry {
 /// "Your Range": the pinned albums drawn as a connected mountain skyline. Each
 /// cover sits on its peak; the peak's height and shape come from the album's
 /// listening stage. Below each peak, its stage in words.
-class RangeSkyline extends StatelessWidget {
+class RangeSkyline extends StatefulWidget {
   final Store store;
 
   /// When true, tapping a cover removes it (the visible alternative to
@@ -144,6 +144,98 @@ class RangeSkyline extends StatelessWidget {
   const RangeSkyline({super.key, required this.store, this.editing = false});
 
   static const coverSize = AppSizes.rangeCover;
+
+  @override
+  State<RangeSkyline> createState() => _RangeSkylineState();
+}
+
+/// Peaks rise and fall when the Range changes: an added album grows from its
+/// empty slot to its stage height, a removed one sinks back (400 ms,
+/// easeInOutCubic). Only the stage decides a height, so a new rating never
+/// moves a peak. With reduced motion the peaks change at once.
+class _RangeSkylineState extends State<RangeSkyline> with SingleTickerProviderStateMixin {
+  late final _controller = AnimationController(vsync: this, duration: AppMotion.rangePeak.duration)
+    ..value = 1;
+  late final _t = CurvedAnimation(parent: _controller, curve: AppMotion.rangePeak.curve);
+
+  /// What each slot shows now, and the heights it moves between.
+  late List<PeakKind> _kinds = _targetKinds();
+  late List<PeakKind> _drawKinds = _kinds;
+  late List<double> _from = [for (final k in _kinds) RangeGeometry.height(k)];
+  late List<double> _to = _from;
+
+  /// A change that arrived while this page was hidden (for example while the
+  /// album picker was open) waits to play until the page is visible again.
+  bool _pending = false;
+
+  Store get store => widget.store;
+
+  List<PeakKind> _targetKinds() {
+    final range = widget.store.range;
+    return [
+      for (final a in range)
+        RangeGeometry.kindOf(a, a == null ? null : difficultyOf(widget.store, a.id)),
+    ];
+  }
+
+  List<double> get _heights => [
+    for (var i = 0; i < _to.length; i++) _from[i] + (_to[i] - _from[i]) * _t.value,
+  ];
+
+  @override
+  void didUpdateWidget(RangeSkyline old) {
+    super.didUpdateWidget(old);
+    final next = _targetKinds();
+    if (RangePainter._same(next, _kinds)) return;
+    final now = _heights;
+    final prev = _kinds;
+    _kinds = next;
+    _from = now;
+    _to = [for (final k in next) RangeGeometry.height(k)];
+    // A removed peak keeps its shape while it sinks, then becomes the empty
+    // outline.
+    _drawKinds = [
+      for (var i = 0; i < next.length; i++)
+        next[i] == PeakKind.empty && prev[i] != PeakKind.empty ? prev[i] : next[i],
+    ];
+    if (AppMotion.reduced(context)) {
+      _finish();
+    } else if (TickerMode.valuesOf(context).enabled) {
+      _play();
+    } else {
+      _pending = true;
+    }
+  }
+
+  @override
+  void didChangeDependencies() {
+    super.didChangeDependencies();
+    if (_pending && TickerMode.valuesOf(context).enabled) _play();
+  }
+
+  void _play() {
+    _pending = false;
+    _controller.forward(from: 0).whenCompleteOrCancel(() {
+      if (mounted && _controller.value == 1) setState(_settle);
+    });
+  }
+
+  void _finish() {
+    _pending = false;
+    _controller.value = 1;
+    _settle();
+  }
+
+  void _settle() {
+    _from = _to;
+    _drawKinds = _kinds;
+  }
+
+  @override
+  void dispose() {
+    _controller.dispose();
+    super.dispose();
+  }
 
   Future<void> _remove(BuildContext context, Album album, int slot) async {
     final messenger = ScaffoldMessenger.of(context);
@@ -161,9 +253,8 @@ class RangeSkyline extends StatelessWidget {
   Widget build(BuildContext context) {
     final range = store.range;
     final stages = [for (final a in range) a == null ? null : difficultyOf(store, a.id)];
-    final kinds = [
-      for (var i = 0; i < range.length; i++) RangeGeometry.kindOf(range[i], stages[i]),
-    ];
+    final kinds = _kinds;
+    const coverSize = RangeSkyline.coverSize;
     final c = AppColors.of(context);
     return LayoutBuilder(
       builder: (context, box) {
@@ -174,44 +265,52 @@ class RangeSkyline extends StatelessWidget {
           children: [
             SizedBox(
               height: RangeGeometry.canvasHeight,
-              child: Stack(
-                children: [
-                  Positioned.fill(
-                    child: ExcludeSemantics(
-                      child: CustomPaint(
-                        painter: RangePainter(
-                          kinds: kinds,
-                          xs: xs,
-                          slot: slot,
-                          colors: RangeColors.of(c),
+              // Only the peaks and covers redraw while they move.
+              child: RepaintBoundary(
+                child: AnimatedBuilder(
+                  animation: _t,
+                  builder: (context, _) {
+                    final heights = _heights;
+                    return Stack(
+                      children: [
+                        Positioned.fill(
+                          child: ExcludeSemantics(
+                            child: CustomPaint(
+                              painter: RangePainter(
+                                kinds: _drawKinds,
+                                heights: heights,
+                                xs: xs,
+                                slot: slot,
+                                colors: RangeColors.of(c),
+                              ),
+                            ),
+                          ),
                         ),
-                      ),
-                    ),
-                  ),
-                  for (var i = 0; i < range.length; i++)
-                    Positioned(
-                      left: xs[i] - coverSize / 2,
-                      top:
-                          RangeGeometry.baseline -
-                          RangeGeometry.height(kinds[i]) -
-                          coverSize +
-                          AppSpace.xs,
-                      child: _PeakTop(
-                        slot: i,
-                        album: range[i],
-                        stage: stages[i],
-                        rating: range[i] == null ? null : store.ratingOf(range[i]!.id),
-                        editing: editing,
-                        // An empty slot opens a list of your rated albums to pick from.
-                        onTap: range[i] == null
-                            ? () => context.push('/you/range/$i')
-                            : editing
-                            ? () => _remove(context, range[i]!, i)
-                            : () => openAlbum(context, store, range[i]!),
-                        onRemove: range[i] == null ? null : () => _remove(context, range[i]!, i),
-                      ),
-                    ),
-                ],
+                        for (var i = 0; i < range.length; i++)
+                          Positioned(
+                            left: xs[i] - coverSize / 2,
+                            top: RangeGeometry.baseline - heights[i] - coverSize + AppSpace.xs,
+                            child: _PeakTop(
+                              slot: i,
+                              album: range[i],
+                              stage: stages[i],
+                              rating: range[i] == null ? null : store.ratingOf(range[i]!.id),
+                              editing: widget.editing,
+                              // An empty slot opens a list of your rated albums to pick from.
+                              onTap: range[i] == null
+                                  ? () => context.push('/you/range/$i')
+                                  : widget.editing
+                                  ? () => _remove(context, range[i]!, i)
+                                  : () => openAlbum(context, store, range[i]!),
+                              onRemove: range[i] == null
+                                  ? null
+                                  : () => _remove(context, range[i]!, i),
+                            ),
+                          ),
+                      ],
+                    );
+                  },
+                ),
               ),
             ),
             const SizedBox(height: AppSpace.sm),
@@ -340,85 +439,116 @@ class RangeColors {
 /// Paints the five peaks, tallest at the back, on a shared ground strip.
 class RangePainter extends CustomPainter {
   final List<PeakKind> kinds;
+
+  /// The apex height each peak is drawn at right now. While a peak rises or
+  /// sinks its stage shape is squeezed to this height; at rest it equals
+  /// [RangeGeometry.height] of its kind.
+  final List<double> heights;
   final List<double> xs;
   final double slot;
   final RangeColors colors;
-  RangePainter({required this.kinds, required this.xs, required this.slot, required this.colors});
+  RangePainter({
+    required this.kinds,
+    required this.xs,
+    required this.slot,
+    required this.colors,
+    List<double>? heights,
+  }) : heights = heights ?? [for (final k in kinds) RangeGeometry.height(k)];
 
   @override
   void paint(Canvas canvas, Size size) {
     const base = RangeGeometry.baseline;
     final order = [for (var i = 0; i < kinds.length; i++) i]
-      ..sort((a, b) => RangeGeometry.height(kinds[b]).compareTo(RangeGeometry.height(kinds[a])));
+      ..sort((a, b) => heights[b].compareTo(heights[a]));
     for (final i in order) {
       final k = kinds[i];
       final x = xs[i];
       final path = RangeGeometry.silhouette(k, x, base, slot);
-      if (k == PeakKind.empty) {
-        // A faint dotted position, no stage implied.
-        _dashedPath(
-          canvas,
-          path,
-          Paint()
-            ..color = colors.faint
-            ..strokeWidth = 1.5
-            ..style = PaintingStyle.stroke,
-        );
-        continue;
-      }
-      if (k == PeakKind.unassigned) {
-        // Neutral: ground-coloured body, dashed light outline.
-        canvas.drawPath(path, Paint()..color = colors.ground);
-        _dashedPath(
-          canvas,
-          path,
-          Paint()
-            ..color = colors.unscored
-            ..strokeWidth = 1.5
-            ..style = PaintingStyle.stroke,
-        );
-        continue;
-      }
-      final h = RangeGeometry.height(k);
-      final b = RangeGeometry.halfBase(k, slot);
-      final top = base - h;
+      // Squeeze the stage shape to the height it has reached.
+      final squeeze = heights[i] / RangeGeometry.height(k);
       canvas.save();
-      canvas.clipPath(path);
-      // Lit face everywhere, then the shaded face right of the ridge line.
-      canvas.drawRect(Rect.fromLTWH(x - b, top - 10, b * 2, h + 10), Paint()..color = colors.lit);
-      final shade = Path()
-        ..moveTo(x, top - 10)
-        ..lineTo(x + b * 0.12, base)
-        ..lineTo(x + b + 1, base)
-        ..lineTo(x + b + 1, top - 10)
-        ..close();
-      canvas.drawPath(shade, Paint()..color = colors.shadow);
-      // Snow cap with a jagged lower edge.
-      final depth = RangeGeometry.snowDepth(k);
-      if (depth != null) {
-        final y = top + depth;
-        final w = b * 0.6;
-        final snow = Path()..moveTo(x - w, top - 10);
-        const teeth = 6;
-        for (var t = 0; t <= teeth; t++) {
-          snow.lineTo(x - w + 2 * w * t / teeth, y + (t.isOdd ? 6 : -2));
-        }
-        snow
-          ..lineTo(x + w, top - 10)
-          ..close();
-        canvas.drawPath(snow, Paint()..color = colors.snow.withValues(alpha: 0.9));
+      if (squeeze != 1) {
+        canvas
+          ..translate(0, base)
+          ..scale(1, squeeze)
+          ..translate(0, -base);
       }
+      _paintPeak(canvas, k, x, path);
       canvas.restore();
-      // A defined ridge line along the silhouette.
-      canvas.drawPath(
+    }
+    _paintGround(canvas, size);
+  }
+
+  void _paintPeak(Canvas canvas, PeakKind k, double x, Path path) {
+    const base = RangeGeometry.baseline;
+    if (k == PeakKind.empty) {
+      // A faint dotted position, no stage implied.
+      _dashedPath(
+        canvas,
         path,
         Paint()
-          ..color = colors.shadow
+          ..color = colors.faint
           ..strokeWidth = 1.5
-          ..style = PaintingStyle.stroke
-          ..strokeJoin = StrokeJoin.round,
+          ..style = PaintingStyle.stroke,
       );
+      return;
     }
+    if (k == PeakKind.unassigned) {
+      // Neutral: ground-coloured body, dashed light outline.
+      canvas.drawPath(path, Paint()..color = colors.ground);
+      _dashedPath(
+        canvas,
+        path,
+        Paint()
+          ..color = colors.unscored
+          ..strokeWidth = 1.5
+          ..style = PaintingStyle.stroke,
+      );
+      return;
+    }
+    final h = RangeGeometry.height(k);
+    final b = RangeGeometry.halfBase(k, slot);
+    final top = base - h;
+    canvas.save();
+    canvas.clipPath(path);
+    // Lit face everywhere, then the shaded face right of the ridge line.
+    canvas.drawRect(Rect.fromLTWH(x - b, top - 10, b * 2, h + 10), Paint()..color = colors.lit);
+    final shade = Path()
+      ..moveTo(x, top - 10)
+      ..lineTo(x + b * 0.12, base)
+      ..lineTo(x + b + 1, base)
+      ..lineTo(x + b + 1, top - 10)
+      ..close();
+    canvas.drawPath(shade, Paint()..color = colors.shadow);
+    // Snow cap with a jagged lower edge.
+    final depth = RangeGeometry.snowDepth(k);
+    if (depth != null) {
+      final y = top + depth;
+      final w = b * 0.6;
+      final snow = Path()..moveTo(x - w, top - 10);
+      const teeth = 6;
+      for (var t = 0; t <= teeth; t++) {
+        snow.lineTo(x - w + 2 * w * t / teeth, y + (t.isOdd ? 6 : -2));
+      }
+      snow
+        ..lineTo(x + w, top - 10)
+        ..close();
+      canvas.drawPath(snow, Paint()..color = colors.snow.withValues(alpha: 0.9));
+    }
+    canvas.restore();
+    // A defined ridge line along the silhouette.
+    canvas.drawPath(
+      path,
+      Paint()
+        ..color = colors.shadow
+        ..strokeWidth = 1.5
+        ..style = PaintingStyle.stroke
+        ..strokeJoin = StrokeJoin.round,
+    );
+  }
+
+  void _paintGround(Canvas canvas, Size size) {
+    const base = RangeGeometry.baseline;
     // Shared ground.
     canvas.drawRect(
       Rect.fromLTWH(0, base, size.width, RangeGeometry.groundHeight),
@@ -444,7 +574,11 @@ class RangePainter extends CustomPainter {
 
   @override
   bool shouldRepaint(RangePainter old) =>
-      old.slot != slot || old.colors != colors || !_same(old.kinds, kinds) || !_same(old.xs, xs);
+      old.slot != slot ||
+      old.colors != colors ||
+      !_same(old.kinds, kinds) ||
+      !_same(old.heights, heights) ||
+      !_same(old.xs, xs);
 
   static bool _same<T>(List<T> a, List<T> b) {
     if (a.length != b.length) return false;

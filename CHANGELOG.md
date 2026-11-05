@@ -1,5 +1,17 @@
 # Changelog
 
+## v0.9.0: Expeditions redesign (Phases A to E)
+The whole app now uses the Expeditions design: dark forest green, Outfit and Inter, custom stage icons, shared album cards and the redesigned Discover, album, Expeditions, You, artist, genre, chart, song and expedition editor screens.
+
+Phase E, motion and polish:
+- Your Range peaks rise from the empty slot to their stage height when an album is added, and sink back when it is removed (Undo raises it again). Ratings never move a peak.
+- The expedition trail's travelled path grows to the next stop after a rating is saved, the Next Stop label moves with it, the trail scrolls to reveal the new stop if it is off screen, and a completed expedition gets a check on its final stop. Progress bars fill smoothly.
+- Album covers fly from the tapped card into the album page and back.
+- One short fade-and-slide page transition everywhere.
+- The rating number settles when saved; phones give a light tick per half point and on save.
+- Bookmarks swap with a quick scale; unlocking a stop brightens it.
+- Every animation is off when the system asks for reduced motion.
+
 ## Unreleased: stage icons and genre buttons (Phase B)
 - Four new listening-stage drawings (Base Camp tent, Foothills hills and sun, High Altitude jagged range, Summit peak with trail and flag), each in a detailed and a compact version, replace the old difficulty icons everywhere.
 - Genres in the Discover chip row are text-only buttons. Tap again to clear, as before.

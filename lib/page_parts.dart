@@ -6,62 +6,68 @@ import 'nav.dart';
 import 'store.dart';
 import 'widgets.dart';
 
-/// Ratings count, your rating and the average, stacked in a narrow column.
-class RatingStats extends StatelessWidget {
+/// Number of ratings, yours and the average in one quiet row (album and
+/// song pages).
+class RatingSummary extends StatelessWidget {
   final int count;
-  final double? yours;
-  final double? average;
-  const RatingStats({super.key, required this.count, this.yours, this.average});
+  final double? yours, average;
+  const RatingSummary({super.key, required this.count, this.yours, this.average});
 
   @override
   Widget build(BuildContext context) {
     final c = AppColors.of(context);
-    Widget stat(String value, String label, {required String spoken, bool empty = false}) =>
-        Semantics(
-          label: spoken,
-          excludeSemantics: true,
-          child: Padding(
-            padding: const EdgeInsets.only(bottom: AppSpace.sm - 2),
-            child: Column(
-              children: [
-                Text(
-                  value,
-                  softWrap: false,
-                  style: AppType.score.copyWith(
-                    fontSize: 20,
-                    color: empty ? c.textTertiary : c.textPrimary,
-                  ),
+    Widget cell(String value, String label, String spoken, {bool empty = false}) => Expanded(
+      child: Semantics(
+        container: true,
+        label: spoken,
+        excludeSemantics: true,
+        child: Padding(
+          padding: const EdgeInsets.symmetric(vertical: AppSpace.sm, horizontal: AppSpace.xs),
+          child: Column(
+            children: [
+              Text(
+                value,
+                style: AppType.score.copyWith(
+                  fontSize: 18,
+                  color: empty ? c.textTertiary : c.textPrimary,
                 ),
-                Text(
-                  label,
-                  softWrap: false,
-                  style: AppType.caption.copyWith(color: c.textSecondary),
-                ),
-              ],
-            ),
+              ),
+              Text(
+                label,
+                textAlign: TextAlign.center,
+                style: AppType.caption.copyWith(color: c.textSecondary),
+              ),
+            ],
           ),
-        );
-    // At least 64 wide; wider with large text so the labels never break.
-    return ConstrainedBox(
-      constraints: const BoxConstraints(minWidth: 64),
-      child: Column(
+        ),
+      ),
+    );
+    Widget rule() => Container(width: 1, height: 28, color: c.lineDecorative);
+    return DecoratedBox(
+      decoration: BoxDecoration(
+        border: Border.all(color: c.lineDecorative),
+        borderRadius: BorderRadius.circular(AppRadii.card),
+      ),
+      child: Row(
         children: [
-          stat(
+          cell(
             '$count',
             count == 1 ? 'rating' : 'ratings',
-            spoken: '$count ${count == 1 ? 'rating' : 'ratings'}',
+            '$count ${count == 1 ? 'rating' : 'ratings'}',
           ),
-          stat(
+          rule(),
+          cell(
             yours == null ? '–' : formatScore(yours!),
             'yours',
+            yours == null ? 'You have not rated it' : 'Your rating ${formatScore(yours!)}',
             empty: yours == null,
-            spoken: yours == null ? 'You have not rated it' : 'Yours ${formatScore(yours!)}',
           ),
-          stat(
+          rule(),
+          cell(
             average == null ? '–' : formatScore(average!),
             'average',
+            average == null ? 'No average yet' : 'Average ${formatScore(average!)}',
             empty: average == null,
-            spoken: average == null ? 'No average yet' : 'Average ${formatScore(average!)}',
           ),
         ],
       ),
@@ -118,7 +124,7 @@ Future<void> showRatingSheet(
             children: [
               Text(
                 title,
-                style: AppType.cardTitle.copyWith(color: AppColors.of(c).textPrimary),
+                style: AppType.sectionTitle.copyWith(color: AppColors.of(c).textPrimary),
                 textAlign: TextAlign.center,
               ),
               const SizedBox(height: AppSpace.sm),
@@ -157,11 +163,13 @@ class ReviewSection extends StatelessWidget {
   const ReviewSection({super.key, required this.store, required this.subject});
 
   Future<void> _edit(BuildContext context) async {
-    final controller = TextEditingController(text: store.reviewOf(subject)?.text ?? '');
+    final existing = store.reviewOf(subject);
+    final controller = TextEditingController(text: existing?.text ?? '');
+    // null: cancelled. Empty text removes the review (the Delete button).
     final text = await showDialog<String>(
       context: context,
       builder: (c) => AlertDialog(
-        title: const Text('Your review'),
+        title: Text(existing == null ? 'Write a review' : 'Edit your review'),
         content: TextField(
           controller: controller,
           autofocus: true,
@@ -169,9 +177,18 @@ class ReviewSection extends StatelessWidget {
           maxLines: 10,
           maxLength: 2000,
           textCapitalization: TextCapitalization.sentences,
-          decoration: const InputDecoration(hintText: 'What did you think?'),
+          decoration: const InputDecoration(
+            hintText: 'What did you think?',
+            border: OutlineInputBorder(),
+          ),
         ),
         actions: [
+          if (existing != null)
+            TextButton(
+              style: TextButton.styleFrom(foregroundColor: AppColors.of(c).error),
+              onPressed: () => Navigator.pop(c, ''),
+              child: const Text('Delete'),
+            ),
           TextButton(onPressed: () => Navigator.pop(c), child: const Text('Cancel')),
           FilledButton(
             onPressed: () => Navigator.pop(c, controller.text),
@@ -192,9 +209,11 @@ class ReviewSection extends StatelessWidget {
         content: TextField(
           controller: controller,
           autofocus: true,
+          minLines: 2,
           maxLines: 4,
           maxLength: 500,
           textCapitalization: TextCapitalization.sentences,
+          decoration: const InputDecoration(border: OutlineInputBorder()),
         ),
         actions: [
           TextButton(onPressed: () => Navigator.pop(c), child: const Text('Cancel')),
@@ -215,8 +234,8 @@ class ReviewSection extends StatelessWidget {
       builder: (c) => SimpleDialog(
         title: Text(comment == null ? 'Report this review' : 'Report this comment'),
         children: [
-          for (final r in reasons)
-            SimpleDialogOption(onPressed: () => Navigator.pop(c, r), child: Text(r)),
+          for (final r in reasons) DialogChoice(title: r, onTap: () => Navigator.pop(c, r)),
+          const DialogCancel(),
         ],
       ),
     );
@@ -235,12 +254,11 @@ class ReviewSection extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final theme = Theme.of(context);
-    final scheme = theme.colorScheme;
+    final c = AppColors.of(context);
     final review = store.reviewOf(subject);
     final who = store.nickname.isEmpty ? 'You' : store.nickname;
     return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
+      crossAxisAlignment: CrossAxisAlignment.stretch,
       children: [
         SectionHeader(
           'Reviews',
@@ -248,46 +266,62 @@ class ReviewSection extends StatelessWidget {
           trailing: TextButton.icon(
             onPressed: () => _edit(context),
             icon: Icon(
-              review == null ? Icons.rate_review_outlined : Icons.edit,
+              review == null ? Icons.rate_review_outlined : Icons.edit_outlined,
               size: AppIconSizes.small,
             ),
             label: Text(review == null ? 'Write a review' : 'Edit'),
           ),
         ),
         if (review == null)
-          Text(
-            'No reviews yet.',
-            style: AppType.bodySmall.copyWith(color: AppColors.of(context).textSecondary),
-          )
+          Text('No reviews yet.', style: AppType.bodySmall.copyWith(color: c.textSecondary))
         else
-          Card(
-            margin: EdgeInsets.zero,
+          DecoratedBox(
+            decoration: BoxDecoration(
+              color: c.surfaceRaised,
+              borderRadius: BorderRadius.circular(AppRadii.card),
+            ),
             child: Padding(
-              padding: const EdgeInsets.fromLTRB(14, 12, 6, 6),
+              padding: const EdgeInsets.fromLTRB(
+                AppSpace.lg,
+                AppSpace.md,
+                AppSpace.xs,
+                AppSpace.xs,
+              ),
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Text(
                     '$who · ${_ago(review.at)}',
-                    style: theme.textTheme.labelMedium?.copyWith(color: scheme.onSurfaceVariant),
+                    style: AppType.caption.copyWith(color: c.textSecondary),
                   ),
-                  const SizedBox(height: 6),
-                  Text(review.text, style: theme.textTheme.bodyMedium),
+                  const SizedBox(height: AppSpace.xs),
+                  Padding(
+                    padding: const EdgeInsets.only(right: AppSpace.md),
+                    child: Text(review.text, style: AppType.body.copyWith(color: c.textPrimary)),
+                  ),
                   Row(
                     children: [
                       TextButton.icon(
+                        style: TextButton.styleFrom(foregroundColor: c.textSecondary),
                         onPressed: () => store.toggleLike(subject),
                         icon: Icon(
                           review.liked ? Icons.favorite : Icons.favorite_border,
-                          size: 18,
-                          color: review.liked ? Colors.red.shade600 : null,
+                          size: AppIconSizes.small,
+                          color: review.liked ? c.textPrimary : null,
                         ),
-                        label: Text('${review.liked ? 1 : 0}'),
+                        label: Text(
+                          '${review.liked ? 1 : 0}',
+                          semanticsLabel: review.liked ? 'Liked' : 'Like',
+                        ),
                       ),
                       TextButton.icon(
+                        style: TextButton.styleFrom(foregroundColor: c.textSecondary),
                         onPressed: () => _comment(context),
-                        icon: const Icon(Icons.chat_bubble_outline, size: 18),
-                        label: Text('${review.comments.length}'),
+                        icon: const Icon(Icons.chat_bubble_outline, size: AppIconSizes.small),
+                        label: Text(
+                          '${review.comments.length}',
+                          semanticsLabel: 'Comment, ${review.comments.length} so far',
+                        ),
                       ),
                       const Spacer(),
                       _ReportButton(reported: review.reported, onPressed: () => _report(context)),
@@ -295,26 +329,35 @@ class ReviewSection extends StatelessWidget {
                   ),
                   for (var i = 0; i < review.comments.length; i++)
                     Container(
-                      margin: const EdgeInsets.only(left: 12, bottom: 6),
-                      padding: const EdgeInsets.only(left: 10),
+                      margin: const EdgeInsets.only(left: AppSpace.xs, bottom: AppSpace.sm),
+                      padding: const EdgeInsets.only(left: AppSpace.md),
                       decoration: BoxDecoration(
-                        border: Border(left: BorderSide(color: scheme.outlineVariant, width: 2)),
+                        border: Border(
+                          left: BorderSide(
+                            color: c.lineFunctional,
+                            width: AppSizes.indicatorBorderWidth,
+                          ),
+                        ),
                       ),
                       child: Row(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
                           Expanded(
-                            child: Column(
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: [
-                                Text(
-                                  '$who · ${_ago(review.comments[i].at)}',
-                                  style: theme.textTheme.labelSmall?.copyWith(
-                                    color: scheme.onSurfaceVariant,
+                            child: Padding(
+                              padding: const EdgeInsets.only(top: AppSpace.xs),
+                              child: Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  Text(
+                                    '$who · ${_ago(review.comments[i].at)}',
+                                    style: AppType.caption.copyWith(color: c.textSecondary),
                                   ),
-                                ),
-                                Text(review.comments[i].text, style: theme.textTheme.bodySmall),
-                              ],
+                                  Text(
+                                    review.comments[i].text,
+                                    style: AppType.bodySmall.copyWith(color: c.textPrimary),
+                                  ),
+                                ],
+                              ),
                             ),
                           ),
                           _ReportButton(
@@ -343,8 +386,8 @@ class _ReportButton extends StatelessWidget {
   @override
   Widget build(BuildContext context) => IconButton(
     tooltip: reported ? 'Reported' : 'Report',
-    visualDensity: small ? VisualDensity.compact : null,
-    iconSize: small ? 16 : 20,
+    // A smaller icon on comments, but the same 48 px tap area.
+    iconSize: small ? AppIconSizes.small : AppIconSizes.regular,
     onPressed: reported ? null : onPressed,
     icon: Icon(reported ? Icons.flag : Icons.outlined_flag),
   );
@@ -386,9 +429,26 @@ class RatingBar extends StatefulWidget {
   State<RatingBar> createState() => _RatingBarState();
 }
 
-class _RatingBarState extends State<RatingBar> {
+class _RatingBarState extends State<RatingBar> with SingleTickerProviderStateMixin {
   late double? _draft = widget.saved;
   bool _dragging = false;
+
+  /// A short settle of the number when a rating is saved (120 ms).
+  late final _settle = AnimationController(
+    vsync: this,
+    duration: AppMotion.ratingValue.duration,
+    value: 1,
+  );
+  late final Animation<double> _scale = Tween(
+    begin: 1.08,
+    end: 1.0,
+  ).animate(CurvedAnimation(parent: _settle, curve: AppMotion.ratingValue.curve));
+
+  @override
+  void dispose() {
+    _settle.dispose();
+    super.dispose();
+  }
 
   @override
   void didUpdateWidget(RatingBar old) {
@@ -419,7 +479,7 @@ class _RatingBarState extends State<RatingBar> {
             mainAxisSize: MainAxisSize.min,
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              ScoreText(_draft),
+              ScaleTransition(scale: _scale, child: ScoreText(_draft)),
               if (saved != null)
                 Text(
                   'tap to clear',
@@ -466,6 +526,7 @@ class _RatingBarState extends State<RatingBar> {
                           _dragging = false;
                           _draft = v;
                         });
+                        if (!AppMotion.reduced(context)) _settle.forward(from: 0);
                         await widget.onSave(v);
                       },
                     ),

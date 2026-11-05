@@ -111,7 +111,10 @@ class _AlbumScreenState extends State<AlbumScreen> {
                       container: true,
                       image: true,
                       label: 'Cover of ${a.title}',
-                      child: Cover(album: a, size: cover, large: true),
+                      child: CoverHero(
+                        albumId: a.id,
+                        child: Cover(album: a, size: cover, large: true),
+                      ),
                     ),
                   ),
                   const SizedBox(height: AppSpace.lg),
@@ -172,7 +175,7 @@ class _AlbumScreenState extends State<AlbumScreen> {
                   ),
                   const SizedBox(height: AppSpace.lg),
                   // ---- Ratings and genres, quieter than the header.
-                  _AlbumStats(
+                  RatingSummary(
                     count: store.ratingCount(a.id),
                     yours: saved,
                     average: store.averageOf(a.id),
@@ -413,74 +416,6 @@ class _ToggleAction extends StatelessWidget {
           icon: Icon(on ? onIcon : offIcon, size: AppIconSizes.regular),
           label: Text(on ? onLabel : offLabel, textAlign: TextAlign.center),
         ),
-      ),
-    );
-  }
-}
-
-/// Number of ratings, yours and the average in one quiet row.
-class _AlbumStats extends StatelessWidget {
-  final int count;
-  final double? yours, average;
-  const _AlbumStats({required this.count, this.yours, this.average});
-
-  @override
-  Widget build(BuildContext context) {
-    final c = AppColors.of(context);
-    Widget cell(String value, String label, String spoken, {bool empty = false}) => Expanded(
-      child: Semantics(
-        container: true,
-        label: spoken,
-        excludeSemantics: true,
-        child: Padding(
-          padding: const EdgeInsets.symmetric(vertical: AppSpace.sm, horizontal: AppSpace.xs),
-          child: Column(
-            children: [
-              Text(
-                value,
-                style: AppType.score.copyWith(
-                  fontSize: 18,
-                  color: empty ? c.textTertiary : c.textPrimary,
-                ),
-              ),
-              Text(
-                label,
-                textAlign: TextAlign.center,
-                style: AppType.caption.copyWith(color: c.textSecondary),
-              ),
-            ],
-          ),
-        ),
-      ),
-    );
-    Widget rule() => Container(width: 1, height: 28, color: c.lineDecorative);
-    return DecoratedBox(
-      decoration: BoxDecoration(
-        border: Border.all(color: c.lineDecorative),
-        borderRadius: BorderRadius.circular(AppRadii.card),
-      ),
-      child: Row(
-        children: [
-          cell(
-            '$count',
-            count == 1 ? 'rating' : 'ratings',
-            '$count ${count == 1 ? 'rating' : 'ratings'}',
-          ),
-          rule(),
-          cell(
-            yours == null ? '–' : formatScore(yours!),
-            'yours',
-            yours == null ? 'You have not rated it' : 'Your rating ${formatScore(yours!)}',
-            empty: yours == null,
-          ),
-          rule(),
-          cell(
-            average == null ? '–' : formatScore(average!),
-            'average',
-            average == null ? 'No average yet' : 'Average ${formatScore(average!)}',
-            empty: average == null,
-          ),
-        ],
       ),
     );
   }
