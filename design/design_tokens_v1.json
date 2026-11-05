@@ -1,0 +1,390 @@
+{
+  "schemaVersion": "1.0.0",
+  "name": "Expeditions Design System",
+  "release": "v1.0-design-freeze",
+  "platform": "Flutter / Android-first + web (600 logical px max)",
+  "sourceOfTruth": "DESIGN_SYSTEM_V1.md; design_tokens_v1.json is machine-readable companion",
+  "units": "Flutter logical pixels (dp); ms for motion; Flutter font height = lineHeightPx / fontSizePx",
+  "themeMode": "darkOnlyForV1_semanticRolesReadyForLightLater",
+  "primitives": {
+    "colors": {
+      "forest900": "#0F2423",
+      "forest800": "#172C2B",
+      "forest700": "#24403C",
+      "forest650": "#304D48",
+      "paper50": "#F3F0E7",
+      "paper200": "#C4D1CC",
+      "paper300": "#AABDB5",
+      "borderSubtle": "#557C71",
+      "borderFunctional": "#76968B",
+      "mint200": "#B6E0C6",
+      "amber200": "#F6D48C",
+      "coral200": "#F4B7B1",
+      "ink": "#0F2423"
+    },
+    "spacing": {
+      "zero": 0,
+      "xxs": 2,
+      "xs": 4,
+      "sm": 8,
+      "md": 12,
+      "lg": 16,
+      "xl": 24,
+      "xxl": 32,
+      "xxxl": 40,
+      "huge": 48
+    },
+    "radii": {
+      "none": 0,
+      "xs": 4,
+      "sm": 8,
+      "md": 12,
+      "lg": 16,
+      "xl": 24,
+      "full": 999
+    },
+    "icons": {
+      "small": 16,
+      "regular": 20,
+      "standard": 24,
+      "large": 32,
+      "stageLarge": 64,
+      "strokeWidth": 1.8,
+      "viewBox": 24,
+      "touchTarget": 48
+    },
+    "covers": {
+      "xs": 44,
+      "sm": 64,
+      "md": 112,
+      "lg": 160,
+      "xl": 224,
+      "heroMin": 200,
+      "heroMax": 240
+    },
+    "sizes": {
+      "touchMin": 48,
+      "primaryButtonHeight": 52,
+      "secondaryButtonHeight": 48,
+      "appBarHeight": 56,
+      "bottomNavHeightExcludingSafeInset": 72,
+      "fixedRatingBarHeight": 72,
+      "expeditionNextRowHeight": 40,
+      "albumCardGap": 8,
+      "gridPageGutter": 16,
+      "sectionGap": 24,
+      "groupGap": 12,
+      "tabIcon": 24,
+      "ratingValueWidth": 68,
+      "rangeCanvasHeight": 260,
+      "rangeCover": 48,
+      "rangeSlotGap": 2,
+      "progressTrackHeight": 6,
+      "indicatorBorderWidth": 2
+    },
+    "breakpoints": {
+      "compactMax": 479,
+      "mediumMin": 480,
+      "webMaxWidth": 600,
+      "designPhones": [
+        360,
+        412
+      ],
+      "designWeb": 600,
+      "textScaleTest": [
+        1.0,
+        1.3,
+        2.0
+      ]
+    },
+    "motion": {
+      "none": {
+        "durationMs": 0
+      },
+      "press": {
+        "durationMs": 100,
+        "curve": "easeOutCubic",
+        "scale": 0.98
+      },
+      "ratingValue": {
+        "durationMs": 120,
+        "curve": "easeOutCubic"
+      },
+      "fade": {
+        "durationMs": 180,
+        "curve": "easeOutCubic"
+      },
+      "coverReveal": {
+        "durationMs": 200,
+        "curve": "easeInOut"
+      },
+      "hero": {
+        "durationMs": 240,
+        "curve": "easeInOutCubic"
+      },
+      "screen": {
+        "durationMs": 280,
+        "curve": "easeOutCubic"
+      },
+      "trail": {
+        "durationMs": 400,
+        "curve": "easeInOutCubic"
+      },
+      "reduceMotion": {
+        "durationsMs": 0,
+        "replaceSpatialTransitionsWith": "instant_or_minimal_fade",
+        "disableScaleAndPathDrawing": true
+      },
+      "rangePeak": {
+        "durationMs": 400,
+        "curve": "easeInOutCubic"
+      },
+      "completeMoment": {
+        "durationMs": 500,
+        "curve": "easeOutCubic"
+      }
+    }
+  },
+  "semantic": {
+    "page": "forest800",
+    "chrome": "forest900",
+    "surfaceRaised": "forest700",
+    "surfaceSelected": "forest650",
+    "surfaceSunken": "forest900",
+    "textPrimary": "paper50",
+    "textSecondary": "paper200",
+    "textTertiary": "paper300",
+    "textOnLight": "forest900",
+    "primaryButtonFill": "paper50",
+    "primaryButtonText": "forest900",
+    "secondaryButtonBorder": "borderFunctional",
+    "lineDecorative": "borderSubtle",
+    "lineFunctional": "borderFunctional",
+    "focusRing": "paper50",
+    "ratingFill": "mint200",
+    "ratingTrack": "forest650",
+    "progressFill": "mint200",
+    "progressTrack": "forest650",
+    "success": "mint200",
+    "warning": "amber200",
+    "error": "coral200",
+    "disabledForeground": "paper300",
+    "bookmarkActive": "paper50",
+    "lockedText": "paper200",
+    "snowCap": "paper50",
+    "mountainLit": "borderFunctional",
+    "mountainShadow": "forest650",
+    "mountainBase": "forest700",
+    "unscoredOutline": "paper300"
+  },
+  "typography": {
+    "fonts": {
+      "display": {
+        "family": "Outfit",
+        "weights": [
+          700,
+          800
+        ]
+      },
+      "ui": {
+        "family": "Inter",
+        "weights": [
+          400,
+          500,
+          600,
+          700
+        ]
+      },
+      "numeric": {
+        "family": "Inter",
+        "weights": [
+          600,
+          700
+        ],
+        "features": [
+          "tnum"
+        ]
+      }
+    },
+    "roles": {
+      "display": {
+        "family": "Outfit",
+        "size": 32,
+        "lineHeight": 38,
+        "weight": 800,
+        "letterSpacing": -0.4
+      },
+      "screenTitle": {
+        "family": "Outfit",
+        "size": 28,
+        "lineHeight": 34,
+        "weight": 700,
+        "letterSpacing": -0.35
+      },
+      "sectionTitle": {
+        "family": "Outfit",
+        "size": 20,
+        "lineHeight": 26,
+        "weight": 700,
+        "letterSpacing": -0.15
+      },
+      "cardTitle": {
+        "family": "Inter",
+        "size": 15,
+        "lineHeight": 20,
+        "weight": 600,
+        "letterSpacing": -0.1
+      },
+      "body": {
+        "family": "Inter",
+        "size": 15,
+        "lineHeight": 22,
+        "weight": 400,
+        "letterSpacing": 0
+      },
+      "bodySmall": {
+        "family": "Inter",
+        "size": 13,
+        "lineHeight": 19,
+        "weight": 400,
+        "letterSpacing": 0
+      },
+      "label": {
+        "family": "Inter",
+        "size": 12,
+        "lineHeight": 16,
+        "weight": 600,
+        "letterSpacing": 0.8,
+        "uppercase": true
+      },
+      "caption": {
+        "family": "Inter",
+        "size": 12,
+        "lineHeight": 17,
+        "weight": 400,
+        "letterSpacing": 0.05
+      },
+      "score": {
+        "family": "Inter",
+        "size": 24,
+        "lineHeight": 29,
+        "weight": 700,
+        "letterSpacing": -0.5,
+        "features": [
+          "tnum"
+        ]
+      },
+      "scoreSmall": {
+        "family": "Inter",
+        "size": 12,
+        "lineHeight": 16,
+        "weight": 700,
+        "letterSpacing": 0,
+        "features": [
+          "tnum"
+        ]
+      }
+    }
+  },
+  "components": {
+    "albumGrid": {
+      "phoneColumns": 3,
+      "wideColumns": 4,
+      "at200PctTextColumns": 2,
+      "columnGap": 8,
+      "rowGap": 12,
+      "coverAspectRatio": 1,
+      "titleMaxLines": 2,
+      "artistMaxLines": 1,
+      "bookmarkTapTarget": 48,
+      "ratingOverlayLocation": "bottomRight",
+      "bookmarkOverlayLocation": "topRight",
+      "cardAspectRatio": "intrinsicHeightNeverFixed",
+      "tapBudget": "bookmarkOneTap_cardBodyOpen"
+    },
+    "albumHero": {
+      "square": true,
+      "widthRule": "min(240, max(200, 0.56 * viewportWidth))",
+      "albumNameMaxLinesAtNormalScale": 3
+    },
+    "ratingBar": {
+      "minHeight": 72,
+      "scoreCellWidth": 68,
+      "max": 10,
+      "step": 0.5,
+      "unrated": null,
+      "unratedLabel": "–",
+      "wholeScoreDisplay": "9",
+      "halfScoreDisplay": "9.5",
+      "save": "onPointerRelease",
+      "clear": "onScoreTap_withUndo",
+      "firstTouchSelects": true,
+      "position": "fixed_above_bottom_navigation",
+      "nextRowHeight": 40
+    },
+    "range": {
+      "slots": 5,
+      "cover": 48,
+      "canvasMinHeight": 260,
+      "baselineY": 208,
+      "peakHeights": {
+        "baseCamp": 80,
+        "foothills": 102,
+        "highAltitude": 130,
+        "summit": 156,
+        "unscored": 98
+      },
+      "unknownState": "neutral_outline_with_question_mark_not_a_fifth_difficulty_level",
+      "emptyState": "dashed_outline_and_visible_add_action",
+      "rating": "cover_overlay_bottomRight",
+      "mountainFaces": 2,
+      "snowCap": true
+    },
+    "stageBadge": {
+      "compactIconBox": 24,
+      "largeIconBox": 64,
+      "compactControlHeight": 48,
+      "compactVisualPillHeight": 26,
+      "levels": [
+        "Base Camp",
+        "Foothills",
+        "High Altitude",
+        "Summit"
+      ],
+      "unknownIsStage": false
+    },
+    "expeditionCard": {
+      "coverSource": "next_unrated_album_in_that_expedition",
+      "unstarted": "first_album_cover",
+      "completed": "last_album_cover_with_complete_label",
+      "missingCover": "brand_placeholder",
+      "displayCoverUnmodified": true,
+      "progress": "segmented_per_stop",
+      "artworkLayout": "real_original_square_album_cover_as_prominent_panel_with_solid_text_surface; no landscape photos"
+    },
+    "genres": {
+      "count": 12,
+      "iconStyle": "geometric_single_colour_vector",
+      "noAiPhotos": true,
+      "keepAllExistingAlbumRowsAccessible": true
+    }
+  },
+  "qa": {
+    "textContrastMinimum": 4.5,
+    "nonTextContrastMinimum": 3.0,
+    "minTouchTarget": 48,
+    "phoneWidths": [
+      360,
+      412
+    ],
+    "webWidth": 600,
+    "textScales": [
+      1.0,
+      1.3,
+      2.0
+    ],
+    "reducedMotion": true,
+    "talkBack": true,
+    "tapCountRegressionAllowed": false
+  }
+}

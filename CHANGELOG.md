@@ -1,5 +1,10 @@
 # Changelog
 
+## Unreleased: Expeditions design foundation (Phase A)
+- New dark forest-green brand theme from design/DESIGN_SYSTEM_V1.md, built from tokens in lib/design/.
+- Outfit (headings) and Inter (everything else) fonts bundled, with their open font licences.
+- Album cards are a few pixels taller so the new fonts fit. No features, data or navigation changed.
+
 ## v0.8
 Change numbers match the v0.8 wish list.
 

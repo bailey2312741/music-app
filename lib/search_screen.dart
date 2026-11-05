@@ -300,7 +300,8 @@ class AlbumRow extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) => SizedBox(
-    height: 214,
+    height: 222, // fits a card with a difficulty tag in the brand fonts
+
     child: ListView.builder(
       scrollDirection: Axis.horizontal,
       padding: const EdgeInsets.symmetric(horizontal: 10),
@@ -462,7 +463,7 @@ const _bigGrid = SliverGridDelegateWithMaxCrossAxisExtent(
 
 const _smallGrid = SliverGridDelegateWithMaxCrossAxisExtent(
   maxCrossAxisExtent: 112,
-  childAspectRatio: 0.56,
+  childAspectRatio: 0.53, // fits the brand fonts
   crossAxisSpacing: 2,
   mainAxisSpacing: 2,
 );

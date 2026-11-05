@@ -57,6 +57,29 @@ dev_dependencies:
 flutter:
   assets:
     - assets/catalogue.json
+    - assets/fonts/inter/OFL.txt
+    - assets/fonts/outfit/OFL.txt
+
+  # Brand fonts, both under the SIL Open Font License 1.1 (licence files above).
+  # Inter 4.1: https://github.com/rsms/inter/releases/tag/v4.1
+  # Outfit: https://github.com/Outfitio/Outfit-Fonts
+  fonts:
+    - family: Inter
+      fonts:
+        - asset: assets/fonts/inter/Inter-Regular.ttf
+          weight: 400
+        - asset: assets/fonts/inter/Inter-Medium.ttf
+          weight: 500
+        - asset: assets/fonts/inter/Inter-SemiBold.ttf
+          weight: 600
+        - asset: assets/fonts/inter/Inter-Bold.ttf
+          weight: 700
+    - family: Outfit
+      fonts:
+        - asset: assets/fonts/outfit/Outfit-Bold.ttf
+          weight: 700
+        - asset: assets/fonts/outfit/Outfit-ExtraBold.ttf
+          weight: 800
 
   # The following line ensures that the Material Icons font is
   # included with your application, so that you can use the icons in
