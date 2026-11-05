@@ -19,6 +19,8 @@ class SegmentedProgress extends StatelessWidget {
       child: SizedBox(
         height: AppSizes.progressTrackHeight,
         child: Row(
+          // Stretch, or the empty segments get no height and the bar vanishes.
+          crossAxisAlignment: CrossAxisAlignment.stretch,
           children: [
             for (var i = 0; i < total; i++) ...[
               if (i > 0) const SizedBox(width: 3),

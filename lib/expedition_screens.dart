@@ -1,3 +1,5 @@
+import 'dart:math' as math;
+
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 
@@ -57,25 +59,43 @@ class _ExpeditionListScreenState extends State<ExpeditionListScreen> {
         listenable: store,
         builder: (context, _) {
           final custom = store.customExpeditions;
+          final next = ContinueCard.maybe(store);
           return ListView(
             controller: _scroll,
-            padding: const EdgeInsets.fromLTRB(AppSpace.lg, AppSpace.xs, AppSpace.lg, AppSpace.xl),
+            padding: const EdgeInsets.fromLTRB(
+              AppSpace.gutter,
+              0,
+              AppSpace.gutter,
+              AppSpace.section,
+            ),
             children: [
-              ?ContinueCard.maybe(store),
+              if (next != null) ...[const _Heading('Continue your journey'), next],
+              _Heading(next == null ? 'Expeditions' : 'All expeditions'),
               for (final e in builtInExpeditions) ExpeditionTile(store: store, expedition: e),
-              if (custom.isNotEmpty)
-                SectionHeader(
-                  'Your expeditions',
-                  count: custom.length,
-                  padding: const EdgeInsets.only(top: AppSpace.md, bottom: AppSpace.xs),
-                ),
-              for (final e in custom) ExpeditionTile(store: store, expedition: e),
+              if (custom.isNotEmpty) ...[
+                _Heading('Your expeditions', count: custom.length),
+                for (final e in custom) ExpeditionTile(store: store, expedition: e),
+              ],
             ],
           );
         },
       ),
     );
   }
+}
+
+/// A section title on the Expeditions page.
+class _Heading extends StatelessWidget {
+  final String text;
+  final int? count;
+  const _Heading(this.text, {this.count});
+
+  @override
+  Widget build(BuildContext context) => SectionHeader(
+    text,
+    count: count,
+    padding: const EdgeInsets.only(top: AppSpace.sm, bottom: AppSpace.xs),
+  );
 }
 
 /// "Continue": the next album of the expedition you were last on. Tapping it
@@ -115,48 +135,62 @@ class ContinueCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final c = AppColors.of(context);
-    return Card(
-      elevation: 0,
-      color: c.surfaceSelected,
-      margin: const EdgeInsets.only(bottom: AppSpace.md),
-      clipBehavior: Clip.antiAlias,
-      child: InkWell(
-        onTap: () => openAlbum(context, store, album, expeditionId: expedition.id),
-        child: Padding(
-          padding: const EdgeInsets.all(12),
-          child: Row(
-            children: [
-              Cover(album: album, size: AppCoverSizes.sm),
-              const SizedBox(width: AppSpace.md),
-              Expanded(
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Text(
-                      'Continue: ${expedition.name}',
-                      style: AppType.caption.copyWith(
-                        color: c.success,
-                        fontWeight: FontWeight.w600,
+    final where = 'Stop ${stop + 1} of ${expedition.stops.length} · ${expedition.name}';
+    return Semantics(
+      button: true,
+      label:
+          'Continue ${expedition.name}: ${album.title} by ${album.artist}, '
+          'stop ${stop + 1} of ${expedition.stops.length}',
+      excludeSemantics: true,
+      child: Card(
+        elevation: 0,
+        color: c.surfaceSelected,
+        margin: const EdgeInsets.only(bottom: AppSpace.sm),
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(AppRadii.card),
+          side: BorderSide(color: c.lineFunctional),
+        ),
+        clipBehavior: Clip.antiAlias,
+        child: InkWell(
+          onTap: () => openAlbum(context, store, album, expeditionId: expedition.id),
+          child: Padding(
+            padding: const EdgeInsets.all(AppSpace.md),
+            child: Row(
+              children: [
+                Cover(album: album, size: _coverSize),
+                const SizedBox(width: AppSpace.md),
+                Expanded(
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text('CONTINUE', style: AppType.label.copyWith(color: c.success)),
+                      const SizedBox(height: AppSpace.xs),
+                      Text(
+                        album.title,
+                        maxLines: 2,
+                        overflow: TextOverflow.ellipsis,
+                        style: AppType.sectionTitle.copyWith(color: c.textPrimary),
                       ),
-                    ),
-                    const SizedBox(height: AppSpace.xxs),
-                    Text(
-                      album.title,
-                      maxLines: 2,
-                      overflow: TextOverflow.ellipsis,
-                      style: AppType.cardTitle.copyWith(color: c.textPrimary),
-                    ),
-                    Text(
-                      'Stop ${stop + 1} of ${expedition.stops.length} · ${album.artist}',
-                      maxLines: 1,
-                      overflow: TextOverflow.ellipsis,
-                      style: AppType.bodySmall.copyWith(color: c.textSecondary),
-                    ),
-                  ],
+                      Text(
+                        album.artist,
+                        maxLines: 1,
+                        overflow: TextOverflow.ellipsis,
+                        style: AppType.body.copyWith(color: c.textSecondary),
+                      ),
+                      const SizedBox(height: AppSpace.xxs),
+                      Text(
+                        where,
+                        maxLines: 2,
+                        overflow: TextOverflow.ellipsis,
+                        style: AppType.bodySmall.copyWith(color: c.textTertiary),
+                      ),
+                    ],
+                  ),
                 ),
-              ),
-              Icon(Icons.chevron_right, color: c.textSecondary),
-            ],
+                const SizedBox(width: AppSpace.xs),
+                Icon(Icons.chevron_right, color: c.textSecondary),
+              ],
+            ),
           ),
         ),
       ),
@@ -164,8 +198,11 @@ class ContinueCard extends StatelessWidget {
   }
 }
 
-/// A large expedition card: stacked covers, name, description, progress and averages.
-/// Tinted and wider than album cards so the two never look alike.
+/// Cover size on the Continue card and the expedition cards.
+const _coverSize = 88.0;
+
+/// An expedition card: the next album's cover (or the stacked covers once
+/// finished), name, short description, facts and progress.
 class ExpeditionTile extends StatelessWidget {
   final Store store;
   final Expedition expedition;
@@ -175,76 +212,108 @@ class ExpeditionTile extends StatelessWidget {
   Widget build(BuildContext context) {
     final e = expedition;
     final c = AppColors.of(context);
+    final total = e.stops.length;
     final done = ratedCount(store, e);
+    final complete = done == total;
     final average = expeditionAverage(store, e);
     final own = store.expeditionRating(e.id);
-    return Card(
-      elevation: 0,
-      color: c.surfaceRaised,
-      margin: const EdgeInsets.only(bottom: AppSpace.md),
-      clipBehavior: Clip.antiAlias,
-      child: InkWell(
-        onTap: () => openExpedition(context, e.id),
-        child: Padding(
-          padding: const EdgeInsets.all(14),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Row(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  ExpeditionCover(albums: [for (final s in e.stops) albumFor(store, s)], size: 104),
-                  const SizedBox(width: 14),
-                  Expanded(
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Text(e.name, style: AppType.sectionTitle.copyWith(color: c.textPrimary)),
-                        const SizedBox(height: AppSpace.xs),
-                        if (e.blurb.isNotEmpty)
-                          Text(
-                            e.blurb,
-                            maxLines: 3,
-                            overflow: TextOverflow.ellipsis,
-                            style: AppType.bodySmall.copyWith(color: c.textSecondary),
+    final next = nextStop(store, e);
+    final nextAlbum = next == null ? null : albumFor(store, e.stops[next]);
+    final status = complete ? 'Complete' : '$done of $total';
+    return Semantics(
+      button: true,
+      label: [
+        e.name,
+        '$total albums',
+        if (e.inOrder) 'in order',
+        complete ? 'complete' : '$done of $total rated',
+        if (nextAlbum != null) 'next: ${nextAlbum.title} by ${nextAlbum.artist}',
+        if (average != null) 'your average ${average.toStringAsFixed(1)}',
+        if (own != null) 'expedition rated ${formatScore(own)}',
+      ].join(', '),
+      excludeSemantics: true,
+      child: Card(
+        elevation: 0,
+        color: c.surfaceRaised,
+        margin: const EdgeInsets.only(bottom: AppSpace.md),
+        clipBehavior: Clip.antiAlias,
+        child: InkWell(
+          onTap: () => openExpedition(context, e.id),
+          child: Padding(
+            padding: const EdgeInsets.all(AppSpace.md),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Row(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    // Next album to listen to; finished (or unknown) shows the stack.
+                    nextAlbum != null
+                        ? Cover(album: nextAlbum, size: _coverSize)
+                        : ExpeditionCover(
+                            albums: [for (final s in e.stops) albumFor(store, s)],
+                            size: _coverSize - 14,
                           ),
-                        const SizedBox(height: 8),
-                        Wrap(
-                          spacing: 12,
-                          runSpacing: 4,
-                          children: [
-                            _Fact(Icons.album_outlined, '${e.stops.length} albums'),
-                            if (e.inOrder) const _Fact(Icons.lock_outline, 'In order'),
-                            if (average != null)
-                              _Fact(Icons.star_half, 'Your avg ${average.toStringAsFixed(1)}'),
-                            if (own != null)
-                              _Fact(Icons.flag_outlined, 'Rated ${formatScore(own)}'),
+                    const SizedBox(width: AppSpace.md),
+                    Expanded(
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Text(
+                            e.name,
+                            maxLines: 2,
+                            overflow: TextOverflow.ellipsis,
+                            style: AppType.sectionTitle.copyWith(color: c.textPrimary),
+                          ),
+                          if (e.blurb.isNotEmpty) ...[
+                            const SizedBox(height: AppSpace.xxs),
+                            Text(
+                              e.blurb,
+                              maxLines: 2,
+                              overflow: TextOverflow.ellipsis,
+                              style: AppType.bodySmall.copyWith(color: c.textSecondary),
+                            ),
                           ],
-                        ),
-                      ],
+                          const SizedBox(height: AppSpace.sm),
+                          Wrap(
+                            spacing: AppSpace.md,
+                            runSpacing: AppSpace.xs,
+                            children: [
+                              _Fact(Icons.album_outlined, '$total albums'),
+                              if (e.inOrder) const _Fact(Icons.lock_outline, 'In order'),
+                              if (average != null)
+                                _Fact(Icons.star_outline, 'Avg ${average.toStringAsFixed(1)}'),
+                              if (own != null)
+                                _Fact(Icons.flag_outlined, 'Rated ${formatScore(own)}'),
+                            ],
+                          ),
+                        ],
+                      ),
                     ),
-                  ),
-                ],
-              ),
-              const SizedBox(height: 12),
-              Row(
-                children: [
-                  Expanded(
-                    child: SegmentedProgress(done: done, total: e.stops.length),
-                  ),
-                  const SizedBox(width: AppSpace.md),
-                  ExcludeSemantics(
-                    child: Text(
-                      done == e.stops.length ? 'Complete' : '$done of ${e.stops.length}',
+                  ],
+                ),
+                const SizedBox(height: AppSpace.md),
+                Row(
+                  children: [
+                    Expanded(
+                      child: SegmentedProgress(done: done, total: total),
+                    ),
+                    const SizedBox(width: AppSpace.md),
+                    if (complete) ...[
+                      Icon(Icons.check_circle, size: AppIconSizes.small, color: c.success),
+                      const SizedBox(width: AppSpace.xs),
+                    ],
+                    Text(
+                      status,
                       style: AppType.caption.copyWith(
-                        color: c.textSecondary,
+                        color: complete ? c.success : c.textSecondary,
                         fontWeight: FontWeight.w600,
                       ),
                     ),
-                  ),
-                ],
-              ),
-            ],
+                  ],
+                ),
+              ],
+            ),
           ),
         ),
       ),
@@ -265,7 +334,9 @@ class _Fact extends StatelessWidget {
       children: [
         Icon(icon, size: AppIconSizes.small, color: c.textTertiary),
         const SizedBox(width: AppSpace.xs),
-        Text(text, style: AppType.caption.copyWith(color: c.textSecondary)),
+        Flexible(
+          child: Text(text, style: AppType.caption.copyWith(color: c.textSecondary)),
+        ),
       ],
     );
   }
@@ -343,16 +414,17 @@ class _ExpeditionScreenState extends State<ExpeditionScreen> {
             ],
           ),
           body: ListView(
-            padding: const EdgeInsets.only(bottom: 32),
+            padding: const EdgeInsets.only(bottom: AppSpace.section),
             children: [
               Padding(
-                padding: const EdgeInsets.fromLTRB(16, 4, 16, 8),
+                padding: const EdgeInsets.symmetric(horizontal: AppSpace.gutter),
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    if (e.blurb.isNotEmpty)
+                    if (e.blurb.isNotEmpty) ...[
                       Text(e.blurb, style: AppType.body.copyWith(color: c.textSecondary)),
-                    const SizedBox(height: AppSpace.md),
+                      const SizedBox(height: AppSpace.md),
+                    ],
                     Row(
                       children: [
                         Expanded(
@@ -364,54 +436,89 @@ class _ExpeditionScreenState extends State<ExpeditionScreen> {
                             done == e.stops.length
                                 ? 'Complete!'
                                 : '$done of ${e.stops.length} rated',
-                            style: AppType.bodySmall.copyWith(color: c.textPrimary),
+                            style: AppType.bodySmall.copyWith(
+                              color: c.textPrimary,
+                              fontWeight: FontWeight.w600,
+                            ),
                           ),
                         ),
                       ],
                     ),
                     if (average != null) ...[
-                      const SizedBox(height: AppSpace.sm - 2),
-                      Text(
-                        'Your average so far: ${average.toStringAsFixed(1)}',
+                      const SizedBox(height: AppSpace.sm),
+                      Text.rich(
+                        TextSpan(
+                          text: 'Your average so far: ',
+                          children: [
+                            TextSpan(
+                              text: average.toStringAsFixed(1),
+                              style: TextStyle(color: c.textPrimary, fontWeight: FontWeight.w600),
+                            ),
+                          ],
+                        ),
                         style: AppType.bodySmall.copyWith(color: c.textSecondary),
                       ),
                     ],
                   ],
                 ),
               ),
+              const SizedBox(height: AppSpace.sm),
               JourneyTrail(store: store, expedition: e),
-              const Divider(height: 32, indent: 16, endIndent: 16),
+              const SizedBox(height: AppSpace.lg),
+              // The expedition's own rating, in its own panel so it reads as
+              // separate from the album ratings on the trail.
               Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 16),
-                child: Column(
-                  children: [
-                    Semantics(
-                      header: true,
-                      child: Text(
-                        'Rate this expedition',
-                        textAlign: TextAlign.center,
-                        style: AppType.sectionTitle.copyWith(color: c.textPrimary),
-                      ),
+                padding: const EdgeInsets.symmetric(horizontal: AppSpace.gutter),
+                child: DecoratedBox(
+                  decoration: BoxDecoration(
+                    color: c.surfaceRaised,
+                    borderRadius: BorderRadius.circular(AppRadii.card),
+                  ),
+                  child: Padding(
+                    padding: const EdgeInsets.fromLTRB(
+                      AppSpace.lg,
+                      AppSpace.lg,
+                      AppSpace.lg,
+                      AppSpace.sm,
                     ),
-                    const SizedBox(height: AppSpace.xs),
-                    Text(
-                      'How was the journey as a whole? Separate from your album ratings.',
-                      textAlign: TextAlign.center,
-                      style: AppType.bodySmall.copyWith(color: c.textSecondary),
+                    child: Column(
+                      children: [
+                        Semantics(
+                          header: true,
+                          child: Text(
+                            'Rate this expedition',
+                            textAlign: TextAlign.center,
+                            style: AppType.sectionTitle.copyWith(color: c.textPrimary),
+                          ),
+                        ),
+                        const SizedBox(height: AppSpace.xs),
+                        Text(
+                          'How was the journey as a whole? Separate from your album ratings.',
+                          textAlign: TextAlign.center,
+                          style: AppType.bodySmall.copyWith(color: c.textSecondary),
+                        ),
+                        const SizedBox(height: AppSpace.md),
+                        ExcludeSemantics(child: ScoreText(own, scale: 1.33)),
+                        if (own == null)
+                          ExcludeSemantics(
+                            child: Text(
+                              'Not rated yet',
+                              style: AppType.caption.copyWith(color: c.textTertiary),
+                            ),
+                          ),
+                        // Unrated: grey, thumb at the far left; the first touch sets the value.
+                        RatingSlider(
+                          value: own,
+                          noun: 'expedition',
+                          onChanged: (v) => setState(() => _draft = v),
+                          onChangeEnd: (v) {
+                            setState(() => _draft = v);
+                            store.rateExpedition(e.id, v);
+                          },
+                        ),
+                      ],
                     ),
-                    const SizedBox(height: AppSpace.sm),
-                    ExcludeSemantics(child: ScoreText(own, scale: 1.33)),
-                    // Unrated: grey, thumb at the far left; the first touch sets the value.
-                    RatingSlider(
-                      value: own,
-                      noun: 'expedition',
-                      onChanged: (v) => setState(() => _draft = v),
-                      onChangeEnd: (v) {
-                        setState(() => _draft = v);
-                        store.rateExpedition(e.id, v);
-                      },
-                    ),
-                  ],
+                  ),
                 ),
               ),
             ],
@@ -429,6 +536,10 @@ class JourneyTrail extends StatefulWidget {
   final Store store;
   final Expedition expedition;
   const JourneyTrail({super.key, required this.store, required this.expedition});
+
+  /// Cover sizes: every stop, and the bigger final stop.
+  static const cover = 120.0;
+  static const finalCover = 152.0;
 
   @override
   State<JourneyTrail> createState() => _JourneyTrailState();
@@ -456,28 +567,31 @@ class _JourneyTrailState extends State<JourneyTrail> {
 
     return LayoutBuilder(
       builder: (context, box) {
-        const card = 120.0;
-        const last = 156.0;
         // Title, artist, stage and caption under each cover; grows with text size.
         final metrics = AlbumCardMetrics(
           textScaler: MediaQuery.textScalerOf(context),
           withStage: true,
           withCaption: true,
         );
+        // With large text, wider stops so titles wrap between words.
+        final card = metrics.largeText ? AppCoverSizes.lg : JourneyTrail.cover;
+        final last = metrics.largeText ? AppCoverSizes.lg + 32 : JourneyTrail.finalCover;
         final textSpace = metrics.cardHeight(card) - card;
-        const zig = 64.0; // how far the lower stops sit below the upper ones
-        const step = card + 20;
-        final height = card + textSpace + zig + 24;
+        const zig = 56.0; // how far the lower stops sit below the upper ones
+        final step = card + AppSpace.xxl; // room for the path between stops
+        const pad = AppSpace.sm;
+        // Tall enough for a lower stop and its text, and no taller.
+        final height = math.max(pad + zig + card + textSpace, last + textSpace) + pad;
 
         final lefts = <double>[], tops = <double>[], sizes = <double>[];
         for (var i = 0; i < n; i++) {
           final isLast = i == n - 1;
           final size = isLast ? last : card;
-          lefts.add(16 + i * step + (isLast ? 8 : 0));
-          tops.add(isLast ? (height - last - textSpace) / 2 : 12 + (i.isOdd ? zig : 0));
+          lefts.add(AppSpace.gutter + i * step + (isLast ? AppSpace.sm : 0));
+          tops.add(isLast ? (height - last - textSpace) / 2 : pad + (i.isOdd ? zig : 0));
           sizes.add(size);
         }
-        final width = lefts.last + last + 16;
+        final width = lefts.last + last + AppSpace.gutter;
         final centres = [
           for (var i = 0; i < n; i++) Offset(lefts[i] + sizes[i] / 2, tops[i] + sizes[i] / 2),
         ];
@@ -513,6 +627,13 @@ class _JourneyTrailState extends State<JourneyTrail> {
                     width: sizes[i],
                     child: _stop(context, e, i, open, next),
                   ),
+                // The next stop's label sits on its cover, where it's seen first.
+                if (next != null)
+                  Positioned(
+                    left: lefts[next] + AppSpace.md,
+                    top: tops[next] + AppSpace.md,
+                    child: const _NextStopLabel(),
+                  ),
               ],
             ),
           ),
@@ -536,9 +657,8 @@ class _JourneyTrailState extends State<JourneyTrail> {
         rating: album != null && isDone(store, e, stop) ? store.ratingOf(album.id) : null,
         locked: locked,
         highlight: i == next,
-        caption: locked
-            ? null
-            : (i == next ? 'Next stop' : (i == e.stops.length - 1 ? 'Final stop' : null)),
+        caption: locked || i == next ? null : (i == e.stops.length - 1 ? 'Final stop' : null),
+        semanticNote: i == next ? 'Next stop' : null,
         onTap: locked
             ? () => ScaffoldMessenger.of(context).showSnackBar(
                 SnackBar(
@@ -549,6 +669,30 @@ class _JourneyTrailState extends State<JourneyTrail> {
             : album == null
             ? null
             : () => openAlbum(context, store, album, expeditionId: e.id),
+      ),
+    );
+  }
+}
+
+/// "Next stop" pill on the highlighted stop's cover.
+class _NextStopLabel extends StatelessWidget {
+  const _NextStopLabel();
+
+  @override
+  Widget build(BuildContext context) {
+    final c = AppColors.of(context);
+    // A short tag on the artwork: grows with text size, but only a little,
+    // so it never hides the cover. The card itself also says "Next stop".
+    return MediaQuery.withClampedTextScaling(
+      maxScaleFactor: 1.3,
+      child: DecoratedBox(
+        decoration: ShapeDecoration(color: c.success, shape: const StadiumBorder()),
+        child: Padding(
+          padding: const EdgeInsets.symmetric(horizontal: AppSpace.sm, vertical: AppSpace.xxs),
+          child: ExcludeSemantics(
+            child: Text('NEXT STOP', style: AppType.label.copyWith(color: c.page)),
+          ),
+        ),
       ),
     );
   }
@@ -569,11 +713,11 @@ class _TrailPainter extends CustomPainter {
   void paint(Canvas canvas, Size size) {
     final solid = Paint()
       ..color = color
-      ..strokeWidth = 3
+      ..strokeWidth = 4
       ..strokeCap = StrokeCap.round;
     final dashed = Paint()
       ..color = faded
-      ..strokeWidth = 2.5
+      ..strokeWidth = 3
       ..strokeCap = StrokeCap.round;
     for (var i = 0; i + 1 < points.length; i++) {
       if (i + 1 <= travelled) {
