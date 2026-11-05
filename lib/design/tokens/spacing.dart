@@ -69,10 +69,11 @@ abstract final class AppSizes {
   static const double primaryButtonHeight = 52;
   static const double secondaryButtonHeight = 48;
   static const double appBarHeight = 56;
+  static const double searchFieldHeight = 52;
   static const double bottomNavHeight = 72; // plus the system gesture inset
   static const double ratingBarHeight = 72;
   static const double expeditionNextRowHeight = 40;
-  static const double albumCardGap = 8;
+  static const double albumCardGap = 12;
   static const double gridPageGutter = 16;
   static const double sectionGap = 24;
   static const double groupGap = 12;

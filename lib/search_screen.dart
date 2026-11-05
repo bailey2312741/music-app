@@ -1,3 +1,5 @@
+import 'dart:math' as math;
+
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 
@@ -40,6 +42,7 @@ class _SearchScreenState extends State<SearchScreen> {
   String? _genre;
   bool _ratedOnly = false;
   SortOrder? _sort;
+  bool _allArtists = false;
   final _search = TextEditingController();
   final _scroll = ScrollController();
 
@@ -72,6 +75,7 @@ class _SearchScreenState extends State<SearchScreen> {
     _genre = null;
     _ratedOnly = false;
     _sort = null;
+    _allArtists = false;
   });
 
   void _tapAlbum(Album a) =>
@@ -91,22 +95,28 @@ class _SearchScreenState extends State<SearchScreen> {
       ? _push(GenreScreen(store: widget.store, genre: genre, pickMode: true))
       : openGenre(context, genre);
 
+  /// Search results show this many artists until "Show all" is tapped.
+  static const _artistPreview = 3;
+
   @override
   Widget build(BuildContext context) {
     final store = widget.store;
     final browsing = _text.trim().isEmpty && _genre == null && !_ratedOnly;
+    final scaler = MediaQuery.textScalerOf(context);
+    // The 52 px field grows with the phone's text size so the text never clips.
+    final fieldHeight = math.max(AppSizes.searchFieldHeight, scaler.scale(22) + 30);
 
     return Scaffold(
       appBar: AppBar(
         title: Text(widget.pickMode ? 'Add an album' : 'Discover'),
-        // The search bar stays pinned at the top while the page scrolls.
+        // The search field stays pinned at the top while the page scrolls.
         bottom: PreferredSize(
-          preferredSize: const Size.fromHeight(60),
+          preferredSize: Size.fromHeight(fieldHeight + AppSpace.sm),
           child: Padding(
-            padding: const EdgeInsets.fromLTRB(12, 0, 12, 8),
+            padding: const EdgeInsets.fromLTRB(AppSpace.gutter, 0, AppSpace.gutter, AppSpace.sm),
             child: SearchBar(
               controller: _search,
-              hintText: 'Album, artist or genre',
+              hintText: 'Search albums, artists or genres',
               leading: const Icon(Icons.search),
               trailing: [
                 if (_text.isNotEmpty)
@@ -116,11 +126,15 @@ class _SearchScreenState extends State<SearchScreen> {
                     onPressed: () => setState(() {
                       _search.clear();
                       _text = '';
+                      _allArtists = false;
                     }),
                   ),
               ],
               elevation: const WidgetStatePropertyAll(0),
-              onChanged: (v) => setState(() => _text = v),
+              onChanged: (v) => setState(() {
+                _text = v;
+                _allArtists = false;
+              }),
             ),
           ),
         ),
@@ -136,53 +150,21 @@ class _SearchScreenState extends State<SearchScreen> {
           return CustomScrollView(
             controller: _scroll,
             slivers: [
-              // Charts, then "Rated by me", then the main genres (tap again to clear).
-              SliverToBoxAdapter(
-                child: SizedBox(
-                  // Grows with the phone's text size so labels never clip.
-                  height: 52 + MediaQuery.textScalerOf(context).scale(16) - 16,
-                  child: ListView(
-                    scrollDirection: Axis.horizontal,
-                    padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 2),
-                    children: [
-                      if (!widget.pickMode)
-                        for (final (kind, label) in chartChips())
-                          Padding(
-                            padding: const EdgeInsets.only(right: 6),
-                            child: ActionChip(
-                              avatar: const Icon(Icons.leaderboard_outlined, size: 16),
-                              label: Text(label),
-                              onPressed: () => openChart(context, kind),
-                            ),
-                          ),
-                      Padding(
-                        padding: const EdgeInsets.only(right: 6),
-                        child: FilterChip(
-                          label: const Text('Rated by me'),
-                          selected: _ratedOnly,
-                          onSelected: (on) => setState(() => _ratedOnly = on),
-                        ),
-                      ),
-                      for (final g in _genre == null ? Catalogue.families : [_genre!])
-                        Padding(
-                          padding: const EdgeInsets.only(right: 2),
-                          child: GenreButton(
-                            g,
-                            selected: g == _genre,
-                            onPressed: () => setState(() => _genre = g == _genre ? null : g),
-                          ),
-                        ),
-                    ],
+              SliverToBoxAdapter(child: _filters()),
+              if (browsing) ...[
+                if (!widget.pickMode) ..._charts(context),
+                if (artists.isNotEmpty) ...[
+                  SliverToBoxAdapter(child: _header('Featured artists')),
+                  SliverToBoxAdapter(
+                    child: _ArtistRow(artists: artists, onTap: _openArtist),
                   ),
-                ),
-              ),
-              if (artists.isNotEmpty) ...[
-                _heading(context, 'Artists'),
-                SliverToBoxAdapter(
-                  child: _ArtistRow(artists: artists, onTap: _openArtist),
-                ),
+                ],
+                ..._genreRows(context),
+              ] else ...[
+                if (artists.isNotEmpty) ..._artistResults(artists),
+                ..._results(context),
               ],
-              if (browsing) ..._genreRows(context) else ..._results(context),
+              const SliverToBoxAdapter(child: SizedBox(height: AppSpace.lg)),
             ],
           );
         },
@@ -190,11 +172,63 @@ class _SearchScreenState extends State<SearchScreen> {
     );
   }
 
+  /// "Rated by me" and the main genres, under the search field in every
+  /// state, so a filter stays where it was tapped. Tap a genre again to clear.
+  Widget _filters() => SingleChildScrollView(
+    scrollDirection: Axis.horizontal,
+    padding: const EdgeInsets.symmetric(horizontal: AppSpace.gutter),
+    child: Row(
+      children: [
+        FilterChip(
+          label: const Text('Rated by me'),
+          selected: _ratedOnly,
+          onSelected: (on) => setState(() => _ratedOnly = on),
+        ),
+        const SizedBox(width: AppSpace.sm),
+        for (final g in Catalogue.families) ...[
+          GenreButton(
+            g,
+            selected: g == _genre,
+            onPressed: () => setState(() => _genre = g == _genre ? null : g),
+          ),
+          const SizedBox(width: AppSpace.xs),
+        ],
+      ],
+    ),
+  );
+
+  /// The three charts, then one button per decade.
+  List<Widget> _charts(BuildContext context) {
+    final decades = chartChips().where((c) => int.tryParse(c.$1) != null);
+    return [
+      SliverToBoxAdapter(child: _header('Charts')),
+      const SliverToBoxAdapter(child: _ChartButtons()),
+      SliverToBoxAdapter(child: _header('By decade')),
+      SliverToBoxAdapter(
+        child: SingleChildScrollView(
+          scrollDirection: Axis.horizontal,
+          padding: const EdgeInsets.symmetric(horizontal: AppSpace.gutter),
+          child: Row(
+            children: [
+              for (final (kind, label) in decades) ...[
+                OutlinedButton(
+                  onPressed: () => openChart(context, kind),
+                  child: Text(label, semanticsLabel: 'The $label chart'),
+                ),
+                const SizedBox(width: AppSpace.sm),
+              ],
+            ],
+          ),
+        ),
+      ),
+    ];
+  }
+
   /// Browse: one sideways row per main genre, most popular first.
   List<Widget> _genreRows(BuildContext context) => [
     for (final g in Catalogue.families) ...[
       SliverToBoxAdapter(
-        child: SectionHeader(
+        child: _header(
           g,
           trailing: TextButton(
             onPressed: () => _openGenre(g),
@@ -210,10 +244,34 @@ class _SearchScreenState extends State<SearchScreen> {
         ),
       ),
     ],
-    const SliverToBoxAdapter(child: SizedBox(height: 16)),
   ];
 
-  /// Search results (or one genre) as a grid.
+  /// Artists matching the search, as list rows: the first few, then all.
+  List<Widget> _artistResults(List<String> artists) {
+    final shown = _allArtists ? artists : artists.take(_artistPreview).toList();
+    return [
+      SliverToBoxAdapter(child: _header('Artists', count: artists.length)),
+      SliverList.builder(
+        itemCount: shown.length,
+        itemBuilder: (context, i) => _ArtistTile(artist: shown[i], onTap: _openArtist),
+      ),
+      if (shown.length < artists.length)
+        SliverToBoxAdapter(
+          child: Padding(
+            padding: const EdgeInsets.symmetric(horizontal: AppSpace.sm),
+            child: Align(
+              alignment: Alignment.centerLeft,
+              child: TextButton(
+                onPressed: () => setState(() => _allArtists = true),
+                child: Text('Show all ${artists.length} artists'),
+              ),
+            ),
+          ),
+        ),
+    ];
+  }
+
+  /// Search results (or one genre, or your rated albums) as a grid.
   List<Widget> _results(BuildContext context) {
     var found = Catalogue.search(_text, genre: _genre);
     if (_ratedOnly) {
@@ -222,10 +280,9 @@ class _SearchScreenState extends State<SearchScreen> {
     final albums = _sort == null ? found : _sort!.apply(found, widget.store);
     return [
       SliverToBoxAdapter(
-        child: SectionHeader(
+        child: _header(
           'Albums',
           count: albums.length,
-          padding: const EdgeInsets.fromLTRB(AppSpace.lg, AppSpace.sm, AppSpace.xs, 0),
           trailing: SortButton(
             value: _sort,
             defaultLabel: _text.trim().isEmpty ? 'Most popular' : 'Best match',
@@ -248,14 +305,101 @@ class _SearchScreenState extends State<SearchScreen> {
   }
 }
 
-Widget _heading(BuildContext context, String text) => SliverToBoxAdapter(
-  child: SectionHeader(
-    text,
-    padding: const EdgeInsets.fromLTRB(AppSpace.lg, AppSpace.sm, AppSpace.lg, 0),
+/// Every Discover section heading: the same gutter and spacing everywhere.
+/// A trailing button brings its own padding, so the right edge is tighter.
+Widget _header(String text, {int? count, Widget? trailing}) => SectionHeader(
+  text,
+  count: count,
+  trailing: trailing,
+  padding: EdgeInsets.fromLTRB(
+    AppSpace.gutter,
+    AppSpace.md,
+    trailing == null ? AppSpace.gutter : AppSpace.xs,
+    0,
   ),
 );
 
-/// A sideways row of artist cards.
+/// Popular, Top rated and Hardest: one even row, icon above label, when all
+/// three fit; otherwise ordinary buttons that wrap (very large text).
+class _ChartButtons extends StatelessWidget {
+  const _ChartButtons();
+
+  static const _charts = [
+    ('popular', 'Popular', Icons.trending_up),
+    ('top', 'Top rated', Icons.star_outline),
+    ('hardest', 'Hardest', Icons.landscape_outlined),
+  ];
+
+  @override
+  Widget build(BuildContext context) {
+    final style = Theme.of(context).textTheme.labelLarge;
+    final scaler = MediaQuery.textScalerOf(context);
+    return Padding(
+      padding: const EdgeInsets.symmetric(horizontal: AppSpace.gutter),
+      child: LayoutBuilder(
+        builder: (context, box) {
+          // The widest label decides: every button gets a third of the row.
+          var widest = 0.0;
+          for (final c in _charts) {
+            final painter = TextPainter(
+              text: TextSpan(text: c.$2, style: style),
+              textScaler: scaler,
+              textDirection: TextDirection.ltr,
+              maxLines: 1,
+            )..layout();
+            widest = math.max(widest, painter.width);
+          }
+          final third = (box.maxWidth - 2 * AppSpace.sm) / 3;
+          if (widest + 2 * AppSpace.md + 2 <= third) {
+            return Row(
+              children: [
+                for (final (i, c) in _charts.indexed) ...[
+                  if (i > 0) const SizedBox(width: AppSpace.sm),
+                  Expanded(
+                    child: OutlinedButton(
+                      style: OutlinedButton.styleFrom(
+                        padding: const EdgeInsets.symmetric(
+                          horizontal: AppSpace.md,
+                          vertical: AppSpace.sm,
+                        ),
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(AppRadii.card),
+                        ),
+                      ),
+                      onPressed: () => openChart(context, c.$1),
+                      child: Column(
+                        mainAxisSize: MainAxisSize.min,
+                        children: [
+                          Icon(c.$3, size: AppIconSizes.regular),
+                          const SizedBox(height: AppSpace.xs),
+                          Text(c.$2, maxLines: 1, softWrap: false),
+                        ],
+                      ),
+                    ),
+                  ),
+                ],
+              ],
+            );
+          }
+          return Wrap(
+            spacing: AppSpace.sm,
+            runSpacing: AppSpace.sm,
+            children: [
+              for (final c in _charts)
+                OutlinedButton.icon(
+                  icon: Icon(c.$3, size: AppIconSizes.regular),
+                  label: Text(c.$2),
+                  onPressed: () => openChart(context, c.$1),
+                ),
+            ],
+          );
+        },
+      ),
+    );
+  }
+}
+
+/// A sideways row of artist cards; as tall as its cards, at any text size.
 class _ArtistRow extends StatelessWidget {
   final List<String> artists;
   final void Function(String) onTap;
@@ -263,12 +407,12 @@ class _ArtistRow extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) => SizedBox(
-    height: 110,
+    height: ArtistCard.heightFor(MediaQuery.textScalerOf(context)),
     child: ListView.separated(
       scrollDirection: Axis.horizontal,
-      padding: const EdgeInsets.symmetric(horizontal: AppSpace.lg),
+      padding: const EdgeInsets.symmetric(horizontal: AppSpace.gutter),
       itemCount: artists.length,
-      separatorBuilder: (_, _) => const SizedBox(width: 8),
+      separatorBuilder: (_, _) => const SizedBox(width: AlbumCardMetrics.gap),
       itemBuilder: (context, i) => ArtistCard(
         artist: artists[i],
         image: Catalogue.artistImage(artists[i]),
@@ -279,6 +423,25 @@ class _ArtistRow extends StatelessWidget {
   );
 }
 
+/// One artist in search results: picture, name and album count.
+class _ArtistTile extends StatelessWidget {
+  final String artist;
+  final void Function(String) onTap;
+  const _ArtistTile({required this.artist, required this.onTap});
+
+  @override
+  Widget build(BuildContext context) {
+    final n = Catalogue.byArtist(artist).length;
+    return AlbumListTile(
+      cover: ArtistAvatar(image: Catalogue.artistImage(artist), size: 56),
+      title: artist,
+      subtitle: 'Artist · $n ${n == 1 ? 'album' : 'albums'}',
+      trailing: Icon(Icons.chevron_right, color: AppColors.of(context).textSecondary),
+      onTap: () => onTap(artist),
+    );
+  }
+}
+
 /// A sideways row of album cards, the same size as in the grids.
 class AlbumRow extends StatelessWidget {
   final List<Album> albums;
@@ -286,8 +449,10 @@ class AlbumRow extends StatelessWidget {
   final void Function(Album) onTap;
   const AlbumRow({super.key, required this.albums, required this.store, required this.onTap});
 
-  /// Card width in a row: a little under the grid's, so the next card peeks in.
-  static const cardWidth = 116.0;
+  /// Card width in a row: a little under the grid's, so the next card peeks
+  /// in. Wider with large text, so titles wrap between words, not inside them.
+  static double cardWidthFor(TextScaler scaler) =>
+      AlbumCardMetrics(textScaler: scaler).largeText ? AppCoverSizes.lg : 116.0;
 
   @override
   Widget build(BuildContext context) {
@@ -297,6 +462,7 @@ class AlbumRow extends StatelessWidget {
       textScaler: MediaQuery.textScalerOf(context),
       withStage: stages.any((d) => d != null),
     );
+    final cardWidth = cardWidthFor(MediaQuery.textScalerOf(context));
     return SizedBox(
       height: metrics.cardHeight(cardWidth),
       child: ListView.separated(

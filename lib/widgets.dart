@@ -329,8 +329,8 @@ class ExpeditionCover extends StatelessWidget {
   }
 }
 
-/// Wide artist card: one of their covers fills the card, name over the image.
-/// Deliberately a different shape from the square album cards.
+/// Artist card: a round picture with the name and album count underneath.
+/// Round, so artists read differently from the square album cards.
 class ArtistCard extends StatelessWidget {
   final String artist;
   final Album? image; // the album whose cover to use
@@ -344,64 +344,47 @@ class ArtistCard extends StatelessWidget {
     this.onTap,
   });
 
+  static const picture = AppCoverSizes.md;
+
+  /// Card width: wider with large text so names wrap between words.
+  static double widthFor(TextScaler scaler) => scaler.scale(10) >= 15 ? AppCoverSizes.lg : picture;
+
+  /// Height of a card at this text size: picture, two name lines, count line.
+  static double heightFor(TextScaler scaler) {
+    double line(double size, double height) => scaler.scale(size) / size * height;
+    return picture + AppSpace.sm + 2 * line(15, 20) + AppSpace.xxs + line(13, 19) + AppSpace.xs;
+  }
+
   @override
   Widget build(BuildContext context) {
-    final theme = Theme.of(context);
-    final url = image?.coverUrl() ?? '';
+    final c = AppColors.of(context);
+    final albums = '$albumCount ${albumCount == 1 ? 'album' : 'albums'}';
     return SizedBox(
-      width: 220,
-      height: 110,
-      child: Card(
-        margin: EdgeInsets.zero,
-        clipBehavior: Clip.antiAlias,
+      width: widthFor(MediaQuery.textScalerOf(context)),
+      child: Semantics(
+        button: true,
+        label: '$artist, $albums',
+        excludeSemantics: true,
         child: InkWell(
           onTap: onTap,
-          child: Stack(
-            fit: StackFit.expand,
+          borderRadius: BorderRadius.circular(AppRadii.card),
+          child: Column(
             children: [
-              if (url.isNotEmpty)
-                netImage(
-                  url,
-                  alignment: const Alignment(0, -0.2),
-                  decodeWidth: 250,
-                  placeholder: Container(color: theme.colorScheme.surfaceContainerHighest),
-                )
-              else
-                Container(color: theme.colorScheme.surfaceContainerHighest),
-              // Dark fade at the bottom so the name is readable on any image.
-              const DecoratedBox(
-                decoration: BoxDecoration(
-                  gradient: LinearGradient(
-                    begin: Alignment.topCenter,
-                    end: Alignment.bottomCenter,
-                    colors: [Colors.transparent, Colors.black87],
-                    stops: [0.35, 1],
-                  ),
-                ),
+              ArtistAvatar(image: image, size: picture),
+              const SizedBox(height: AppSpace.sm),
+              Text(
+                artist,
+                maxLines: 2,
+                overflow: TextOverflow.ellipsis,
+                textAlign: TextAlign.center,
+                style: AppType.cardTitle.copyWith(color: c.textPrimary),
               ),
-              Positioned(
-                left: 12,
-                right: 12,
-                bottom: 10,
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  mainAxisSize: MainAxisSize.min,
-                  children: [
-                    Text(
-                      artist,
-                      maxLines: 1,
-                      overflow: TextOverflow.ellipsis,
-                      style: theme.textTheme.titleMedium?.copyWith(
-                        color: Colors.white,
-                        fontWeight: FontWeight.bold,
-                      ),
-                    ),
-                    Text(
-                      '$albumCount ${albumCount == 1 ? 'album' : 'albums'}',
-                      style: theme.textTheme.labelSmall?.copyWith(color: Colors.white70),
-                    ),
-                  ],
-                ),
+              const SizedBox(height: AppSpace.xxs),
+              Text(
+                albums,
+                maxLines: 1,
+                overflow: TextOverflow.ellipsis,
+                style: AppType.bodySmall.copyWith(color: c.textSecondary),
               ),
             ],
           ),
@@ -431,7 +414,7 @@ class ArtistAvatar extends StatelessWidget {
         height: size,
         child: url.isEmpty
             ? placeholder
-            : netImage(url, placeholder: placeholder, decodeWidth: 120),
+            : netImage(url, placeholder: placeholder, decodeWidth: size > 60 ? 250 : 120),
       ),
     );
   }
