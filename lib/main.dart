@@ -1,7 +1,10 @@
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:go_router/go_router.dart';
 
 import 'catalogue.dart';
+import 'design/design.dart';
 import 'screens.dart';
 import 'store.dart';
 
@@ -9,10 +12,23 @@ Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
   // Every page gets its own web address, so the browser's back button goes back one page.
   GoRouter.optionURLReflectsImperativeAPIs = true;
+  _registerFontLicences();
   final store = await Store.load();
   await Catalogue.load();
   await store.applyAliases(Catalogue.aliases);
   runApp(MusicApp(store: store));
+}
+
+/// The bundled fonts' licences, shown on Flutter's licences page.
+void _registerFontLicences() {
+  LicenseRegistry.addLicense(() async* {
+    for (final (font, path) in [
+      ('Inter', 'assets/fonts/inter/OFL.txt'),
+      ('Outfit', 'assets/fonts/outfit/OFL.txt'),
+    ]) {
+      yield LicenseEntryWithLineBreaks([font], await rootBundle.loadString(path));
+    }
+  });
 }
 
 class MusicApp extends StatefulWidget {
@@ -25,6 +41,7 @@ class MusicApp extends StatefulWidget {
 
 class _MusicAppState extends State<MusicApp> {
   late final _router = buildRouter(widget.store);
+  static final _theme = AppTheme.dark();
 
   @override
   void dispose() {
@@ -34,16 +51,18 @@ class _MusicAppState extends State<MusicApp> {
 
   @override
   Widget build(BuildContext context) {
-    final theme = ThemeData(colorSchemeSeed: Colors.teal, useMaterial3: true);
     return MaterialApp.router(
       title: 'Music App',
-      theme: theme,
+      theme: _theme,
       routerConfig: _router,
       // On a wide screen (the web on a computer) the app stays phone-width, centred.
       builder: (context, child) => ColoredBox(
-        color: theme.colorScheme.surfaceContainerLow,
+        color: AppColors.dark.chrome,
         child: Center(
-          child: ConstrainedBox(constraints: const BoxConstraints(maxWidth: 600), child: child),
+          child: ConstrainedBox(
+            constraints: const BoxConstraints(maxWidth: AppBreakpoints.webMaxWidth),
+            child: child,
+          ),
         ),
       ),
     );

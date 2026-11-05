@@ -283,7 +283,8 @@ class AlbumGrid extends StatelessWidget {
 /// Shared layout for album grids: about three cards across on a phone.
 const albumGridDelegate = SliverGridDelegateWithMaxCrossAxisExtent(
   maxCrossAxisExtent: 140,
-  childAspectRatio: 0.56,
+  // A little taller than v0.8 (0.56) so the brand fonts fit with a difficulty tag.
+  childAspectRatio: 0.53,
   crossAxisSpacing: 4,
   mainAxisSpacing: 4,
 );
