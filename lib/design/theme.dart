@@ -322,7 +322,10 @@ abstract final class AppTheme {
               : functionalLine,
         ),
         shape: const WidgetStatePropertyAll(stadium),
-        constraints: const BoxConstraints(minHeight: 52, maxWidth: double.infinity),
+        constraints: const BoxConstraints(
+          minHeight: AppSizes.searchFieldHeight,
+          maxWidth: double.infinity,
+        ),
         textStyle: WidgetStatePropertyAll(text.bodyLarge?.copyWith(color: c.textPrimary)),
         hintStyle: WidgetStatePropertyAll(text.bodyLarge?.copyWith(color: c.textTertiary)),
       ),
